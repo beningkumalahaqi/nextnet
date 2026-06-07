@@ -5,6 +5,10 @@
 # NextNet
 
 > A modern full-stack web framework for .NET — inspired by Next.js, powered by ASP.NET Core. Ship in minutes with V3 Templates.
+>
+> [![NuGet](https://img.shields.io/nuget/v/NextNet.Cli)](https://nuget.org/packages/NextNet.Cli)
+> ![License](https://img.shields.io/github/license/beningkumalahaqi/nextnet)
+> ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4)
 
 ---
 
@@ -61,6 +65,32 @@ nextnet template publish <file>      # Publish to registry
 ```
 
 See [docs/getting-started/templates.md](docs/getting-started/templates.md) for the complete guide.
+
+## Packages
+
+NextNet is distributed as **30 NuGet packages**. The only one you install directly is the CLI:
+
+```bash
+dotnet tool install -g NextNet.Cli
+```
+
+The CLI pulls in core framework packages as dependencies automatically. When you scaffold a project with `nextnet new`, the generated project references only the library packages it needs. For example, choosing PostgreSQL template adds `NextNet.Data.PostgreSQL` to your project — you never manually add `NextNet.Core` or `NextNet.Rendering`.
+
+| What you install | What it gets you |
+|---|---|
+| `NextNet.Cli` (dotnet tool) | `nextnet new`, `nextnet dev`, `nextnet build`, templates, scaffolding |
+| — auto-installs → | Core engine: Routing, Rendering, Layouts, Server Actions, Source Generators, ISR, Edge, Middleware, Plugins, Build, DevTools |
+| — scaffold adds → | Data providers, template engine, template SDK as needed |
+
+### All 30 Packages
+
+| Category | Packages |
+|---|---|
+| **Core** | `NextNet.Core`, `NextNet.Routing`, `NextNet.Rendering`, `NextNet.Layouts`, `NextNet.ServerActions`, `NextNet.SourceGenerators` |
+| **Runtime** | `NextNet.Isr`, `NextNet.Middleware`, `NextNet.Edge`, `NextNet.Plugins`, `NextNet.DevTools` |
+| **Build** | `NextNet.Build`, `NextNet.Cli` |
+| **Data** | `NextNet.Data.Abstractions`, `NextNet.Data.Providers`, `NextNet.Data.Dapper`, `NextNet.Data.EntityFramework`, `NextNet.Data.PostgreSQL`, `NextNet.Data.Sqlite`, `NextNet.Data.MongoDB`, `NextNet.Data.MultiDb`, `NextNet.Data.HealthChecks`, `NextNet.Data.Sdk` |
+| **Templates** | `NextNet.Templates`, `NextNet.Templates.Official`, `NextNet.TemplateEngine`, `NextNet.TemplateSdk`, `NextNet.TemplateRegistry`, `NextNet.TemplatePackages`, `NextNet.TemplateSecurity`, `NextNet.TemplateMarketplace` |
 
 ## Quick Start
 
@@ -183,7 +213,7 @@ public class SlugPage : IPage
 | 📦 **Templates Guide** | [docs/getting-started/templates.md](docs/getting-started/templates.md) |
 | 🛠️ **Template Authoring** | [docs/template-authoring/manifest.md](docs/template-authoring/manifest.md) |
 | 🔧 **CLI Reference** | [docs/reference/cli/nextnet-new.md](docs/reference/cli/nextnet-new.md) |
-| 📦 **NuGet Package** | [NextNet on NuGet](https://nuget.org/packages/NextNet) |
+| 📦 **NuGet Packages** | [Browse all 30 packages](https://www.nuget.org/packages?q=NextNet&prerel=false) |
 | 💬 **Discord Community** | [Join Discord](https://discord.gg/nextnet) |
 | 📝 **Changelog** | [CHANGELOG.md](CHANGELOG.md) |
 
@@ -200,8 +230,8 @@ public class SlugPage : IPage
 
 ### V3 Highlights
 
-- 2,924 unit tests passing across 29 test projects
-- 8 new packages: Templates, TemplateEngine, Templates.Official, TemplateSdk, TemplateRegistry, TemplatePackages, TemplateSecurity, TemplateMarketplace
+- 2,803 unit tests passing across 29 test projects
+- 30 NuGet packages published
 - 4 official templates: Blog, API, Dashboard, SaaS
 - Defense-in-depth security: SHA-256 checksums + RSA-2048 signatures + trusted publishers
 - See [CHANGELOG.md](CHANGELOG.md) for the full V3.0.0 release notes
