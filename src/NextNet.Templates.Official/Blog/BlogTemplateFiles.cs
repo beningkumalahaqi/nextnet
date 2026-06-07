@@ -37,9 +37,9 @@ public static class BlogTemplateFiles
             ["template.json"] = Encoding.UTF8.GetBytes(BlogTemplateManifestJson),
             ["app/Program.cs"] = Encoding.UTF8.GetBytes(ProgramCs),
             ["app/appsettings.json"] = Encoding.UTF8.GetBytes(AppSettingsJson),
-            ["app/pages/index.cs"] = Encoding.UTF8.GetBytes(HomePageCs),
-            ["app/pages/blog/index.cs"] = Encoding.UTF8.GetBytes(BlogIndexCs),
-            ["app/pages/blog/[slug].cs"] = Encoding.UTF8.GetBytes(BlogPostCs),
+            ["app/page.cs"] = Encoding.UTF8.GetBytes(HomePageCs),
+            ["app/blog/page.cs"] = Encoding.UTF8.GetBytes(BlogIndexCs),
+            ["app/blog/[slug]/page.cs"] = Encoding.UTF8.GetBytes(BlogPostCs),
             ["app/Services/BlogService.cs"] = Encoding.UTF8.GetBytes(BlogServiceCs),
             ["app/Services/IBlogService.cs"] = Encoding.UTF8.GetBytes(IBlogServiceCs),
             ["app/Models/Post.cs"] = Encoding.UTF8.GetBytes(PostModelCs),
@@ -64,7 +64,7 @@ public static class BlogTemplateFiles
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using {{projectName}}.App.Services;
+    using {{namespaceName}}.App.Services;
 
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton<IBlogService, BlogService>();
@@ -85,7 +85,7 @@ public static class BlogTemplateFiles
     """;
 
     private const string HomePageCs = """"
-    namespace {{projectName}}.App.Pages;
+    namespace {{namespaceName}}.App.Pages;
 
     public class IndexPage
     {
@@ -104,9 +104,9 @@ public static class BlogTemplateFiles
     """";
 
     private const string BlogIndexCs = """
-    namespace {{projectName}}.App.Pages.Blog;
+    namespace {{namespaceName}}.App.Pages.Blog;
 
-    using {{projectName}}.App.Services;
+    using {{namespaceName}}.App.Services;
 
     public class IndexPage
     {
@@ -131,9 +131,9 @@ public static class BlogTemplateFiles
     """;
 
     private const string BlogPostCs = """
-    namespace {{projectName}}.App.Pages.Blog;
+    namespace {{namespaceName}}.App.Pages.Blog;
 
-    using {{projectName}}.App.Services;
+    using {{namespaceName}}.App.Services;
 
     public class SlugPage
     {
@@ -151,9 +151,9 @@ public static class BlogTemplateFiles
     """;
 
     private const string IBlogServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Models;
 
     public interface IBlogService
     {
@@ -164,9 +164,9 @@ public static class BlogTemplateFiles
     """;
 
     private const string BlogServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Models;
     using YamlDotNet.Serialization;
     using YamlDotNet.Serialization.NamingConventions;
     using Markdig;
@@ -238,7 +238,7 @@ public static class BlogTemplateFiles
     """;
 
     private const string PostModelCs = """
-    namespace {{projectName}}.App.Models;
+    namespace {{namespaceName}}.App.Models;
 
     public sealed record Post
     {
@@ -255,7 +255,7 @@ public static class BlogTemplateFiles
     """;
 
     private const string PostFrontmatterCs = """
-    namespace {{projectName}}.App.Models;
+    namespace {{namespaceName}}.App.Models;
 
     using YamlDotNet.Serialization;
 

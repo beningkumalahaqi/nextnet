@@ -29,9 +29,9 @@ using NextNet.Templates.Models;
 public sealed class ApiTemplateProvider : ITemplateProvider
 {
     /// <summary>
-    /// Gets the unique provider name: <c>"api-official"</c>.
+    /// Gets the unique provider name: <c>"apiOfficial"</c>.
     /// </summary>
-    public string Name => "api-official";
+    public string Name => "apiOfficial";
 
     /// <summary>
     /// Retrieves the parsed <see cref="TemplateManifest"/> for the specified template.

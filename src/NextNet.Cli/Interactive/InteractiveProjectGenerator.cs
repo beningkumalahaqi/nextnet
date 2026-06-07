@@ -1,3 +1,5 @@
+using System.Linq;
+using NextNet.Core.Extensions;
 using NextNet.Templates.Abstractions;
 using NextNet.Templates.Models;
 using NextNet.TemplateEngine.Variables;
@@ -77,14 +79,19 @@ public sealed class InteractiveProjectGenerator
         var builder = new InteractiveVariableContextBuilder();
 
         // 1. Project name
+        string projectName;
         if (string.IsNullOrEmpty(options.ProjectName))
         {
-            builder.SetString("projectName", ProjectPrompts.PromptProjectName(PromptDefinitions.ProjectName()));
+            projectName = ProjectPrompts.PromptProjectName(PromptDefinitions.ProjectName());
+            builder.SetString("projectName", projectName);
         }
         else
         {
-            builder.SetString("projectName", options.ProjectName);
+            projectName = options.ProjectName;
+            builder.SetString("projectName", projectName);
         }
+
+        builder.SetString("namespaceName", StringCaseHelper.ToPascalCase(projectName));
 
         // 2. Template selection
         string templateName;

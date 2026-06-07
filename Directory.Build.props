@@ -7,7 +7,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!-- CS1591: Missing XML comment on public type (intentional - doc gen covers this) -->
+    <!-- NU5104: Stable package depends on prerelease dependency (System.CommandLine beta, acceptable for 0.x releases) -->
+    <NoWarn>$(NoWarn);CS1591;NU5104</NoWarn>
+  </PropertyGroup>
+
+  <!-- Prevent test projects from being packaged as NuGet packages -->
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

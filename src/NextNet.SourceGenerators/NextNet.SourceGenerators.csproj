@@ -36,6 +36,11 @@
     <PackageReference Include="System.Text.Json" Version="8.0.*" PrivateAssets="all" />
   </ItemGroup>
 
+  <!-- Ensure the build targets file is included in the NuGet package -->
+  <ItemGroup>
+    <None Include="NextNetBuild.targets" Pack="true" PackagePath="build/NextNet.SourceGenerators.targets" />
+  </ItemGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="NextNet.SourceGenerators.Tests" />
   </ItemGroup>

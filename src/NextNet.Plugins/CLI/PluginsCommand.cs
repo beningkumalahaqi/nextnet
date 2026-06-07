@@ -122,7 +122,7 @@ public class PluginsCommand
         if (typeof(IBuildHook).IsAssignableFrom(type))
             hooks.Add("build");
         if (typeof(IRouteScannerHook).IsAssignableFrom(type))
-            hooks.Add("route-scanner");
+            hooks.Add("routeScanner");
         if (typeof(IStartupHook).IsAssignableFrom(type))
             hooks.Add("startup");
         if (typeof(IRequestHook).IsAssignableFrom(type))

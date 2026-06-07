@@ -3,6 +3,8 @@ using Xunit;
 
 namespace NextNet.Cli.Tests.Templates;
 
+#pragma warning disable CS0618 // Type is marked as obsolete - tests for legacy TemplateManager
+
 public class TemplateManagerTests
 {
     [Fact]

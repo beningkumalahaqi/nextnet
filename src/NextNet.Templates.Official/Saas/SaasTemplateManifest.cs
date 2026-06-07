@@ -56,6 +56,8 @@ public static class SaasTemplateManifest
             {
                 new(Name: "projectName", Type: "string", Required: true,
                     Description: "The project name"),
+                new(Name: "namespaceName", Type: "string", Required: false,
+                    Description: "PascalCase namespace for C# code (auto-derived from projectName)"),
                 new(Name: "database", Type: "enum", Required: false,
                     AllowedValues: new[] { "sqlite", "postgres" },
                     Description: "Database provider"),
@@ -81,10 +83,10 @@ public static class SaasTemplateManifest
                 new(SourcePath: "app/Auth/AuthController.cs", TargetPath: "{{projectName}}.App/Auth/AuthController.cs"),
                 new(SourcePath: "app/Billing/BillingService.cs", TargetPath: "{{projectName}}.App/Billing/BillingService.cs", Condition: "includeBilling == true"),
                 new(SourcePath: "app/Data/AppDbContext.cs", TargetPath: "{{projectName}}.App/Data/AppDbContext.cs"),
-                new(SourcePath: "app/pages/index.cs", TargetPath: "{{projectName}}.App/pages/index.cs"),
-                new(SourcePath: "app/pages/signup.cs", TargetPath: "{{projectName}}.App/pages/signup.cs"),
-                new(SourcePath: "app/pages/login.cs", TargetPath: "{{projectName}}.App/pages/login.cs"),
-                new(SourcePath: "app/pages/dashboard/index.cs", TargetPath: "{{projectName}}.App/pages/dashboard/index.cs")
+                new(SourcePath: "app/page.cs", TargetPath: "{{projectName}}.App/page.cs"),
+                new(SourcePath: "app/signup/page.cs", TargetPath: "{{projectName}}.App/signup/page.cs"),
+                new(SourcePath: "app/login/page.cs", TargetPath: "{{projectName}}.App/login/page.cs"),
+                new(SourcePath: "app/dashboard/page.cs", TargetPath: "{{projectName}}.App/dashboard/page.cs")
             }
         );
     }

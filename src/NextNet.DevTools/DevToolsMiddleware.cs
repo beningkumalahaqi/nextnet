@@ -94,9 +94,9 @@ public sealed class DevToolsMiddleware
                         meta = new
                         {
                             total = routes.Count,
-                            static_count = routes.Count(r => r.Type == "static"),
-                            dynamic_count = routes.Count(r => r.Type == "dynamic"),
-                            api_count = routes.Count(r => r.Type == "api")
+                            staticCount = routes.Count(r => r.Type == "static"),
+                            dynamicCount = routes.Count(r => r.Type == "dynamic"),
+                            apiCount = routes.Count(r => r.Type == "api")
                         }
                     });
                     break;

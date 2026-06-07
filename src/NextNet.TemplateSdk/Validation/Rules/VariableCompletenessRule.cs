@@ -19,7 +19,7 @@ namespace NextNet.TemplateSdk.Validation.Rules;
 public sealed class VariableCompletenessRule : ValidationRule
 {
     /// <inheritdoc />
-    public override string Name => "variable-completeness";
+    public override string Name => "variableCompleteness";
 
     /// <inheritdoc />
     public override ValidationSeverity DefaultSeverity => ValidationSeverity.Warning;

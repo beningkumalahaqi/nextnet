@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
+using NextNet.Core.Extensions;
 
 namespace NextNet.TemplateEngine.Variables;
 
@@ -157,6 +159,8 @@ public sealed class VariableContextBuilder
 
     /// <summary>
     /// Builds an immutable <see cref="VariableContext"/> from the accumulated values.
+    /// Automatically derives <c>namespaceName</c> as PascalCase from <c>projectName</c>
+    /// if <c>namespaceName</c> is not explicitly set but <c>projectName</c> is.
     /// </summary>
     /// <returns>An immutable <see cref="VariableContext"/> instance.</returns>
     /// <example>
@@ -166,6 +170,12 @@ public sealed class VariableContextBuilder
     /// </example>
     public VariableContext Build()
     {
+        // Auto-derive namespaceName from projectName if not explicitly set
+        if (!_values.ContainsKey("namespaceName") && _values.TryGetValue("projectName", out var projectName) && projectName is string pn)
+        {
+            _values["namespaceName"] = StringCaseHelper.ToPascalCase(pn);
+        }
+
         return new VariableContext(_values);
     }
 

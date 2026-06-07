@@ -21,7 +21,7 @@ namespace NextNet.TemplateSdk.Validation.Rules;
 public sealed class FileExistsRule : ValidationRule
 {
     /// <inheritdoc />
-    public override string Name => "file-exists";
+    public override string Name => "fileExists";
 
     /// <inheritdoc />
     public override ValidationSeverity DefaultSeverity => ValidationSeverity.Error;

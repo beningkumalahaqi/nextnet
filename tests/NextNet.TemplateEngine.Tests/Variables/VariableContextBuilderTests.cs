@@ -74,4 +74,65 @@ public class VariableContextBuilderTests
             .Build();
         Assert.Equal(3, ctx.Keys.Count());
     }
+
+    [Fact]
+    public void Build_Should_AutoDeriveNamespaceName_When_ProjectNameSet_And_NamespaceNameNotSet()
+    {
+        var ctx = VariableContext.CreateBuilder()
+            .Set("projectName", "my-blog")
+            .Build();
+
+        var namespaceName = ctx.Get<string>("namespaceName");
+        Assert.Equal("MyBlog", namespaceName);
+    }
+
+    [Fact]
+    public void Build_Should_NotOverrideNamespaceName_When_ExplicitlySet()
+    {
+        var ctx = VariableContext.CreateBuilder()
+            .Set("projectName", "my-blog")
+            .Set("namespaceName", "CustomNamespace")
+            .Build();
+
+        var namespaceName = ctx.Get<string>("namespaceName");
+        Assert.Equal("CustomNamespace", namespaceName);
+    }
+
+    [Fact]
+    public void Build_Should_DeriveNamespaceName_FromSingleSegmentProjectName()
+    {
+        var ctx = VariableContext.CreateBuilder()
+            .Set("projectName", "MyBlog")
+            .Build();
+
+        var namespaceName = ctx.Get<string>("namespaceName");
+        Assert.Equal("MyBlog", namespaceName);
+    }
+
+    [Fact]
+    public void Build_Should_HandleEmptyProjectName_Gracefully()
+    {
+        var ctx = VariableContext.CreateBuilder()
+            .Set("projectName", "")
+            .Build();
+
+        var namespaceName = ctx.Get<string>("namespaceName");
+        Assert.Equal("App", namespaceName);
+
+        // Also verify the namespaceName IS set (auto-derived)
+        Assert.True(ctx.Contains("namespaceName"));
+    }
+
+    [Fact]
+    public void Build_Should_HandleNullProjectName_Gracefully()
+    {
+        var ctx = VariableContext.CreateBuilder()
+            .Set("projectName", null)
+            .Build();
+
+        // null → projectName is null, so the condition `projectName is string pn` is false
+        // namespaceName should NOT be set
+        var hasNamespace = ctx.TryGet<string>("namespaceName", out _);
+        Assert.False(hasNamespace);
+    }
 }

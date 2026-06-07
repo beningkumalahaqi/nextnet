@@ -56,6 +56,8 @@ public static class ApiTemplateManifest
             {
                 new(Name: "projectName", Type: "string", Required: true,
                     Description: "The project name (e.g., 'MyApi')"),
+                new(Name: "namespaceName", Type: "string", Required: false,
+                    Description: "PascalCase namespace for C# code (auto-derived from projectName)"),
                 new(Name: "includeAuth", Type: "bool", Required: false,
                     Description: "Include JWT authentication scaffold"),
                 new(Name: "database", Type: "enum", Required: false, AllowedValues: new[] { "sqlite", "postgres", "none" },

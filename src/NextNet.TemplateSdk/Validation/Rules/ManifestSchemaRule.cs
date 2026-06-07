@@ -14,7 +14,7 @@ namespace NextNet.TemplateSdk.Validation.Rules;
 public sealed class ManifestSchemaRule : ValidationRule
 {
     /// <inheritdoc />
-    public override string Name => "manifest-schema";
+    public override string Name => "manifestSchema";
 
     /// <inheritdoc />
     public override ValidationSeverity DefaultSeverity => ValidationSeverity.Error;
@@ -38,7 +38,7 @@ public sealed class ManifestSchemaRule : ValidationRule
     private static ValidationResult Error(string message, string? file = null, string? suggestion = null)
         => new()
         {
-            RuleName = "manifest-schema",
+            RuleName = "manifestSchema",
             Severity = ValidationSeverity.Error,
             Message = message,
             File = file,

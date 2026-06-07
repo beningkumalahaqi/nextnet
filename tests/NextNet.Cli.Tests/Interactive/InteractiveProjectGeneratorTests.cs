@@ -179,7 +179,7 @@ public class InteractiveProjectGeneratorTests
     /// </summary>
     private sealed class ApiTemplateProviderStub : ITemplateProvider
     {
-        public string Name => "api-official";
+        public string Name => "apiOfficial";
 
         public Task<TemplateManifest> GetManifestAsync(
             string templateName,

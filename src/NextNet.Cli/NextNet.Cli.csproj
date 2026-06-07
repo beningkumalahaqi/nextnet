@@ -16,6 +16,8 @@
     <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>nextnet</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -23,7 +23,7 @@ public sealed class PlaceholderCoverageRule : ValidationRule
     private static readonly Regex PlaceholderRegex = new(@"\{\{([a-zA-Z0-9_.]+)\}\}", RegexOptions.Compiled);
 
     /// <inheritdoc />
-    public override string Name => "placeholder-coverage";
+    public override string Name => "placeholderCoverage";
 
     /// <inheritdoc />
     public override ValidationSeverity DefaultSeverity => ValidationSeverity.Warning;

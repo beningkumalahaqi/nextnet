@@ -93,6 +93,7 @@ public class BlogTemplateProviderTests
 
         var variables = VariableContext.CreateBuilder()
             .Set("projectName", "MyBlog")
+            .Set("namespaceName", "MyBlog")
             .Set("authorName", "Jane Doe")
             .Set("baseUrl", "http://localhost:5000")
             .Build();

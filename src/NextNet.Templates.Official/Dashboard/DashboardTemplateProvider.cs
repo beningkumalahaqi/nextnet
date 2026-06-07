@@ -29,9 +29,9 @@ using NextNet.Templates.Models;
 public sealed class DashboardTemplateProvider : ITemplateProvider
 {
     /// <summary>
-    /// Gets the unique provider name: <c>"dashboard-official"</c>.
+    /// Gets the unique provider name: <c>"dashboardOfficial"</c>.
     /// </summary>
-    public string Name => "dashboard-official";
+    public string Name => "dashboardOfficial";
 
     /// <summary>
     /// Retrieves the parsed <see cref="TemplateManifest"/> for the specified template.

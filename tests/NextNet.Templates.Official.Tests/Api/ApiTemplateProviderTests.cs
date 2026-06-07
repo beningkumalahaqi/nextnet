@@ -148,13 +148,13 @@ public class ApiTemplateProviderTests
     }
 
     /// <summary>
-    /// Verifies that the provider name is "api-official".
+    /// Verifies that the provider name is "apiOfficial".
     /// </summary>
     [Fact]
     public void Name_Should_Return_ApiOfficial()
     {
         var provider = new ApiTemplateProvider();
-        Assert.Equal("api-official", provider.Name);
+        Assert.Equal("apiOfficial", provider.Name);
     }
 
     /// <summary>
@@ -171,6 +171,7 @@ public class ApiTemplateProviderTests
 
         var variables = VariableContext.CreateBuilder()
             .Set("projectName", "MyApi")
+            .Set("namespaceName", "MyApi")
             .Set("includeAuth", false)
             .Set("database", "sqlite")
             .Build();

@@ -2,7 +2,7 @@ namespace NextNet.Templates.Versioning;
 
 /// <summary>
 /// Resolves template version specifiers to concrete versions.
-/// Supports "latest", "next-major", "next-minor", exact versions, caret/tilde ranges,
+/// Supports "latest", "nextMajor", "nextMinor", exact versions, caret/tilde ranges,
 /// and comparison operator ranges.
 /// </summary>
 /// <remarks>
@@ -50,8 +50,8 @@ public sealed class TemplateVersionResolver
                 .FirstOrDefault();
         }
 
-        // "next-major" → first version of the next major line
-        if (specifier.Equals("next-major", StringComparison.OrdinalIgnoreCase))
+        // "nextMajor" → first version of the next major line
+        if (specifier.Equals("nextMajor", StringComparison.OrdinalIgnoreCase))
         {
             var latest = availableVersions
                 .Where(v => TemplateVersion.TryParse(v, out _))
@@ -67,8 +67,8 @@ public sealed class TemplateVersionResolver
                 .FirstOrDefault()?.ToString();
         }
 
-        // "next-minor" → first version of the next minor line in the same major
-        if (specifier.Equals("next-minor", StringComparison.OrdinalIgnoreCase))
+        // "nextMinor" → first version of the next minor line in the same major
+        if (specifier.Equals("nextMinor", StringComparison.OrdinalIgnoreCase))
         {
             var latest = availableVersions
                 .Where(v => TemplateVersion.TryParse(v, out _))

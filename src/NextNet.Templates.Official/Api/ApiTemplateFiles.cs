@@ -66,10 +66,10 @@ public static class ApiTemplateFiles
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using {{projectName}}.App.Auth;
-    using {{projectName}}.App.Data;
-    using {{projectName}}.App.Middleware;
-    using {{projectName}}.App.Services;
+    using {{namespaceName}}.App.Auth;
+    using {{namespaceName}}.App.Data;
+    using {{namespaceName}}.App.Middleware;
+    using {{namespaceName}}.App.Services;
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -117,12 +117,12 @@ public static class ApiTemplateFiles
     """;
 
     private const string TodosControllerCs = """
-    namespace {{projectName}}.App.Controllers;
+    namespace {{namespaceName}}.App.Controllers;
 
     using Microsoft.AspNetCore.Mvc;
-    using {{projectName}}.App.Models;
-    using {{projectName}}.App.Models.Dto;
-    using {{projectName}}.App.Services;
+    using {{namespaceName}}.App.Models;
+    using {{namespaceName}}.App.Models.Dto;
+    using {{namespaceName}}.App.Services;
 
     [ApiController]
     [Route("api/[controller]")]
@@ -173,7 +173,7 @@ public static class ApiTemplateFiles
     """;
 
     private const string HealthControllerCs = """
-    namespace {{projectName}}.App.Controllers;
+    namespace {{namespaceName}}.App.Controllers;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -192,7 +192,7 @@ public static class ApiTemplateFiles
     """;
 
     private const string TodoModelCs = """
-    namespace {{projectName}}.App.Models;
+    namespace {{namespaceName}}.App.Models;
 
     public sealed class Todo
     {
@@ -206,7 +206,7 @@ public static class ApiTemplateFiles
     """;
 
     private const string CreateTodoRequestCs = """
-    namespace {{projectName}}.App.Models.Dto;
+    namespace {{namespaceName}}.App.Models.Dto;
 
     using System.ComponentModel.DataAnnotations;
 
@@ -222,7 +222,7 @@ public static class ApiTemplateFiles
     """;
 
     private const string UpdateTodoRequestCs = """
-    namespace {{projectName}}.App.Models.Dto;
+    namespace {{namespaceName}}.App.Models.Dto;
 
     using System.ComponentModel.DataAnnotations;
 
@@ -240,10 +240,10 @@ public static class ApiTemplateFiles
     """;
 
     private const string ITodoServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Models;
-    using {{projectName}}.App.Models.Dto;
+    using {{namespaceName}}.App.Models;
+    using {{namespaceName}}.App.Models.Dto;
 
     public interface ITodoService
     {
@@ -256,10 +256,10 @@ public static class ApiTemplateFiles
     """;
 
     private const string TodoServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Models;
-    using {{projectName}}.App.Models.Dto;
+    using {{namespaceName}}.App.Models;
+    using {{namespaceName}}.App.Models.Dto;
 
     public sealed class TodoService : ITodoService
     {
@@ -308,7 +308,7 @@ public static class ApiTemplateFiles
     """;
 
     private const string AuthControllerCs = """
-    namespace {{projectName}}.App.Auth;
+    namespace {{namespaceName}}.App.Auth;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -337,7 +337,7 @@ public static class ApiTemplateFiles
     """;
 
     private const string JwtTokenGeneratorCs = """
-    namespace {{projectName}}.App.Auth;
+    namespace {{namespaceName}}.App.Auth;
 
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
@@ -368,10 +368,10 @@ public static class ApiTemplateFiles
     """;
 
     private const string AppDbContextCs = """
-    namespace {{projectName}}.App.Data;
+    namespace {{namespaceName}}.App.Data;
 
     using Microsoft.EntityFrameworkCore;
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Models;
 
     public sealed class AppDbContext : DbContext
     {
@@ -391,7 +391,7 @@ public static class ApiTemplateFiles
     """;
 
     private const string ErrorHandlingMiddlewareCs = """
-    namespace {{projectName}}.App.Middleware;
+    namespace {{namespaceName}}.App.Middleware;
 
     using Microsoft.AspNetCore.Http;
     using System.Net;

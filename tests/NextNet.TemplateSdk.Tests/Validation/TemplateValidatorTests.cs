@@ -407,14 +407,14 @@ public class TemplateValidatorTests
 
         var manifestNameResult = new ValidationResult
         {
-            RuleName = "manifest-schema",
+            RuleName = "manifestSchema",
             Severity = ValidationSeverity.Error,
             Message = "Manifest 'name' is required."
         };
 
         var placeholderResult = new ValidationResult
         {
-            RuleName = "placeholder-coverage",
+            RuleName = "placeholderCoverage",
             Severity = ValidationSeverity.Warning,
             Message = "Placeholder '{foo}' references undefined variable 'foo'."
         };

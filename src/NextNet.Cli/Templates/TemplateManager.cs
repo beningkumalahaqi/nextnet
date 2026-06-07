@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using NextNet.Core.Extensions;
 
 namespace NextNet.Cli.Templates;
 
@@ -9,6 +10,7 @@ namespace NextNet.Cli.Templates;
 /// Templates are embedded as resources in the assembly.
 /// Each file's relative path is encoded in the resource name.
 /// </summary>
+[Obsolete("Use TemplateEngine instead")]
 public sealed class TemplateManager
 {
     private const string ResourcePrefix = "NextNet.Cli.Templates";
@@ -83,7 +85,7 @@ public sealed class TemplateManager
     public static PlaceholderValues DetectValues(string projectName)
     {
         var kebabName = ToKebabCase(projectName);
-        var pascalName = ToPascalCase(kebabName);
+        var pascalName = StringCaseHelper.ToPascalCase(kebabName);
         var dotnetVersion = DetectDotNetVersion();
 
         return new PlaceholderValues(
@@ -179,20 +181,6 @@ public sealed class TemplateManager
                 result.Append('-');
         }
         return result.ToString().Trim('-');
-    }
-
-    private static string ToPascalCase(string kebabName)
-    {
-        if (string.IsNullOrEmpty(kebabName)) return "App";
-        var parts = kebabName.Split('-', StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length == 0) return "App";
-        var result = new StringBuilder();
-        foreach (var part in parts)
-        {
-            if (part.Length > 0)
-                result.Append(char.ToUpperInvariant(part[0]) + part[1..]);
-        }
-        return result.Length > 0 ? result.ToString() : "App";
     }
 
     private static string DetectDotNetVersion()

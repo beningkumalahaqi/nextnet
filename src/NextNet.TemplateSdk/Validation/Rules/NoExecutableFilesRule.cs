@@ -23,7 +23,7 @@ public sealed class NoExecutableFilesRule : ValidationRule
     };
 
     /// <inheritdoc />
-    public override string Name => "no-executable-files";
+    public override string Name => "noExecutableFiles";
 
     /// <inheritdoc />
     public override ValidationSeverity DefaultSeverity => ValidationSeverity.Error;

@@ -29,9 +29,9 @@ using NextNet.Templates.Models;
 public sealed class SaasTemplateProvider : ITemplateProvider
 {
     /// <summary>
-    /// Gets the unique provider name: <c>"saas-official"</c>.
+    /// Gets the unique provider name: <c>"saasOfficial"</c>.
     /// </summary>
-    public string Name => "saas-official";
+    public string Name => "saasOfficial";
 
     /// <summary>
     /// Retrieves the parsed <see cref="TemplateManifest"/> for the specified template.

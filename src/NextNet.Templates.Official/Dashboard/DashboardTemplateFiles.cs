@@ -36,9 +36,9 @@ public static class DashboardTemplateFiles
             ["template.json"] = Encoding.UTF8.GetBytes(ManifestJson),
             ["app/Program.cs"] = Encoding.UTF8.GetBytes(ProgramCs),
             ["app/appsettings.json"] = Encoding.UTF8.GetBytes(AppSettingsJson),
-            ["app/pages/dashboard/index.cs"] = Encoding.UTF8.GetBytes(DashboardIndexCs),
-            ["app/pages/login.cs"] = Encoding.UTF8.GetBytes(LoginPageCs),
-            ["app/pages/logout.cs"] = Encoding.UTF8.GetBytes(LogoutPageCs),
+            ["app/dashboard/page.cs"] = Encoding.UTF8.GetBytes(DashboardIndexCs),
+            ["app/login/page.cs"] = Encoding.UTF8.GetBytes(LoginPageCs),
+            ["app/logout/page.cs"] = Encoding.UTF8.GetBytes(LogoutPageCs),
             ["app/layouts/dashboard.cs"] = Encoding.UTF8.GetBytes(DashboardLayoutCs),
             ["app/Services/AuthService.cs"] = Encoding.UTF8.GetBytes(AuthServiceCs),
             ["app/Services/IAuthService.cs"] = Encoding.UTF8.GetBytes(IAuthServiceCs),
@@ -62,7 +62,7 @@ public static class DashboardTemplateFiles
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using {{projectName}}.App.Services;
+    using {{namespaceName}}.App.Services;
 
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton<IAuthService, AuthService>();
@@ -78,7 +78,7 @@ public static class DashboardTemplateFiles
     """;
 
     private const string DashboardIndexCs = """"
-    namespace {{projectName}}.App.Pages.Dashboard;
+    namespace {{namespaceName}}.App.Pages.Dashboard;
 
     public class IndexPage
     {
@@ -96,7 +96,7 @@ public static class DashboardTemplateFiles
     """";
 
     private const string LoginPageCs = """"
-    namespace {{projectName}}.App.Pages;
+    namespace {{namespaceName}}.App.Pages;
 
     public class LoginPage
     {
@@ -117,7 +117,7 @@ public static class DashboardTemplateFiles
     """";
 
     private const string LogoutPageCs = """
-    namespace {{projectName}}.App.Pages;
+    namespace {{namespaceName}}.App.Pages;
 
     public class LogoutPage
     {
@@ -126,7 +126,7 @@ public static class DashboardTemplateFiles
     """;
 
     private const string DashboardLayoutCs = """"
-    namespace {{projectName}}.App.Layouts;
+    namespace {{namespaceName}}.App.Layouts;
 
     public class DashboardLayout
     {
@@ -152,9 +152,9 @@ public static class DashboardTemplateFiles
     """";
 
     private const string IAuthServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Models;
 
     public interface IAuthService
     {
@@ -164,9 +164,9 @@ public static class DashboardTemplateFiles
     """;
 
     private const string AuthServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Models;
 
     public class AuthService : IAuthService
     {
@@ -191,7 +191,7 @@ public static class DashboardTemplateFiles
     """;
 
     private const string UserModelCs = """
-    namespace {{projectName}}.App.Models;
+    namespace {{namespaceName}}.App.Models;
 
     public sealed class User
     {

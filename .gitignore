@@ -110,6 +110,4 @@ appsettings.Production.json
 *.orig
 *.rej
 
-#env
-.env
-.env.*
+

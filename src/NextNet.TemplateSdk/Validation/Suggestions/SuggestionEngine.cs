@@ -35,19 +35,19 @@ public sealed class SuggestionEngine
 
         return result.RuleName switch
         {
-            "manifest-schema" => result.Message switch
+            "manifestSchema" => result.Message switch
             {
                 string m when m.Contains("name") => "Set a descriptive name like 'blog' or 'webapi'.",
                 string m when m.Contains("version") => "Use SemVer 2.0 format, e.g., '1.0.0'.",
                 string m when m.Contains("nextnetVersion") => "Specify a version range, e.g., '>=3.0.0'.",
                 _ => null
             },
-            "file-exists" => $"Ensure the file '{result.File}' exists in the template package directory.",
-            "placeholder-coverage" => $"Add variable '{result.Message.Split('\'')[1]}' to the manifest's 'variables' section.",
-            "variable-completeness" when result.Message.Contains("enum") =>
+            "fileExists" => $"Ensure the file '{result.File}' exists in the template package directory.",
+            "placeholderCoverage" => $"Add variable '{result.Message.Split('\'')[1]}' to the manifest's 'variables' section.",
+            "variableCompleteness" when result.Message.Contains("enum") =>
                 "Add an 'allowedValues' array with at least one permitted value.",
-            "condition-syntax" => "Verify the expression syntax. Supported operators: ==, !=, &&, ||, !, in.",
-            "no-executable-files" => "Replace the executable with source files or remove it from the template.",
+            "conditionSyntax" => "Verify the expression syntax. Supported operators: ==, !=, &&, ||, !, in.",
+            "noExecutableFiles" => "Replace the executable with source files or remove it from the template.",
             _ => null
         };
     }

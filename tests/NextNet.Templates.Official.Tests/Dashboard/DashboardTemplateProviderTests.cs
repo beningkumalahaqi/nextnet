@@ -16,13 +16,13 @@ using System.Text;
 public class DashboardTemplateProviderTests
 {
     /// <summary>
-    /// Verifies that <see cref="DashboardTemplateProvider.Name"/> returns <c>"dashboard-official"</c>.
+    /// Verifies that <see cref="DashboardTemplateProvider.Name"/> returns <c>"dashboardOfficial"</c>.
     /// </summary>
     [Fact]
     public void Name_Should_Return_DashboardOfficial()
     {
         var provider = new DashboardTemplateProvider();
-        Assert.Equal("dashboard-official", provider.Name);
+        Assert.Equal("dashboardOfficial", provider.Name);
     }
 
     /// <summary>
@@ -89,9 +89,9 @@ public class DashboardTemplateProviderTests
         Assert.Contains("app/Services/AuthService.cs", files.Keys);
         Assert.Contains("app/Services/IAuthService.cs", files.Keys);
         Assert.Contains("app/layouts/dashboard.cs", files.Keys);
-        Assert.Contains("app/pages/dashboard/index.cs", files.Keys);
-        Assert.Contains("app/pages/login.cs", files.Keys);
-        Assert.Contains("app/pages/logout.cs", files.Keys);
+        Assert.Contains("app/dashboard/page.cs", files.Keys);
+        Assert.Contains("app/login/page.cs", files.Keys);
+        Assert.Contains("app/logout/page.cs", files.Keys);
         Assert.Contains("app/Models/User.cs", files.Keys);
         Assert.Contains("app/wwwroot/css/dashboard.css", files.Keys);
     }
@@ -206,6 +206,7 @@ public class DashboardTemplateProviderTests
 
         var variables = VariableContext.CreateBuilder()
             .Set("projectName", "MyDashboard")
+            .Set("namespaceName", "MyDashboard")
             .Set("appTitle", "Admin Panel")
             .Set("primaryColor", "purple")
             .Build();

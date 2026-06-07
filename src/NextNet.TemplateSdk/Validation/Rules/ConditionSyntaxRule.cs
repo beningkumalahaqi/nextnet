@@ -21,7 +21,7 @@ namespace NextNet.TemplateSdk.Validation.Rules;
 public sealed class ConditionSyntaxRule : ValidationRule
 {
     /// <inheritdoc />
-    public override string Name => "condition-syntax";
+    public override string Name => "conditionSyntax";
 
     /// <inheritdoc />
     public override ValidationSeverity DefaultSeverity => ValidationSeverity.Error;

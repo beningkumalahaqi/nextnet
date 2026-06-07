@@ -29,9 +29,9 @@ using NextNet.Templates.Models;
 public sealed class BlogTemplateProvider : ITemplateProvider
 {
     /// <summary>
-    /// Gets the unique provider name: <c>"blog-official"</c>.
+    /// Gets the unique provider name: <c>"blogOfficial"</c>.
     /// </summary>
-    public string Name => "blog-official";
+    public string Name => "blogOfficial";
 
     /// <summary>
     /// Retrieves the parsed <see cref="TemplateManifest"/> for the specified template.

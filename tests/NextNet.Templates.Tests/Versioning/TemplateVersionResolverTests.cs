@@ -115,14 +115,14 @@ public sealed class TemplateVersionResolverTests
     }
 
     // ============================================================
-    // Resolve — "next-major" specifier
+    // Resolve — "nextMajor" specifier
     // ============================================================
 
     [Fact]
     public void Resolve_Should_ReturnNextMajor_When_Available()
     {
         var versions = new List<string> { "1.0.0", "2.0.0", "3.0.0" };
-        var result = _resolver.Resolve("next-major", versions);
+        var result = _resolver.Resolve("nextMajor", versions);
         // Latest is 3.0.0, next major after 3 would be...
         // Actually "latest" from existing is 3.0.0, so next major > 3 should be null
         // Let me re-check the logic: latest is 3.0.0, next major > 3 doesn't exist
@@ -133,20 +133,20 @@ public sealed class TemplateVersionResolverTests
     public void Resolve_Should_ReturnNextMajor_When_NextExists()
     {
         var versions = new List<string> { "1.0.0", "1.1.0", "2.0.0" };
-        var result = _resolver.Resolve("next-major", versions);
+        var result = _resolver.Resolve("nextMajor", versions);
         // Latest is 2.0.0, no next major > 2
         Assert.Null(result);
     }
 
     // ============================================================
-    // Resolve — "next-minor" specifier
+    // Resolve — "nextMinor" specifier
     // ============================================================
 
     [Fact]
     public void Resolve_Should_ReturnNextMinor_When_Available()
     {
         var versions = new List<string> { "1.0.0", "1.1.0", "1.2.0", "2.0.0" };
-        var result = _resolver.Resolve("next-minor", versions);
+        var result = _resolver.Resolve("nextMinor", versions);
         // Latest is 2.0.0, same major doesn't have a next minor
         Assert.Null(result);
     }
@@ -155,7 +155,7 @@ public sealed class TemplateVersionResolverTests
     public void Resolve_Should_ReturnNextMinor_ForLatestMajor()
     {
         var versions = new List<string> { "2.0.0", "2.1.0", "2.2.0" };
-        var result = _resolver.Resolve("next-minor", versions);
+        var result = _resolver.Resolve("nextMinor", versions);
         // Latest is 2.2.0, no next minor in same major
         Assert.Null(result);
     }

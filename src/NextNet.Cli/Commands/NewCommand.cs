@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NextNet.Cli.Errors;
 using NextNet.Cli.Interactive;
+using NextNet.Core.Extensions;
 using NextNet.TemplateEngine;
 using NextNet.TemplateEngine.Variables;
 using NextNet.Templates.Abstractions;
@@ -175,7 +176,7 @@ public sealed class NewCommand : Command
     {
         foreach (var p in providers)
         {
-            if (string.Equals(p.Name, $"{template}-official", StringComparison.OrdinalIgnoreCase) ||
+            if (string.Equals(p.Name, $"{template}Official", StringComparison.OrdinalIgnoreCase) ||
                 p.ExistsAsync(template).GetAwaiter().GetResult())
             {
                 return p;
@@ -191,6 +192,7 @@ public sealed class NewCommand : Command
     {
         var builder = VariableContext.CreateBuilder();
         builder.Set("projectName", projectName);
+        builder.Set("namespaceName", StringCaseHelper.ToPascalCase(projectName));
 
         foreach (var variable in manifest.Variables ?? Enumerable.Empty<TemplateVariable>())
         {

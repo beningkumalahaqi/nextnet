@@ -47,10 +47,10 @@ public static class SaasTemplateFiles
             ["app/Auth/AuthController.cs"] = Encoding.UTF8.GetBytes(AuthControllerCs),
             ["app/Billing/BillingService.cs"] = Encoding.UTF8.GetBytes(BillingServiceCs),
             ["app/Data/AppDbContext.cs"] = Encoding.UTF8.GetBytes(AppDbContextCs),
-            ["app/pages/index.cs"] = Encoding.UTF8.GetBytes(HomePageCs),
-            ["app/pages/signup.cs"] = Encoding.UTF8.GetBytes(SignupPageCs),
-            ["app/pages/login.cs"] = Encoding.UTF8.GetBytes(LoginPageCs),
-            ["app/pages/dashboard/index.cs"] = Encoding.UTF8.GetBytes(DashboardPageCs)
+            ["app/page.cs"] = Encoding.UTF8.GetBytes(HomePageCs),
+            ["app/signup/page.cs"] = Encoding.UTF8.GetBytes(SignupPageCs),
+            ["app/login/page.cs"] = Encoding.UTF8.GetBytes(LoginPageCs),
+            ["app/dashboard/page.cs"] = Encoding.UTF8.GetBytes(DashboardPageCs)
         };
         return files;
     }
@@ -70,9 +70,9 @@ public static class SaasTemplateFiles
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using {{projectName}}.App.Auth;
-    using {{projectName}}.App.Data;
-    using {{projectName}}.App.Services;
+    using {{namespaceName}}.App.Auth;
+    using {{namespaceName}}.App.Data;
+    using {{namespaceName}}.App.Services;
 
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
@@ -92,7 +92,7 @@ public static class SaasTemplateFiles
     """;
 
     private const string OrganizationModelCs = """
-    namespace {{projectName}}.App.Models;
+    namespace {{namespaceName}}.App.Models;
 
     public sealed class Organization
     {
@@ -105,7 +105,7 @@ public static class SaasTemplateFiles
     """;
 
     private const string MembershipModelCs = """
-    namespace {{projectName}}.App.Models;
+    namespace {{namespaceName}}.App.Models;
 
     public sealed class Membership
     {
@@ -120,7 +120,7 @@ public static class SaasTemplateFiles
     """;
 
     private const string UserModelCs = """
-    namespace {{projectName}}.App.Models;
+    namespace {{namespaceName}}.App.Models;
 
     public sealed class User
     {
@@ -134,9 +134,9 @@ public static class SaasTemplateFiles
     """;
 
     private const string ITenantServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Models;
 
     public interface ITenantService
     {
@@ -148,10 +148,10 @@ public static class SaasTemplateFiles
     """;
 
     private const string TenantServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Data;
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Data;
+    using {{namespaceName}}.App.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class TenantService : ITenantService
@@ -190,9 +190,9 @@ public static class SaasTemplateFiles
     """;
 
     private const string IUserServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Models;
 
     public interface IUserService
     {
@@ -203,10 +203,10 @@ public static class SaasTemplateFiles
     """;
 
     private const string UserServiceCs = """
-    namespace {{projectName}}.App.Services;
+    namespace {{namespaceName}}.App.Services;
 
-    using {{projectName}}.App.Data;
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Data;
+    using {{namespaceName}}.App.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class UserService : IUserService
@@ -245,10 +245,10 @@ public static class SaasTemplateFiles
     """;
 
     private const string AuthControllerCs = """
-    namespace {{projectName}}.App.Auth;
+    namespace {{namespaceName}}.App.Auth;
 
     using Microsoft.AspNetCore.Mvc;
-    using {{projectName}}.App.Services;
+    using {{namespaceName}}.App.Services;
 
     [ApiController]
     [Route("api/auth")]
@@ -278,7 +278,7 @@ public static class SaasTemplateFiles
     """;
 
     private const string BillingServiceCs = """
-    namespace {{projectName}}.App.Billing;
+    namespace {{namespaceName}}.App.Billing;
 
     public class BillingService
     {
@@ -300,10 +300,10 @@ public static class SaasTemplateFiles
     """;
 
     private const string AppDbContextCs = """
-    namespace {{projectName}}.App.Data;
+    namespace {{namespaceName}}.App.Data;
 
     using Microsoft.EntityFrameworkCore;
-    using {{projectName}}.App.Models;
+    using {{namespaceName}}.App.Models;
 
     public sealed class AppDbContext : DbContext
     {
@@ -336,7 +336,7 @@ public static class SaasTemplateFiles
     """;
 
     private const string HomePageCs = """
-    namespace {{projectName}}.App.Pages;
+    namespace {{namespaceName}}.App.Pages;
 
     public class IndexPage
     {
@@ -345,7 +345,7 @@ public static class SaasTemplateFiles
     """;
 
     private const string SignupPageCs = """""
-    namespace {{projectName}}.App.Pages;
+    namespace {{namespaceName}}.App.Pages;
 
     public class SignupPage
     {
@@ -361,7 +361,7 @@ public static class SaasTemplateFiles
     """"";
 
     private const string LoginPageCs = """""
-    namespace {{projectName}}.App.Pages;
+    namespace {{namespaceName}}.App.Pages;
 
     public class LoginPage
     {
@@ -376,7 +376,7 @@ public static class SaasTemplateFiles
     """"";
 
     private const string DashboardPageCs = """
-    namespace {{projectName}}.App.Pages.Dashboard;
+    namespace {{namespaceName}}.App.Pages.Dashboard;
 
     public class IndexPage
     {
