@@ -1,0 +1,63 @@
+{
+  "name": "my-full-template",
+  "version": "2.0.0",
+  "nextnetVersion": "^3.0.0",
+  "author": "NextNet",
+  "description": "A full template example with all optional fields",
+  "tags": ["web", "api"],
+  "variables": [
+    {
+      "name": "projectName",
+      "type": "string",
+      "default": "MyProject",
+      "description": "The name of the project",
+      "required": true
+    },
+    {
+      "name": "includeAuth",
+      "type": "bool",
+      "default": true,
+      "description": "Include authentication support"
+    },
+    {
+      "name": "database",
+      "type": "enum",
+      "default": "sqlite",
+      "description": "Database provider",
+      "allowedValues": ["sqlite", "postgres", "sqlserver"]
+    }
+  ],
+  "features": [
+    {
+      "name": "auth",
+      "description": "Authentication module",
+      "dependencies": ["database"],
+      "conflicts": []
+    },
+    {
+      "name": "logging",
+      "description": "Logging module"
+    }
+  ],
+  "files": [
+    {
+      "source": "Program.cs",
+      "target": "Program.cs"
+    },
+    {
+      "source": "Startup.cs",
+      "target": "Startup.cs",
+      "condition": "features.auth"
+    },
+    {
+      "source": "logo.png",
+      "target": "wwwroot/logo.png",
+      "binary": true
+    }
+  ],
+  "conditions": [
+    {
+      "expression": "features.auth == true"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Data.Sdk.Tests</RootNamespace>
+    <AssemblyName>NextNet.Data.Sdk.Tests</AssemblyName>
+    <Description>Tests for the NextNet Data Provider SDK</Description>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS1591;NU1701;NU1504;RS1035;RS1036;RS2008</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.*" />
+    <PackageReference Include="xunit" Version="2.7.*" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing.Xunit" Version="1.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing.Xunit" Version="1.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8.*" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.*" />
+  </ItemGroup>
+
+  <!-- Include the SDK's analyzer source files directly in the test project compilation.
+       The NextNet.Data.Sdk project excludes Analyzers/**/*.cs and DiagnosticDescriptors.cs
+       from its net8.0 target (they only compile for netstandard2.0 for Roslyn consumption).
+       The test project targets net8.0, so we need to compile them here to access
+       ProviderAnalyzer, DiagnosticDescriptors, and related types. -->
+  <ItemGroup>
+    <Compile Include="../../src/NextNet.Data.Sdk/Analyzers/**/*.cs" LinkBase="AnalyzersSource" />
+    <Compile Include="../../src/NextNet.Data.Sdk/DiagnosticDescriptors.cs" Link="AnalyzersSource/DiagnosticDescriptors.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NextNet.Data.Sdk\NextNet.Data.Sdk.csproj" />
+    <ProjectReference Include="..\..\src\NextNet.Data.Abstractions\NextNet.Data.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

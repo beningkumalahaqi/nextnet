@@ -1,0 +1,123 @@
+{
+  "Routes": [
+    {
+      "RoutePattern": "/",
+      "FilePath": "app/page.cs",
+      "Type": "Page",
+      "SegmentKind": "Static",
+      "LayoutPath": "app/layout.cs",
+      "LayoutChain": ["app/layout.cs"]
+    },
+    {
+      "RoutePattern": "/about",
+      "FilePath": "app/about/page.cs",
+      "Type": "Page",
+      "SegmentKind": "Static",
+      "LayoutPath": "app/layout.cs",
+      "LayoutChain": ["app/layout.cs"]
+    },
+    {
+      "RoutePattern": "/blog/{slug}",
+      "FilePath": "app/blog/[slug]/page.cs",
+      "Type": "Page",
+      "SegmentKind": "Dynamic",
+      "LayoutPath": "app/blog/layout.cs",
+      "LayoutChain": ["app/blog/layout.cs", "app/layout.cs"]
+    },
+    {
+      "RoutePattern": "/api/users",
+      "FilePath": "app/api/users/route.cs",
+      "Type": "Api",
+      "SegmentKind": "Static",
+      "LayoutPath": null,
+      "LayoutChain": []
+    },
+    {
+      "RoutePattern": "/",
+      "FilePath": "app/layout.cs",
+      "Type": "Layout",
+      "SegmentKind": "Static",
+      "LayoutPath": null,
+      "LayoutChain": []
+    },
+    {
+      "RoutePattern": "/blog",
+      "FilePath": "app/blog/layout.cs",
+      "Type": "Layout",
+      "SegmentKind": "Static",
+      "LayoutPath": null,
+      "LayoutChain": []
+    },
+    {
+      "RoutePattern": "/",
+      "FilePath": "app/error.cs",
+      "Type": "Error",
+      "SegmentKind": "Static",
+      "LayoutPath": null,
+      "LayoutChain": []
+    }
+  ],
+  "Pages": [
+    {
+      "RoutePattern": "/",
+      "FilePath": "app/page.cs",
+      "Type": "Page",
+      "SegmentKind": "Static",
+      "LayoutPath": "app/layout.cs",
+      "LayoutChain": ["app/layout.cs"]
+    },
+    {
+      "RoutePattern": "/about",
+      "FilePath": "app/about/page.cs",
+      "Type": "Page",
+      "SegmentKind": "Static",
+      "LayoutPath": "app/layout.cs",
+      "LayoutChain": ["app/layout.cs"]
+    },
+    {
+      "RoutePattern": "/blog/{slug}",
+      "FilePath": "app/blog/[slug]/page.cs",
+      "Type": "Page",
+      "SegmentKind": "Dynamic",
+      "LayoutPath": "app/blog/layout.cs",
+      "LayoutChain": ["app/blog/layout.cs", "app/layout.cs"]
+    }
+  ],
+  "Layouts": [
+    {
+      "RoutePattern": "/",
+      "FilePath": "app/layout.cs",
+      "Type": "Layout",
+      "SegmentKind": "Static",
+      "LayoutPath": null,
+      "LayoutChain": []
+    },
+    {
+      "RoutePattern": "/blog",
+      "FilePath": "app/blog/layout.cs",
+      "Type": "Layout",
+      "SegmentKind": "Static",
+      "LayoutPath": null,
+      "LayoutChain": []
+    }
+  ],
+  "ApiRoutes": [
+    {
+      "RoutePattern": "/api/users",
+      "FilePath": "app/api/users/route.cs",
+      "Type": "Api",
+      "SegmentKind": "Static",
+      "LayoutPath": null,
+      "LayoutChain": []
+    }
+  ],
+  "ErrorPage": {
+    "RoutePattern": "/",
+    "FilePath": "app/error.cs",
+    "Type": "Error",
+    "SegmentKind": "Static",
+    "LayoutPath": null,
+    "LayoutChain": []
+  },
+  "Conflicts": []
+}

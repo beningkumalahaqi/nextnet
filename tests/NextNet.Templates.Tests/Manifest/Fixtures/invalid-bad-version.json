@@ -1,0 +1,5 @@
+{
+  "name": "my-template",
+  "version": "not-a-valid-semver",
+  "nextnetVersion": ">=3.0.0"
+}

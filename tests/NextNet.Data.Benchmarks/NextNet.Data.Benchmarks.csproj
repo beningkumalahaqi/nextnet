@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Data.Benchmarks</RootNamespace>
+    <AssemblyName>NextNet.Data.Benchmarks</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
+    <NoWarn>$(NoWarn);CS1591;CS8981</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.14.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NextNet.Data.Abstractions\NextNet.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\NextNet.Data.Providers\NextNet.Data.Providers.csproj" />
+  </ItemGroup>
+
+</Project>

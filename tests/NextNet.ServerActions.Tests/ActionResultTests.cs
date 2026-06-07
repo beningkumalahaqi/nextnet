@@ -1,0 +1,211 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Xunit;
+using NextNet.ServerActions.Results;
+
+namespace NextNet.ServerActions.Tests
+{
+    public class ActionResultTests
+    {
+        [Fact]
+        public void ActionSuccess_With_SetsProperties()
+        {
+            // Act
+            var result = ActionSuccess.With("test-data");
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.False(result.IsError);
+            Assert.Equal("test-data", result.Data);
+            Assert.Equal(200, result.StatusCode);
+        }
+
+        [Fact]
+        public void ActionSuccess_WithMessage_SetsMessage()
+        {
+            // Act
+            var result = ActionSuccess.With(42, "the answer");
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(42, result.Data);
+            Assert.Equal("the answer", result.Message);
+        }
+
+        [Fact]
+        public void ActionSuccess_Empty_ReturnsNonGenericResult()
+        {
+            // Act
+            var result = ActionSuccess.Empty();
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.False(result.IsError);
+            Assert.IsAssignableFrom<ActionResult>(result);
+        }
+
+        [Fact]
+        public void ActionSuccess_WithStatus_SetsStatusCode()
+        {
+            // Act
+            var result = ActionSuccess.WithStatus(201, "Created");
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.Equal(201, result.StatusCode);
+            Assert.Equal("Created", result.Message);
+        }
+
+        [Fact]
+        public void ActionError_Validation_WithMessage_SetsCorrectProperties()
+        {
+            // Act
+            var result = ActionError.Validation("Email is required");
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal("validation", result.ErrorType);
+            Assert.Equal(400, result.StatusCode);
+            Assert.Equal("Email is required", result.Message);
+        }
+
+        [Fact]
+        public void ActionError_Validation_Generic_WithMessage_SetsCorrectProperties()
+        {
+            // Act
+            var result = ActionError.Validation<string>("Name is required");
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal("validation", result.ErrorType);
+            Assert.Equal(400, result.StatusCode);
+        }
+
+        [Fact]
+        public void ActionError_Validation_WithErrors_SetsFieldErrors()
+        {
+            // Arrange
+            var errors = new Dictionary<string, string[]>
+            {
+                { "Email", new[] { "Email is required" } }
+            };
+
+            // Act
+            var result = ActionError.Validation<string>(errors);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal("validation", result.ErrorType);
+            Assert.NotNull(result.Errors);
+            Assert.Contains("Email", result.Errors.Keys);
+        }
+
+        [Fact]
+        public void ActionError_NotFound_SetsCorrectProperties()
+        {
+            // Act
+            var result = ActionError.NotFound("User not found");
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal("notFound", result.ErrorType);
+            Assert.Equal(404, result.StatusCode);
+            Assert.Equal("User not found", result.Message);
+        }
+
+        [Fact]
+        public void ActionError_NotFound_NonGeneric_SetsCorrectProperties()
+        {
+            // Act
+            var result = ActionError.NotFound("Item not found");
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal(404, result.StatusCode);
+        }
+
+        [Fact]
+        public void ActionError_Unauthorized_SetsCorrectProperties()
+        {
+            // Act
+            var result = ActionError.Unauthorized("Access denied");
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal("unauthorized", result.ErrorType);
+            Assert.Equal(401, result.StatusCode);
+        }
+
+        [Fact]
+        public void ActionError_Unauthorized_NonGeneric_SetsCorrectProperties()
+        {
+            // Act
+            var result = ActionError.Unauthorized();
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal(401, result.StatusCode);
+        }
+
+        [Fact]
+        public void ActionError_Error_SetsCorrectProperties()
+        {
+            // Act
+            var result = ActionError.Error("Something went wrong");
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal("error", result.ErrorType);
+            Assert.Equal(500, result.StatusCode);
+        }
+
+        [Fact]
+        public void ActionError_Error_WithException_IncludesMessage()
+        {
+            // Act
+            var result = ActionError.Error("Failed", new System.Exception("Inner details"));
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Contains("Inner details", result.Message);
+        }
+
+        [Fact]
+        public void ActionError_Error_Generic_SetsCorrectProperties()
+        {
+            // Act
+            var result = ActionError.Error<string>("Critical failure");
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.True(result.IsError);
+            Assert.Equal("error", result.ErrorType);
+            Assert.Equal(500, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task ActionResult_WriteAsync_SetsResponseHeaders()
+        {
+            // Arrange
+            var result = ActionSuccess.With("test");
+            var context = new DefaultHttpContext();
+            context.Response.Body = new System.IO.MemoryStream();
+
+            // Act
+            await result.WriteAsync(context);
+
+            // Assert
+            Assert.Equal(200, context.Response.StatusCode);
+            Assert.Contains("application/json", context.Response.ContentType?.ToString());
+        }
+    }
+}
