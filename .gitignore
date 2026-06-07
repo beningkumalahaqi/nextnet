@@ -1,0 +1,115 @@
+# AI agent / tooling directories
+.openpilot/
+.docs/
+.plan/
+
+# Build output
+**/[Bb]in/
+**/[Oo]bj/
+out/
+publish/
+artifacts/
+dist/
+build/
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# MSBuild diagnostics
+*.binlog
+
+# Test results
+TestResults/
+test-results/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+*.coverage.cobertura.xml
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+**/_ReSharper*/
+*.DotSettings.user
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# .NET Core / SDK
+project.assets.json
+project.fragment.lock.json
+**/App_Data/
+
+# ASP.NET / Razor (NextNet is a web framework)
+**/wwwroot/lib/
+**/node_modules/
+*.cshtml.user
+
+# F# / C# compiler temp
+*.dll.config
+*.exe.config
+
+# Secrets and credentials — DO NOT COMMIT
+*.pfx
+*.p12
+*.cer
+*.key
+*.pem
+*.crt
+secrets.json
+appsettings.Local.json
+appsettings.*.local.json
+appsettings.Development.json
+appsettings.Production.json
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+*.env
+**/secrets/
+**/credentials/
+**/*.keystore
+**/service-account*.json
+**/gha-creds-*
+**/.npmrc
+**/.pypirc
+**/.netrc
+
+# OS
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor backup files
+*.bak
+*.tmp
+*.orig
+*.rej
+
+#env
+.env
+.env.*

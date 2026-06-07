@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>NextNet.Core</id>
+    <version>0.1.0</version>
+    <title>NextNet Core</title>
+    <authors>NextNet</authors>
+    <owners>NextNet</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/beningkumalahaqi/nextnet</projectUrl>
+    <repository type="git" url="https://github.com/beningkumalahaqi/nextnet.git" />
+    <icon>images\NextNet-logo.png</icon>
+    <iconUrl>https://raw.githubusercontent.com/beningkumalahaqi/nextnet/master/images/NextNet-logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NextNet Core - Shared kernel for the NextNet full-stack web framework. Provides configuration, conventions, and base abstractions for building SSR web applications.</description>
+    <releaseNotes>Initial release - Phase 1.1 foundation.</releaseNotes>
+    <copyright>Copyright (c) NextNet contributors</copyright>
+    <tags>nextnet web framework ssr fullstack</tags>
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="8.0.0" />
+      </group>
+    </dependencies>
+  </metadata>
+
+  <files>
+    <file src="src\NextNet.Core\bin\Release\net8.0\NextNet.Core.dll" target="lib\net8.0\" />
+    <file src="src\NextNet.Core\bin\Release\net8.0\NextNet.Core.xml" target="lib\net8.0\" />
+    <file src="src\NextNet.Build\NextNet.props" target="build\" />
+    <file src="src\NextNet.Build\NextNet.targets" target="build\" />
+  </files>
+</package>

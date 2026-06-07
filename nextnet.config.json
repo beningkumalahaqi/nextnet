@@ -1,0 +1,14 @@
+{
+  "appDir": "app",
+  "outputDir": "dist",
+  "devPort": 3000,
+  "ssr": true,
+  "ssg": false,
+  "streaming": true,
+  "serverActions": true,
+  "rendering": {
+    "prettyPrint": false,
+    "maxRecursionDepth": 128,
+    "minify": true
+  }
+}
