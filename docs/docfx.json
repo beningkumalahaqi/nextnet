@@ -1,0 +1,113 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/src/docfx/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "src/NextNet.Core/**/bin/**/*.dll",
+            "src/NextNet.Routing/**/bin/**/*.dll",
+            "src/NextNet.Rendering/**/bin/**/*.dll",
+            "src/NextNet.Layouts/**/bin/**/*.dll",
+            "src/NextNet.Build/**/bin/**/*.dll",
+            "src/NextNet.Cli/**/bin/**/*.dll",
+            "src/NextNet.ServerActions/**/bin/**/*.dll",
+            "src/NextNet.SourceGenerators/**/bin/**/*.dll",
+            "src/NextNet.Middleware/**/bin/**/*.dll",
+            "src/NextNet.Plugins/**/bin/**/*.dll",
+            "src/NextNet.Isr/**/bin/**/*.dll",
+            "src/NextNet.Edge/**/bin/**/*.dll",
+            "src/NextNet.DevTools/**/bin/**/*.dll"
+          ],
+          "exclude": [
+            "**/obj/**",
+            "**/bin/Ref/**",
+            "**/*.Tests/**"
+          ],
+          "src": ".."
+        }
+      ],
+      "dest": "api",
+      "properties": {
+        "TargetFramework": "net8.0"
+      },
+      "shouldSkipMarkup": false,
+      "includePrivateMembers": false,
+      "filter": "filter.yml"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "*.md",
+          "getting-started/*.md",
+          "core-concepts/*.md",
+          "features/*.md",
+          "advanced/*.md",
+          "reference/*.md",
+          "guides/*.md",
+          "contributing/*.md",
+          "toc.yml"
+        ],
+        "exclude": [
+          "obj/**",
+          "_site/**"
+        ]
+      },
+      {
+        "files": [
+          "api/*.yml"
+        ],
+        "exclude": [
+          "api/toc.yml"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**",
+          "public/**"
+        ]
+      }
+    ],
+    "overwrite": [],
+    "globalMetadata": {
+      "_appTitle": "NextNet Documentation",
+      "_appFooter": "© 2026 NextNet Contributors",
+      "_appLogoPath": "images/logo.svg",
+      "_enableSearch": true,
+      "_gitContribute": {
+        "branch": "main",
+        "repo": "https://github.com/nextnet/nextnet.git",
+        "folder": "docs/"
+      },
+      "_gitRepositoryUrl": "https://github.com/nextnet/nextnet.git",
+      "pdf": false
+    },
+    "dest": "_site",
+    "template": [
+      "default"
+    ],
+    "markdownEngineProperties": {
+      "markdig": {
+        "usePragmaLines": true,
+        "enableEmoji": true,
+        "enableHeadingId": true,
+        "enablePipeTable": true,
+        "enableTaskList": true,
+        "enableMediaLinks": true
+      }
+    },
+    "xrefService": [
+      "https://xref.docs.microsoft.com/query?uid={uid}"
+    ],
+    "xref": [],
+    "sitemap": {
+      "baseUrl": "https://nextnet.dev/docs",
+      "priority": 0.5,
+      "changefreq": "weekly"
+    }
+  }
+}

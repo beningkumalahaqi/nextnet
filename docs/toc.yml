@@ -1,0 +1,70 @@
+- name: Getting Started
+  items:
+    - name: Introduction
+      href: index.md
+    - name: Installation
+      href: getting-started/installation.md
+    - name: Quickstart
+      href: getting-started/quickstart.md
+    - name: Project Structure
+      href: getting-started/project-structure.md
+    - name: Configuration
+      href: getting-started/configuration.md
+- name: Core Concepts
+  items:
+    - name: File-Based Routing
+      href: core-concepts/routing.md
+    - name: Rendering
+      href: core-concepts/rendering.md
+    - name: Layouts
+      href: core-concepts/layouts.md
+    - name: Components
+      href: core-concepts/components.md
+- name: Features
+  items:
+    - name: Server Actions
+      href: features/server-actions.md
+    - name: API Routes
+      href: features/api-routes.md
+    - name: Static Generation
+      href: features/static-generation.md
+    - name: Incremental Static Regeneration
+      href: features/isr.md
+    - name: Middleware
+      href: features/middleware.md
+    - name: Plugins
+      href: features/plugins.md
+- name: Advanced
+  items:
+    - name: Edge Runtime
+      href: advanced/edge-runtime.md
+    - name: DevTools
+      href: advanced/devtools.md
+    - name: Production Optimizations
+      href: advanced/production-optimizations.md
+- name: Reference
+  items:
+    - name: CLI Reference
+      href: reference/cli-reference.md
+    - name: Configuration Reference
+      href: reference/configuration-reference.md
+    - name: API Reference
+      href: reference/api-reference.md
+    - name: Migration Guide
+      href: reference/migration-guide.md
+- name: Guides
+  items:
+    - name: Templates
+      href: guides/templates.md
+    - name: File System Conventions
+      href: guides/file-system-conventions.md
+    - name: Testing
+      href: guides/testing.md
+- name: Contributing
+  items:
+    - name: Architecture
+      href: contributing/architecture.md
+    - name: Development Setup
+      href: contributing/development-setup.md
+- name: API Reference
+  href: api/index.md
