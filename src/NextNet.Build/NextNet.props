@@ -1,0 +1,19 @@
+<Project>
+  <!--
+    NextNet build properties imported by projects that consume NextNet.
+    Include this file via <Import> in the consuming project or globally
+    via Directory.Build.props.
+  -->
+
+  <PropertyGroup>
+    <NextNetRoot Condition="'$(NextNetRoot)' == ''">$(MSBuildThisFileDirectory)..\..\</NextNetRoot>
+    <NextNetConfigFile Condition="'$(NextNetConfigFile)' == ''">nextnet.config.json</NextNetConfigFile>
+    <NextNetAppDir Condition="'$(NextNetAppDir)' == ''">app</NextNetAppDir>
+    <NextNetOutputDir Condition="'$(NextNetOutputDir)' == ''">dist</NextNetOutputDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Default known file types for NextNet route discovery -->
+    <None Include="$(NextNetAppDir)/**/*.cs" Pack="false" />
+  </ItemGroup>
+</Project>

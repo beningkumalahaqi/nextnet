@@ -1,0 +1,68 @@
+<Project>
+  <!--
+    NextNet Source Generator build integration.
+    Include this file in your project to enable route manifest generation and
+    source generator consumption.
+
+    Usage:
+      <Import Project="path\to\NextNet.SourceGenerators\NextNetBuild.targets" />
+  -->
+
+  <PropertyGroup>
+    <NextNetBuildEnabled Condition="'$(NextNetBuildEnabled)' == ''">true</NextNetBuildEnabled>
+    <NextNetAppDir Condition="'$(NextNetAppDir)' == ''">app</NextNetAppDir>
+    <NextNetManifestFile Condition="'$(NextNetManifestFile)' == ''">$(IntermediateOutputPath)nextnet.routes.json</NextNetManifestFile>
+  </PropertyGroup>
+
+  <!--
+    Pre-build target: generates the route manifest by invoking the NextNet routing tool.
+    If the routing tool is not available, a placeholder manifest is written so the
+    source generator does not fail.
+  -->
+  <Target Name="NextNetGenerateRouteManifest" BeforeTargets="CoreCompile"
+          Condition="'$(NextNetBuildEnabled)' == 'true'">
+
+    <Message Importance="high" Text="[NextNet] Generating route manifest: $(NextNetManifestFile)" />
+
+    <!--
+      TODO: Invoke NextNet.Routing CLI tool here once created.
+      For now, we check if the tool exists and fall back to a discovery script.
+
+      <Exec Command="dotnet nextnet scan --app-dir $(NextNetAppDir) --output $(NextNetManifestFile)"
+            Condition="Exists('$(NextNetAppDir)')"
+            IgnoreExitCode="true" />
+    -->
+
+    <!-- Fallback: Generate a placeholder manifest with a comment about the tool -->
+    <WriteLinesToFile
+      Condition="!Exists('$(NextNetManifestFile)')"
+      File="$(NextNetManifestFile)"
+      Lines='{ "Routes": [], "Pages": [], "Layouts": [], "ApiRoutes": [], "ErrorPage": null, "Conflicts": [] }'
+      Overwrite="true" />
+
+    <!-- If the app directory exists and has route files, report them -->
+    <ItemGroup>
+      <_NextNetRouteFiles Include="$(NextNetAppDir)/**/page.cs" Condition="Exists('$(NextNetAppDir)')" />
+      <_NextNetRouteFiles Include="$(NextNetAppDir)/**/layout.cs" Condition="Exists('$(NextNetAppDir)')" />
+      <_NextNetRouteFiles Include="$(NextNetAppDir)/**/route.cs" Condition="Exists('$(NextNetAppDir)')" />
+      <_NextNetRouteFiles Include="$(NextNetAppDir)/**/error.cs" Condition="Exists('$(NextNetAppDir)')" />
+    </ItemGroup>
+
+    <Message Importance="normal" Text="[NextNet] Found @(_NextNetRouteFiles->Count()) route file(s)."
+             Condition="'@(_NextNetRouteFiles->Count())' != '0'" />
+
+    <!-- Copy the manifest to AdditionalFiles for the source generator -->
+    <ItemGroup>
+      <AdditionalFiles Include="$(NextNetManifestFile)" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+    AfterBuild target: emits generated files path for debugging.
+  -->
+  <Target Name="NextNetAfterBuild" AfterTargets="Build"
+          Condition="'$(NextNetBuildEnabled)' == 'true'">
+    <Message Importance="normal" Text="[NextNet] Source generation complete. Generated files in $(IntermediateOutputPath)generated/" />
+  </Target>
+
+</Project>

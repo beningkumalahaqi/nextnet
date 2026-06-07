@@ -1,0 +1,27 @@
+<Project>
+  <!--
+    NextNet build targets executed during the build pipeline.
+    Include this file via <Import> after NextNet.props.
+  -->
+
+  <PropertyGroup>
+    <NextNetBuildEnabled Condition="'$(NextNetBuildEnabled)' == ''">true</NextNetBuildEnabled>
+  </PropertyGroup>
+
+  <!--
+    BeforeBuild target: ensure the output directory exists and
+    validate the NextNet configuration file presence.
+  -->
+  <Target Name="NextNetBeforeBuild" BeforeTargets="CoreCompile" Condition="'$(NextNetBuildEnabled)' == 'true'">
+    <Message Importance="high" Text="[NextNet] Building with configuration: $(NextNetConfigFile)" />
+    <Warning Text="[NextNet] Configuration file '$(NextNetConfigFile)' not found in $(MSBuildProjectDirectory)."
+             Condition="!Exists('$(NextNetConfigFile)')" />
+  </Target>
+
+  <!--
+    AfterBuild target: copy compiled artifacts to the NextNet output directory.
+  -->
+  <Target Name="NextNetAfterBuild" AfterTargets="Build" Condition="'$(NextNetBuildEnabled)' == 'true'">
+    <Message Importance="normal" Text="[NextNet] Build complete." />
+  </Target>
+</Project>
