@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Routing</RootNamespace>
+    <AssemblyName>NextNet.Routing</AssemblyName>
+    <Description>NextNet Routing - File-system based route scanner, manifest, and conflict detection</Description>
+    <PackageTags>nextnet;web;framework;routing;ssr</PackageTags>
+    <PackageId>NextNet.Routing</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Core\NextNet.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Routing.Tests" />
+    <InternalsVisibleTo Include="NextNet.Rendering.Tests" />
+    <InternalsVisibleTo Include="NextNet.Layouts.Tests" />
+  </ItemGroup>
+
+</Project>

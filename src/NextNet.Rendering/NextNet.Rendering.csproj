@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Rendering</RootNamespace>
+    <AssemblyName>NextNet.Rendering</AssemblyName>
+    <Description>NextNet Rendering - Server-side rendering engine, layout composition, streaming SSR</Description>
+    <PackageTags>nextnet;web;framework;ssr;rendering;streaming</PackageTags>
+    <PackageId>NextNet.Rendering</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Core\NextNet.Core.csproj" />
+    <ProjectReference Include="..\NextNet.Routing\NextNet.Routing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Rendering.Tests" />
+    <InternalsVisibleTo Include="NextNet.Build" />
+    <InternalsVisibleTo Include="NextNet.Build.Tests" />
+  </ItemGroup>
+
+</Project>
