@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net{{DOTNET_VERSION}}</TargetFramework>
+    <RootNamespace>{{NAMESPACE}}</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NextNet" Version="{{VERSION}}" />
+  </ItemGroup>
+
+</Project>

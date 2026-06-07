@@ -1,0 +1,28 @@
+{
+  "$schema": "https://nextnet.dev/schemas/config.json",
+  "name": "{{PROJECT_NAME}}",
+  "version": "{{VERSION}}",
+  "framework": {
+    "ssr": false,
+    "ssg": false,
+    "streaming": false,
+    "serverActions": true
+  },
+  "routing": {
+    "dir": "app",
+    "dynamicSegments": true,
+    "catchAll": true
+  },
+  "build": {
+    "output": "dist",
+    "minify": true,
+    "sourcemap": false,
+    "target": "net{{DOTNET_VERSION}}"
+  },
+  "dev": {
+    "port": 3000,
+    "https": false,
+    "hmr": true,
+    "openBrowser": false
+  }
+}
