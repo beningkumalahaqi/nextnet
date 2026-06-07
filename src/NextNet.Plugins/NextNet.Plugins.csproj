@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Plugins</RootNamespace>
+    <AssemblyName>NextNet.Plugins</AssemblyName>
+    <Description>NextNet Plugins - Plugin system, discovery, isolation, lifecycle hooks, and extensibility</Description>
+    <PackageTags>nextnet;plugins;extensibility;hooks</PackageTags>
+    <PackageId>NextNet.Plugins</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Core\NextNet.Core.csproj" />
+    <ProjectReference Include="..\NextNet.Routing\NextNet.Routing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Plugins.Tests" />
+  </ItemGroup>
+
+</Project>
