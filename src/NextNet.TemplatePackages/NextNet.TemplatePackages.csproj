@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.TemplatePackages</RootNamespace>
+    <AssemblyName>NextNet.TemplatePackages</AssemblyName>
+    <Description>NextNet Template Packages - Download, extraction, and caching of .sktemplate package files</Description>
+    <PackageTags>nextnet;templates;packages;download;cache</PackageTags>
+    <PackageId>NextNet.TemplatePackages</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Templates\NextNet.Templates.csproj" />
+    <ProjectReference Include="..\NextNet.Core\NextNet.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.TemplatePackages.Tests" />
+  </ItemGroup>
+</Project>

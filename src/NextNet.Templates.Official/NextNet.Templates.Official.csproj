@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Templates.Official</RootNamespace>
+    <AssemblyName>NextNet.Templates.Official</AssemblyName>
+    <Description>NextNet Official Templates (Blog, API, Dashboard, SaaS)</Description>
+    <PackageTags>nextnet;templates;official;blog;api</PackageTags>
+    <PackageId>NextNet.Templates.Official</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Templates\NextNet.Templates.csproj" />
+    <ProjectReference Include="..\NextNet.TemplateEngine\NextNet.TemplateEngine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Templates.Official.Tests" />
+  </ItemGroup>
+</Project>

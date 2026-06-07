@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.TemplateMarketplace</RootNamespace>
+    <AssemblyName>NextNet.TemplateMarketplace</AssemblyName>
+    <Description>NextNet Template Marketplace - Foundation data layer for template discovery, ratings, publishing, and data collection</Description>
+    <PackageTags>nextnet;templates;marketplace;discovery;ratings</PackageTags>
+    <PackageId>NextNet.TemplateMarketplace</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Templates\NextNet.Templates.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.TemplateMarketplace.Tests" />
+  </ItemGroup>
+</Project>

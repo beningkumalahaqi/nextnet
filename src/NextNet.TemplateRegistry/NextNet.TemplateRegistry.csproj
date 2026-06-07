@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.TemplateRegistry</RootNamespace>
+    <AssemblyName>NextNet.TemplateRegistry</AssemblyName>
+    <Description>NextNet Template Registry - HTTP client for discovering and downloading community templates</Description>
+    <PackageTags>nextnet;templates;registry;discovery</PackageTags>
+    <PackageId>NextNet.TemplateRegistry</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Templates\NextNet.Templates.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.TemplateRegistry.Tests" />
+  </ItemGroup>
+</Project>

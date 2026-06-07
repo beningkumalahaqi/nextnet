@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.TemplateEngine</RootNamespace>
+    <AssemblyName>NextNet.TemplateEngine</AssemblyName>
+    <Description>NextNet Template Engine - Variable replacement, conditional generation, and template orchestration</Description>
+    <PackageTags>nextnet;templates;engine;codegen</PackageTags>
+    <PackageId>NextNet.TemplateEngine</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Templates\NextNet.Templates.csproj" />
+    <ProjectReference Include="..\NextNet.Core\NextNet.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.TemplateEngine.Tests" />
+  </ItemGroup>
+</Project>
