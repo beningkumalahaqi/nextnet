@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Data.MongoDB</RootNamespace>
+    <AssemblyName>NextNet.Data.MongoDB</AssemblyName>
+    <Description>NextNet Data MongoDB Provider - Document database provider built on MongoDB.Driver with collection management, repositories, health checks, and index migrations</Description>
+    <PackageTags>nextnet;data;mongodb;document;database;nosql;repository</PackageTags>
+    <PackageId>NextNet.Data.MongoDB</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.28.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Data.Abstractions\NextNet.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\NextNet.Data.Providers\NextNet.Data.Providers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Data.MongoDB.Tests" />
+    <InternalsVisibleTo Include="NextNet.Cli" />
+    <InternalsVisibleTo Include="NextNet.Cli.Tests" />
+  </ItemGroup>
+
+</Project>

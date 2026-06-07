@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Data.Providers</RootNamespace>
+    <AssemblyName>NextNet.Data.Providers</AssemblyName>
+    <Description>NextNet Data Providers - Provider registration, lifecycle management, and fluent builder API</Description>
+    <PackageTags>nextnet;data;providers;registration;database</PackageTags>
+    <PackageId>NextNet.Data.Providers</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.*" />
+
+    <!-- Microsoft.Extensions.Logging.Abstractions is inherited from Directory.Build.props -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Data.Abstractions\NextNet.Data.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Data.Providers.Tests" />
+  </ItemGroup>
+
+</Project>

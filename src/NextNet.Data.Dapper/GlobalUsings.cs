@@ -1,0 +1,15 @@
+global using System;
+global using System.Collections.Generic;
+global using System.Data;
+global using System.Linq;
+global using System.Reflection;
+global using System.Threading;
+global using System.Threading.Tasks;
+global using Dapper;
+global using Microsoft.Data.SqlClient;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using NextNet.Data;
+global using NextNet.Data.Abstractions.Abstractions;
+global using NextNet.Data.Abstractions.Configuration;
+global using NextNet.Data.Abstractions.Models;

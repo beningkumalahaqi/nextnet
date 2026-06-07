@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Data.MultiDb</RootNamespace>
+    <AssemblyName>NextNet.Data.MultiDb</AssemblyName>
+    <Description>NextNet Multi-Database Support - Named connection resolution, connection pooling, and cross-database routing</Description>
+    <PackageTags>nextnet;data;multi-database;connection-pooling;database-routing</PackageTags>
+    <PackageId>NextNet.Data.MultiDb</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Data.Abstractions\NextNet.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\NextNet.Data.Providers\NextNet.Data.Providers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Data.MultiDb.Tests" />
+  </ItemGroup>
+
+</Project>

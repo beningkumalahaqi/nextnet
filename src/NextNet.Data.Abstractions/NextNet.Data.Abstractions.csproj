@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.Data.Abstractions</RootNamespace>
+    <AssemblyName>NextNet.Data.Abstractions</AssemblyName>
+    <Description>NextNet Data Abstractions - Core interfaces and configuration models for the NextNet data layer</Description>
+    <PackageTags>nextnet;data;abstractions;database;repository</PackageTags>
+    <PackageId>NextNet.Data.Abstractions</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.*" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Data.Abstractions.Tests" />
+    <InternalsVisibleTo Include="NextNet.Cli" />
+    <InternalsVisibleTo Include="NextNet.Cli.Tests" />
+    <InternalsVisibleTo Include="NextNet.Data.EntityFramework" />
+    <InternalsVisibleTo Include="NextNet.Data.EntityFramework.Tests" />
+    <InternalsVisibleTo Include="NextNet.Data.Dapper" />
+    <InternalsVisibleTo Include="NextNet.Data.Dapper.Tests" />
+  </ItemGroup>
+
+</Project>

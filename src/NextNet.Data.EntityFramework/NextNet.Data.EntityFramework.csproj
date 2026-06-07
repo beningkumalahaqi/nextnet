@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>NextNet.Data.EntityFramework</RootNamespace>
+    <AssemblyName>NextNet.Data.EntityFramework</AssemblyName>
+    <Description>NextNet Data Entity Framework Core Provider - DbContext management, migrations, repositories, and health checks</Description>
+    <PackageTags>nextnet;data;entity-framework;efcore;database;orm;migrations;repository</PackageTags>
+    <PackageId>NextNet.Data.EntityFramework</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Data.Abstractions\NextNet.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\NextNet.Data.Providers\NextNet.Data.Providers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Data.EntityFramework.Tests" />
+    <InternalsVisibleTo Include="NextNet.Cli" />
+    <InternalsVisibleTo Include="NextNet.Cli.Tests" />
+  </ItemGroup>
+
+  <!-- Embed template files as embedded resources -->
+  <ItemGroup>
+    <EmbeddedResource Include="Templates/Model.template" />
+    <EmbeddedResource Include="Templates/Repository.template" />
+    <EmbeddedResource Include="Templates/Crud/Route.template" />
+  </ItemGroup>
+
+</Project>

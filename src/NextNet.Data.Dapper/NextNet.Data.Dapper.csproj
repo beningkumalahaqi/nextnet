@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>NextNet.Data.Dapper</RootNamespace>
+    <AssemblyName>NextNet.Data.Dapper</AssemblyName>
+    <Description>NextNet Data Dapper Provider - Connection management, parameterized queries, repositories, health checks, and scaffolding</Description>
+    <PackageTags>nextnet;data;dapper;micro-orm;database;sql;repository</PackageTags>
+    <PackageId>NextNet.Data.Dapper</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NoWarn>$(NoWarn);CS1574</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.*" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.*" />
+    <!-- Microsoft.Extensions.Logging.Abstractions is inherited from Directory.Build.props -->
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Data.Abstractions\NextNet.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\NextNet.Data.Providers\NextNet.Data.Providers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.Data.Dapper.Tests" />
+    <InternalsVisibleTo Include="NextNet.Cli" />
+    <InternalsVisibleTo Include="NextNet.Cli.Tests" />
+  </ItemGroup>
+
+  <!-- Template files will be added when scaffolding is implemented -->
+
+</Project>
