@@ -7,10 +7,9 @@
 > A modern full-stack web framework for .NET — inspired by Next.js, powered by ASP.NET Core. Ship in minutes with V3 Templates.
 
 [![NuGet](https://img.shields.io/nuget/v/NextNet)](https://nuget.org/packages/NextNet)
-[![License](https://img.shields.io/github/license/nextnet/nextnet)](LICENSE)
+[![License](https://img.shields.io/github/license/beningkumalahaqi/nextnet)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com)
-[![V3 Templates](https://img.shields.io/badge/V3-Templates-blueviolet)](https://github.com/nextnet/nextnet)
-[![CI](https://img.shields.io/github/actions/workflow/status/nextnet/nextnet/ci.yml)](https://github.com/nextnet/nextnet/actions)
+[![V3 Templates](https://img.shields.io/badge/V3-Templates-blueviolet)](https://github.com/beningkumalahaqi/nextnet/)
 
 ---
 
