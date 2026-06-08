@@ -36,7 +36,7 @@ NextNet V3 ships with a complete template ecosystem. Generate a production-ready
 For custom projects, use the interactive generator:
 
 ```bash
-nextnet new my-app
+nextnet new MyApp
 ```
 
 It will prompt you for: project name, template, database (SQLite/Postgres/None), authentication (yes/no), and more.
@@ -58,7 +58,7 @@ nextnet template remove <name> # Uninstall
 Create your own templates with the SDK:
 
 ```bash
-nextnet template create my-template  # Scaffold a new template project
+nextnet template create MyTemplate  # Scaffold a new template project
 nextnet template validate <path>     # Run validation rules
 nextnet template package <path>      # Create .sktemplate archive
 nextnet template publish <file>      # Publish to registry
@@ -101,8 +101,8 @@ Install NextNet and create a new project in seconds:
 dotnet tool install -g NextNet.Cli
 
 # 2. Create a new project from an official template
-nextnet new blog my-blog
-cd my-blog
+nextnet new blog MyBlog
+cd MyBlog
 
 # 3. Run the dev server
 nextnet dev
@@ -113,7 +113,7 @@ Open `http://localhost:5000` — your blog is running.
 ### Alternative: Interactive mode
 
 ```bash
-nextnet new my-app
+nextnet new MyApp
 # Follow the prompts to choose template, database, auth, etc.
 ```
 
@@ -123,15 +123,15 @@ nextnet new my-app
 git clone https://github.com/beningkumalahaqi/nextnet.git
 cd nextnet
 dotnet build
-dotnet run --project src/NextNet.Cli -- new blog my-blog
+dotnet run --project src/NextNet.Cli -- new blog MyBlog
 ```
 
 ### Other templates
 
 ```bash
-nextnet new api my-api           # REST API with Swagger
-nextnet new dashboard my-admin   # Admin dashboard with auth
-nextnet new saas my-startup      # Multi-tenant SaaS starter
+nextnet new api MyApi           # REST API with Swagger
+nextnet new dashboard MyAdmin   # Admin dashboard with auth
+nextnet new saas MyStartup      # Multi-tenant SaaS starter
 ```
 
 ## Features
