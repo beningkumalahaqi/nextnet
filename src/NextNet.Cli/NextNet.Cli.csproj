@@ -8,7 +8,7 @@
     <Description>NextNet CLI - Command-line interface for project scaffolding, dev server, and builds</Description>
     <PackageTags>nextnet;cli;web;framework</PackageTags>
     <PackageId>NextNet.Cli</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

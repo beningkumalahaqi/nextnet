@@ -7,7 +7,7 @@
     <Description>NextNet Source Generators - Roslyn IIncrementalGenerator for route registration, component discovery, and DI wiring</Description>
     <PackageTags>nextnet;web;framework;sourcegenerator;roslyn</PackageTags>
     <PackageId>NextNet.SourceGenerators</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

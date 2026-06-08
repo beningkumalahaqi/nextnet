@@ -7,7 +7,7 @@
     <Description>NextNet Server Actions - Declarative C# methods exposed as HTTP endpoints with client proxy generation</Description>
     <PackageTags>nextnet;web;framework;server-actions;actions</PackageTags>
     <PackageId>NextNet.ServerActions</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

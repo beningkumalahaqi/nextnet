@@ -7,7 +7,7 @@
     <Description>NextNet Edge - Edge runtime compatibility, adapters for Cloudflare Workers, Vercel Edge, Deno Deploy, and AWS Lambda@Edge</Description>
     <PackageTags>nextnet;web;framework;edge;cloudflare;vercel;deno;aws-lambda</PackageTags>
     <PackageId>NextNet.Edge</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

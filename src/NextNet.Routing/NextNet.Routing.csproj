@@ -7,7 +7,7 @@
     <Description>NextNet Routing - File-system based route scanner, manifest, and conflict detection</Description>
     <PackageTags>nextnet;web;framework;routing;ssr</PackageTags>
     <PackageId>NextNet.Routing</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

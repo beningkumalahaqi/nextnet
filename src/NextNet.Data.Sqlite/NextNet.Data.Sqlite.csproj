@@ -7,7 +7,7 @@
     <Description>NextNet Data SQLite Provider - Local database adapter for EF Core</Description>
     <PackageTags>nextnet;data;sqlite;database;efcore</PackageTags>
     <PackageId>NextNet.Data.Sqlite</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

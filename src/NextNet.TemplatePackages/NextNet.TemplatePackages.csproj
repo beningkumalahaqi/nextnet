@@ -6,7 +6,7 @@
     <Description>NextNet Template Packages - Download, extraction, and caching of .sktemplate package files</Description>
     <PackageTags>nextnet;templates;packages;download;cache</PackageTags>
     <PackageId>NextNet.TemplatePackages</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

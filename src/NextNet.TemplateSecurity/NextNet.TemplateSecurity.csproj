@@ -6,7 +6,7 @@
     <Description>NextNet Template Security - Checksum verification, signature verification, trusted publisher registry, and key management</Description>
     <PackageTags>nextnet;templates;security;checksum;signature;publisher</PackageTags>
     <PackageId>NextNet.TemplateSecurity</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

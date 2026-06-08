@@ -7,7 +7,7 @@
     <Description>NextNet Data Abstractions - Core interfaces and configuration models for the NextNet data layer</Description>
     <PackageTags>nextnet;data;abstractions;database;repository</PackageTags>
     <PackageId>NextNet.Data.Abstractions</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

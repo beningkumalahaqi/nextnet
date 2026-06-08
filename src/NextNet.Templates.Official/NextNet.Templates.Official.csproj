@@ -6,7 +6,7 @@
     <Description>NextNet Official Templates (Blog, API, Dashboard, SaaS)</Description>
     <PackageTags>nextnet;templates;official;blog;api</PackageTags>
     <PackageId>NextNet.Templates.Official</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

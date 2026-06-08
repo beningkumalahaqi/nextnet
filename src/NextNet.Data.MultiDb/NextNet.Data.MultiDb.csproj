@@ -7,7 +7,7 @@
     <Description>NextNet Multi-Database Support - Named connection resolution, connection pooling, and cross-database routing</Description>
     <PackageTags>nextnet;data;multi-database;connection-pooling;database-routing</PackageTags>
     <PackageId>NextNet.Data.MultiDb</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>
