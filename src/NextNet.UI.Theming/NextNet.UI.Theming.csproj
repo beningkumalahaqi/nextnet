@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.UI.Theming</RootNamespace>
+    <AssemblyName>NextNet.UI.Theming</AssemblyName>
+    <Description>NextNet UI Theming - Theme engine, CSS variable generation, and theme presets</Description>
+    <PackageTags>nextnet;ui;theming;theme;css-variables</PackageTags>
+    <PackageId>NextNet.UI.Theming</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Core\NextNet.Core.csproj" />
+    <ProjectReference Include="..\NextNet.DesignSystem\NextNet.DesignSystem.csproj" />
+    <ProjectReference Include="..\NextNet.UI.Abstractions\NextNet.UI.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.UI.Theming.Tests" />
+  </ItemGroup>
+
+</Project>

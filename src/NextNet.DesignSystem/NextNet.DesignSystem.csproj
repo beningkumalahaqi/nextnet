@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.DesignSystem</RootNamespace>
+    <AssemblyName>NextNet.DesignSystem</AssemblyName>
+    <Description>NextNet Design System - Design tokens, theming, and UI primitives</Description>
+    <PackageTags>nextnet;design-system;tokens;theming</PackageTags>
+    <PackageId>NextNet.DesignSystem</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.DesignSystem.Tests" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.UI.Tailwind</RootNamespace>
+    <AssemblyName>NextNet.UI.Tailwind</AssemblyName>
+    <Description>NextNet UI Tailwind - Tailwind CSS integration, config generation, and component class mapping</Description>
+    <PackageTags>nextnet;ui;tailwind;css;config;mapping</PackageTags>
+    <PackageId>NextNet.UI.Tailwind</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.DesignSystem\NextNet.DesignSystem.csproj" />
+    <ProjectReference Include="..\NextNet.UI.Abstractions\NextNet.UI.Abstractions.csproj" />
+    <ProjectReference Include="..\NextNet.UI.DesignSystem\NextNet.UI.DesignSystem.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.UI.Tailwind.Tests" />
+  </ItemGroup>
+
+</Project>

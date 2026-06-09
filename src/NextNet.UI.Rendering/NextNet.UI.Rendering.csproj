@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NextNet.UI.Rendering</RootNamespace>
+    <AssemblyName>NextNet.UI.Rendering</AssemblyName>
+    <Description>NextNet UI Rendering - Theme-aware page/layout rendering, component tree composition, and head injection</Description>
+    <PackageTags>nextnet;ui;rendering;theme;component-tree;ssr</PackageTags>
+    <PackageId>NextNet.UI.Rendering</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NextNet.Core\NextNet.Core.csproj" />
+    <ProjectReference Include="..\NextNet.UI.Abstractions\NextNet.UI.Abstractions.csproj" />
+    <ProjectReference Include="..\NextNet.UI.DesignSystem\NextNet.UI.DesignSystem.csproj" />
+    <ProjectReference Include="..\NextNet.UI.Theming\NextNet.UI.Theming.csproj" />
+    <ProjectReference Include="..\NextNet.Rendering\NextNet.Rendering.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NextNet.UI.Rendering.Tests" />
+  </ItemGroup>
+
+</Project>
