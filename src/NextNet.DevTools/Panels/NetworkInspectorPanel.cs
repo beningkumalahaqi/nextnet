@@ -4,7 +4,15 @@ namespace NextNet.DevTools.Panels;
 
 /// <summary>
 /// Network Inspector panel — displays HTTP request/response logs from the dev server.
+/// Shows method, path, status code, duration, and content type in a table view.
 /// </summary>
+/// <example>
+/// <code>
+/// var panel = new NetworkInspectorPanel(dataStore);
+/// panel.Render(new TuiRenderContext(120));
+/// panel.HandleInput(ConsoleKey.C); // clear requests
+/// </code>
+/// </example>
 public sealed class NetworkInspectorPanel : IDevToolsPanel
 {
     private readonly DevToolsDataStore _dataStore;
@@ -19,6 +27,7 @@ public sealed class NetworkInspectorPanel : IDevToolsPanel
     /// <summary>
     /// Creates a new NetworkInspectorPanel.
     /// </summary>
+    /// <param name="dataStore">The DevTools data store providing network request data.</param>
     public NetworkInspectorPanel(DevToolsDataStore dataStore)
     {
         _dataStore = dataStore;
@@ -88,8 +97,21 @@ public sealed class NetworkInspectorPanel : IDevToolsPanel
 
     /// <summary>
     /// A single network request log entry.
+    /// Captures HTTP method, URL, status code, duration, timestamp, and content type.
     /// </summary>
-    public class NetworkRequest
+    /// <example>
+    /// <code>
+    /// var req = new NetworkInspectorPanel.NetworkRequest
+    /// {
+    ///     Method = "GET",
+    ///     Url = "/api/users",
+    ///     StatusCode = 200,
+    ///     DurationMs = 45,
+    ///     ContentType = "application/json"
+    /// };
+    /// </code>
+    /// </example>
+    public sealed record NetworkRequest
     {
         /// <summary>HTTP method (GET, POST, etc.).</summary>
         public string Method { get; init; } = "GET";

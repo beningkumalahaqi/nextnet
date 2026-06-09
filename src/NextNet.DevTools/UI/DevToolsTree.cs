@@ -4,8 +4,18 @@ namespace NextNet.DevTools.UI;
 
 /// <summary>
 /// A terminal-renderable tree structure for DevTools panels.
-/// Supports indentation, icons, and color-coded nodes.
+/// Supports indentation, icons, and color-coded nodes for rendering component hierarchies and route trees.
 /// </summary>
+/// <example>
+/// <code>
+/// var tree = new DevToolsTree("Components");
+/// var child = tree.AddNode("Layout", icon: "📐");
+/// child.AddChild("Header", color: ConsoleColor.Blue);
+/// child.AddChild("Footer");
+/// tree.AddNode("Page", icon: "📄");
+/// tree.RenderToConsole();
+/// </code>
+/// </example>
 public sealed class DevToolsTree
 {
     private readonly string _rootLabel;
@@ -14,12 +24,17 @@ public sealed class DevToolsTree
     /// <summary>
     /// Creates a new tree with the specified root label.
     /// </summary>
+    /// <param name="rootLabel">The label for the root of the tree.</param>
     public DevToolsTree(string rootLabel)
     {
         _rootLabel = rootLabel;
     }
 
     /// <summary>Add a root-level node.</summary>
+    /// <param name="label">The node label text.</param>
+    /// <param name="icon">Optional icon (emoji/unicode).</param>
+    /// <param name="color">Optional console color for the node.</param>
+    /// <returns>The created <see cref="DevToolsTreeNode"/>.</returns>
     public DevToolsTreeNode AddNode(string label, string? icon = null, ConsoleColor? color = null)
     {
         var node = new DevToolsTreeNode(label, icon, color);
@@ -114,7 +129,16 @@ public sealed class DevToolsTree
 
 /// <summary>
 /// A single node in a <see cref="DevToolsTree"/>.
+/// Contains a label, optional icon, optional color, and a list of child nodes.
 /// </summary>
+/// <example>
+/// <code>
+/// var node = new DevToolsTreeNode("Header", icon: "🧩", color: ConsoleColor.Blue);
+/// var child = node.AddChild("Logo", icon: "🔧");
+/// Console.WriteLine(node.Label); // "Header"
+/// Console.WriteLine(node.Children.Count); // 1
+/// </code>
+/// </example>
 public sealed class DevToolsTreeNode
 {
     private readonly List<DevToolsTreeNode> _children = new();
@@ -132,6 +156,9 @@ public sealed class DevToolsTreeNode
     public IReadOnlyList<DevToolsTreeNode> Children => _children;
 
     /// <summary>Creates a new tree node.</summary>
+    /// <param name="label">The node label text.</param>
+    /// <param name="icon">Optional icon (emoji/unicode).</param>
+    /// <param name="color">Optional console color.</param>
     public DevToolsTreeNode(string label, string? icon = null, ConsoleColor? color = null)
     {
         Label = label;
@@ -139,7 +166,11 @@ public sealed class DevToolsTreeNode
         Color = color;
     }
 
-    /// <summary>Add a child node.</summary>
+    /// <summary>Add a child node and return it.</summary>
+    /// <param name="label">The child node label.</param>
+    /// <param name="icon">Optional icon for the child.</param>
+    /// <param name="color">Optional console color for the child.</param>
+    /// <returns>The created <see cref="DevToolsTreeNode"/> child.</returns>
     public DevToolsTreeNode AddChild(string label, string? icon = null, ConsoleColor? color = null)
     {
         var child = new DevToolsTreeNode(label, icon, color);

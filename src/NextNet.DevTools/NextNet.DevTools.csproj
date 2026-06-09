@@ -7,7 +7,7 @@
     <Description>NextNet DevTools — Terminal UI and headless API for runtime inspection, performance analysis, and route visualization</Description>
     <PackageTags>nextnet;devtools;tui;debugging;profiler</PackageTags>
     <PackageId>NextNet.DevTools</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

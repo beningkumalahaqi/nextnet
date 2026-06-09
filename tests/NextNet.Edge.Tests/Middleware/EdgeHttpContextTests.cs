@@ -7,7 +7,7 @@ namespace NextNet.Edge.Tests.Middleware;
 public class EdgeHttpContextTests
 {
     [Fact]
-    public void Constructor_SetsProperties()
+    public void Constructor_Should_SetProperties_When_Called()
     {
         // Arrange
         var request = new EdgeRequest("GET", "https://example.com/");
@@ -27,7 +27,7 @@ public class EdgeHttpContextTests
     }
 
     [Fact]
-    public void Constructor_WithHttpContext_SetsUnderlying()
+    public void Constructor_Should_SetAspNetCoreHttpContext_When_Provided()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -42,7 +42,7 @@ public class EdgeHttpContextTests
     }
 
     [Fact]
-    public void ToAspNetCoreHttpContext_WithUnderlying_ReturnsIt()
+    public void ToAspNetCoreHttpContext_Should_ReturnContext_When_UnderlyingExists()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -59,7 +59,7 @@ public class EdgeHttpContextTests
     }
 
     [Fact]
-    public void ToAspNetCoreHttpContext_WithoutUnderlying_Throws()
+    public void ToAspNetCoreHttpContext_Should_Throw_When_NoUnderlyingContext()
     {
         // Arrange
         var edgeContext = new EdgeHttpContext(
@@ -72,7 +72,7 @@ public class EdgeHttpContextTests
     }
 
     [Fact]
-    public void Items_CanStoreAndRetrieve()
+    public void Items_Should_StoreAndRetrieve_When_Accessed()
     {
         // Arrange
         var edgeContext = new EdgeHttpContext(
@@ -87,7 +87,7 @@ public class EdgeHttpContextTests
     }
 
     [Fact]
-    public void ConnectionInfo_PropertiesSettable()
+    public void ConnectionInfo_Should_HaveSettableProperties_When_Accessed()
     {
         // Arrange
         var edgeContext = new EdgeHttpContext(
@@ -106,14 +106,14 @@ public class EdgeHttpContextTests
     }
 
     [Fact]
-    public void Constructor_NullRequest_Throws()
+    public void Constructor_Should_Throw_When_RequestIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new EdgeHttpContext(null!, new EdgeResponse()));
     }
 
     [Fact]
-    public void Constructor_NullResponse_Throws()
+    public void Constructor_Should_Throw_When_ResponseIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new EdgeHttpContext(new EdgeRequest("GET", "/"), null!));

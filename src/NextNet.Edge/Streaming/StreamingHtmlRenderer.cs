@@ -12,7 +12,7 @@ namespace NextNet.Edge.Streaming;
 /// This is an edge-aware wrapper around the standard NextNet streaming renderer
 /// that handles edge-specific concerns like budget enforcement and provider compatibility.
 /// </summary>
-public class EdgeStreamingHtmlRenderer
+public sealed class EdgeStreamingHtmlRenderer
 {
     private readonly NextNet.Rendering.Streaming.StreamingHtmlRenderer _innerRenderer;
     private readonly EdgeOptions _options;

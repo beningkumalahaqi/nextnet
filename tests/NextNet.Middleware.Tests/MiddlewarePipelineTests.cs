@@ -17,7 +17,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Use_ValidMiddleware_AddsRegistration()
+    public void Use_Should_AddRegistration_When_ValidMiddleware()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -31,7 +31,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Use_WithExplicitOrder_OverridesAttribute()
+    public void Use_Should_OverrideAttributeOrder_When_ExplicitOrderGiven()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -44,7 +44,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Use_Instance_AddsRegistration()
+    public void Use_Should_AddRegistration_When_InstanceProvided()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -59,18 +59,19 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Use_TypeNotImplementingIMiddleware_Throws()
+    public void Use_Should_ThrowArgumentException_When_TypeNotImplementingIMiddleware()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(() => pipeline.Use(typeof(string)));
+        Assert.Contains("DS-700", ex.Message);
         Assert.Contains("does not implement IMiddleware", ex.Message);
     }
 
     [Fact]
-    public void Use_NullType_Throws()
+    public void Use_Should_ThrowArgumentNullException_When_TypeIsNull()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -80,7 +81,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Use_NullInstance_Throws()
+    public void Use_Should_ThrowArgumentNullException_When_InstanceIsNull()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -90,7 +91,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void UseWhen_PredicateMiddleware_AddsRegistration()
+    public void UseWhen_Should_AddRegistration_When_PredicateProvided()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -104,7 +105,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void UseWhen_NullPredicate_Throws()
+    public void UseWhen_Should_ThrowArgumentNullException_When_PredicateIsNull()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -114,7 +115,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void UseWhen_BranchPipeline_AddsRegistration()
+    public void UseWhen_Should_AddRegistration_When_BranchPipelineConfigured()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -131,7 +132,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void UseWhen_BranchNullPredicate_Throws()
+    public void UseWhen_Should_ThrowArgumentNullException_When_BranchPredicateIsNull()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -141,7 +142,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void UseWhen_BranchNullConfigure_Throws()
+    public void UseWhen_Should_ThrowArgumentNullException_When_ConfigureIsNull()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -152,7 +153,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_ExecutesMiddlewareInOrder()
+    public async Task Build_Should_ExecuteMiddlewareInOrder_When_PipelineConfigured()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -176,7 +177,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_MiddlewareCanShortCircuit()
+    public async Task Build_Should_ShortCircuit_When_MiddlewareDoesNotCallNext()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -198,7 +199,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_ConditionalMiddleware_SkipsWhenPredicateFalse()
+    public async Task Build_Should_SkipConditionalMiddleware_When_PredicateIsFalse()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -227,7 +228,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_ConditionalMiddleware_ExecutesWhenPredicateTrue()
+    public async Task Build_Should_ExecuteConditionalMiddleware_When_PredicateIsTrue()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -251,7 +252,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_BranchPipeline_ExecutesOnPredicateMatch()
+    public async Task Build_Should_ExecuteBranchPipeline_When_PredicateMatches()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -272,7 +273,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_BranchPipeline_SkipsOnPredicateFalse()
+    public async Task Build_Should_SkipBranchPipeline_When_PredicateDoesNotMatch()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -293,7 +294,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_PipelineInvokesTerminalDelegate()
+    public async Task Build_Should_InvokeTerminalDelegate_When_PipelineBuiltWithTerminal()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -315,7 +316,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_EmptyPipeline_PassesThrough()
+    public async Task Build_Should_PassThrough_When_EmptyPipeline()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -330,7 +331,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Build_NullServiceProvider_Throws()
+    public void Build_Should_ThrowArgumentNullException_When_ServiceProviderIsNull()
     {
         // Arrange
         var pipeline = new MiddlewarePipeline();
@@ -340,7 +341,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Build_CachesResult()
+    public void Build_Should_CacheResult_When_CalledMultipleTimes()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -355,7 +356,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Build_InvalidatesCache_WhenNewMiddlewareAdded()
+    public void Build_Should_InvalidateCache_When_NewMiddlewareAdded()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -371,7 +372,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Clone_CreatesIndependentCopy()
+    public void Clone_Should_CreateIndependentCopy_When_Cloned()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -387,7 +388,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public void Use_MultipleMiddleware_RegistersAll()
+    public void Use_Should_RegisterAllMiddleware_When_MultipleAdded()
     {
         // Arrange
         var (pipeline, _) = CreatePipeline();
@@ -401,7 +402,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_MiddlewareReceivesContext()
+    public async Task Build_Should_ProvideMiddlewareContext_When_Executed()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -424,7 +425,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_MiddlewareItems_ShareData()
+    public async Task Build_Should_ShareDataViaItems_When_MiddlewareAccessHttpContextItems()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();
@@ -445,7 +446,7 @@ public class MiddlewarePipelineTests
     }
 
     [Fact]
-    public async Task Build_WithTerminalDelegate_NoMiddleware_ExecutesTerminal()
+    public async Task Build_Should_ExecuteTerminalDelegate_When_NoMiddlewareRegistered()
     {
         // Arrange
         var (pipeline, sp) = CreatePipeline();

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
+using NextNet.ServerActions.Errors;
 
 namespace NextNet.ServerActions.Middleware;
 
@@ -9,6 +10,16 @@ namespace NextNet.ServerActions.Middleware;
 /// <see cref="IAntiforgery"/> service (added via
 /// <c>services.AddAntiforgery()</c> in the host application).
 /// </summary>
+/// <example>
+/// Enabled by setting <c>EnableAntiForgery = true</c> in options:
+/// <code>
+/// services.AddNextNetServerActions(options =>
+/// {
+///     options.EnableAntiForgery = true;
+/// });
+/// </code>
+/// The middleware is automatically registered when anti-forgery services are available.
+/// </example>
 public sealed class AntiForgeryMiddleware
 {
     private readonly RequestDelegate _next;
@@ -47,7 +58,8 @@ public sealed class AntiForgeryMiddleware
                 context.Response.ContentType = "application/json; charset=utf-8";
                 await context.Response.WriteAsJsonAsync(new
                 {
-                    error = "Anti-forgery token validation failed.",
+                    error = ServerActionErrorCodes.AntiForgeryValidationFailed,
+                    code = "DS-603",
                     isSuccess = false,
                     isError = true
                 });

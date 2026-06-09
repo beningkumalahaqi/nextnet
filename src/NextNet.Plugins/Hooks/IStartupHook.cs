@@ -4,6 +4,21 @@ namespace NextNet.Plugins.Hooks;
 /// Hook that fires when the NextNet application starts up.
 /// Plugins can use this to register services, middleware, or perform startup tasks.
 /// </summary>
+/// <example>
+/// <code>
+/// public class MyStartupPlugin : NextNetPlugin, IStartupHook
+/// {
+///     public override string Name => "StartupConfigurator";
+///
+///     public Task OnStartup(PluginContext ctx)
+///     {
+///         ctx.Logger.Info("Application starting up.");
+///         // Register custom services or middleware here
+///         return Task.CompletedTask;
+///     }
+/// }
+/// </code>
+/// </example>
 public interface IStartupHook
 {
     /// <summary>

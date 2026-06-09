@@ -22,7 +22,7 @@ public class IsrRevalidationEndpointTests
     }
 
     [Fact]
-    public async Task HandleAsync_NonPost_Returns405()
+    public async Task HandleAsync_Should_Return405_When_MethodIsNotPost()
     {
         var context = new DefaultHttpContext();
         context.Request.Method = "GET";
@@ -34,7 +34,7 @@ public class IsrRevalidationEndpointTests
     }
 
     [Fact]
-    public async Task HandleAsync_InvalidJson_Returns400()
+    public async Task HandleAsync_Should_Return400_When_RequestBodyIsInvalidJson()
     {
         var context = new DefaultHttpContext();
         context.Request.Method = "POST";
@@ -47,7 +47,7 @@ public class IsrRevalidationEndpointTests
     }
 
     [Fact]
-    public async Task HandleAsync_EmptyBody_Returns400()
+    public async Task HandleAsync_Should_Return400_When_RequestBodyIsEmpty()
     {
         var context = new DefaultHttpContext();
         context.Request.Method = "POST";
@@ -60,7 +60,7 @@ public class IsrRevalidationEndpointTests
     }
 
     [Fact]
-    public async Task HandleAsync_InvalidSecret_Returns401()
+    public async Task HandleAsync_Should_Return401_When_SecretIsInvalid()
     {
         var context = new DefaultHttpContext();
         context.Request.Method = "POST";
@@ -74,7 +74,7 @@ public class IsrRevalidationEndpointTests
     }
 
     [Fact]
-    public async Task HandleAsync_MissingPathAndTags_Returns400()
+    public async Task HandleAsync_Should_Return400_When_PathAndTagsAreMissing()
     {
         var context = new DefaultHttpContext();
         context.Request.Method = "POST";
@@ -88,7 +88,7 @@ public class IsrRevalidationEndpointTests
     }
 
     [Fact]
-    public async Task HandleAsync_WithValidPath_Returns200()
+    public async Task HandleAsync_Should_Return200_When_PathIsValid()
     {
         _mockManager.Setup(m => m.RevalidateAsync("/test", It.IsAny<CancellationToken>()))
             .ReturnsAsync(RevalidationResult.Ok("/test"));
@@ -105,7 +105,7 @@ public class IsrRevalidationEndpointTests
     }
 
     [Fact]
-    public async Task HandleAsync_WithTags_Returns200()
+    public async Task HandleAsync_Should_Return200_When_TagsAreProvided()
     {
         _mockManager.Setup(m => m.InvalidateByTagsAsync(
                 new[] { "blog" }, It.IsAny<CancellationToken>()))

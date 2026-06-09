@@ -14,7 +14,7 @@ public class BuiltInMiddlewareTests
     #region ErrorHandlingMiddleware
 
     [Fact]
-    public async Task ErrorHandlingMiddleware_NoException_PassesThrough()
+    public async Task InvokeAsync_Should_PassThrough_When_NoException()
     {
         // Arrange
         var (middleware, ctx) = CreateErrorHandler();
@@ -27,7 +27,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task ErrorHandlingMiddleware_Exception_CapturesAndReturns500()
+    public async Task InvokeAsync_Should_CaptureAndReturn500_When_ExceptionThrown()
     {
         // Arrange
         var (middleware, ctx) = CreateErrorHandler();
@@ -42,7 +42,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task ErrorHandlingMiddleware_OperationCanceled_Skips()
+    public async Task InvokeAsync_Should_SkipCancellation_When_OperationCanceledException()
     {
         // Arrange
         var (middleware, ctx) = CreateErrorHandler();
@@ -59,7 +59,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task ErrorHandlingMiddleware_CustomHandler_Invokes()
+    public async Task InvokeAsync_Should_InvokeCustomHandler_When_Configured()
     {
         // Arrange
         var customInvoked = false;
@@ -89,7 +89,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task ErrorHandlingMiddleware_IncludeDetails_IncludesExceptionInfo()
+    public async Task InvokeAsync_Should_IncludeExceptionInfo_When_IncludeDetailsEnabled()
     {
         // Arrange
         var options = new ErrorHandlingOptions { IncludeExceptionDetails = true };
@@ -109,12 +109,13 @@ public class BuiltInMiddlewareTests
         // Assert
         ctx.HttpContext.Response.Body.Seek(0, SeekOrigin.Begin);
         var body = await new StreamReader(ctx.HttpContext.Response.Body).ReadToEndAsync();
+        Assert.Contains("DS-709", body);
         Assert.Contains("Test error", body);
         Assert.Contains("InvalidOperationException", body);
     }
 
     [Fact]
-    public async Task ErrorHandlingMiddleware_WithoutDetails_OmitsExceptionInfo()
+    public async Task InvokeAsync_Should_OmitExceptionInfo_When_IncludeDetailsDisabled()
     {
         // Arrange
         var options = new ErrorHandlingOptions { IncludeExceptionDetails = false };
@@ -143,7 +144,7 @@ public class BuiltInMiddlewareTests
     #region LoggingMiddleware
 
     [Fact]
-    public async Task LoggingMiddleware_LogsRequestAndResponse()
+    public async Task InvokeAsync_Should_LogRequestAndResponse_When_Executed()
     {
         // Arrange
         var (middleware, ctx) = CreateLoggingMiddleware();
@@ -159,7 +160,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task LoggingMiddleware_Exception_LogsWarning()
+    public async Task InvokeAsync_Should_LogWarning_When_ExceptionThrown()
     {
         // Arrange
         var (middleware, ctx) = CreateLoggingMiddleware();
@@ -178,7 +179,7 @@ public class BuiltInMiddlewareTests
     #region StaticFilesMiddleware
 
     [Fact]
-    public async Task StaticFilesMiddleware_NonMatchingPath_PassesThrough()
+    public async Task InvokeAsync_Should_PassToDownstream_When_PathDoesNotMatch()
     {
         // Arrange
         var (middleware, ctx) = CreateStaticFilesMiddleware();
@@ -198,7 +199,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task StaticFilesMiddleware_NonExistentFile_PassesThrough()
+    public async Task InvokeAsync_Should_PassToDownstream_When_FileDoesNotExist()
     {
         // Arrange
         var (middleware, ctx) = CreateStaticFilesMiddleware();
@@ -218,7 +219,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public void StaticFilesOptions_DefaultsAreSane()
+    public void StaticFilesOptions_Should_ReturnSaneDefaults_When_Accessed()
     {
         // Arrange
         var options = new StaticFilesOptions();
@@ -234,7 +235,7 @@ public class BuiltInMiddlewareTests
     #region CompressionMiddleware
 
     [Fact]
-    public async Task CompressionMiddleware_NoAcceptEncoding_PassesThrough()
+    public async Task InvokeAsync_Should_PassToDownstream_When_NoAcceptEncoding()
     {
         // Arrange
         var (middleware, ctx) = CreateCompressionMiddleware();
@@ -253,7 +254,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task CompressionMiddleware_SmallResponse_NotCompressed()
+    public async Task InvokeAsync_Should_NotCompress_When_ResponseBelowMinimumSize()
     {
         // Arrange
         var (middleware, ctx) = CreateCompressionMiddleware(minSize: 1000);
@@ -277,7 +278,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task CompressionMiddleware_GzipEncoding_CompressesResponse()
+    public async Task InvokeAsync_Should_CompressWithGzip_When_ClientAcceptsGzip()
     {
         // Arrange
         var (middleware, ctx) = CreateCompressionMiddleware();
@@ -299,7 +300,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task CompressionMiddleware_BrotliEncoding_CompressesResponse()
+    public async Task InvokeAsync_Should_CompressWithBrotli_When_ClientAcceptsBrotli()
     {
         // Arrange
         var (middleware, ctx) = CreateCompressionMiddleware();
@@ -320,7 +321,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public void CompressionOptions_DefaultsAreSane()
+    public void CompressionOptions_Should_ReturnSaneDefaults_When_Accessed()
     {
         // Arrange
         var options = new CompressionOptions();
@@ -331,12 +332,184 @@ public class BuiltInMiddlewareTests
         Assert.Contains("application/json", options.MimeTypes);
     }
 
+    [Fact]
+    public async Task InvokeAsync_Should_CompressWithDeflate_When_ClientAcceptsDeflate()
+    {
+        // Arrange
+        var (middleware, ctx) = CreateCompressionMiddleware();
+        ctx.HttpContext.Request.Headers.AcceptEncoding = "deflate";
+        ctx.HttpContext.Response.Body = new MemoryStream();
+
+        var largeData = Encoding.UTF8.GetBytes(new string('z', 1000));
+
+        // Act
+        await middleware.InvokeAsync(ctx, next: async httpCtx =>
+        {
+            httpCtx.Response.ContentType = "text/html";
+            await httpCtx.Response.Body.WriteAsync(largeData);
+        });
+
+        // Assert
+        Assert.Equal("deflate", ctx.HttpContext.Response.Headers.ContentEncoding);
+    }
+
+    [Fact]
+    public async Task InvokeAsync_Should_SkipCompression_When_ContentTypeNotCompressible()
+    {
+        // Arrange
+        var (middleware, ctx) = CreateCompressionMiddleware();
+        ctx.HttpContext.Request.Headers.AcceptEncoding = "gzip";
+        ctx.HttpContext.Response.Body = new MemoryStream();
+
+        var data = Encoding.UTF8.GetBytes(new string('a', 1000));
+
+        // Act
+        await middleware.InvokeAsync(ctx, next: async httpCtx =>
+        {
+            httpCtx.Response.ContentType = "image/png";
+            await httpCtx.Response.Body.WriteAsync(data);
+        });
+
+        // Assert - should not set Content-Encoding for non-compressible types
+        Assert.False(ctx.HttpContext.Response.Headers.ContainsKey("Content-Encoding"));
+    }
+
+    [Fact]
+    public async Task InvokeAsync_Should_SkipCompression_When_IdentityEncoding()
+    {
+        // Arrange
+        var (middleware, ctx) = CreateCompressionMiddleware();
+        ctx.HttpContext.Request.Headers.AcceptEncoding = "identity";
+        ctx.HttpContext.Response.Body = new MemoryStream();
+
+        var data = Encoding.UTF8.GetBytes(new string('b', 1000));
+
+        // Act
+        await middleware.InvokeAsync(ctx, next: async httpCtx =>
+        {
+            httpCtx.Response.ContentType = "text/html";
+            await httpCtx.Response.Body.WriteAsync(data);
+        });
+
+        // Assert
+        Assert.False(ctx.HttpContext.Response.Headers.ContainsKey("Content-Encoding"));
+    }
+
+    [Fact]
+    public async Task InvokeAsync_Should_PreferGzip_When_MultipleEncodingsSupported()
+    {
+        // Arrange
+        var (middleware, ctx) = CreateCompressionMiddleware();
+        // Client sends gzip and deflate, should prefer gzip (our preferred)
+        ctx.HttpContext.Request.Headers.AcceptEncoding = "deflate, gzip";
+        ctx.HttpContext.Response.Body = new MemoryStream();
+
+        var data = Encoding.UTF8.GetBytes(new string('c', 1000));
+
+        // Act
+        await middleware.InvokeAsync(ctx, next: async httpCtx =>
+        {
+            httpCtx.Response.ContentType = "text/html";
+            await httpCtx.Response.Body.WriteAsync(data);
+        });
+
+        // Assert - should pick gzip since it's supported
+        Assert.Equal("gzip", ctx.HttpContext.Response.Headers.ContentEncoding);
+    }
+
+    [Fact]
+    public async Task InvokeAsync_Should_RestoreOriginalBody_When_ExceptionThrown()
+    {
+        // Arrange
+        var (middleware, ctx) = CreateCompressionMiddleware();
+        ctx.HttpContext.Request.Headers.AcceptEncoding = "gzip";
+        // The default body is a NullStream from DefaultHttpContext
+        var originalBody = ctx.HttpContext.Response.Body;
+
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            middleware.InvokeAsync(ctx, next: _ => throw new InvalidOperationException("Boom")));
+
+        // Assert - original body should be restored after exception
+        Assert.Same(originalBody, ctx.HttpContext.Response.Body);
+    }
+
+    #endregion
+
+    #region MiddlewareServiceCollectionExtensions Tests
+
+    [Fact]
+    public void AddNextNetMiddleware_Should_ThrowArgumentNullException_When_ServicesIsNull()
+    {
+        ServiceCollection? nullServices = null;
+        Assert.Throws<ArgumentNullException>(() =>
+            nullServices!.AddNextNetMiddleware());
+    }
+
+    #endregion
+
+    #region Attribute-Based Order Tests
+
+    [Fact]
+    public void LoggingMiddleware_Should_HaveLoggingOrder_When_AttributeApplied()
+    {
+        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
+            typeof(LoggingMiddleware), typeof(MiddlewareOrderAttribute));
+        Assert.NotNull(attr);
+        Assert.Equal(MiddlewareOrder.Logging, attr.Order);
+    }
+
+    [Fact]
+    public void StaticFilesMiddleware_Should_HaveStaticFilesOrder_When_AttributeApplied()
+    {
+        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
+            typeof(StaticFilesMiddleware), typeof(MiddlewareOrderAttribute));
+        Assert.NotNull(attr);
+        Assert.Equal(MiddlewareOrder.StaticFiles, attr.Order);
+    }
+
+    [Fact]
+    public void CompressionMiddleware_Should_HaveCompressionOrder_When_AttributeApplied()
+    {
+        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
+            typeof(CompressionMiddleware), typeof(MiddlewareOrderAttribute));
+        Assert.NotNull(attr);
+        Assert.Equal(MiddlewareOrder.Compression, attr.Order);
+    }
+
+    [Fact]
+    public void ErrorHandlingMiddleware_Should_HaveErrorHandlingOrder_When_AttributeApplied()
+    {
+        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
+            typeof(ErrorHandlingMiddleware), typeof(MiddlewareOrderAttribute));
+        Assert.NotNull(attr);
+        Assert.Equal(MiddlewareOrder.ErrorHandling, attr.Order);
+    }
+
+    [Fact]
+    public void CorsMiddleware_Should_HaveEarlyOrder_When_AttributeApplied()
+    {
+        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
+            typeof(CorsMiddleware), typeof(MiddlewareOrderAttribute));
+        Assert.NotNull(attr);
+        Assert.Equal(MiddlewareOrder.Early, attr.Order);
+    }
+
+    [Fact]
+    public void SecurityHeadersMiddleware_Should_HaveEarlyPlus10Order_When_AttributeApplied()
+    {
+        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
+            typeof(SecurityHeadersMiddleware), typeof(MiddlewareOrderAttribute));
+        Assert.NotNull(attr);
+        Assert.Equal(MiddlewareOrder.Early + 10, attr.Order);
+    }
+
     #endregion
 
     #region Additional StaticFilesMiddleware Tests
 
     [Fact]
-    public async Task StaticFilesMiddleware_ServesExistingFile()
+    public async Task InvokeAsync_Should_ServeExistingFile_When_PathMatches()
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), "NextNetTests", "wwwroot");
@@ -379,7 +552,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task StaticFilesMiddleware_ServesWithCorrectContentType()
+    public async Task InvokeAsync_Should_ServeCorrectContentType_When_FileServed()
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), "NextNetTests", "wwwroot");
@@ -412,7 +585,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task StaticFilesMiddleware_NoRequestPath_ServesAnyPath()
+    public async Task InvokeAsync_Should_ServeAnyPath_When_NoRequestPathConfigured()
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), "NextNetTests", "wwwroot");
@@ -452,7 +625,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task StaticFilesMiddleware_ServeDefaultFiles_ServesIndexHtml()
+    public async Task InvokeAsync_Should_ServeIndexHtml_When_DefaultFilesEnabled()
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), "NextNetTests", "wwwroot");
@@ -487,7 +660,7 @@ public class BuiltInMiddlewareTests
     }
 
     [Fact]
-    public async Task StaticFilesMiddleware_NonCacheableExtension_NoCacheHeader()
+    public async Task InvokeAsync_Should_NotAddCacheHeader_When_ExtensionNotCacheable()
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), "NextNetTests", "wwwroot");
@@ -520,182 +693,6 @@ public class BuiltInMiddlewareTests
         Assert.False(ctx.HttpContext.Response.Headers.CacheControl.Count > 0);
 
         File.Delete(testFile);
-    }
-
-    #endregion
-
-    #region Additional CompressionMiddleware Tests
-
-    [Fact]
-    public async Task CompressionMiddleware_DeflateEncoding_CompressesResponse()
-    {
-        // Arrange
-        var (middleware, ctx) = CreateCompressionMiddleware();
-        ctx.HttpContext.Request.Headers.AcceptEncoding = "deflate";
-        ctx.HttpContext.Response.Body = new MemoryStream();
-
-        var largeData = Encoding.UTF8.GetBytes(new string('z', 1000));
-
-        // Act
-        await middleware.InvokeAsync(ctx, next: async httpCtx =>
-        {
-            httpCtx.Response.ContentType = "text/html";
-            await httpCtx.Response.Body.WriteAsync(largeData);
-        });
-
-        // Assert
-        Assert.Equal("deflate", ctx.HttpContext.Response.Headers.ContentEncoding);
-    }
-
-    [Fact]
-    public async Task CompressionMiddleware_NonCompressibleContentType_SkipsCompression()
-    {
-        // Arrange
-        var (middleware, ctx) = CreateCompressionMiddleware();
-        ctx.HttpContext.Request.Headers.AcceptEncoding = "gzip";
-        ctx.HttpContext.Response.Body = new MemoryStream();
-
-        var data = Encoding.UTF8.GetBytes(new string('a', 1000));
-
-        // Act
-        await middleware.InvokeAsync(ctx, next: async httpCtx =>
-        {
-            httpCtx.Response.ContentType = "image/png";
-            await httpCtx.Response.Body.WriteAsync(data);
-        });
-
-        // Assert - should not set Content-Encoding for non-compressible types
-        Assert.False(ctx.HttpContext.Response.Headers.ContainsKey("Content-Encoding"));
-    }
-
-    [Fact]
-    public async Task CompressionMiddleware_IdentityEncoding_SkipsCompression()
-    {
-        // Arrange
-        var (middleware, ctx) = CreateCompressionMiddleware();
-        ctx.HttpContext.Request.Headers.AcceptEncoding = "identity";
-        ctx.HttpContext.Response.Body = new MemoryStream();
-
-        var data = Encoding.UTF8.GetBytes(new string('b', 1000));
-
-        // Act
-        await middleware.InvokeAsync(ctx, next: async httpCtx =>
-        {
-            httpCtx.Response.ContentType = "text/html";
-            await httpCtx.Response.Body.WriteAsync(data);
-        });
-
-        // Assert
-        Assert.False(ctx.HttpContext.Response.Headers.ContainsKey("Content-Encoding"));
-    }
-
-    [Fact]
-    public async Task CompressionMiddleware_MultipleEncodings_PrefersPreferred()
-    {
-        // Arrange
-        var (middleware, ctx) = CreateCompressionMiddleware();
-        // Client sends gzip and deflate, should prefer gzip (our preferred)
-        ctx.HttpContext.Request.Headers.AcceptEncoding = "deflate, gzip";
-        ctx.HttpContext.Response.Body = new MemoryStream();
-
-        var data = Encoding.UTF8.GetBytes(new string('c', 1000));
-
-        // Act
-        await middleware.InvokeAsync(ctx, next: async httpCtx =>
-        {
-            httpCtx.Response.ContentType = "text/html";
-            await httpCtx.Response.Body.WriteAsync(data);
-        });
-
-        // Assert - should pick gzip since it's supported
-        Assert.Equal("gzip", ctx.HttpContext.Response.Headers.ContentEncoding);
-    }
-
-    [Fact]
-    public async Task CompressionMiddleware_Exception_RestoresOriginalBody()
-    {
-        // Arrange
-        var (middleware, ctx) = CreateCompressionMiddleware();
-        ctx.HttpContext.Request.Headers.AcceptEncoding = "gzip";
-        // The default body is a NullStream from DefaultHttpContext
-        var originalBody = ctx.HttpContext.Response.Body;
-
-        // Act & Assert
-        await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            middleware.InvokeAsync(ctx, next: _ => throw new InvalidOperationException("Boom")));
-
-        // Assert - original body should be restored after exception
-        Assert.Same(originalBody, ctx.HttpContext.Response.Body);
-    }
-
-    #endregion
-
-    #region MiddlewareServiceCollectionExtensions Tests
-
-    [Fact]
-    public void AddNextNetMiddleware_NullServices_Throws()
-    {
-        ServiceCollection? nullServices = null;
-        Assert.Throws<ArgumentNullException>(() =>
-            nullServices!.AddNextNetMiddleware());
-    }
-
-    #endregion
-
-    #region Attribute-Based Order Tests
-
-    [Fact]
-    public void LoggingMiddleware_HasCorrectAttributeOrder()
-    {
-        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
-            typeof(LoggingMiddleware), typeof(MiddlewareOrderAttribute));
-        Assert.NotNull(attr);
-        Assert.Equal(MiddlewareOrder.Logging, attr.Order);
-    }
-
-    [Fact]
-    public void StaticFilesMiddleware_HasCorrectAttributeOrder()
-    {
-        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
-            typeof(StaticFilesMiddleware), typeof(MiddlewareOrderAttribute));
-        Assert.NotNull(attr);
-        Assert.Equal(MiddlewareOrder.StaticFiles, attr.Order);
-    }
-
-    [Fact]
-    public void CompressionMiddleware_HasCorrectAttributeOrder()
-    {
-        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
-            typeof(CompressionMiddleware), typeof(MiddlewareOrderAttribute));
-        Assert.NotNull(attr);
-        Assert.Equal(MiddlewareOrder.Compression, attr.Order);
-    }
-
-    [Fact]
-    public void ErrorHandlingMiddleware_HasCorrectAttributeOrder()
-    {
-        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
-            typeof(ErrorHandlingMiddleware), typeof(MiddlewareOrderAttribute));
-        Assert.NotNull(attr);
-        Assert.Equal(MiddlewareOrder.ErrorHandling, attr.Order);
-    }
-
-    [Fact]
-    public void CorsMiddleware_HasCorrectAttributeOrder()
-    {
-        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
-            typeof(CorsMiddleware), typeof(MiddlewareOrderAttribute));
-        Assert.NotNull(attr);
-        Assert.Equal(MiddlewareOrder.Early, attr.Order);
-    }
-
-    [Fact]
-    public void SecurityHeadersMiddleware_HasCorrectAttributeOrder()
-    {
-        var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
-            typeof(SecurityHeadersMiddleware), typeof(MiddlewareOrderAttribute));
-        Assert.NotNull(attr);
-        Assert.Equal(MiddlewareOrder.Early + 10, attr.Order);
     }
 
     #endregion

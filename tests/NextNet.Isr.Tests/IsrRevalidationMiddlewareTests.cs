@@ -9,7 +9,7 @@ namespace NextNet.Isr.Tests;
 public class IsrRevalidationMiddlewareTests
 {
     [Fact]
-    public async Task InvokeAsync_RevalidationPath_DelegatesToEndpoint()
+    public async Task InvokeAsync_Should_DelegateToEndpoint_When_RevalidationPath()
     {
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
         var revalidator = new OnDemandRevalidator(manager.Object, new IsrGlobalOptions());
@@ -35,7 +35,7 @@ public class IsrRevalidationMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_NonRevalidationPath_ForwardsToNext()
+    public async Task InvokeAsync_Should_ForwardToNext_When_NonRevalidationPath()
     {
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
         var revalidator = new OnDemandRevalidator(manager.Object, new IsrGlobalOptions());
@@ -59,7 +59,7 @@ public class IsrRevalidationMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_SubPathOfRevalidation_ForwardsToNext()
+    public async Task InvokeAsync_Should_ForwardToNext_When_SubPathOfRevalidation()
     {
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
         var revalidator = new OnDemandRevalidator(manager.Object, new IsrGlobalOptions());

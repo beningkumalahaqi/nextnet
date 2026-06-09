@@ -7,7 +7,7 @@ namespace NextNet.Isr.Cache;
 /// Stores cached pages and tag mappings in concurrent dictionaries.
 /// Suitable for single-server deployments and testing.
 /// </summary>
-public class MemoryIsrCacheStore : IIsrCacheStore
+public sealed class MemoryIsrCacheStore : IIsrCacheStore
 {
     private readonly ConcurrentDictionary<string, CachedPage> _cache = new(StringComparer.OrdinalIgnoreCase);
     private readonly ConcurrentDictionary<string, HashSet<string>> _tagIndex = new(StringComparer.OrdinalIgnoreCase);

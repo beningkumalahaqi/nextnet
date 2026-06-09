@@ -10,7 +10,7 @@ namespace NextNet.Isr.Tests;
 public class IsrServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddNextNetIsr_RegistersAllServices()
+    public void AddNextNetIsr_Should_RegisterAllServices_When_Called()
     {
         var services = new ServiceCollection();
 
@@ -59,7 +59,7 @@ public class IsrServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetIsr_WithoutConfigure_UsesDefaults()
+    public void AddNextNetIsr_Should_UseDefaults_When_NoConfigureAction()
     {
         var services = new ServiceCollection();
 
@@ -87,14 +87,14 @@ public class IsrServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetIsr_NullServices_Throws()
+    public void AddNextNetIsr_Should_Throw_When_ServicesIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             ((IServiceCollection)null!).AddNextNetIsr());
     }
 
     [Fact]
-    public void AddNextNetIsr_WithInvalidOptions_Throws()
+    public void AddNextNetIsr_Should_Throw_When_OptionsAreInvalid()
     {
         var services = new ServiceCollection();
 

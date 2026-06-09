@@ -1,12 +1,13 @@
 using System.Text.Json;
 using NextNet.Logging;
+using NextNet.Plugins.Errors;
 
 namespace NextNet.Plugins.Config;
 
 /// <summary>
 /// Represents the "plugins" section from <c>nextnet.config.json</c>.
 /// </summary>
-public class PluginManifestConfig
+public sealed record PluginManifestConfig
 {
     /// <summary>
     /// Gets or sets the list of plugin entries declared in configuration.
@@ -17,7 +18,7 @@ public class PluginManifestConfig
 /// <summary>
 /// Represents a single plugin entry declared in <c>nextnet.config.json</c>.
 /// </summary>
-public class PluginConfigEntry
+public sealed record PluginConfigEntry
 {
     /// <summary>
     /// Gets or sets the plugin name (must match <see cref="INextNetPlugin.Name"/>).
@@ -74,7 +75,7 @@ public class PluginConfigLoader
     public PluginManifestConfig Load(string basePath)
     {
         if (string.IsNullOrEmpty(basePath))
-            throw new ArgumentException("Base path must not be null or empty.", nameof(basePath));
+            throw new ArgumentException($"[{PluginErrorCodes.ConfigInvalid}] Base path must not be null or empty.", nameof(basePath));
 
         var configPath = Path.Combine(basePath, ConfigFileName);
 
@@ -91,7 +92,7 @@ public class PluginConfigLoader
         }
         catch (JsonException ex)
         {
-            _logger.Warn("Failed to parse plugin configuration from {0}: {1}", configPath, ex.Message);
+            _logger.Warn("[{0}] Failed to parse plugin configuration from {1}: {2}", PluginErrorCodes.ConfigInvalid, configPath, ex.Message);
             return new PluginManifestConfig();
         }
         catch (IOException ex)
@@ -124,7 +125,7 @@ public class PluginConfigLoader
 
         if (pluginsElement.ValueKind != JsonValueKind.Array)
         {
-            _logger.Warn("The 'plugins' section must be a JSON array.");
+            _logger.Warn("[{0}] The 'plugins' section must be a JSON array.", PluginErrorCodes.ConfigInvalid);
             return new PluginManifestConfig();
         }
 
@@ -142,7 +143,7 @@ public class PluginConfigLoader
             }
             catch (Exception ex)
             {
-                _logger.Warn("Failed to parse a plugin configuration entry: {0}", ex.Message);
+                _logger.Warn("[{0}] Failed to parse a plugin configuration entry: {1}", PluginErrorCodes.ConfigInvalid, ex.Message);
             }
         }
 
@@ -153,7 +154,7 @@ public class PluginConfigLoader
     {
         if (element.ValueKind != JsonValueKind.Object)
         {
-            _logger.Warn("Plugin entry must be a JSON object.");
+            _logger.Warn("[{0}] Plugin entry must be a JSON object.", PluginErrorCodes.ConfigInvalid);
             return null;
         }
 
@@ -161,7 +162,7 @@ public class PluginConfigLoader
             nameProp.ValueKind != JsonValueKind.String ||
             string.IsNullOrWhiteSpace(nameProp.GetString()))
         {
-            _logger.Warn("Plugin entry is missing a valid 'name' property. Skipping.");
+            _logger.Warn("[{0}] Plugin entry is missing a valid 'name' property. Skipping.", PluginErrorCodes.ConfigInvalid);
             return null;
         }
 

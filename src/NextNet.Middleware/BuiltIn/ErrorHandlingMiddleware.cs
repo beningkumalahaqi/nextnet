@@ -10,7 +10,26 @@ namespace NextNet.Middleware.BuiltIn;
 /// <summary>
 /// Options for the <see cref="ErrorHandlingMiddleware"/>.
 /// </summary>
-public class ErrorHandlingOptions
+/// <example>
+/// <code>
+/// // Enable detailed error responses in development
+/// services.Configure&lt;ErrorHandlingOptions&gt;(options =>
+/// {
+///     options.IncludeExceptionDetails = true;
+/// });
+///
+/// // Use a custom error handler
+/// services.Configure&lt;ErrorHandlingOptions&gt;(options =>
+/// {
+///     options.CustomErrorHandler = async (ctx, ex) =>
+///     {
+///         ctx.Response.StatusCode = 500;
+///         await ctx.Response.WriteAsync("Custom error");
+///     };
+/// });
+/// </code>
+/// </example>
+public sealed record ErrorHandlingOptions
 {
     /// <summary>
     /// Gets or sets whether to include exception details in error responses.
@@ -28,8 +47,17 @@ public class ErrorHandlingOptions
 /// Middleware that catches unhandled exceptions from downstream middleware
 /// and returns a structured JSON error response.
 /// </summary>
+/// <example>
+/// <code>
+/// // In pipeline configuration (runs last by default):
+/// pipeline.Use&lt;ErrorHandlingMiddleware&gt;();
+///
+/// // The middleware wraps all downstream middleware and catches
+/// // any unhandled exceptions, returning a JSON error response.
+/// </code>
+/// </example>
 [MiddlewareOrderAttribute(MiddlewareOrder.ErrorHandling)]
-public class ErrorHandlingMiddleware : IMiddleware
+public sealed class ErrorHandlingMiddleware : IMiddleware
 {
     private readonly ErrorHandlingOptions _options;
     private readonly ILogger<ErrorHandlingMiddleware> _logger;
@@ -85,9 +113,11 @@ public class ErrorHandlingMiddleware : IMiddleware
         var showDetails = _options.IncludeExceptionDetails
             || _environment?.EnvironmentName == "Development";
 
+        var errorCode = Errors.MiddlewareErrorCodes.TerminalDelegateError;
         var errorResponse = new
         {
             error = "Internal server error",
+            code = errorCode,
             detail = showDetails ? exception.ToString() : null,
             type = showDetails ? exception.GetType().FullName : null,
         };

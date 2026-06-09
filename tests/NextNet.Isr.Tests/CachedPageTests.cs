@@ -5,7 +5,7 @@ namespace NextNet.Isr.Tests;
 public class CachedPageTests
 {
     [Fact]
-    public void Constructor_SetsProperties()
+    public void Constructor_Should_SetProperties_When_ValidParameters()
     {
         var metadata = new CacheEntry("/test", DateTime.UtcNow, 60);
         var page = new CachedPage("/test", "<html>hello</html>", metadata);
@@ -16,7 +16,7 @@ public class CachedPageTests
     }
 
     [Fact]
-    public void Constructor_NullRoute_Throws()
+    public void Constructor_Should_Throw_When_RouteIsNull()
     {
         var metadata = new CacheEntry("/test", DateTime.UtcNow, 60);
         Assert.Throws<ArgumentNullException>(() =>
@@ -24,7 +24,7 @@ public class CachedPageTests
     }
 
     [Fact]
-    public void Constructor_NullContent_Throws()
+    public void Constructor_Should_Throw_When_ContentIsNull()
     {
         var metadata = new CacheEntry("/test", DateTime.UtcNow, 60);
         Assert.Throws<ArgumentNullException>(() =>
@@ -32,7 +32,7 @@ public class CachedPageTests
     }
 
     [Fact]
-    public void Constructor_NullMetadata_Throws()
+    public void Constructor_Should_Throw_When_MetadataIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new CachedPage("/test", "content", null!));

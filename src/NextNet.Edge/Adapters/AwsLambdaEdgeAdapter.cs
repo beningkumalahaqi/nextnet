@@ -4,7 +4,7 @@ namespace NextNet.Edge.Adapters;
 /// Edge runtime adapter for AWS Lambda@Edge.
 /// Generates CloudFormation templates and Lambda entry points for CloudFront distributions.
 /// </summary>
-public class AwsLambdaEdgeAdapter : IEdgeRuntimeAdapter
+public sealed class AwsLambdaEdgeAdapter : IEdgeRuntimeAdapter
 {
     /// <summary>
     /// Template for a minimal CloudFormation template for Lambda@Edge.

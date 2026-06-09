@@ -9,7 +9,18 @@ namespace NextNet.Middleware.BuiltIn;
 /// <summary>
 /// Options for the <see cref="StaticFilesMiddleware"/>.
 /// </summary>
-public class StaticFilesOptions
+/// <example>
+/// <code>
+/// // Serve static files from a custom directory
+/// services.Configure&lt;StaticFilesOptions&gt;(options =>
+/// {
+///     options.RequestPath = "/assets";
+///     options.CacheMaxAgeSeconds = 3600;
+///     options.ServeDefaultFiles = true;
+/// });
+/// </code>
+/// </example>
+public sealed record StaticFilesOptions
 {
     /// <summary>
     /// Gets or sets the request path prefix for static files.
@@ -45,8 +56,17 @@ public class StaticFilesOptions
 /// Middleware that serves static files from a configured file provider.
 /// Supports caching headers and default file serving.
 /// </summary>
+/// <example>
+/// <code>
+/// // In pipeline configuration:
+/// pipeline.Use&lt;StaticFilesMiddleware&gt;();
+///
+/// // Requests to /static/css/app.css will serve files from wwwroot/css/app.css
+/// // with caching headers for cacheable file types.
+/// </code>
+/// </example>
 [MiddlewareOrderAttribute(MiddlewareOrder.StaticFiles)]
-public class StaticFilesMiddleware : IMiddleware
+public sealed class StaticFilesMiddleware : IMiddleware
 {
     private readonly IFileProvider _fileProvider;
     private readonly StaticFilesOptions _options;

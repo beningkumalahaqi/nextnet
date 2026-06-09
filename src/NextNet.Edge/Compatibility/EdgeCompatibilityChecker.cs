@@ -8,7 +8,7 @@ namespace NextNet.Edge.Compatibility;
 /// Checks route manifests, middleware registrations, and configuration
 /// against the allowed edge API surface.
 /// </summary>
-public class EdgeCompatibilityChecker
+public sealed class EdgeCompatibilityChecker
 {
     private readonly EdgeApiWhitelist _whitelist;
     private readonly EdgeOptions _options;

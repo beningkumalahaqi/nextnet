@@ -24,7 +24,7 @@ namespace NextNet.ServerActions.Tests.Integration
     public class ServerActionIntegrationTests
     {
         [Fact]
-        public async Task FullRoundTrip_SimpleAction_ReturnsSuccess()
+        public async Task FullRoundTrip_Should_ReturnSuccess_When_SimpleAction()
         {
             // Arrange
             using var server = CreateIntegrationServer();
@@ -51,7 +51,7 @@ namespace NextNet.ServerActions.Tests.Integration
         }
 
         [Fact]
-        public async Task FullRoundTrip_ValidationError_Returns400()
+        public async Task FullRoundTrip_Should_Return400_When_ValidationError()
         {
             // Arrange
             using var server = CreateIntegrationServer();
@@ -72,7 +72,7 @@ namespace NextNet.ServerActions.Tests.Integration
         }
 
         [Fact]
-        public async Task FullRoundTrip_WithServiceInjection_ResolvesService()
+        public async Task FullRoundTrip_Should_ResolveService_When_ServiceInjection()
         {
             // Arrange
             using var server = CreateIntegrationServer();
@@ -94,7 +94,7 @@ namespace NextNet.ServerActions.Tests.Integration
         }
 
         [Fact]
-        public async Task FullRoundTrip_MultipleParameters_WorksCorrectly()
+        public async Task FullRoundTrip_Should_WorkCorrectly_When_MultipleParameters()
         {
             // Arrange
             using var server = CreateIntegrationServer();
@@ -119,7 +119,7 @@ namespace NextNet.ServerActions.Tests.Integration
         }
 
         [Fact]
-        public async Task FullRoundTrip_EmptyPayload_ReturnsSuccess()
+        public async Task FullRoundTrip_Should_ReturnSuccess_When_EmptyPayload()
         {
             // Arrange
             using var server = CreateIntegrationServer();
@@ -136,7 +136,7 @@ namespace NextNet.ServerActions.Tests.Integration
         }
 
         [Fact]
-        public async Task NonExistentAction_Returns404()
+        public async Task NonExistentAction_Should_Return404_When_ActionNotFound()
         {
             // Arrange
             using var server = CreateIntegrationServer();
@@ -151,7 +151,7 @@ namespace NextNet.ServerActions.Tests.Integration
         }
 
         [Fact]
-        public async Task ClientProxy_GeneratedClient_WorksCorrectly()
+        public async Task ClientProxy_Should_WorkCorrectly_When_GeneratedClientUsed()
         {
             // Arrange
             using var server = CreateIntegrationServer();

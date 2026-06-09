@@ -8,37 +8,55 @@ namespace NextNet.Middleware;
 /// <summary>
 /// Represents a middleware registration within the pipeline.
 /// </summary>
-public class MiddlewareRegistration
-{
-    public Type? MiddlewareType { get; }
-    public int Order { get; }
-    public Func<HttpContext, bool>? Predicate { get; }
-    public MiddlewarePipeline? Branch { get; }
-    internal IMiddleware? InstanceOverride { get; }
-    public string[]? RoutePatterns { get; }
-
-    public MiddlewareRegistration(
-        Type? middlewareType,
-        int order,
-        Func<HttpContext, bool>? predicate = null,
-        MiddlewarePipeline? branch = null,
-        IMiddleware? instanceOverride = null,
-        string[]? routePatterns = null)
-    {
-        MiddlewareType = middlewareType;
-        Order = order;
-        Predicate = predicate;
-        Branch = branch;
-        InstanceOverride = instanceOverride;
-        RoutePatterns = routePatterns;
-    }
-}
+/// <param name="MiddlewareType">The middleware type implementing <see cref="IMiddleware"/>, or null for branch entries.</param>
+/// <param name="Order">The execution order. Lower values run first.</param>
+/// <param name="Predicate">An optional predicate for conditional execution.</param>
+/// <param name="Branch">An optional branch pipeline for sub-pipelines.</param>
+/// <param name="InstanceOverride">An optional middleware instance override (bypasses DI resolution).</param>
+/// <param name="RoutePatterns">Optional route patterns to scope the middleware.</param>
+/// <example>
+/// <code>
+/// // Standard type-based registration
+/// var registration = new MiddlewareRegistration(typeof(LoggingMiddleware), 0);
+///
+/// // Registration with a predicate
+/// var conditional = new MiddlewareRegistration(
+///     typeof(LoggingMiddleware), 0,
+///     predicate: ctx => ctx.Request.Path.StartsWithSegments("/api"));
+///
+/// // Branch registration
+/// var branchReg = new MiddlewareRegistration(
+///     null, 0,
+///     predicate: ctx => ctx.Request.Path.StartsWithSegments("/admin"),
+///     branch: adminPipeline);
+/// </code>
+/// </example>
+public sealed record MiddlewareRegistration(
+    Type? MiddlewareType,
+    int Order,
+    Func<HttpContext, bool>? Predicate = null,
+    MiddlewarePipeline? Branch = null,
+    IMiddleware? InstanceOverride = null,
+    string[]? RoutePatterns = null);
 
 /// <summary>
 /// Builds and executes the NextNet middleware pipeline.
 /// Supports priority-based ordering, conditional execution, and branching.
 /// </summary>
-public class MiddlewarePipeline
+/// <example>
+/// <code>
+/// // Create a pipeline, register middleware, and build it
+/// var pipeline = new MiddlewarePipeline();
+/// pipeline.Use&lt;LoggingMiddleware&gt;();
+/// pipeline.Use&lt;CorsMiddleware&gt;(order: -500);
+/// pipeline.UseWhen&lt;AuthMiddleware&gt;(ctx => ctx.Request.Path.StartsWithSegments("/admin"));
+///
+/// // Build once and cache the pipeline for all requests
+/// var built = pipeline.Build(serviceProvider);
+/// await built(httpContext);
+/// </code>
+/// </example>
+public sealed class MiddlewarePipeline
 {
     private readonly List<MiddlewareRegistration> _entries = new();
     private RequestDelegate? _builtPipeline;
@@ -77,12 +95,12 @@ public class MiddlewarePipeline
     /// </summary>
     /// <param name="instance">The middleware instance.</param>
     /// <param name="order">The execution order (lower runs first).</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="instance"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="instance"/> is null (DS-705).</exception>
     public void Use(IMiddleware instance, int order = MiddlewareOrder.Normal)
     {
-        if (instance == null) throw new ArgumentNullException(nameof(instance));
+        if (instance == null) throw new ArgumentNullException(nameof(instance), $"{Errors.MiddlewareErrorCodes.MiddlewareInstanceIsNull}: Middleware instance cannot be null.");
 
-        _entries.Add(new MiddlewareRegistration(instance.GetType(), order, instanceOverride: instance));
+        _entries.Add(new MiddlewareRegistration(instance.GetType(), order, InstanceOverride: instance));
         Invalidate();
     }
 
@@ -91,13 +109,13 @@ public class MiddlewarePipeline
     /// </summary>
     /// <param name="middlewareType">The middleware type implementing <see cref="IMiddleware"/>.</param>
     /// <param name="order">Optional explicit order. If null, the order is determined by attribute or defaults to <see cref="MiddlewareOrder.Normal"/>.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="middlewareType"/> is null.</exception>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="middlewareType"/> does not implement <see cref="IMiddleware"/>.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="middlewareType"/> is null (DS-705).</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="middlewareType"/> does not implement <see cref="IMiddleware"/> (DS-700).</exception>
     public void Use(Type middlewareType, int? order = null)
     {
-        if (middlewareType == null) throw new ArgumentNullException(nameof(middlewareType));
+        if (middlewareType == null) throw new ArgumentNullException(nameof(middlewareType), $"{Errors.MiddlewareErrorCodes.MiddlewareInstanceIsNull}: Middleware type cannot be null.");
         if (!typeof(IMiddleware).IsAssignableFrom(middlewareType))
-            throw new ArgumentException($"Type '{middlewareType.FullName}' does not implement {nameof(IMiddleware)}.", nameof(middlewareType));
+            throw new ArgumentException($"{Errors.MiddlewareErrorCodes.InvalidMiddlewareType}: Type '{middlewareType.FullName}' does not implement {nameof(IMiddleware)}.", nameof(middlewareType));
 
         var resolvedOrder = order ?? GetOrder(middlewareType);
         _entries.Add(new MiddlewareRegistration(middlewareType, resolvedOrder));
@@ -113,17 +131,19 @@ public class MiddlewarePipeline
     /// <param name="middlewareType">The middleware type implementing <see cref="IMiddleware"/>.</param>
     /// <param name="routePatterns">The route patterns to match (e.g., "/admin/*", "/dashboard").</param>
     /// <param name="order">Optional explicit order.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="middlewareType"/> is null (DS-705).</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="middlewareType"/> does not implement <see cref="IMiddleware"/> (DS-700).</exception>
     public void Use(Type middlewareType, string[]? routePatterns, int? order = null)
     {
-        if (middlewareType == null) throw new ArgumentNullException(nameof(middlewareType));
+        if (middlewareType == null) throw new ArgumentNullException(nameof(middlewareType), $"{Errors.MiddlewareErrorCodes.MiddlewareInstanceIsNull}: Middleware type cannot be null.");
         if (!typeof(IMiddleware).IsAssignableFrom(middlewareType))
-            throw new ArgumentException($"Type '{middlewareType.FullName}' does not implement {nameof(IMiddleware)}.", nameof(middlewareType));
+            throw new ArgumentException($"{Errors.MiddlewareErrorCodes.InvalidMiddlewareType}: Type '{middlewareType.FullName}' does not implement {nameof(IMiddleware)}.", nameof(middlewareType));
 
         var resolvedOrder = order ?? GetOrder(middlewareType);
         var predicate = routePatterns is { Length: > 0 }
             ? CreateRoutePredicate(routePatterns)
             : null;
-        _entries.Add(new MiddlewareRegistration(middlewareType, resolvedOrder, predicate, routePatterns: routePatterns));
+        _entries.Add(new MiddlewareRegistration(middlewareType, resolvedOrder, predicate, RoutePatterns: routePatterns));
         Invalidate();
     }
 
@@ -133,11 +153,11 @@ public class MiddlewarePipeline
     /// <typeparam name="T">The middleware type implementing <see cref="IMiddleware"/>.</typeparam>
     /// <param name="predicate">A function that determines whether the middleware should execute.</param>
     /// <param name="order">Optional explicit order. If null, the order is determined by attribute or defaults to <see cref="MiddlewareOrder.Normal"/>.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="predicate"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="predicate"/> is null (DS-706).</exception>
     public void UseWhen<T>(Func<HttpContext, bool> predicate, int? order = null)
         where T : IMiddleware
     {
-        if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+        if (predicate == null) throw new ArgumentNullException(nameof(predicate), $"{Errors.MiddlewareErrorCodes.PredicateIsNull}: Predicate cannot be null.");
 
         var resolvedOrder = order ?? GetOrder(typeof(T));
         _entries.Add(new MiddlewareRegistration(typeof(T), resolvedOrder, predicate));
@@ -151,11 +171,11 @@ public class MiddlewarePipeline
     /// <param name="predicate">A function that determines whether the branch should execute.</param>
     /// <param name="configure">A delegate to configure the branch pipeline.</param>
     /// <param name="order">Optional explicit order for the branch.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="predicate"/> or <paramref name="configure"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="predicate"/> is null (DS-706), or <paramref name="configure"/> is null (DS-707).</exception>
     public void UseWhen(Func<HttpContext, bool> predicate, Action<MiddlewarePipeline> configure, int order = 0)
     {
-        if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-        if (configure == null) throw new ArgumentNullException(nameof(configure));
+        if (predicate == null) throw new ArgumentNullException(nameof(predicate), $"{Errors.MiddlewareErrorCodes.PredicateIsNull}: Predicate cannot be null.");
+        if (configure == null) throw new ArgumentNullException(nameof(configure), $"{Errors.MiddlewareErrorCodes.ConfigurationDelegateIsNull}: Configuration delegate cannot be null.");
 
         var branch = new MiddlewarePipeline();
         configure(branch);
@@ -169,7 +189,7 @@ public class MiddlewarePipeline
     /// </summary>
     /// <param name="serviceProvider">The service provider for resolving middleware instances.</param>
     /// <returns>A <see cref="RequestDelegate"/> representing the composed pipeline.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="serviceProvider"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="serviceProvider"/> is null (DS-708).</exception>
     public RequestDelegate Build(IServiceProvider serviceProvider)
     {
         return Build(serviceProvider, null);
@@ -182,10 +202,10 @@ public class MiddlewarePipeline
     /// <param name="serviceProvider">The service provider for resolving middleware instances.</param>
     /// <param name="terminalDelegate">The final delegate to invoke after all middleware. If null, an empty no-op delegate is used.</param>
     /// <returns>A <see cref="RequestDelegate"/> representing the composed pipeline.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="serviceProvider"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="serviceProvider"/> is null (DS-708).</exception>
     public RequestDelegate Build(IServiceProvider serviceProvider, RequestDelegate? terminalDelegate)
     {
-        if (serviceProvider == null) throw new ArgumentNullException(nameof(serviceProvider));
+        if (serviceProvider == null) throw new ArgumentNullException(nameof(serviceProvider), $"{Errors.MiddlewareErrorCodes.ServiceProviderIsNull}: Service provider cannot be null.");
 
         if (terminalDelegate == null && _isBuilt && _builtPipeline != null)
             return _builtPipeline;
@@ -261,6 +281,15 @@ public class MiddlewarePipeline
     /// Creates a copy of the current pipeline configuration.
     /// The copy shares no state with the original and must be built separately.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// var original = new MiddlewarePipeline();
+    /// original.Use&lt;LoggingMiddleware&gt;();
+    ///
+    /// var clone = original.Clone();
+    /// clone.Use&lt;CustomMiddleware&gt;(); // independent from original
+    /// </code>
+    /// </example>
     public MiddlewarePipeline Clone()
     {
         var clone = new MiddlewarePipeline();
@@ -301,6 +330,9 @@ public class MiddlewarePipeline
     /// </summary>
     private static Func<HttpContext, bool> CreateRoutePredicate(string[] routePatterns)
     {
+        if (routePatterns == null || routePatterns.Length == 0)
+            throw new ArgumentException($"{Errors.MiddlewareErrorCodes.RoutePatternInvalid}: At least one route pattern must be specified.", nameof(routePatterns));
+
         // Convert each pattern to a compiled predicate for fast matching
         var matchers = routePatterns
             .Where(p => !string.IsNullOrEmpty(p))

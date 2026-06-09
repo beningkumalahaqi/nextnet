@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using NextNet.DevTools.Errors;
 using NextNet.DevTools.Headless;
 using NextNet.DevTools.Panels;
 
@@ -11,6 +12,13 @@ namespace NextNet.DevTools;
 /// ASP.NET Core middleware that exposes DevTools REST API endpoints and WebSocket handler.
 /// Endpoints are served under the <c>/__devtools/</c> path prefix.
 /// </summary>
+/// <example>
+/// <code>
+/// // In Program.cs:
+/// app.UseWebSockets();
+/// app.UseMiddleware&lt;DevToolsMiddleware&gt;(dataStore, wsManager);
+/// </code>
+/// </example>
 public sealed class DevToolsMiddleware
 {
     private readonly RequestDelegate _next;
@@ -25,6 +33,9 @@ public sealed class DevToolsMiddleware
     /// <summary>
     /// Creates a new DevTools middleware instance.
     /// </summary>
+    /// <param name="next">The next middleware in the pipeline.</param>
+    /// <param name="dataStore">The DevTools data store instance.</param>
+    /// <param name="wsManager">The WebSocket connection manager.</param>
     public DevToolsMiddleware(
         RequestDelegate next,
         DevToolsDataStore dataStore,
@@ -36,7 +47,7 @@ public sealed class DevToolsMiddleware
     }
 
     /// <summary>
-    /// Invokes the middleware, handling DevTools requests or passing through.
+    /// Invokes the middleware, handling DevTools requests or passing through to the next middleware.
     /// </summary>
     public async Task InvokeAsync(HttpContext context)
     {
@@ -111,7 +122,11 @@ public sealed class DevToolsMiddleware
                     if (route is null)
                     {
                         response.StatusCode = 404;
-                        await WriteJson(response, new { error = "Route not found", path = routePath });
+                        await WriteJson(response, new
+                        {
+                            error = $"{DevToolsErrorCodes.RouteNotFound}: Route not found",
+                            path = routePath
+                        });
                     }
                     else
                     {
@@ -199,7 +214,11 @@ public sealed class DevToolsMiddleware
 
                 default:
                     response.StatusCode = 404;
-                    await WriteJson(response, new { error = "Unknown DevTools endpoint", path });
+                    await WriteJson(response, new
+                    {
+                        error = $"{DevToolsErrorCodes.UnknownEndpoint}: Unknown DevTools endpoint",
+                        path
+                    });
                     break;
             }
         }

@@ -3,7 +3,7 @@ namespace NextNet.Isr.Tests;
 public class IsrGlobalOptionsTests
 {
     [Fact]
-    public void DefaultValues()
+    public void DefaultValues_Should_HaveCorrectDefaults()
     {
         var options = new IsrGlobalOptions();
 
@@ -17,35 +17,35 @@ public class IsrGlobalOptionsTests
     }
 
     [Fact]
-    public void Validate_WithNegativeDefaultRevalidate_Throws()
+    public void Validate_Should_Throw_When_DefaultRevalidateIsNegative()
     {
         var options = new IsrGlobalOptions { DefaultRevalidateSeconds = -1 };
         Assert.Throws<InvalidOperationException>(() => options.Validate());
     }
 
     [Fact]
-    public void Validate_WithZeroMaxConcurrent_Throws()
+    public void Validate_Should_Throw_When_MaxConcurrentIsZero()
     {
         var options = new IsrGlobalOptions { MaxConcurrentRegenerations = 0 };
         Assert.Throws<InvalidOperationException>(() => options.Validate());
     }
 
     [Fact]
-    public void Validate_WithZeroMaxPending_Throws()
+    public void Validate_Should_Throw_When_MaxPendingIsZero()
     {
         var options = new IsrGlobalOptions { MaxPendingRevalidations = 0 };
         Assert.Throws<InvalidOperationException>(() => options.Validate());
     }
 
     [Fact]
-    public void Validate_WithNegativeDeduplicationWindow_Throws()
+    public void Validate_Should_Throw_When_DeduplicationWindowIsNegative()
     {
         var options = new IsrGlobalOptions { DeduplicationWindowSeconds = -1 };
         Assert.Throws<InvalidOperationException>(() => options.Validate());
     }
 
     [Fact]
-    public void Validate_WithValidOptions_DoesNotThrow()
+    public void Validate_Should_NotThrow_When_OptionsAreValid()
     {
         var options = new IsrGlobalOptions
         {

@@ -4,8 +4,15 @@ namespace NextNet.DevTools.Panels;
 
 /// <summary>
 /// Route Inspector panel — displays the route tree with color-coded route types
-/// and per-route metadata.
+/// and per-route metadata including render counts and timing.
 /// </summary>
+/// <example>
+/// <code>
+/// var panel = new RouteInspectorPanel(dataStore);
+/// panel.Render(new TuiRenderContext(120));
+/// panel.HandleInput(ConsoleKey.DownArrow);
+/// </code>
+/// </example>
 public sealed class RouteInspectorPanel : IDevToolsPanel
 {
     private readonly DevToolsDataStore _dataStore;
@@ -22,6 +29,7 @@ public sealed class RouteInspectorPanel : IDevToolsPanel
     /// <summary>
     /// Creates a new RouteInspectorPanel.
     /// </summary>
+    /// <param name="dataStore">The DevTools data store providing route data.</param>
     public RouteInspectorPanel(DevToolsDataStore dataStore)
     {
         _dataStore = dataStore;
@@ -111,8 +119,24 @@ public sealed class RouteInspectorPanel : IDevToolsPanel
 
     /// <summary>
     /// Information about a discovered route.
+    /// Encapsulates route metadata including path pattern, type, source file, layout, SSR/SSG flags, and render statistics.
     /// </summary>
-    public class RouteInfo
+    /// <example>
+    /// <code>
+    /// var info = new RouteInspectorPanel.RouteInfo
+    /// {
+    ///     Path = "/blog/[slug]",
+    ///     Type = "dynamic",
+    ///     File = "app/blog/[slug]/page.cs",
+    ///     Layout = "app/layout.cs",
+    ///     Ssr = true,
+    ///     Ssg = false,
+    ///     RenderCount = 42,
+    ///     AverageRenderTimeMs = 18
+    /// };
+    /// </code>
+    /// </example>
+    public sealed record RouteInfo
     {
         /// <summary>Route path pattern (e.g. "/blog/[slug]").</summary>
         public string Path { get; init; } = string.Empty;
@@ -133,9 +157,9 @@ public sealed class RouteInspectorPanel : IDevToolsPanel
         public bool Ssg { get; init; }
 
         /// <summary>Number of times this route has been rendered.</summary>
-        public int RenderCount { get; set; }
+        public int RenderCount { get; init; }
 
         /// <summary>Average render time in milliseconds.</summary>
-        public long AverageRenderTimeMs { get; set; }
+        public long AverageRenderTimeMs { get; init; }
     }
 }

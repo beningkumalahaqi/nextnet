@@ -10,7 +10,7 @@ namespace NextNet.Isr.Background;
 /// Reads from the <see cref="RevalidationQueue"/>, performs revalidation, and
 /// handles the concurrency limit per route.
 /// </summary>
-public class BackgroundRevalidationService : IHostedService, IDisposable
+public sealed class BackgroundRevalidationService : IHostedService, IDisposable
 {
     private readonly RevalidationQueue _queue;
     private readonly IIsrRevalidationManager _revalidationManager;

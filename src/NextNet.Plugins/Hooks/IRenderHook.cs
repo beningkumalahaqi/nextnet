@@ -7,6 +7,26 @@ namespace NextNet.Plugins.Hooks;
 /// Hook that fires during the rendering pipeline — before and after rendering.
 /// Plugins can inject content, modify rendered output, or add tracking.
 /// </summary>
+/// <example>
+/// <code>
+/// public class MyAnalyticsPlugin : NextNetPlugin, IRenderHook
+/// {
+///     public override string Name => "Analytics";
+///
+///     public Task OnPreRender(PluginContext ctx, HttpContext httpContext)
+///     {
+///         ctx.Logger.Info("Rendering page: {0}", httpContext.Request.Path);
+///         return Task.CompletedTask;
+///     }
+///
+///     public Task OnPostRender(PluginContext ctx, IHtmlContent content)
+///     {
+///         // Wrap or inspect the rendered HTML content
+///         return Task.CompletedTask;
+///     }
+/// }
+/// </code>
+/// </example>
 public interface IRenderHook
 {
     /// <summary>

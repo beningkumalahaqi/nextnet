@@ -6,7 +6,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsServerTests
 {
     [Fact]
-    public void Constructor_WithTuiMode_CreatesPanels()
+    public void Constructor_Should_CreatePanels_When_TuiMode()
     {
         var options = new DevToolsOptions { Mode = DevToolsMode.Tui };
         using var server = new DevToolsServer(options);
@@ -16,7 +16,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void Constructor_WithOffMode_NoPanels()
+    public void Constructor_Should_CreateNoPanels_When_OffMode()
     {
         var options = new DevToolsOptions
         {
@@ -33,7 +33,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void Constructor_AllPanelsDisabled_ReturnsEmpty()
+    public void Constructor_Should_ReturnEmpty_When_AllPanelsDisabled()
     {
         var options = new DevToolsOptions
         {
@@ -49,7 +49,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void ActivePanelIndex_SwitchesPanel()
+    public void ActivePanelIndex_Should_SwitchPanel_When_SetToValidIndex()
     {
         var options = new DevToolsOptions { Mode = DevToolsMode.Tui };
         using var server = new DevToolsServer(options);
@@ -61,7 +61,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void ActivePanelIndex_ClampsToRange()
+    public void ActivePanelIndex_Should_Clamp_When_IndexOutOfRange()
     {
         var options = new DevToolsOptions { Mode = DevToolsMode.Tui };
         using var server = new DevToolsServer(options);
@@ -74,7 +74,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void IsRunning_InitialState_False()
+    public void IsRunning_Should_BeFalse_When_InitialState()
     {
         var options = new DevToolsOptions { Mode = DevToolsMode.Tui };
         using var server = new DevToolsServer(options);
@@ -83,7 +83,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void EventBus_PublishSubscribe_ReceivesEvents()
+    public void EventBus_Should_ReceiveEvents_When_Published()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -102,7 +102,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void EventBus_MultipleSubscribers_AllReceive()
+    public void EventBus_Should_DeliverToAllSubscribers_When_Multiple()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -122,7 +122,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void EventBus_Unsubscribed_NoLongerReceives()
+    public void EventBus_Should_NotReceive_When_Unsubscribed()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -150,7 +150,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void DataStore_Routes_StoresAndRetrieves()
+    public void DataStore_Should_StoreAndRetrieveRoutes_When_Set()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -182,7 +182,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void DataStore_Metrics_StoresAndClears()
+    public void DataStore_Should_StoreAndClearMetrics_When_AddAndClear()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -201,7 +201,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void DataStore_NetworkRequests_StoresAndClears()
+    public void DataStore_Should_StoreAndClearNetworkRequests_When_AddAndClear()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -221,7 +221,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void DataStore_ConsoleLogs_StoresAndClears()
+    public void DataStore_Should_StoreAndClearConsoleLogs_When_AddAndClear()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -236,7 +236,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void DataStore_Components_StoresAndRetrieves()
+    public void DataStore_Should_StoreAndRetrieveComponents_When_Set()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -266,7 +266,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void DataStore_MaxNetworkEntries_Respected()
+    public void DataStore_Should_RespectMaxNetworkEntries_When_ExceedingLimit()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -287,7 +287,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public void DataStore_MaxConsoleEntries_Respected()
+    public void DataStore_Should_RespectMaxConsoleEntries_When_ExceedingLimit()
     {
         var options = new DevToolsOptions();
         using var server = new DevToolsServer(options);
@@ -303,7 +303,7 @@ public class DevToolsServerTests
     }
 
     [Fact]
-    public async Task StartStop_NoThrow()
+    public async Task StartStop_Should_NotThrow_When_OffMode()
     {
         var options = new DevToolsOptions
         {

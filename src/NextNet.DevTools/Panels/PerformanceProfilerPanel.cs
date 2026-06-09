@@ -5,7 +5,17 @@ namespace NextNet.DevTools.Panels;
 /// <summary>
 /// Performance Profiler panel — displays build and render performance metrics
 /// with flame-graph-style horizontal bar visualization.
+/// Supports pausing, clearing, and sorting by duration.
 /// </summary>
+/// <example>
+/// <code>
+/// var panel = new PerformanceProfilerPanel(dataStore);
+/// panel.Render(new TuiRenderContext(120));
+/// panel.HandleInput(ConsoleKey.P); // pause
+/// panel.HandleInput(ConsoleKey.C); // clear
+/// panel.HandleInput(ConsoleKey.S); // sort by duration
+/// </code>
+/// </example>
 public sealed class PerformanceProfilerPanel : IDevToolsPanel
 {
     private readonly DevToolsDataStore _dataStore;
@@ -21,6 +31,7 @@ public sealed class PerformanceProfilerPanel : IDevToolsPanel
     /// <summary>
     /// Creates a new PerformanceProfilerPanel.
     /// </summary>
+    /// <param name="dataStore">The DevTools data store providing performance metrics.</param>
     public PerformanceProfilerPanel(DevToolsDataStore dataStore)
     {
         _dataStore = dataStore;
@@ -115,8 +126,19 @@ public sealed class PerformanceProfilerPanel : IDevToolsPanel
 
     /// <summary>
     /// A single performance metric data point.
+    /// Records a named operation with its duration, timestamp, and category for flame-graph visualization.
     /// </summary>
-    public class PerformanceMetric
+    /// <example>
+    /// <code>
+    /// var metric = new PerformanceProfilerPanel.PerformanceMetric
+    /// {
+    ///     Name = "Route discovery",
+    ///     DurationMs = 150,
+    ///     Category = "build"
+    /// };
+    /// </code>
+    /// </example>
+    public sealed record PerformanceMetric
     {
         /// <summary>Metric name (e.g. "Route discovery").</summary>
         public string Name { get; init; } = string.Empty;

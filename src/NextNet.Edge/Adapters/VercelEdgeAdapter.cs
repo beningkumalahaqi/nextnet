@@ -4,7 +4,7 @@ namespace NextNet.Edge.Adapters;
 /// Edge runtime adapter for Vercel Edge Functions.
 /// Generates <c>vercel.json</c> configuration and edge function entry points.
 /// </summary>
-public class VercelEdgeAdapter : IEdgeRuntimeAdapter
+public sealed class VercelEdgeAdapter : IEdgeRuntimeAdapter
 {
     /// <summary>
     /// The template for vercel.json edge function configuration.

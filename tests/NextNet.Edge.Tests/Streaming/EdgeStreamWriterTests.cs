@@ -6,14 +6,14 @@ namespace NextNet.Edge.Tests.Streaming;
 public class EdgeStreamWriterTests
 {
     [Fact]
-    public void SupportsStreaming_ReturnsTrue()
+    public void SupportsStreaming_Should_ReturnTrue_When_Called()
     {
         var writer = new EdgeStreamWriter(new MemoryStream(), new EdgeOptions());
         Assert.True(writer.SupportsStreaming);
     }
 
     [Fact]
-    public async Task WriteAsync_Data_WritesToStream()
+    public async Task WriteAsync_Should_WriteDataToStream_When_Called()
     {
         // Arrange
         var stream = new MemoryStream();
@@ -28,7 +28,7 @@ public class EdgeStreamWriterTests
     }
 
     [Fact]
-    public async Task WriteAsync_String_WritesEncoded()
+    public async Task WriteAsync_Should_WriteEncodedString_When_Called()
     {
         // Arrange
         var stream = new MemoryStream();
@@ -42,7 +42,7 @@ public class EdgeStreamWriterTests
     }
 
     [Fact]
-    public async Task WriteAsync_EmptyString_WritesNothing()
+    public async Task WriteAsync_Should_WriteNothing_When_StringIsEmpty()
     {
         // Arrange
         var stream = new MemoryStream();
@@ -56,14 +56,14 @@ public class EdgeStreamWriterTests
     }
 
     [Fact]
-    public async Task FlushAsync_DoesNotThrow()
+    public async Task FlushAsync_Should_NotThrow_When_Called()
     {
         var writer = new EdgeStreamWriter(new MemoryStream(), new EdgeOptions());
         await writer.FlushAsync();
     }
 
     [Fact]
-    public async Task CompleteAsync_MarksComplete()
+    public async Task CompleteAsync_Should_PreventFurtherWrites_When_Called()
     {
         var writer = new EdgeStreamWriter(new MemoryStream(), new EdgeOptions());
         await writer.CompleteAsync();
@@ -74,21 +74,21 @@ public class EdgeStreamWriterTests
     }
 
     [Fact]
-    public void Constructor_NullStream_Throws()
+    public void Constructor_Should_Throw_When_StreamIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new EdgeStreamWriter((Stream)null!, new EdgeOptions()));
     }
 
     [Fact]
-    public void Constructor_NullOptions_Throws()
+    public void Constructor_Should_Throw_When_OptionsIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new EdgeStreamWriter(new MemoryStream(), null!));
     }
 
     [Fact]
-    public void Constructor_FromHttpResponse_WrapsBody()
+    public void Constructor_Should_WrapHttpResponseBody_When_FromHttpResponse()
     {
         // Arrange
         var httpContext = new Microsoft.AspNetCore.Http.DefaultHttpContext();

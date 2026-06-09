@@ -6,21 +6,21 @@ namespace NextNet.Edge.Tests.Adapters;
 public class DenoDeployAdapterTests
 {
     [Fact]
-    public void ProviderName_ReturnsCorrect()
+    public void ProviderName_Should_ReturnCorrectValue_When_Accessed()
     {
         var adapter = new DenoDeployAdapter();
         Assert.Equal("Deno Deploy", adapter.ProviderName);
     }
 
     [Fact]
-    public void ProviderId_ReturnsCorrect()
+    public void ProviderId_Should_ReturnCorrectValue_When_Accessed()
     {
         var adapter = new DenoDeployAdapter();
         Assert.Equal("deno", adapter.ProviderId);
     }
 
     [Fact]
-    public async Task HandleRequestAsync_ReturnsResponse()
+    public async Task HandleRequestAsync_Should_ReturnResponse_When_Called()
     {
         // Arrange
         var adapter = new DenoDeployAdapter();
@@ -36,7 +36,7 @@ public class DenoDeployAdapterTests
     }
 
     [Fact]
-    public void GenerateDenoEntry_IncludesModule()
+    public void GenerateDenoEntry_Should_IncludeModuleName_When_Generated()
     {
         // Arrange
         var adapter = new DenoDeployAdapter();

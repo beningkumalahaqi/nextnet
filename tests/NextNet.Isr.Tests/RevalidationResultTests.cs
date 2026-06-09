@@ -5,7 +5,7 @@ namespace NextNet.Isr.Tests;
 public class RevalidationResultTests
 {
     [Fact]
-    public void Ok_SingleRoute_SetsSuccessAndCount()
+    public void Ok_Should_SetSuccessAndCount_When_SingleRoute()
     {
         var result = RevalidationResult.Ok("/blog/post");
 
@@ -15,7 +15,7 @@ public class RevalidationResultTests
     }
 
     [Fact]
-    public void Ok_MultipleRoutes_SetsSuccessAndCount()
+    public void Ok_Should_SetSuccessAndCount_When_MultipleRoutes()
     {
         var routes = new[] { "/blog/post-1", "/blog/post-2" };
         var result = RevalidationResult.Ok(routes);
@@ -26,7 +26,7 @@ public class RevalidationResultTests
     }
 
     [Fact]
-    public void Fail_SetsErrorMessage()
+    public void Fail_Should_SetErrorMessage_When_Called()
     {
         var result = RevalidationResult.Fail("Something went wrong");
 

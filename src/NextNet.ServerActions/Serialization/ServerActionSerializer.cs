@@ -7,6 +7,14 @@ namespace NextNet.ServerActions.Serialization;
 /// Provides JSON serialization and deserialization for server action parameters and results.
 /// Uses <see cref="System.Text.Json"/> with source-generated context support for AOT compatibility.
 /// </summary>
+/// <example>
+/// <code>
+/// var serializer = new ServerActionSerializer();
+/// var json = serializer.Serialize(ActionSuccess.With(new { id = 1 }));
+/// var parameters = serializer.DeserializeParameters(@"{""name"":""Alice""}");
+/// var result = serializer.DeserializeResult&lt;string&gt;(json);
+/// </code>
+/// </example>
 public sealed class ServerActionSerializer
 {
     /// <summary>

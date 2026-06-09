@@ -8,6 +8,17 @@ namespace NextNet.ServerActions.Client;
 /// Generates C# client proxy source code for calling server actions via HttpClient.
 /// The generated code provides a type-safe way to invoke server actions from client applications.
 /// </summary>
+/// <example>
+/// <code>
+/// var generator = new ServerActionClientProxyGenerator("https://localhost:5001");
+/// var code = generator.GenerateClientProxy(registry, "MyClient", "MyApp.Client");
+/// File.WriteAllText("MyClient.g.cs", code);
+/// </code>
+/// The generated client proxy can then be used as:
+/// <code>
+/// var response = await MyClient.Hello("World");
+/// </code>
+/// </example>
 public sealed class ServerActionClientProxyGenerator
 {
     private readonly string _baseUrl;

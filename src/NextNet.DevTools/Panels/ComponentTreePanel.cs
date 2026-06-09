@@ -4,7 +4,15 @@ namespace NextNet.DevTools.Panels;
 
 /// <summary>
 /// Component Tree panel — displays the component dependency graph and render hierarchy.
+/// Supports tree and list view modes, toggled with the G key.
 /// </summary>
+/// <example>
+/// <code>
+/// var panel = new ComponentTreePanel(dataStore);
+/// panel.Render(new TuiRenderContext(120));
+/// panel.HandleInput(ConsoleKey.G); // toggle tree/list mode
+/// </code>
+/// </example>
 public sealed class ComponentTreePanel : IDevToolsPanel
 {
     private readonly DevToolsDataStore _dataStore;
@@ -21,6 +29,7 @@ public sealed class ComponentTreePanel : IDevToolsPanel
     /// <summary>
     /// Creates a new ComponentTreePanel.
     /// </summary>
+    /// <param name="dataStore">The DevTools data store providing component data.</param>
     public ComponentTreePanel(DevToolsDataStore dataStore)
     {
         _dataStore = dataStore;
@@ -124,9 +133,24 @@ public sealed class ComponentTreePanel : IDevToolsPanel
     }
 
     /// <summary>
-    /// Information about a component.
+    /// Information about a component in the component dependency graph.
+    /// Includes name, type, source file, parent relationship, render statistics, and children.
     /// </summary>
-    public class ComponentInfo
+    /// <example>
+    /// <code>
+    /// var info = new ComponentTreePanel.ComponentInfo
+    /// {
+    ///     Name = "Header",
+    ///     Type = "component",
+    ///     File = "app/components/Header.cs",
+    ///     Parent = "Layout",
+    ///     RenderCount = 150,
+    ///     AverageRenderTimeMs = 5,
+    ///     Children = new[] { "Logo", "Nav" }
+    /// };
+    /// </code>
+    /// </example>
+    public sealed record ComponentInfo
     {
         /// <summary>Component name.</summary>
         public string Name { get; init; } = string.Empty;
@@ -141,10 +165,10 @@ public sealed class ComponentTreePanel : IDevToolsPanel
         public string? Parent { get; init; }
 
         /// <summary>Number of renders.</summary>
-        public int RenderCount { get; set; }
+        public int RenderCount { get; init; }
 
         /// <summary>Average render time in milliseconds.</summary>
-        public long AverageRenderTimeMs { get; set; }
+        public long AverageRenderTimeMs { get; init; }
 
         /// <summary>List of child component names.</summary>
         public IReadOnlyList<string> Children { get; init; } = Array.Empty<string>();

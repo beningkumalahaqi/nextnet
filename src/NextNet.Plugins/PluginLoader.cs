@@ -1,5 +1,6 @@
 using System.Reflection;
 using NextNet.Logging;
+using NextNet.Plugins.Errors;
 
 namespace NextNet.Plugins;
 
@@ -8,7 +9,7 @@ namespace NextNet.Plugins;
 /// Supports loading from <c>plugins/</c> directories with isolated
 /// <see cref="PluginAssemblyLoadContext"/> per assembly.
 /// </summary>
-public class PluginLoader
+public sealed class PluginLoader
 {
     private readonly INextNetLogger _logger;
 
@@ -48,7 +49,7 @@ public class PluginLoader
 
         if (!Directory.Exists(pluginDirectory))
         {
-            _logger.Debug("Plugin directory does not exist: {0}", pluginDirectory);
+            _logger.Debug("[{0}] Plugin directory does not exist: {1}", PluginErrorCodes.DirectoryNotFound, pluginDirectory);
             return plugins;
         }
 
@@ -85,7 +86,7 @@ public class PluginLoader
     {
         if (!File.Exists(assemblyPath))
         {
-            _logger.Warn("Assembly not found: {0}", assemblyPath);
+            _logger.Warn("[{0}] Assembly not found: {1}", PluginErrorCodes.AssemblyNotFound, assemblyPath);
             return null;
         }
 
@@ -99,7 +100,7 @@ public class PluginLoader
         }
         catch (Exception ex)
         {
-            _logger.Warn("Could not load assembly {0}: {1}", assemblyPath, ex.Message);
+            _logger.Warn("[{0}] Could not load assembly {1}: {2}", PluginErrorCodes.AlcLoadFailure, assemblyPath, ex.Message);
             return null;
         }
 
@@ -113,7 +114,7 @@ public class PluginLoader
 
         if (!typeof(INextNetPlugin).IsAssignableFrom(attribute.PluginType))
         {
-            _logger.Warn("Plugin type {0} in {1} does not implement INextNetPlugin.", attribute.PluginType.FullName, assemblyPath);
+            _logger.Warn("[{0}] Plugin type {1} in {2} does not implement INextNetPlugin.", PluginErrorCodes.InvalidPluginType, attribute.PluginType.FullName, assemblyPath);
             return null;
         }
 
@@ -125,7 +126,7 @@ public class PluginLoader
         }
         catch (Exception ex)
         {
-            _logger.Warn("Failed to create plugin instance of {0}: {1}", attribute.PluginType.FullName, ex.Message);
+            _logger.Warn("[{0}] Failed to create plugin instance of {1}: {2}", PluginErrorCodes.InstanceCreationFailed, attribute.PluginType.FullName, ex.Message);
             return null;
         }
     }
@@ -145,7 +146,7 @@ public class PluginLoader
 
         if (!typeof(INextNetPlugin).IsAssignableFrom(attribute.PluginType))
         {
-            _logger.Warn("Plugin type {0} does not implement INextNetPlugin.", attribute.PluginType.FullName);
+            _logger.Warn("[{0}] Plugin type {1} does not implement INextNetPlugin.", PluginErrorCodes.InvalidPluginType, attribute.PluginType.FullName);
             return null;
         }
 
@@ -155,7 +156,7 @@ public class PluginLoader
         }
         catch (Exception ex)
         {
-            _logger.Warn("Failed to create plugin instance of {0}: {1}", attribute.PluginType.FullName, ex.Message);
+            _logger.Warn("[{0}] Failed to create plugin instance of {1}: {2}", PluginErrorCodes.InstanceCreationFailed, attribute.PluginType.FullName, ex.Message);
             return null;
         }
     }

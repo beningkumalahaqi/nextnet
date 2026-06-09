@@ -6,21 +6,21 @@ namespace NextNet.ServerActions.Tests
     public class ServerActionSerializationHelperTests
     {
         [Fact]
-        public void DefaultOptions_PropertyNameCaseInsensitive_IsTrue()
+        public void DefaultOptions_Should_BeCaseInsensitive_When_Configured()
         {
             // Assert
             Assert.True(ServerActionsSerialization.DefaultOptions.PropertyNameCaseInsensitive);
         }
 
         [Fact]
-        public void DefaultOptions_PropertyNamingPolicy_IsCamelCase()
+        public void DefaultOptions_Should_UseCamelCase_When_Serializing()
         {
             // Assert
             Assert.Same(JsonNamingPolicy.CamelCase, ServerActionsSerialization.DefaultOptions.PropertyNamingPolicy);
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task SerializeAsync_WritesToStream()
+        public async System.Threading.Tasks.Task SerializeAsync_Should_WriteToStream_When_Called()
         {
             // Arrange
             using var stream = new System.IO.MemoryStream();

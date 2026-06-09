@@ -3,7 +3,7 @@ namespace NextNet.Plugins;
 /// <summary>
 /// Describes metadata about a loaded plugin assembly.
 /// </summary>
-public class PluginManifest
+public sealed record PluginManifest
 {
     /// <summary>
     /// Gets the plugin name.
@@ -34,12 +34,37 @@ public class PluginManifest
     /// Gets the full path to the plugin assembly file.
     /// </summary>
     public string? AssemblyPath { get; init; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginManifest"/> record.
+    /// </summary>
+    /// <param name="name">The plugin name. If null, defaults to <see cref="string.Empty"/>.</param>
+    /// <param name="version">The plugin version string. If null, defaults to "1.0.0".</param>
+    /// <param name="description">The human-readable description.</param>
+    /// <param name="author">The plugin author.</param>
+    /// <param name="dependencies">The list of plugin dependencies.</param>
+    /// <param name="assemblyPath">The full path to the plugin assembly file.</param>
+    public PluginManifest(
+        string? name = null,
+        string? version = null,
+        string? description = null,
+        string? author = null,
+        IReadOnlyList<PluginDependency>? dependencies = null,
+        string? assemblyPath = null)
+    {
+        if (name != null) Name = name;
+        if (version != null) Version = version;
+        if (description != null) Description = description;
+        if (author != null) Author = author;
+        if (dependencies != null) Dependencies = dependencies;
+        if (assemblyPath != null) AssemblyPath = assemblyPath;
+    }
 }
 
 /// <summary>
 /// Describes a dependency of a plugin on another plugin.
 /// </summary>
-public class PluginDependency
+public sealed record PluginDependency
 {
     /// <summary>
     /// Gets the name of the dependent plugin.

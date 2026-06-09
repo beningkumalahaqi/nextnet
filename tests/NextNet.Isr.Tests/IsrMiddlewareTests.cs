@@ -50,7 +50,7 @@ public class IsrMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_NonGet_ForwardsToNext()
+    public async Task InvokeAsync_Should_ForwardToNext_When_MethodIsNotGet()
     {
         var forwarded = false;
         var middleware = CreateMiddleware(ctx =>
@@ -68,7 +68,7 @@ public class IsrMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_CacheHitFresh_ServesCached()
+    public async Task InvokeAsync_Should_ServeCached_When_CacheHitFresh()
     {
         var now = DateTime.UtcNow;
         var entry = new CacheEntry("/cached", now, 60);
@@ -97,7 +97,7 @@ public class IsrMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_CacheHitStale_ServesStaleAndEnqueuesRevalidation()
+    public async Task InvokeAsync_Should_ServeStaleAndEnqueue_When_CacheHitStale()
     {
         var oldTime = DateTime.UtcNow.AddSeconds(-120);
         var entry = new CacheEntry("/stale", oldTime, 60);
@@ -128,7 +128,7 @@ public class IsrMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_CacheMissNonIsrRoute_ForwardsToNext()
+    public async Task InvokeAsync_Should_ForwardToNext_When_CacheMissNonIsrRoute()
     {
         _mockCacheStore.Setup(c => c.GetAsync("/unknown", It.IsAny<CancellationToken>()))
             .ReturnsAsync((CachedPage?)null);
@@ -151,7 +151,7 @@ public class IsrMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_AcceptsAllHtml_ProcessesRequest()
+    public async Task InvokeAsync_Should_ProcessRequest_When_AcceptsAllHtml()
     {
         var entry = new CacheEntry("/cached", DateTime.UtcNow, 60);
         var cached = new CachedPage("/cached", "<html>content</html>", entry);
@@ -178,7 +178,7 @@ public class IsrMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_NonHtmlAccept_Skips()
+    public async Task InvokeAsync_Should_Skip_When_NonHtmlAccept()
     {
         var nextCalled = false;
         var middleware = CreateMiddleware(ctx =>
@@ -198,7 +198,7 @@ public class IsrMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_WhenIsrRouteCacheMiss_AndRouteNotInSsrManifest_FallsThrough()
+    public async Task InvokeAsync_Should_FallThrough_When_IsrRouteCacheMissAndRouteNotInSsr()
     {
         var isrRoutes = new Dictionary<string, IsrRouteMetadata>
         {

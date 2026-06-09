@@ -111,3 +111,6 @@ appsettings.Production.json
 *.rej
 
 
+# Directories to ignore
+planning/
+document/

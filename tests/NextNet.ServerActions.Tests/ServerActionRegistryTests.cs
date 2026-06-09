@@ -9,7 +9,7 @@ namespace NextNet.ServerActions.Tests
     public class ServerActionRegistryTests
     {
         [Fact]
-        public void RegisterFromAssembly_WithActionAttributes_RegistersActions()
+        public void RegisterFromAssembly_Should_RegisterActions_When_AssemblyHasAttributes()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -22,7 +22,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void RegisterFromType_WithAttributeOnMethod_RegistersAction()
+        public void RegisterFromType_Should_RegisterAction_When_AttributeOnMethod()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -38,7 +38,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void RegisterFromType_WithNamedAttribute_UsesCustomName()
+        public void RegisterFromType_Should_UseCustomName_When_NamedAttribute()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -54,7 +54,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void TryGetAction_UnknownName_ReturnsFalse()
+        public void TryGetAction_Should_ReturnFalse_When_NameUnknown()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -68,7 +68,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GetAllActions_ReturnsAllRegisteredActions()
+        public void GetAllActions_Should_ReturnAll_When_ActionsRegistered()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -82,7 +82,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void Count_ReturnsCorrectCount()
+        public void Count_Should_ReturnCorrectCount_When_ActionsRegistered()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -96,7 +96,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void RegisterFromType_WithInstanceMethod_RegistersAction()
+        public void RegisterFromType_Should_RegisterAction_When_InstanceMethod()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -111,7 +111,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void RegisterFromType_WithRequireAuth_SetsProperty()
+        public void RegisterFromType_Should_SetRequireAuth_When_AttributeHasRequireAuth()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -127,7 +127,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void RegisterFromType_NullType_ThrowsArgumentNullException()
+        public void RegisterFromType_Should_ThrowArgumentNullException_When_TypeIsNull()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -137,7 +137,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void RegisterFromAssembly_NullAssembly_ThrowsArgumentNullException()
+        public void RegisterFromAssembly_Should_ThrowArgumentNullException_When_AssemblyIsNull()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -147,7 +147,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void Clear_RemovesAllActions()
+        public void Clear_Should_RemoveAllActions_When_Called()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -162,7 +162,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void RegisterFromAssembly_WithAttributeOnClass_RegistersAllMethods()
+        public void RegisterFromType_Should_RegisterAllMethods_When_AttributeOnClass()
         {
             // Arrange
             var registry = new ServerActionRegistry();

@@ -9,7 +9,7 @@ namespace NextNet.Isr.Endpoints;
 /// Handles the on-demand revalidation endpoint (<c>POST /_isr/revalidate</c>).
 /// Validates the secret and triggers revalidation for the specified route or tags.
 /// </summary>
-public class IsrRevalidationEndpoint
+public sealed class IsrRevalidationEndpoint
 {
     private readonly OnDemandRevalidator _onDemandRevalidator;
     private readonly INextNetLogger? _logger;
@@ -46,7 +46,7 @@ public class IsrRevalidationEndpoint
         if (!HttpMethods.IsPost(context.Request.Method))
         {
             context.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
-            await WriteJsonResponse(context, new { error = "Method not allowed. Use POST." });
+            await WriteJsonResponse(context, new { error = $"[{IsrErrorCodes.MethodNotAllowed}] Method not allowed. Use POST." });
             return;
         }
 
@@ -61,14 +61,14 @@ public class IsrRevalidationEndpoint
         {
             _logger?.Warn("Invalid revalidation request body: {Exception}", ex);
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await WriteJsonResponse(context, new { error = "Invalid request body." });
+            await WriteJsonResponse(context, new { error = $"[{IsrErrorCodes.InvalidRequestBody}] Invalid request body." });
             return;
         }
 
         if (request == null)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await WriteJsonResponse(context, new { error = "Request body is required." });
+            await WriteJsonResponse(context, new { error = $"[{IsrErrorCodes.RequestBodyRequired}] Request body is required." });
             return;
         }
 
@@ -77,7 +77,7 @@ public class IsrRevalidationEndpoint
         {
             _logger?.Warn("Revalidation request with invalid secret");
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await WriteJsonResponse(context, new { error = "Invalid or missing secret." });
+            await WriteJsonResponse(context, new { error = $"[{IsrErrorCodes.InvalidOrMissingSecret}] Invalid or missing secret." });
             return;
         }
 
@@ -85,7 +85,7 @@ public class IsrRevalidationEndpoint
         if (string.IsNullOrWhiteSpace(request.Path) && (request.Tags == null || request.Tags.Length == 0))
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await WriteJsonResponse(context, new { error = "Either 'path' or 'tags' must be specified." });
+            await WriteJsonResponse(context, new { error = $"[{IsrErrorCodes.PathOrTagsRequired}] Either 'path' or 'tags' must be specified." });
             return;
         }
 
@@ -119,7 +119,7 @@ public class IsrRevalidationEndpoint
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await WriteJsonResponse(context, new
             {
-                error = result.ErrorMessage ?? "Revalidation failed.",
+                error = result.ErrorMessage ?? $"[{IsrErrorCodes.RevalidationFailed}] Revalidation failed.",
                 revalidated = 0
             });
         }

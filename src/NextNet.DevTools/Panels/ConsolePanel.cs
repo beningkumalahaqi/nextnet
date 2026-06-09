@@ -4,8 +4,15 @@ namespace NextNet.DevTools.Panels;
 
 /// <summary>
 /// Console Log panel — displays console output from the dev server, including
-/// HMR status, file changes, and log messages.
+/// HMR status, file changes, and log messages with color-coded severity.
 /// </summary>
+/// <example>
+/// <code>
+/// var panel = new ConsolePanel(dataStore);
+/// panel.Render(new TuiRenderContext(120));
+/// panel.HandleInput(ConsoleKey.C); // clear logs
+/// </code>
+/// </example>
 public sealed class ConsolePanel : IDevToolsPanel
 {
     private readonly DevToolsDataStore _dataStore;
@@ -19,6 +26,7 @@ public sealed class ConsolePanel : IDevToolsPanel
     /// <summary>
     /// Creates a new ConsolePanel.
     /// </summary>
+    /// <param name="dataStore">The DevTools data store providing console log entries.</param>
     public ConsolePanel(DevToolsDataStore dataStore)
     {
         _dataStore = dataStore;

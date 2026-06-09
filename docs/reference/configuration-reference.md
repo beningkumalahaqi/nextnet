@@ -4,9 +4,9 @@ title: Configuration Reference
 description: Complete reference for all NextNet configuration options
 ---
 
-# Configuration Reference `v1.0` `stable`
+# Configuration Reference `v5.0` `stable`
 
-Complete reference for all NextNet configuration options in `nextnet.config.json`.
+Complete reference for all NextNet configuration options in `nextnet.config.json`. V5 adds the `designSystem` configuration block for theming, UI components, and Tailwind integration.
 
 ## File Format
 
@@ -28,6 +28,22 @@ Complete reference for all NextNet configuration options in `nextnet.config.json
     "enabled": false,
     "revalidate": 60,
     "staleWhileRevalidate": true
+  },
+  "designSystem": {
+    "enabled": false,
+    "theme": {
+      "default": "light",
+      "modes": ["light", "dark"]
+    },
+    "components": {
+      "prefix": "nn",
+      "include": [],
+      "exclude": []
+    },
+    "tailwind": {
+      "enabled": true,
+      "configOverrides": {}
+    }
   },
   "middleware": {
     "security": {},
@@ -64,6 +80,28 @@ Complete reference for all NextNet configuration options in `nextnet.config.json
 | `ssg` | `boolean` | `false` | Enable static site generation |
 | `streaming` | `boolean` | `true` | Enable streaming SSR |
 | `serverActions` | `boolean` | `true` | Enable server actions |
+
+## `designSystem` Options
+
+V5 Design System configuration. Controls theming, UI components, and Tailwind CSS integration.
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `enabled` | `boolean` | `false` | Enable the V5 design system |
+| `theme.default` | `string` | `"light"` | Default theme mode |
+| `theme.modes` | `string[]` | `["light", "dark"]` | Available theme modes |
+| `theme.respectSystemPreference` | `boolean` | `true` | Respect `prefers-color-scheme` |
+| `theme.storageKey` | `string` | `"nn-theme"` | LocalStorage key for theme persistence |
+| `theme.transitionDuration` | `number` | `300` | Theme transition duration (ms) |
+| `components.prefix` | `string` | `"nn"` | CSS class prefix for components |
+| `components.include` | `string[]` | `[]` | Include specific components only |
+| `components.exclude` | `string[]` | `[]` | Exclude specific components |
+| `tailwind.enabled` | `boolean` | `true` | Generate Tailwind config from tokens |
+| `tailwind.configOverrides` | `object` | `{}` | Extend/override generated Tailwind config |
+| `tailwind.content` | `string[]` | Auto | Content paths for Tailwind class detection |
+| `tailwind.purge` | `boolean` | `true` | Enable unused class purging in production |
+| `tailwind.prefix` | `string` | `""` | Tailwind class prefix |
+| `tailwind.important` | `boolean` | `false` | Tailwind `!important` mode |
 
 ## `rendering` Options
 
@@ -189,6 +227,21 @@ Each plugin entry in the array:
     "revalidate": 60,
     "cacheProvider": "redis"
   },
+  "designSystem": {
+    "enabled": true,
+    "theme": {
+      "default": "light",
+      "modes": ["light", "dark"]
+    },
+    "components": {
+      "prefix": "nn",
+      "include": ["Button", "Card", "Input", "Modal", "Table", "Nav"]
+    },
+    "tailwind": {
+      "enabled": true,
+      "purge": true
+    }
+  },
   "middleware": {
     "security": {
       "hsts": true,
@@ -217,6 +270,17 @@ Each plugin entry in the array:
   "isr": {
     "enabled": true,
     "revalidate": 300
+  },
+  "designSystem": {
+    "enabled": true,
+    "theme": {
+      "default": "light",
+      "modes": ["light", "dark"]
+    },
+    "components": {
+      "prefix": "nn",
+      "include": ["Button", "Card", "Input", "Badge", "Nav", "Accordion"]
+    }
   },
   "rendering": {
     "prettyPrint": false,

@@ -21,7 +21,7 @@ namespace NextNet.ServerActions.Tests
     public class ServerActionMiddlewareTests
     {
         [Fact]
-        public async Task InvokeAsync_ValidAction_ReturnsSuccess()
+        public async Task InvokeAsync_Should_ReturnSuccess_When_ValidAction()
         {
             // Arrange
             using var server = CreateTestServer();
@@ -41,7 +41,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_UnknownAction_Returns404()
+        public async Task InvokeAsync_Should_Return404_When_UnknownAction()
         {
             // Arrange
             using var server = CreateTestServer();
@@ -59,7 +59,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_GetRequest_PassesThrough()
+        public async Task InvokeAsync_Should_PassThrough_When_GetRequest()
         {
             // Arrange
             using var server = CreateTestServer();
@@ -74,7 +74,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_NonActionPath_PassesThrough()
+        public async Task InvokeAsync_Should_PassThrough_When_NonActionPath()
         {
             // Arrange
             using var server = CreateTestServer();
@@ -91,7 +91,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_WithoutActionName_Returns400()
+        public async Task InvokeAsync_Should_Return400_When_WithoutActionName()
         {
             // Arrange
             using var server = CreateTestServer();
@@ -106,7 +106,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_ActionResult_ReturnsStatusCode()
+        public async Task InvokeAsync_Should_ReturnStatusCode_When_ActionResult()
         {
             // Arrange
             using var server = CreateTestServer();

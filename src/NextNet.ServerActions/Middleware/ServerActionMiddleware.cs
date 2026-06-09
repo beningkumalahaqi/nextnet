@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using NextNet.ServerActions.Errors;
 using NextNet.ServerActions.ServerActions;
 
 namespace NextNet.ServerActions.Middleware;
@@ -7,6 +8,13 @@ namespace NextNet.ServerActions.Middleware;
 /// ASP.NET Core middleware that routes requests under <c>/_actions/</c> to the
 /// appropriate server action handler.
 /// </summary>
+/// <example>
+/// Registered automatically via <c>UseNextNetServerActions()</c>:
+/// <code>
+/// app.UseNextNetServerActions();
+/// </code>
+/// This adds the middleware to handle POST requests to <c>/_actions/{actionName}</c>.
+/// </example>
 public sealed class ServerActionMiddleware
 {
     private readonly RequestDelegate _next;
@@ -53,7 +61,8 @@ public sealed class ServerActionMiddleware
             context.Response.ContentType = "application/json; charset=utf-8";
             await context.Response.WriteAsJsonAsync(new
             {
-                error = "Action name is required.",
+                error = ServerActionErrorCodes.ActionNameRequired,
+                code = "DS-600",
                 isSuccess = false,
                 isError = true
             });

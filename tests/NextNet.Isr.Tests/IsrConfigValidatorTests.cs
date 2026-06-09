@@ -23,14 +23,14 @@ public class IsrConfigValidatorTests
     }
 
     [Fact]
-    public void Validate_WithValidConfig_ReturnsNoErrors()
+    public void Validate_Should_ReturnNoErrors_When_ConfigIsValid()
     {
         var errors = IsrConfigValidator.Validate(_validGlobalOptions, _emptyManifest);
         Assert.Empty(errors);
     }
 
     [Fact]
-    public void Validate_WithNegativeDefaultRevalidate_ReturnsError()
+    public void Validate_Should_ReturnError_When_DefaultRevalidateIsNegative()
     {
         var options = new IsrGlobalOptions { DefaultRevalidateSeconds = -1 };
         var errors = IsrConfigValidator.Validate(options, _emptyManifest);
@@ -40,7 +40,7 @@ public class IsrConfigValidatorTests
     }
 
     [Fact]
-    public void Validate_WithZeroMaxConcurrent_ReturnsError()
+    public void Validate_Should_ReturnError_When_MaxConcurrentIsZero()
     {
         var options = new IsrGlobalOptions { MaxConcurrentRegenerations = 0 };
         var errors = IsrConfigValidator.Validate(options, _emptyManifest);
@@ -50,7 +50,7 @@ public class IsrConfigValidatorTests
     }
 
     [Fact]
-    public void Validate_WithZeroMaxPending_ReturnsError()
+    public void Validate_Should_ReturnError_When_MaxPendingIsZero()
     {
         var options = new IsrGlobalOptions { MaxPendingRevalidations = 0 };
         var errors = IsrConfigValidator.Validate(options, _emptyManifest);
@@ -60,7 +60,7 @@ public class IsrConfigValidatorTests
     }
 
     [Fact]
-    public void Validate_WithNegativeDeduplicationWindow_ReturnsError()
+    public void Validate_Should_ReturnError_When_DeduplicationWindowIsNegative()
     {
         var options = new IsrGlobalOptions { DeduplicationWindowSeconds = -1 };
         var errors = IsrConfigValidator.Validate(options, _emptyManifest);
@@ -70,7 +70,7 @@ public class IsrConfigValidatorTests
     }
 
     [Fact]
-    public void Validate_WithInvalidRouteMetadata_ReturnsError()
+    public void Validate_Should_ReturnError_When_RouteMetadataIsInvalid()
     {
         var routes = new Dictionary<string, IsrRouteMetadata>
         {
@@ -85,14 +85,14 @@ public class IsrConfigValidatorTests
     }
 
     [Fact]
-    public void Validate_NullOptions_Throws()
+    public void Validate_Should_Throw_When_OptionsIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             IsrConfigValidator.Validate(null!, _emptyManifest));
     }
 
     [Fact]
-    public void Validate_NullManifest_Throws()
+    public void Validate_Should_Throw_When_ManifestIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             IsrConfigValidator.Validate(_validGlobalOptions, null!));

@@ -7,7 +7,7 @@ namespace NextNet.Edge.Streaming;
 /// Wraps an ASP.NET Core <see cref="HttpResponse"/> stream or provides a buffered fallback
 /// for edge environments that don't support true streaming.
 /// </summary>
-public class EdgeStreamWriter : IEdgeStreamWriter
+public sealed class EdgeStreamWriter : IEdgeStreamWriter
 {
     private readonly Stream _responseStream;
     private readonly EdgeOptions _options;
@@ -80,6 +80,6 @@ public class EdgeStreamWriter : IEdgeStreamWriter
     private void EnsureNotCompleted()
     {
         if (_isCompleted)
-            throw new InvalidOperationException("The edge stream has already been completed. No more data can be written.");
+            throw new InvalidOperationException($"[{EdgeErrorCodes.StreamAlreadyCompleted}] The edge stream has already been completed. No more data can be written.");
     }
 }

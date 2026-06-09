@@ -8,7 +8,17 @@ namespace NextNet.Middleware.BuiltIn;
 /// <summary>
 /// Options for the <see cref="CorsMiddleware"/>.
 /// </summary>
-public class CorsOptions
+/// <example>
+/// <code>
+/// // Allow specific origins with credentials
+/// services.Configure&lt;CorsOptions&gt;(options =>
+/// {
+///     options.AllowedOrigins = new[] { "https://example.com" };
+///     options.AllowCredentials = true;
+/// });
+/// </code>
+/// </example>
+public sealed record CorsOptions
 {
     /// <summary>
     /// Gets or sets the allowed origins (e.g. "https://example.com").
@@ -51,8 +61,17 @@ public class CorsOptions
 /// Middleware that applies Cross-Origin Resource Sharing (CORS) headers
 /// based on configurable policies. Handles both simple and preflight requests.
 /// </summary>
+/// <example>
+/// <code>
+/// // In pipeline configuration:
+/// pipeline.Use&lt;CorsMiddleware&gt;();
+///
+/// // The middleware runs early in the pipeline (MiddlewareOrder.Early)
+/// // to handle preflight OPTIONS requests before other middleware.
+/// </code>
+/// </example>
 [MiddlewareOrderAttribute(MiddlewareOrder.Early)]
-public class CorsMiddleware : IMiddleware
+public sealed class CorsMiddleware : IMiddleware
 {
     private readonly CorsOptions _options;
     private readonly ILogger<CorsMiddleware> _logger;

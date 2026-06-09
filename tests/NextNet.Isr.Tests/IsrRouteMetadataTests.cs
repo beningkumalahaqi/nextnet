@@ -5,7 +5,7 @@ namespace NextNet.Isr.Tests;
 public class IsrRouteMetadataTests
 {
     [Fact]
-    public void DefaultValues()
+    public void DefaultValues_Should_HaveCorrectDefaults()
     {
         var meta = new IsrRouteMetadata();
 
@@ -18,7 +18,7 @@ public class IsrRouteMetadataTests
     }
 
     [Fact]
-    public void ToOptions_ConvertsCorrectly()
+    public void ToOptions_Should_ConvertCorrectly_When_PropertiesSet()
     {
         var meta = new IsrRouteMetadata
         {
@@ -38,7 +38,7 @@ public class IsrRouteMetadataTests
     }
 
     [Fact]
-    public void ToOptions_WithNullValues_MapsCorrectly()
+    public void ToOptions_Should_MapCorrectly_When_ValuesAreNull()
     {
         var meta = new IsrRouteMetadata();
         var options = meta.ToOptions();

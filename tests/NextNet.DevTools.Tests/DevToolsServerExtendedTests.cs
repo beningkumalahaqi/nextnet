@@ -6,7 +6,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsServerExtendedTests
 {
     [Fact]
-    public void DevToolsOptions_Defaults()
+    public void DevToolsOptions_Should_HaveDefaults_When_NewInstance()
     {
         var options = new DevToolsOptions();
         Assert.Equal(DevToolsMode.Tui, options.Mode);
@@ -19,7 +19,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void RenderTui_WithPanels_NoThrow()
+    public void RenderTui_Should_NotThrow_When_PanelsExist()
     {
         var options = new DevToolsOptions { Mode = DevToolsMode.Tui };
         using var server = new DevToolsServer(options);
@@ -29,7 +29,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void ActivePanel_ReturnsCurrent()
+    public void ActivePanel_Should_ReturnCurrentPanel_When_Accessed()
     {
         var options = new DevToolsOptions { Mode = DevToolsMode.Tui };
         using var server = new DevToolsServer(options);
@@ -39,7 +39,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void DataStore_SetRoutes_Overwrites()
+    public void DataStore_Should_OverwriteRoutes_When_SetRoutesCalledTwice()
     {
         var store = new DevToolsDataStore();
         store.SetRoutes(new[]
@@ -57,7 +57,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void DataStore_AddMetric_ManyEntries()
+    public void DataStore_Should_StoreManyMetrics_When_Added()
     {
         var store = new DevToolsDataStore();
         for (int i = 0; i < 100; i++)
@@ -73,7 +73,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void DataStore_AddNetworkRequest_MaintainsOrder()
+    public void DataStore_Should_MaintainOrder_When_AddingNetworkRequests()
     {
         var store = new DevToolsDataStore();
         store.AddNetworkRequest(new NetworkInspectorPanel.NetworkRequest { Url = "/first", Method = "GET" });
@@ -86,7 +86,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void DataStore_AddConsoleLog_MaintainsOrder()
+    public void DataStore_Should_MaintainOrder_When_AddingConsoleLogs()
     {
         var store = new DevToolsDataStore();
         store.AddConsoleLog("first");
@@ -99,7 +99,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void DevToolsMode_Values()
+    public void DevToolsMode_Should_HaveCorrectValues_When_Enumerated()
     {
         Assert.Equal(0, (int)DevToolsMode.Tui);
         Assert.Equal(1, (int)DevToolsMode.Headless);
@@ -107,7 +107,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void EventBus_Publish_NoSubscribers_NoThrow()
+    public void EventBus_Should_NotThrow_When_PublishingWithoutSubscribers()
     {
         var bus = new DevToolsEventBus();
         // Should not throw
@@ -115,7 +115,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void EventBus_DisposeSubscription_NoDoubleDispose()
+    public void EventBus_Should_NotThrow_When_DisposingSubscriptionTwice()
     {
         var bus = new DevToolsEventBus();
         var called = 0;
@@ -129,7 +129,7 @@ public class DevToolsServerExtendedTests
     }
 
     [Fact]
-    public void TuiRenderContext_HasWidth()
+    public void TuiRenderContext_Should_HaveWidth_When_Created()
     {
         var ctx = new TuiRenderContext(120);
         Assert.Equal(120, ctx.Width);

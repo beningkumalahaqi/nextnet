@@ -21,7 +21,7 @@ public class PluginCoverageEdgeTests
     // ─── PluginLoader edge cases ───────────────────────────────────────
 
     [Fact]
-    public void PluginLoader_LoadAll_WithExistingDirectoryAndFiles_CoversScanPath()
+    public void LoadAllFromDirectory_Should_ReturnEmptyList_When_DirectoryContainsInvalidFiles()
     {
         // Create a temp directory with a text file (not a .dll)
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -44,7 +44,7 @@ public class PluginCoverageEdgeTests
     }
 
     [Fact]
-    public void PluginLoader_LoadFromAssembly_WithInvalidManagedDll_ReturnsNull()
+    public void LoadFromAssembly_Should_ReturnNull_When_PathDoesNotExist()
     {
         // Create a temp DLL that has a valid PE header but doesn't have the plugin attribute
         var tempFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".dll");
@@ -65,7 +65,7 @@ public class PluginCoverageEdgeTests
     // ─── PluginRegistry edge cases ─────────────────────────────────────
 
     [Fact]
-    public void Registry_SortByDependencies_DoesNotCrash()
+    public void SortByDependencies_Should_NotCrash_When_PluginsHaveNoManifests()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new TestPlugin());
@@ -74,12 +74,14 @@ public class PluginCoverageEdgeTests
 
         // InitializeAllAsync implicitly calls SortByDependencies
         var task = registry.InitializeAllAsync(p =>
-            new PluginContext(
-                new MockServiceProvider(),
-                _logger,
-                new NextNet.Configuration.NextNetConfig(),
-                "/plugins",
-                new PluginManifest { Name = p.Name, Version = p.Version.ToString() }));
+            new PluginContext
+            {
+                Services = new MockServiceProvider(),
+                Logger = _logger,
+                Config = new NextNet.Configuration.NextNetConfig(),
+                PluginDirectory = "/plugins",
+                Manifest = new PluginManifest { Name = p.Name, Version = p.Version.ToString() }
+            });
 
         Assert.NotNull(task);
     }
@@ -87,7 +89,7 @@ public class PluginCoverageEdgeTests
     // ─── PluginsCommand hook detection coverage ────────────────────────
 
     [Fact]
-    public void PluginsCommand_Execute_WithAllHookTypes_CoversGetImplementedHooks()
+    public void Execute_Should_ListAllHookTypes_When_PluginsImplementAllHooks()
     {
         var registry = new PluginRegistry(_logger);
         var loader = new PluginLoader(_logger);
@@ -108,7 +110,7 @@ public class PluginCoverageEdgeTests
     // ─── PluginAssemblyLoadContext edge cases ──────────────────────────
 
     [Fact]
-    public void AssemblyLoadContext_DefaultLoad_FallsBackToDefaultContext()
+    public void LoadFromAssemblyPath_Should_ReturnAssembly_When_PathIsValid()
     {
         // The Load method falls back to Default.LoadFromAssemblyName for framework assemblies
         // We verify by creating the ALC with a real assembly path and resolving
@@ -123,7 +125,7 @@ public class PluginCoverageEdgeTests
     // ─── PluginLoader.LoadAll with default dir ─────────────────────────
 
     [Fact]
-    public void PluginLoader_LoadAll_DefaultDir_ReturnsEmpty()
+    public void LoadAll_Should_ReturnEmptyList_When_BasePathHasNoPluginsSubdirectory()
     {
         // Creates a temp base path with no plugins/ subdirectory
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());

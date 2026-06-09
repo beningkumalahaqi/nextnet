@@ -9,7 +9,7 @@ namespace NextNet.Edge.Tests;
 public class EdgeServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddNextNetEdge_RegistersAllServices()
+    public void AddNextNetEdge_Should_RegisterAllServices_When_Called()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -32,7 +32,7 @@ public class EdgeServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetEdge_WithDefaults_RegistersServices()
+    public void AddNextNetEdge_Should_RegisterServices_When_UsingDefaults()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -46,7 +46,7 @@ public class EdgeServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetEdge_WithConfigureDelegate_AppliesConfiguration()
+    public void AddNextNetEdge_Should_ApplyConfiguration_When_UsingConfigureDelegate()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -66,14 +66,14 @@ public class EdgeServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetEdge_NullServices_Throws()
+    public void AddNextNetEdge_Should_Throw_When_ServicesIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             ((IServiceCollection)null!).AddNextNetEdge());
     }
 
     [Fact]
-    public void AddNextNetEdge_NullConfigure_Throws()
+    public void AddNextNetEdge_Should_Throw_When_ConfigureIsNull()
     {
         var services = new ServiceCollection();
         Assert.Throws<ArgumentNullException>(() =>

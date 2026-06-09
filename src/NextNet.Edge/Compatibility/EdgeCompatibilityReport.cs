@@ -3,7 +3,7 @@ namespace NextNet.Edge.Compatibility;
 /// <summary>
 /// Represents the result of an edge compatibility check for a set of source files or a project.
 /// </summary>
-public class EdgeCompatibilityReport
+public sealed class EdgeCompatibilityReport
 {
     private readonly List<EdgeViolation> _violations;
 
@@ -110,7 +110,7 @@ public class EdgeCompatibilityReport
 /// <summary>
 /// Exception thrown when edge compatibility errors are detected.
 /// </summary>
-public class EdgeCompatibilityException : Exception
+public sealed class EdgeCompatibilityException : Exception
 {
     /// <summary>
     /// Gets the compatibility report that caused this exception.
@@ -122,7 +122,7 @@ public class EdgeCompatibilityException : Exception
     /// </summary>
     /// <param name="report">The compatibility report containing errors.</param>
     public EdgeCompatibilityException(EdgeCompatibilityReport report)
-        : base($"Edge compatibility check failed with {report.ErrorCount} error(s).\n{report}")
+        : base($"[{EdgeErrorCodes.CompatibilityError}] Edge compatibility check failed with {report.ErrorCount} error(s).\n{report}")
     {
         Report = report ?? throw new ArgumentNullException(nameof(report));
     }

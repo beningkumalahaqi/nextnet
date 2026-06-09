@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using NextNet.Logging;
+using NextNet.Plugins.Errors;
 
 namespace NextNet.Plugins;
 
@@ -7,7 +8,7 @@ namespace NextNet.Plugins;
 /// Central registry for all loaded plugins and their hook implementations.
 /// Provides typed access to plugins implementing specific hook interfaces.
 /// </summary>
-public class PluginRegistry
+public sealed class PluginRegistry
 {
     private readonly List<INextNetPlugin> _plugins = new();
     private readonly ConcurrentDictionary<Type, List<object>> _hookCache = new();
@@ -63,7 +64,7 @@ public class PluginRegistry
 
         if (_plugins.Any(p => p.Name == plugin.Name))
         {
-            _logger.Warn("Plugin '{0}' is already registered. Skipping duplicate.", plugin.Name);
+            _logger.Warn("[{0}] Plugin '{1}' is already registered. Skipping duplicate.", PluginErrorCodes.AlreadyRegistered, plugin.Name);
             return;
         }
 
@@ -141,7 +142,7 @@ public class PluginRegistry
             }
             catch (Exception ex)
             {
-                _logger.Error("Plugin '{0}' failed during initialization: {1}", plugin.Name, ex.Message);
+                _logger.Error("[{0}] Plugin '{1}' failed during initialization: {2}", PluginErrorCodes.InitializationFailed, plugin.Name, ex.Message);
             }
         }
 
@@ -209,7 +210,7 @@ public class PluginRegistry
 
             if (visiting.Contains(name))
                 throw new InvalidOperationException(
-                    $"Circular dependency detected involving plugin '{name}'.");
+                    $"[{PluginErrorCodes.CircularDependency}] Circular dependency detected involving plugin '{name}'.");
 
             visiting.Add(name);
 

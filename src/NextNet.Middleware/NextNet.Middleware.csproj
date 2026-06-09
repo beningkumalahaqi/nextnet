@@ -7,7 +7,7 @@
     <Description>NextNet Middleware - Middleware pipeline with priority-based ordering, built-in middleware, and ASP.NET Core integration</Description>
     <PackageTags>nextnet;web;framework;middleware;pipeline</PackageTags>
     <PackageId>NextNet.Middleware</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

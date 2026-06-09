@@ -22,7 +22,7 @@ public class PluginIntegrationTests
     }
 
     [Fact]
-    public void FullLifecycle_DiscoverRegisterAndQuery()
+    public void FullLifecycle_Should_DiscoverRegisterAndQueryPlugins_When_UsingAssemblyMetadata()
     {
         // Arrange: simulate discovering plugins from assembly metadata
         var loader = new PluginLoader(_logger);
@@ -59,7 +59,7 @@ public class PluginIntegrationTests
     }
 
     [Fact]
-    public async Task FullLifecycle_WithInitialization()
+    public async Task FullLifecycle_Should_InitializeAllPlugins_When_CalledWithContextFactory()
     {
         // Arrange
         var registry = new PluginRegistry(_logger);
@@ -71,16 +71,14 @@ public class PluginIntegrationTests
         // Act: initialize all plugins
         await registry.InitializeAllAsync(p =>
         {
-            return new PluginContext(
-                new MockServiceProvider(),
-                _logger,
-                config,
-                "/plugins",
-                new PluginManifest
-                {
-                    Name = p.Name,
-                    Version = p.Version.ToString()
-                });
+            return new PluginContext
+            {
+                Services = new MockServiceProvider(),
+                Logger = _logger,
+                Config = config,
+                PluginDirectory = "/plugins",
+                Manifest = new PluginManifest { Name = p.Name, Version = p.Version.ToString() }
+            };
         });
 
         // Assert: all plugins were initialized
@@ -89,19 +87,21 @@ public class PluginIntegrationTests
     }
 
     [Fact]
-    public async Task BuildHooks_ExecuteInOrderDuringSimulatedBuild()
+    public async Task BuildHooks_Should_ExecuteInOrder_When_SimulatingBuildPipeline()
     {
         // Arrange
         var registry = new PluginRegistry(_logger);
         registry.Register(new PluginWithBuildHook());
         registry.Register(new PluginWithMultipleHooks());
 
-        var ctx = new PluginContext(
-            new MockServiceProvider(),
-            _logger,
-            new NextNetConfig(),
-            "/plugins",
-            new PluginManifest { Name = "test", Version = "1.0.0" });
+        var ctx = new PluginContext
+        {
+            Services = new MockServiceProvider(),
+            Logger = _logger,
+            Config = new NextNetConfig(),
+            PluginDirectory = "/plugins",
+            Manifest = new PluginManifest { Name = "test", Version = "1.0.0" }
+        };
 
         // Act: simulate build pipeline
         var buildHooks = registry.GetHooks<IBuildHook>();
@@ -131,18 +131,20 @@ public class PluginIntegrationTests
     }
 
     [Fact]
-    public async Task ErrorHook_ReceivesExceptionDuringErrorSimulation()
+    public async Task ErrorHook_Should_ReceiveException_When_SimulatingErrorPipeline()
     {
         // Arrange
         var registry = new PluginRegistry(_logger);
         registry.Register(new PluginWithErrorHook());
 
-        var ctx = new PluginContext(
-            new MockServiceProvider(),
-            _logger,
-            new NextNetConfig(),
-            "/plugins",
-            new PluginManifest { Name = "test", Version = "1.0.0" });
+        var ctx = new PluginContext
+        {
+            Services = new MockServiceProvider(),
+            Logger = _logger,
+            Config = new NextNetConfig(),
+            PluginDirectory = "/plugins",
+            Manifest = new PluginManifest { Name = "test", Version = "1.0.0" }
+        };
 
         var simulatedException = new InvalidOperationException("Something went wrong");
 
@@ -160,7 +162,7 @@ public class PluginIntegrationTests
     }
 
     [Fact]
-    public void PluginIsolation_MultipleRegistrations_DontInterfere()
+    public void PluginIsolation_Should_NotInterfere_When_RegisteringAndUnregistering()
     {
         // Arrange: simulate two independent registrations
         var registry = new PluginRegistry(_logger);
@@ -179,7 +181,7 @@ public class PluginIntegrationTests
     }
 
     [Fact]
-    public async Task PluginException_DoesNotCrashHost()
+    public async Task PluginException_Should_NotCrashHost_When_FailingPluginIsInitialized()
     {
         // Arrange
         var registry = new PluginRegistry(_logger);
@@ -193,12 +195,14 @@ public class PluginIntegrationTests
         var exception = await Record.ExceptionAsync(() =>
             registry.InitializeAllAsync(p =>
             {
-                return new PluginContext(
-                    new MockServiceProvider(),
-                    _logger,
-                    config,
-                    "/plugins",
-                    new PluginManifest { Name = p.Name, Version = p.Version.ToString() });
+                return new PluginContext
+                {
+                    Services = new MockServiceProvider(),
+                    Logger = _logger,
+                    Config = config,
+                    PluginDirectory = "/plugins",
+                    Manifest = new PluginManifest { Name = p.Name, Version = p.Version.ToString() }
+                };
             }));
 
         Assert.Null(exception); // The registry should not throw
@@ -208,7 +212,7 @@ public class PluginIntegrationTests
     }
 
     [Fact]
-    public async Task RouteScannerHook_ReceivesRealRouteManifest()
+    public async Task RouteScannerHook_Should_ReceiveManifest_When_InvokedWithRouteManifest()
     {
         // Arrange
         var registry = new PluginRegistry(_logger);
@@ -223,12 +227,14 @@ public class PluginIntegrationTests
             null,
             new List<RouteConflict>());
 
-        var ctx = new PluginContext(
-            new MockServiceProvider(),
-            _logger,
-            new NextNetConfig(),
-            "/plugins",
-            new PluginManifest { Name = "test", Version = "1.0.0" });
+        var ctx = new PluginContext
+        {
+            Services = new MockServiceProvider(),
+            Logger = _logger,
+            Config = new NextNetConfig(),
+            PluginDirectory = "/plugins",
+            Manifest = new PluginManifest { Name = "test", Version = "1.0.0" }
+        };
 
         // Act
         var hooks = registry.GetHooks<IRouteScannerHook>();

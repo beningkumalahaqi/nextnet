@@ -10,7 +10,7 @@ namespace NextNet.ServerActions.Tests
     public class ServerActionClientProxyGeneratorEdgeCasesTests
     {
         [Fact]
-        public void GenerateClientProxy_NullRegistry_ThrowsArgumentNullException()
+        public void GenerateClientProxy_Should_ThrowArgumentNullException_When_RegistryIsNull()
         {
             // Arrange
             var generator = new ServerActionClientProxyGenerator();
@@ -20,7 +20,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GenerateClientProxy_ActionWithVoidReturn_GeneratesActionResult()
+        public void GenerateClientProxy_Should_GenerateActionResult_When_ActionWithVoidReturn()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -35,7 +35,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GenerateClientProxy_ActionWithServiceParam_SkipsServiceParam()
+        public void GenerateClientProxy_Should_SkipServiceParam_When_ActionWithServiceParam()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -50,7 +50,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GenerateClientProxy_WithUnsafeMethodName_HandlesCorrectly()
+        public void GenerateClientProxy_Should_HandleUnsafeName_When_MethodNameStartsWithNumber()
         {
             // Arrange
             var registry = new ServerActionRegistry();

@@ -11,6 +11,20 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// <summary>
 /// Extension methods for registering NextNet Server Actions services in the DI container.
 /// </summary>
+/// <example>
+/// Register services in <c>Program.cs</c>:
+/// <code>
+/// builder.Services.AddNextNetServerActions(options =>
+/// {
+///     options.AutoDiscoverAssemblies = new[] { typeof(MyAction).Assembly };
+///     options.EnableAntiForgery = true;
+/// });
+/// </code>
+/// Add middleware to the pipeline:
+/// <code>
+/// app.UseNextNetServerActions();
+/// </code>
+/// </example>
 public static class ServerActionServiceCollectionExtensions
 {
     /// <summary>
@@ -90,7 +104,17 @@ public static class ServerActionServiceCollectionExtensions
 /// <summary>
 /// Configuration options for NextNet Server Actions.
 /// </summary>
-public sealed class ServerActionOptions
+/// <example>
+/// Configure options when registering services:
+/// <code>
+/// services.AddNextNetServerActions(options =>
+/// {
+///     options.AutoDiscoverAssemblies = new[] { typeof(MyAction).Assembly };
+///     options.EnableAntiForgery = true;
+/// });
+/// </code>
+/// </example>
+public sealed record ServerActionOptions
 {
     /// <summary>
     /// Assemblies to scan for server action discovery at startup.

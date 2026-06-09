@@ -14,7 +14,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void IsStale_AgeExceedsInterval_ReturnsTrue()
+    public void IsStale_Should_ReturnTrue_When_AgeExceedsInterval()
     {
         var generatedAt = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var now = generatedAt.AddSeconds(61);
@@ -23,7 +23,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void IsStale_AgeWithinInterval_ReturnsFalse()
+    public void IsStale_Should_ReturnFalse_When_AgeWithinInterval()
     {
         var generatedAt = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var now = generatedAt.AddSeconds(30);
@@ -32,7 +32,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void IsStale_ZeroInterval_NeverStale()
+    public void IsStale_Should_ReturnFalse_When_IntervalIsZero()
     {
         var generatedAt = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var now = generatedAt.AddDays(365);
@@ -41,7 +41,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void IsStale_NullInterval_UsesGlobalDefault()
+    public void IsStale_Should_UseGlobalDefault_When_IntervalIsNull()
     {
         var generatedAt = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var now = generatedAt.AddSeconds(61);
@@ -50,7 +50,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void IsStale_NullNow_UsesUtcNow()
+    public void IsStale_Should_UseUtcNow_When_NowIsNull()
     {
         var generatedAt = DateTime.UtcNow.AddSeconds(-120);
 
@@ -58,7 +58,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void IsStale_NegativeInterval_NeverStale()
+    public void IsStale_Should_ReturnFalse_When_IntervalIsNegative()
     {
         var generatedAt = DateTime.UtcNow.AddDays(-1);
 
@@ -66,7 +66,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void GetTtlSeconds_ReturnsCorrectRemainingTime()
+    public void GetTtlSeconds_Should_ReturnCorrectRemainingTime_When_Called()
     {
         var generatedAt = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var now = generatedAt.AddSeconds(10);
@@ -77,7 +77,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void GetTtlSeconds_WhenStale_ReturnsZero()
+    public void GetTtlSeconds_Should_ReturnZero_When_Stale()
     {
         var generatedAt = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var now = generatedAt.AddSeconds(120);
@@ -88,7 +88,7 @@ public class TimeBasedRevalidatorTests
     }
 
     [Fact]
-    public void GetTtlSeconds_ZeroInterval_ReturnsMaxValue()
+    public void GetTtlSeconds_Should_ReturnMaxValue_When_IntervalIsZero()
     {
         var generatedAt = DateTime.UtcNow;
 

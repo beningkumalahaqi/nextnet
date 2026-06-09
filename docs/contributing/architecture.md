@@ -4,9 +4,9 @@ title: Architecture
 description: Internal architecture of the NextNet framework
 ---
 
-# Architecture `v1.0` `stable`
+# Architecture `v5.0` `stable`
 
-Understand the internal architecture of NextNet. This guide is for contributors who want to understand how the framework works under the hood.
+Understand the internal architecture of NextNet. This guide is for contributors who want to understand how the framework works under the hood. All 37 packages have been upgraded to V5 standards.
 
 ## High-Level Architecture
 
@@ -37,21 +37,83 @@ flowchart TD
 
 NextNet is organized into distinct modules, each with a clear responsibility:
 
-| Module | Purpose | Phase |
-|--------|---------|-------|
-| `NextNet.Core` | Core abstractions: `Page`, `Layout`, `Html`, `IHtmlContent` | Phase 1 |
-| `NextNet.Routing` | File-based route discovery and parsing | Phase 1 |
-| `NextNet.SourceGenerators` | Roslyn incremental source generators | Phase 1 |
-| `NextNet.Rendering` | SSR and streaming HTML rendering | Phase 1 |
-| `NextNet.Layouts` | Layout chain resolution and composition | Phase 2 |
-| `NextNet.Cli` | CLI commands: `new`, `dev`, `build`, `publish` | Phase 2 |
-| `NextNet.Build` | Build pipeline and static generation | Phase 2 |
-| `NextNet.ServerActions` | Server action code generation and runtime | Phase 3 |
-| `NextNet.Middleware` | Route middleware pipeline | Phase 3 |
-| `NextNet.Plugins` | Plugin loading and registration system | Phase 3 |
-| `NextNet.DevTools` | Development tooling and debugging | Phase 3 |
-| `NextNet.Isr` | Incremental Static Regeneration | Phase 4 |
-| `NextNet.Edge` | Edge runtime support | Phase 4 |
+| Module | Purpose | V5 Status | Error Codes |
+|--------|---------|-----------|-------------|
+| `NextNet.Core` | Core abstractions: `Page`, `Layout`, `Html`, `IHtmlContent` | V5 ✓ Complete | DS-000 |
+| `NextNet.Routing` | File-based route discovery and parsing | V5 ✓ Complete | — |
+| `NextNet.SourceGenerators` | Roslyn incremental source generators | V5 ✓ Complete | — |
+| `NextNet.Rendering` | SSR and streaming HTML rendering | V5 ✓ Complete | — |
+| `NextNet.Layouts` | Layout chain resolution and composition | V5 ✓ Complete | DS-100 – DS-105 |
+| `NextNet.Cli` | CLI commands: `new`, `dev`, `build`, `publish`, `add`, `generate` | V5 ✓ Complete | — |
+| `NextNet.Build` | Build pipeline and static generation | V5 ✓ Complete | DS-200 – DS-219 |
+| `NextNet.ServerActions` | Server action code generation and runtime | V5 ✓ Complete | DS-600 |
+| `NextNet.Middleware` | Route middleware pipeline | V5 ✓ Complete | DS-700 – DS-709 |
+| `NextNet.Plugins` | Plugin loading and registration system | V5 ✓ Complete | DS-800 |
+| `NextNet.DevTools` | Development tooling and debugging | V5 ✓ Complete | DS-900 – DS-919 |
+| `NextNet.Isr` | Incremental Static Regeneration | V5 ✓ Complete | DS-300 |
+| `NextNet.Edge` | Edge runtime support | V5 ✓ Complete | — |
+
+### V5 Design System & UI Packages
+
+| Module | Purpose | V5 Status | Error Codes |
+|--------|---------|-----------|-------------|
+| `NextNet.DesignSystem` | Design tokens, CSS variable generation, token resolution | V5 ✓ Complete | DS-100 |
+| `NextNet.UI.Abstractions` | Base component contracts (`IComponent`, `RenderContext`) | V5 ✓ Complete | — |
+| `NextNet.UI.DesignSystem` | Facade package wrapping tokens + theming + Tailwind | V5 ✓ Complete | — |
+| `NextNet.UI.Rendering` | HTML generation engine, property binding, component rendering | V5 ✓ Complete | DS-300 |
+| `NextNet.UI.Tailwind` | Tailwind config generation, utility class mapping, PostCSS pipeline | V5 ✓ Complete | DS-400 |
+| `NextNet.UI.Theming` | Theme loading, validation, token generation, dark mode | V5 ✓ Complete | DS-200 |
+
+### Data Layer Packages
+
+| Module | Purpose | V5 Status | Error Codes |
+|--------|---------|-----------|-------------|
+| `NextNet.Data.Abstractions` | Data access contracts (`IRepository`, `IUnitOfWork`) | V5 ✓ Complete | DS-400 |
+| `NextNet.Data.Dapper` | Dapper-based data provider | V5 ✓ Complete | — |
+| `NextNet.Data.EntityFramework` | Entity Framework Core provider | V5 ✓ Complete | — |
+| `NextNet.Data.HealthChecks` | Database health check integrations | V5 ✓ Complete | — |
+| `NextNet.Data.MongoDB` | MongoDB provider with GridFS support | V5 ✓ Complete | DS-500 |
+| `NextNet.Data.MultiDb` | Multi-database routing and management | V5 ✓ Complete | — |
+| `NextNet.Data.PostgreSQL` | PostgreSQL-specific provider | V5 ✓ Complete | — |
+| `NextNet.Data.Providers` | Provider factory and registration | V5 ✓ Complete | — |
+| `NextNet.Data.Sdk` | Data SDK for code generation and tooling | V5 ✓ Complete | DS-600 |
+| `NextNet.Data.Sqlite` | SQLite provider | V5 ✓ Complete | — |
+
+### Template System Packages
+
+| Module | Purpose | V5 Status | Error Codes |
+|--------|---------|-----------|-------------|
+| `NextNet.Templates` | Official project templates | V5 ✓ Complete | — |
+| `NextNet.Templates.Official` | Official starter templates (blog, dashboard, SaaS, API) | V5 ✓ Complete | — |
+| `NextNet.TemplateEngine` | Template variable substitution, conditionals, scaffolding | V5 ✓ Complete | DS-700 – DS-709 |
+| `NextNet.TemplateMarketplace` | Template marketplace publishing and discovery | V5 ✓ Complete | DS-920 – DS-929 |
+| `NextNet.TemplatePackages` | Template NuGet packaging | V5 ✓ Complete | — |
+| `NextNet.TemplateRegistry` | Remote template registry client | V5 ✓ Complete | DS-720 – DS-729 |
+| `NextNet.TemplateSdk` | Template SDK for building custom templates | V5 ✓ Complete | DS-740 – DS-749 |
+| `NextNet.TemplateSecurity` | Template security scanning and validation | V5 ✓ Complete | — |
+
+## Error Code Range Allocation
+
+All NextNet errors use the `DS-XXX` prefix. Over 258 error codes are defined across the framework (DS-000 through DS-929).
+
+| Range | Package | Purpose |
+|-------|---------|---------|
+| DS-000 | `NextNet.Core` | Core framework errors |
+| DS-100 – DS-105 | `NextNet.Layouts` | Layout chain resolution errors |
+| DS-200 – DS-219 | `NextNet.Build` | Build pipeline errors |
+| DS-300 | `NextNet.Isr`, `NextNet.UI.Rendering` | ISR and UI rendering errors |
+| DS-400 | `NextNet.Data.Abstractions`, `NextNet.UI.Tailwind` | Data abstraction and Tailwind mapping errors |
+| DS-500 | `NextNet.Data.MongoDB` | MongoDB provider errors |
+| DS-600 | `NextNet.ServerActions`, `NextNet.Data.Sdk` | Server action and data SDK errors |
+| DS-700 – DS-709 | `NextNet.Middleware`, `NextNet.TemplateEngine` | Middleware and template engine errors |
+| DS-720 – DS-729 | `NextNet.TemplateRegistry` | Template registry errors |
+| DS-740 – DS-749 | `NextNet.TemplateSdk` | Template SDK errors |
+| DS-800 | `NextNet.Plugins` | Plugin system errors |
+| DS-900 – DS-919 | `NextNet.DevTools` | DevTools errors |
+| DS-920 – DS-929 | `NextNet.TemplateMarketplace` | Template marketplace errors |
+
+> [!NOTE]
+> Error codes follow the convention `DS-XXX` where `DS` stands for "Design System." Each package defines its error codes in a dedicated `*ErrorCodes.cs` static class. Use error codes in exception messages as prefixes (e.g., `"[DS-200]"`) for easy identification and search.
 
 ## Core Abstractions (`NextNet.Core`)
 

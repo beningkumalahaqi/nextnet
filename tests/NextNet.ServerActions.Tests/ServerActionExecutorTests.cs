@@ -29,7 +29,7 @@ namespace NextNet.ServerActions.Tests
             return context;
         }
         [Fact]
-        public async Task ExecuteAsync_WithActionResult_WritesResponse()
+        public async Task ExecuteAsync_Should_WriteResponse_When_ActionResultReturned()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -52,7 +52,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_UnknownAction_Returns404()
+        public async Task ExecuteAsync_Should_Return404_When_ActionNotFound()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -74,7 +74,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_NullContext_ThrowsArgumentNullException()
+        public async Task ExecuteAsync_Should_ThrowArgumentNullException_When_ContextIsNull()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -88,7 +88,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_NullActionName_ThrowsArgumentException()
+        public async Task ExecuteAsync_Should_ThrowArgumentException_When_ActionNameIsNull()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -105,7 +105,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_EmptyActionName_ThrowsArgumentException()
+        public async Task ExecuteAsync_Should_ThrowArgumentException_When_ActionNameIsEmpty()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -122,7 +122,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithNonActionResult_WrapsInSuccess()
+        public async Task ExecuteAsync_Should_WrapInSuccess_When_NonActionResultReturned()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -143,7 +143,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_ActionThrows_Returns500()
+        public async Task ExecuteAsync_Should_Return500_When_ActionThrows()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -162,7 +162,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithRequireAuth_Unauthenticated_Returns401()
+        public async Task ExecuteAsync_Should_Return401_When_RequireAuthAndUnauthenticated()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -181,7 +181,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithActionResultReturningIResult_UsesIResult()
+        public async Task ExecuteAsync_Should_UseIResult_When_ActionResultReturnsIResult()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -200,7 +200,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithFormData_ParsesCorrectly()
+        public async Task ExecuteAsync_Should_ParseFormData_When_FormDataProvided()
         {
             // Arrange
             var registry = new ServerActionRegistry();

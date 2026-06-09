@@ -6,7 +6,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsPanelTests
 {
     [Fact]
-    public void Create_ReturnsBorderedString()
+    public void Create_Should_ReturnBorderedString_When_GivenTitleAndContent()
     {
         var result = DevToolsPanel.Create("Test Title", "Content line 1\nContent line 2", 40);
         Assert.Contains("Test Title", result);
@@ -19,14 +19,14 @@ public class DevToolsPanelTests
     }
 
     [Fact]
-    public void Create_WithEmptyContent_Works()
+    public void Create_Should_Work_When_ContentIsEmpty()
     {
         var result = DevToolsPanel.Create("Empty", "", 30);
         Assert.Contains("Empty", result);
     }
 
     [Fact]
-    public void Render_WritesToConsole()
+    public void Render_Should_WriteToConsole_When_Called()
     {
         var output = CaptureConsoleOutput(() => DevToolsPanel.Render("Title", "Content", 40));
         Assert.Contains("Title", output);
@@ -34,7 +34,7 @@ public class DevToolsPanelTests
     }
 
     [Fact]
-    public void CreateStatusBar_ReturnsBorderedString()
+    public void CreateStatusBar_Should_ReturnBorderedString_When_GivenText()
     {
         var result = DevToolsPanel.CreateStatusBar("Status text", 40);
         Assert.Contains("Status text", result);
@@ -43,7 +43,7 @@ public class DevToolsPanelTests
     }
 
     [Fact]
-    public void CreateStatusBar_EmptyText_Works()
+    public void CreateStatusBar_Should_Work_When_TextIsEmpty()
     {
         var result = DevToolsPanel.CreateStatusBar("", 30);
         Assert.NotNull(result);

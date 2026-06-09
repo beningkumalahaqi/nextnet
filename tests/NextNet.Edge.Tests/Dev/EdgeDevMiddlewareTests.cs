@@ -20,7 +20,7 @@ public class EdgeDevMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_AddsPreviewHeaders()
+    public async Task InvokeAsync_Should_AddPreviewHeaders_When_Called()
     {
         // Arrange
         var middleware = CreateMiddleware();
@@ -36,7 +36,7 @@ public class EdgeDevMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_CompatibilityEndpoint_ReturnsJson()
+    public async Task InvokeAsync_Should_ReturnJson_When_CompatibilityEndpoint()
     {
         // Arrange
         var middleware = CreateMiddleware();
@@ -57,7 +57,7 @@ public class EdgeDevMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_NormalPath_CallsNext()
+    public async Task InvokeAsync_Should_CallNext_When_NormalPath()
     {
         // Arrange
         var nextCalled = false;
@@ -77,7 +77,7 @@ public class EdgeDevMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_NullContext_Throws()
+    public async Task InvokeAsync_Should_Throw_When_ContextIsNull()
     {
         var middleware = CreateMiddleware();
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
@@ -85,7 +85,7 @@ public class EdgeDevMiddlewareTests
     }
 
     [Fact]
-    public void Constructor_NullNext_Throws()
+    public void Constructor_Should_Throw_When_NextIsNull()
     {
         var options = new EdgeOptions();
         var whitelist = new EdgeApiWhitelist();
@@ -96,7 +96,7 @@ public class EdgeDevMiddlewareTests
     }
 
     [Fact]
-    public void Constructor_NullOptions_Throws()
+    public void Constructor_Should_Throw_When_OptionsIsNull()
     {
         var whitelist = new EdgeApiWhitelist();
         var checker = new EdgeCompatibilityChecker(whitelist);
@@ -106,7 +106,7 @@ public class EdgeDevMiddlewareTests
     }
 
     [Fact]
-    public void Constructor_NullChecker_Throws()
+    public void Constructor_Should_Throw_When_CheckerIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new EdgeDevMiddleware(_ => Task.CompletedTask, new EdgeOptions(), null!));

@@ -3,6 +3,7 @@ using System.Net.WebSockets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using NextNet.DevTools.Errors;
 using NextNet.DevTools.Headless;
 using NextNet.DevTools.Panels;
 using NextNet.DevTools.UI;
@@ -12,340 +13,121 @@ namespace NextNet.DevTools;
 /// <summary>
 /// Defines the DevTools operating mode.
 /// </summary>
+/// <example>
+/// <code>
+/// var options = new DevToolsOptions { Mode = DevToolsMode.Tui };
+/// var server = new DevToolsServer(options);
+/// </code>
+/// </example>
 public enum DevToolsMode
 {
-    /// <summary>Terminal UI mode (default in terminal).</summary>
+    /// <summary>Terminal UI mode (default in terminal). Renders panels interactively.</summary>
     Tui,
 
-    /// <summary>HTTP API + WebSocket mode for external consumers (VS Code extension).</summary>
+    /// <summary>HTTP API + WebSocket mode for external consumers (VS Code extension, browser).</summary>
     Headless,
 
-    /// <summary>Disabled.</summary>
+    /// <summary>Disabled — no DevTools UI or API is started.</summary>
     Off
 }
 
 /// <summary>
 /// Configuration options for the DevTools host.
+/// Controls operating mode, port, and which panels are enabled.
 /// </summary>
-public class DevToolsOptions
+/// <example>
+/// <code>
+/// var options = new DevToolsOptions
+/// {
+///     Mode = DevToolsMode.Headless,
+///     Port = 9000,
+///     EnableRouteInspector = true,
+///     EnableProfiler = false
+/// };
+/// </code>
+/// </example>
+public sealed record DevToolsOptions
 {
-    /// <summary>Operating mode: Tui, Headless, or Off.</summary>
-    public DevToolsMode Mode { get; set; } = DevToolsMode.Tui;
+    /// <summary>Operating mode: Tui, Headless, or Off (default Tui).</summary>
+    public DevToolsMode Mode { get; init; } = DevToolsMode.Tui;
 
     /// <summary>Port for the headless HTTP API (default 3001).</summary>
-    public int Port { get; set; } = 3001;
+    public int Port { get; init; } = 3001;
 
     /// <summary>Initial active panel index.</summary>
-    public int ActivePanel { get; set; }
+    public int ActivePanel { get; init; }
 
-    /// <summary>Enable the performance profiler.</summary>
-    public bool EnableProfiler { get; set; } = true;
+    /// <summary>Enable the performance profiler panel (default true).</summary>
+    public bool EnableProfiler { get; init; } = true;
 
-    /// <summary>Enable the route inspector.</summary>
-    public bool EnableRouteInspector { get; set; } = true;
+    /// <summary>Enable the route inspector panel (default true).</summary>
+    public bool EnableRouteInspector { get; init; } = true;
 
-    /// <summary>Enable the component graph.</summary>
-    public bool EnableComponentGraph { get; set; } = true;
+    /// <summary>Enable the component graph panel (default true).</summary>
+    public bool EnableComponentGraph { get; init; } = true;
 
-    /// <summary>Enable the network inspector.</summary>
-    public bool EnableNetworkInspector { get; set; } = true;
+    /// <summary>Enable the network inspector panel (default true).</summary>
+    public bool EnableNetworkInspector { get; init; } = true;
 
-    /// <summary>Enable the console log panel.</summary>
-    public bool EnableConsolePanel { get; set; } = true;
+    /// <summary>Enable the console log panel (default true).</summary>
+    public bool EnableConsolePanel { get; init; } = true;
+
+    /// <summary>
+    /// Whether the terminal uses a dark background (default true).
+    /// Controls which <see cref="TerminalColorPalette"/> is used for console output.
+    /// Set to false for light terminal themes.
+    /// </summary>
+    public bool IsDark { get; init; } = true;
 }
 
 /// <summary>
-/// Event bus interface for DevTools publish/subscribe.
+/// Context provided to panels during TUI rendering.
+/// Carries terminal dimensions for responsive layout.
 /// </summary>
-public interface IDevToolsEventBus
+/// <example>
+/// <code>
+/// var ctx = new TuiRenderContext(120);
+/// myPanel.Render(ctx);
+/// </code>
+/// </example>
+public sealed record TuiRenderContext
 {
-    /// <summary>Publish an event to all subscribers.</summary>
-    void Publish<TEvent>(TEvent evt) where TEvent : IDevToolsEvent;
+    /// <summary>Width of the terminal in characters.</summary>
+    public int Width { get; }
 
-    /// <summary>Subscribe to an event type. Returns a disposable that unsubscribes.</summary>
-    IDisposable Subscribe<TEvent>(Action<TEvent> handler) where TEvent : IDevToolsEvent;
-}
-
-/// <summary>
-/// Marker interface for DevTools events.
-/// </summary>
-public interface IDevToolsEvent { }
-
-/// <summary>
-/// Event fired when a new route is discovered.
-/// </summary>
-public class RouteDiscoveredEvent : IDevToolsEvent
-{
-    public string Path { get; init; } = string.Empty;
-    public string Type { get; init; } = string.Empty;
-    public string File { get; init; } = string.Empty;
-}
-
-/// <summary>
-/// Event fired when a component renders.
-/// </summary>
-public class ComponentRenderedEvent : IDevToolsEvent
-{
-    public string Component { get; init; } = string.Empty;
-    public long DurationMs { get; init; }
-    public string Route { get; init; } = string.Empty;
-}
-
-/// <summary>
-/// Event fired when a build completes.
-/// </summary>
-public class BuildCompletedEvent : IDevToolsEvent
-{
-    public long TotalDurationMs { get; init; }
-    public bool Success { get; init; }
-    public IReadOnlyList<BuildStepMetric> Steps { get; init; } = Array.Empty<BuildStepMetric>();
-}
-
-/// <summary>
-/// A single build step metric.
-/// </summary>
-public class BuildStepMetric
-{
-    public string Name { get; init; } = string.Empty;
-    public long DurationMs { get; init; }
-}
-
-/// <summary>
-/// Event fired when an HMR update is applied.
-/// </summary>
-public class HmrUpdatedEvent : IDevToolsEvent
-{
-    public IReadOnlyList<string> Files { get; init; } = Array.Empty<string>();
-    public long DurationMs { get; init; }
-    public bool Success { get; init; }
-}
-
-/// <summary>
-/// Event fired when an error occurs in the dev server.
-/// </summary>
-public class ErrorOccurredEvent : IDevToolsEvent
-{
-    public string Message { get; init; } = string.Empty;
-    public string? File { get; init; }
-    public int? Line { get; init; }
-}
-
-// ── Event bus implementation ────────────────────────────────────────────
-
-/// <summary>
-/// Simple in-memory event bus for DevTools publish/subscribe.
-/// </summary>
-public sealed class DevToolsEventBus : IDevToolsEventBus
-{
-    private readonly object _lock = new();
-    private readonly Dictionary<Type, List<Delegate>> _handlers = new();
-
-    /// <inheritdoc />
-    public void Publish<TEvent>(TEvent evt) where TEvent : IDevToolsEvent
-    {
-        List<Delegate>? handlers;
-        lock (_lock)
-        {
-            if (!_handlers.TryGetValue(typeof(TEvent), out handlers))
-                return;
-            // Snapshot under lock
-            handlers = new List<Delegate>(handlers);
-        }
-
-        foreach (var handler in handlers)
-        {
-            try
-            {
-                ((Action<TEvent>)handler)(evt);
-            }
-            catch
-            {
-                // Swallow subscriber exceptions to keep bus alive
-            }
-        }
-    }
-
-    /// <inheritdoc />
-    public IDisposable Subscribe<TEvent>(Action<TEvent> handler) where TEvent : IDevToolsEvent
-    {
-        lock (_lock)
-        {
-            var eventType = typeof(TEvent);
-            if (!_handlers.ContainsKey(eventType))
-                _handlers[eventType] = new List<Delegate>();
-            _handlers[eventType].Add(handler);
-        }
-
-        return new Subscription<TEvent>(this, handler);
-    }
-
-    private sealed class Subscription<TEvent> : IDisposable where TEvent : IDevToolsEvent
-    {
-        private readonly DevToolsEventBus _bus;
-        private readonly Action<TEvent> _handler;
-        private bool _disposed;
-
-        public Subscription(DevToolsEventBus bus, Action<TEvent> handler)
-        {
-            _bus = bus;
-            _handler = handler;
-        }
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-            _disposed = true;
-            lock (_bus._lock)
-            {
-                if (_bus._handlers.TryGetValue(typeof(TEvent), out var handlers))
-                {
-                    handlers.Remove(_handler);
-                }
-            }
-        }
-    }
-}
-
-// ── In-memory data store for DevTools ───────────────────────────────────
-
-/// <summary>
-/// Thread-safe in-memory store for DevTools collected data.
-/// </summary>
-public sealed class DevToolsDataStore
-{
-    private readonly object _lock = new();
-    private readonly List<RouteInspectorPanel.RouteInfo> _routes = new();
-    private readonly List<ComponentTreePanel.ComponentInfo> _components = new();
-    private readonly List<PerformanceProfilerPanel.PerformanceMetric> _metrics = new();
-    private readonly List<NetworkInspectorPanel.NetworkRequest> _networkRequests = new();
-    private readonly List<string> _consoleLogs = new();
-    private int _maxNetworkEntries = 500;
-    private int _maxConsoleEntries = 1000;
-
-    /// <summary>Maximum number of network request entries to retain.</summary>
-    public int MaxNetworkEntries { get => _maxNetworkEntries; set => _maxNetworkEntries = value; }
-
-    /// <summary>Maximum number of console log entries to retain.</summary>
-    public int MaxConsoleEntries { get => _maxConsoleEntries; set => _maxConsoleEntries = value; }
-
-    // ── Routes ───────────────────────────────────────────────────────
-
-    /// <summary>Set the current route list (replaces all).</summary>
-    public void SetRoutes(IEnumerable<RouteInspectorPanel.RouteInfo> routes)
-    {
-        lock (_lock)
-        {
-            _routes.Clear();
-            _routes.AddRange(routes);
-        }
-    }
-
-    /// <summary>Get all routes.</summary>
-    public IReadOnlyList<RouteInspectorPanel.RouteInfo> GetRoutes()
-    {
-        lock (_lock) return _routes.ToList();
-    }
-
-    // ── Components ───────────────────────────────────────────────────
-
-    /// <summary>Set the current component list.</summary>
-    public void SetComponents(IEnumerable<ComponentTreePanel.ComponentInfo> components)
-    {
-        lock (_lock)
-        {
-            _components.Clear();
-            _components.AddRange(components);
-        }
-    }
-
-    /// <summary>Get all components.</summary>
-    public IReadOnlyList<ComponentTreePanel.ComponentInfo> GetComponents()
-    {
-        lock (_lock) return _components.ToList();
-    }
-
-    // ── Performance ──────────────────────────────────────────────────
-
-    /// <summary>Add a performance metric.</summary>
-    public void AddMetric(PerformanceProfilerPanel.PerformanceMetric metric)
-    {
-        lock (_lock) _metrics.Add(metric);
-    }
-
-    /// <summary>Get all performance metrics.</summary>
-    public IReadOnlyList<PerformanceProfilerPanel.PerformanceMetric> GetMetrics()
-    {
-        lock (_lock) return _metrics.ToList();
-    }
-
-    /// <summary>Clear all performance metrics.</summary>
-    public void ClearMetrics()
-    {
-        lock (_lock) _metrics.Clear();
-    }
-
-    // ── Network ──────────────────────────────────────────────────────
-
-    /// <summary>Add a network request.</summary>
-    public void AddNetworkRequest(NetworkInspectorPanel.NetworkRequest request)
-    {
-        lock (_lock)
-        {
-            _networkRequests.Add(request);
-            if (_networkRequests.Count > _maxNetworkEntries)
-                _networkRequests.RemoveAt(0);
-        }
-    }
-
-    /// <summary>Get all network requests.</summary>
-    public IReadOnlyList<NetworkInspectorPanel.NetworkRequest> GetNetworkRequests()
-    {
-        lock (_lock) return _networkRequests.ToList();
-    }
-
-    /// <summary>Clear all network requests.</summary>
-    public void ClearNetworkRequests()
-    {
-        lock (_lock) _networkRequests.Clear();
-    }
-
-    // ── Console ──────────────────────────────────────────────────────
-
-    /// <summary>Add a console log entry.</summary>
-    public void AddConsoleLog(string entry)
-    {
-        lock (_lock)
-        {
-            _consoleLogs.Add(entry);
-            if (_consoleLogs.Count > _maxConsoleEntries)
-                _consoleLogs.RemoveAt(0);
-        }
-    }
-
-    /// <summary>Get all console logs.</summary>
-    public IReadOnlyList<string> GetConsoleLogs()
-    {
-        lock (_lock) return _consoleLogs.ToList();
-    }
-
-    /// <summary>Clear all console logs.</summary>
-    public void ClearConsoleLogs()
-    {
-        lock (_lock) _consoleLogs.Clear();
-    }
+    /// <summary>Creates a new render context with the specified terminal width.</summary>
+    /// <param name="width">Terminal width in characters.</param>
+    public TuiRenderContext(int width) => Width = width;
 }
 
 // ── DevTools Server ─────────────────────────────────────────────────────
 
 /// <summary>
 /// Main DevTools host that manages the TUI or headless server lifecycle.
+/// Coordinates panels, event bus, data store, and WebSocket connections.
 /// </summary>
+/// <example>
+/// <code>
+/// // TUI mode
+/// var options = new DevToolsOptions { Mode = DevToolsMode.Tui };
+/// using var server = new DevToolsServer(options);
+/// await server.StartAsync();
+/// server.RunTuiLoop();
+///
+/// // Headless mode
+/// var headlessOptions = new DevToolsOptions { Mode = DevToolsMode.Headless, Port = 4000 };
+/// using var headlessServer = new DevToolsServer(headlessOptions);
+/// await headlessServer.StartAsync();
+/// </code>
+/// </example>
 public sealed class DevToolsServer : IDisposable, IAsyncDisposable
 {
     private readonly DevToolsOptions _options;
     private readonly DevToolsDataStore _dataStore;
     private readonly DevToolsEventBus _eventBus;
     private readonly IReadOnlyList<IDevToolsPanel> _panels;
+    private readonly TerminalColorPalette _palette;
+    private readonly DevToolsConsole _console;
     private CancellationTokenSource? _cts;
     private Task? _serverTask;
     private WebApplication? _webApp;
@@ -355,6 +137,8 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
     /// <summary>
     /// Creates a new DevTools server instance.
     /// </summary>
+    /// <param name="options">Configuration options. Must not be null.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="options"/> is null.</exception>
     public DevToolsServer(DevToolsOptions options)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
@@ -362,6 +146,9 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
         _eventBus = new DevToolsEventBus();
         _panels = CreatePanels();
         _activePanelIndex = options.ActivePanel;
+        _palette = new TerminalColorPalette(options.IsDark);
+        _console = new DevToolsConsole(_palette);
+        DevToolsConsole.Default = _console;
     }
 
     /// <summary>
@@ -370,7 +157,7 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
     public IDevToolsEventBus EventBus => _eventBus;
 
     /// <summary>
-    /// Gets the data store for DevTools collected data.
+    /// Gets the data store for DevTools collected data (routes, components, metrics).
     /// </summary>
     public DevToolsDataStore DataStore => _dataStore;
 
@@ -381,6 +168,8 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Gets or sets the active panel index.
+    /// Set to a value between 0 and <see cref="Panels"/>.Count - 1.
+    /// Values outside this range are silently ignored.
     /// </summary>
     public int ActivePanelIndex
     {
@@ -398,7 +187,7 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
     public IDevToolsPanel ActivePanel => _panels[_activePanelIndex];
 
     /// <summary>
-    /// Gets the WebSocket manager for headless mode.
+    /// Gets the WebSocket manager for headless mode. Returns null in TUI mode.
     /// </summary>
     public DevToolsWebSocketManager? WsManager => _wsManager;
 
@@ -409,10 +198,15 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Start the DevTools server.
+    /// Throws <see cref="InvalidOperationException"/> if the server is already running (DS-906).
     /// </summary>
+    /// <param name="ct">Cancellation token for the server lifecycle.</param>
+    /// <exception cref="InvalidOperationException">DS-906: Server is already running.</exception>
     public Task StartAsync(CancellationToken ct = default)
     {
-        if (IsRunning) return Task.CompletedTask;
+        if (IsRunning)
+            throw new InvalidOperationException(
+                $"{DevToolsErrorCodes.DevToolsServerAlreadyRunning}: DevTools server is already running.");
 
         _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
 
@@ -456,7 +250,7 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Runs the TUI live display loop. Blocks until the user quits.
+    /// Runs the TUI live display loop. Blocks until the user presses Q or Ctrl+C.
     /// </summary>
     public void RunTuiLoop()
     {
@@ -524,7 +318,7 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Renders the TUI to the console.
+    /// Renders the TUI to the console, including header, tab bar, active panel, and status bar.
     /// </summary>
     public void RenderTui()
     {
@@ -535,7 +329,7 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
 
         // ── Header bar ───────────────────────────────────────────
         var header = " NextNet DevTools ";
-        System.Console.ForegroundColor = ConsoleColor.Cyan;
+        System.Console.ForegroundColor = _palette.Resolve(DevToolsColorRole.Primary);
         System.Console.WriteLine(new string('=', width));
         System.Console.ResetColor();
         System.Console.WriteLine(header.PadRight(width));
@@ -548,13 +342,13 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
 
             if (i == _activePanelIndex)
             {
-                System.Console.BackgroundColor = ConsoleColor.DarkCyan;
-                System.Console.ForegroundColor = ConsoleColor.White;
+                System.Console.BackgroundColor = _palette.Resolve(DevToolsColorRole.PrimaryMuted);
+                System.Console.ForegroundColor = _palette.Resolve(DevToolsColorRole.Highlight);
             }
             else
             {
-                System.Console.BackgroundColor = ConsoleColor.DarkGray;
-                System.Console.ForegroundColor = ConsoleColor.Gray;
+                System.Console.BackgroundColor = _palette.Resolve(DevToolsColorRole.Muted);
+                System.Console.ForegroundColor = _palette.Resolve(DevToolsColorRole.Foreground);
             }
 
             System.Console.Write(label.PadRight(panelWidth));
@@ -572,11 +366,11 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
         // ── Status bar ───────────────────────────────────────────
         System.Console.WriteLine(new string('─', width));
         var status = $" Routes: {_dataStore.GetRoutes().Count} │ Components: {_dataStore.GetComponents().Count} │ Metrics: {_dataStore.GetMetrics().Count} │ Mode: {_options.Mode} ";
-        System.Console.ForegroundColor = ConsoleColor.DarkGray;
+        System.Console.ForegroundColor = _palette.Resolve(DevToolsColorRole.Muted);
         System.Console.WriteLine(status.PadRight(width));
         System.Console.ResetColor();
 
-        System.Console.ForegroundColor = ConsoleColor.DarkGray;
+        System.Console.ForegroundColor = _palette.Resolve(DevToolsColorRole.Muted);
         System.Console.WriteLine(" Tab: switch panel │ ↑/↓: navigate │ Enter: expand │ Q: quit ".PadRight(width));
         System.Console.ResetColor();
     }
@@ -659,36 +453,4 @@ public sealed class DevToolsServer : IDisposable, IAsyncDisposable
             // Swallow disposal errors during synchronous teardown
         }
     }
-}
-
-// ── Panel interface ────────────────────────────────────────────────────
-
-/// <summary>
-/// Represents a single DevTools panel that can be rendered in the TUI.
-/// </summary>
-public interface IDevToolsPanel
-{
-    /// <summary>Display name of the panel.</summary>
-    string Name { get; }
-
-    /// <summary>Unicode icon for the panel.</summary>
-    string Icon { get; }
-
-    /// <summary>Render the panel content to the TUI.</summary>
-    void Render(TuiRenderContext context);
-
-    /// <summary>Handle keyboard input.</summary>
-    void HandleInput(ConsoleKey key);
-}
-
-/// <summary>
-/// Context provided to panels during rendering.
-/// </summary>
-public class TuiRenderContext
-{
-    /// <summary>Width of the terminal in characters.</summary>
-    public int Width { get; }
-
-    /// <summary>Creates a new render context.</summary>
-    public TuiRenderContext(int width) => Width = width;
 }

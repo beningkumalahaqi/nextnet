@@ -6,7 +6,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsTreeTests
 {
     [Fact]
-    public void Render_WithRootLabel_ShowsLabel()
+    public void Render_Should_ShowLabel_When_GivenRootLabel()
     {
         var tree = new DevToolsTree("Root");
         var output = tree.Render();
@@ -14,7 +14,7 @@ public class DevToolsTreeTests
     }
 
     [Fact]
-    public void Render_WithNodes_ShowsHierarchy()
+    public void Render_Should_ShowHierarchy_When_NodesAdded()
     {
         var tree = new DevToolsTree("Root");
         var child = tree.AddNode("Child1", icon: "📄");
@@ -29,7 +29,7 @@ public class DevToolsTreeTests
     }
 
     [Fact]
-    public void RenderToConsole_WritesOutput()
+    public void RenderToConsole_Should_WriteToConsole_When_Called()
     {
         var tree = new DevToolsTree("Root");
         tree.AddNode("Node1");
@@ -40,7 +40,7 @@ public class DevToolsTreeTests
     }
 
     [Fact]
-    public void TreeNode_AddChild_ReturnsChild()
+    public void TreeNode_Should_ReturnChild_When_AddChildCalled()
     {
         var node = new DevToolsTreeNode("Parent");
         var child = node.AddChild("Child");
@@ -49,7 +49,7 @@ public class DevToolsTreeTests
     }
 
     [Fact]
-    public void TreeNode_Defaults()
+    public void TreeNode_Should_HaveDefaults_When_Initialized()
     {
         var node = new DevToolsTreeNode("Test", icon: "🔧", color: ConsoleColor.Green);
         Assert.Equal("Test", node.Label);

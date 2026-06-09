@@ -7,6 +7,17 @@ namespace NextNet.ServerActions.Results;
 /// Base class for server action results.
 /// Provides a uniform response envelope over the wire.
 /// </summary>
+/// <example>
+/// Return from a server action method:
+/// <code>
+/// [ServerAction]
+/// public static Task&lt;ActionResult&gt; Ping()
+/// {
+///     return Task.FromResult(ActionSuccess.Empty());
+/// }
+/// </code>
+/// The JSON response will contain <c>{"isSuccess":true,"isError":false}</c>.
+/// </example>
 public abstract class ActionResult
 {
     /// <summary>
@@ -61,6 +72,18 @@ public abstract class ActionResult
 /// <summary>
 /// Generic server action result that carries typed payload data.
 /// </summary>
+/// <example>
+/// Return typed data from a server action:
+/// <code>
+/// [ServerAction]
+/// public static Task&lt;ActionResult&lt;UserDto&gt;&gt; GetUser(int id)
+/// {
+///     var user = new UserDto { Id = id, Name = "Alice" };
+///     return Task.FromResult(ActionSuccess.With(user));
+/// }
+/// </code>
+/// The JSON response will contain <c>{"isSuccess":true,"data":{"id":1,"name":"Alice"}}</c>.
+/// </example>
 public sealed class ActionResult<T> : ActionResult
 {
     /// <summary>

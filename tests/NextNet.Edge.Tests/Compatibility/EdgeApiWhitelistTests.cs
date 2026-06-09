@@ -26,7 +26,7 @@ public class EdgeApiWhitelistTests
     [InlineData("NextNet.Components.IPage")]
     [InlineData("NextNet.Edge.EdgeOptions")]
     [InlineData("NextNet.Rendering.SsrRenderer")]
-    public void IsTypeAllowed_AllowedTypes_ReturnsTrue(string typeName)
+    public void IsTypeAllowed_Should_ReturnTrue_When_TypeIsAllowed(string typeName)
     {
         Assert.True(_whitelist.IsTypeAllowed(typeName),
             $"Expected '{typeName}' to be allowed.");
@@ -47,7 +47,7 @@ public class EdgeApiWhitelistTests
     [InlineData("System.Threading.ThreadPool")]
     [InlineData("System.Reflection.Emit.DynamicMethod")]
     [InlineData("System.Reflection.Emit.AssemblyBuilder")]
-    public void IsTypeAllowed_BlockedTypes_ReturnsFalse(string typeName)
+    public void IsTypeAllowed_Should_ReturnFalse_When_TypeIsBlocked(string typeName)
     {
         Assert.False(_whitelist.IsTypeAllowed(typeName),
             $"Expected '{typeName}' to be blocked.");
@@ -60,7 +60,7 @@ public class EdgeApiWhitelistTests
     [InlineData("System.Net.Sockets.Socket", "Use HttpClient")]
     [InlineData("System.Threading.Thread", "Use Task.Run")]
     [InlineData("System.Reflection.Emit.DynamicMethod", "Dynamic code generation")]
-    public void GetAlternative_BlockedTypes_ReturnsSuggestion(string typeName, string expectedPartial)
+    public void GetAlternative_Should_ReturnSuggestion_When_TypeIsBlocked(string typeName, string expectedPartial)
     {
         var suggestion = _whitelist.GetAlternative(typeName);
         Assert.NotNull(suggestion);
@@ -68,13 +68,13 @@ public class EdgeApiWhitelistTests
     }
 
     [Fact]
-    public void GetAlternative_UnknownType_ReturnsNull()
+    public void GetAlternative_Should_ReturnNull_When_TypeIsUnknown()
     {
         Assert.Null(_whitelist.GetAlternative("Some.Unknown.Type"));
     }
 
     [Fact]
-    public void IsTypeAllowed_UnknownNamespace_ReturnsTrue()
+    public void IsTypeAllowed_Should_ReturnTrue_When_NamespaceIsUnknown()
     {
         // Unknown namespaces should be allowed by default
         Assert.True(_whitelist.IsTypeAllowed("MyApp.MyComponent"));
@@ -82,13 +82,13 @@ public class EdgeApiWhitelistTests
     }
 
     [Fact]
-    public void IsTypeAllowed_NullTypeName_Throws()
+    public void IsTypeAllowed_Should_Throw_When_TypeNameIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => _whitelist.IsTypeAllowed(null!));
     }
 
     [Fact]
-    public void AllowedNamespaces_ContainsCoreNamespaces()
+    public void AllowedNamespaces_Should_ContainCoreNamespaces_When_Initialized()
     {
         Assert.Contains("System.Text", _whitelist.AllowedNamespaces);
         Assert.Contains("System.Threading.Tasks", _whitelist.AllowedNamespaces);
@@ -96,7 +96,7 @@ public class EdgeApiWhitelistTests
     }
 
     [Fact]
-    public void BlockedNamespaces_ContainsBlockedNamespaces()
+    public void BlockedNamespaces_Should_ContainBlockedNamespaces_When_Initialized()
     {
         Assert.Contains("System.IO.File", _whitelist.BlockedNamespaces);
         Assert.Contains("System.Data", _whitelist.BlockedNamespaces);

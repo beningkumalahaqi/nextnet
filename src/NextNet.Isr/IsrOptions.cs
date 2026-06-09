@@ -4,7 +4,7 @@ namespace NextNet.Isr;
 /// Per-route ISR configuration specifying revalidation behaviour,
 /// cache tags, and concurrency limits.
 /// </summary>
-public class IsrOptions
+public sealed class IsrOptions
 {
     /// <summary>
     /// Gets or sets the revalidation interval in seconds.
@@ -43,8 +43,8 @@ public class IsrOptions
     public void Validate()
     {
         if (Revalidate is < 0)
-            throw new InvalidOperationException("Revalidate must be a non-negative value or null.");
+            throw new InvalidOperationException($"[{IsrErrorCodes.RevalidateMustBeNonNegative}] Revalidate must be a non-negative value or null.");
         if (MaxConcurrentRegenerations < 1)
-            throw new InvalidOperationException("MaxConcurrentRegenerations must be at least 1.");
+            throw new InvalidOperationException($"[{IsrErrorCodes.MaxConcurrentRegenerationsMustBeAtLeastOne}] MaxConcurrentRegenerations must be at least 1.");
     }
 }

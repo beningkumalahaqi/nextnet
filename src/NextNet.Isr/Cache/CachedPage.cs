@@ -4,7 +4,7 @@ namespace NextNet.Isr.Cache;
 /// Represents a cached HTML page with its content and associated metadata.
 /// Returned by <see cref="IIsrCacheStore"/> when a cache entry is found.
 /// </summary>
-public class CachedPage
+public sealed record CachedPage
 {
     /// <summary>
     /// Gets the route path for this cached page (e.g. <c>"/blog/hello-world"</c>).

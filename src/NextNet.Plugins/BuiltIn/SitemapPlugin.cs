@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using NextNet.Plugins.Errors;
 using NextNet.Plugins.Hooks;
 using NextNet.Routing;
 
@@ -88,7 +89,7 @@ public sealed class SitemapPlugin : NextNetPlugin, IRouteScannerHook, IBuildHook
         }
         catch (Exception ex)
         {
-            ctx.Logger.Error("[SitemapPlugin] Failed to generate sitemap: {0}", ex.Message);
+            ctx.Logger.Error("[{0}] [SitemapPlugin] Failed to generate sitemap: {1}", PluginErrorCodes.InitializationFailed, ex.Message);
         }
 
         await Task.CompletedTask;
@@ -103,9 +104,10 @@ public sealed class SitemapPlugin : NextNetPlugin, IRouteScannerHook, IBuildHook
         {
             var route = page.RoutePattern.TrimStart('/');
             var url = baseUrl + route;
+            var encodedUrl = System.Net.WebUtility.HtmlEncode(url);
 
             var urlElement = new XElement(ns + "url",
-                new XElement(ns + "loc", url),
+                new XElement(ns + "loc", encodedUrl),
                 new XElement(ns + "changefreq", "weekly"),
                 new XElement(ns + "priority", "0.5")
             );
@@ -117,8 +119,11 @@ public sealed class SitemapPlugin : NextNetPlugin, IRouteScannerHook, IBuildHook
         if (manifest.Pages.Count > 0 && !manifest.Pages.Any(p =>
                 p.RoutePattern == "/" || p.RoutePattern == ""))
         {
+            var rootUrl = baseUrl.TrimEnd('/');
+            var encodedRootUrl = System.Net.WebUtility.HtmlEncode(rootUrl);
+
             urlset.AddFirst(new XElement(ns + "url",
-                new XElement(ns + "loc", baseUrl.TrimEnd('/')),
+                new XElement(ns + "loc", encodedRootUrl),
                 new XElement(ns + "changefreq", "daily"),
                 new XElement(ns + "priority", "1.0")
             ));

@@ -8,61 +8,61 @@ namespace NextNet.Middleware.Tests;
 public class MiddlewareOrderTests
 {
     [Fact]
-    public void Logging_Order_IsZero()
+    public void Logging_Should_BeZero_When_Accessed()
     {
         Assert.Equal(0, MiddlewareOrder.Logging);
     }
 
     [Fact]
-    public void StaticFiles_Order_Is100()
+    public void StaticFiles_Should_Be100_When_Accessed()
     {
         Assert.Equal(100, MiddlewareOrder.StaticFiles);
     }
 
     [Fact]
-    public void Compression_Order_Is200()
+    public void Compression_Should_Be200_When_Accessed()
     {
         Assert.Equal(200, MiddlewareOrder.Compression);
     }
 
     [Fact]
-    public void ErrorHandling_Order_Is1000()
+    public void ErrorHandling_Should_Be1000_When_Accessed()
     {
         Assert.Equal(1000, MiddlewareOrder.ErrorHandling);
     }
 
     [Fact]
-    public void Normal_Order_IsZero()
+    public void Normal_Should_BeZero_When_Accessed()
     {
         Assert.Equal(0, MiddlewareOrder.Normal);
     }
 
     [Fact]
-    public void First_Order_IsMinValue()
+    public void First_Should_BeMinValue_When_Accessed()
     {
         Assert.Equal(int.MinValue, MiddlewareOrder.First);
     }
 
     [Fact]
-    public void Last_Order_IsMaxValue()
+    public void Last_Should_BeMaxValue_When_Accessed()
     {
         Assert.Equal(int.MaxValue, MiddlewareOrder.Last);
     }
 
     [Fact]
-    public void Early_Order_IsLessThanNormal()
+    public void Early_Should_BeLessThanNormal_When_Compared()
     {
         Assert.True(MiddlewareOrder.Early < MiddlewareOrder.Normal);
     }
 
     [Fact]
-    public void Late_Order_IsGreaterThanNormal()
+    public void Late_Should_BeGreaterThanNormal_When_Compared()
     {
         Assert.True(MiddlewareOrder.Late > MiddlewareOrder.Normal);
     }
 
     [Fact]
-    public void BuiltInOrders_AreInExpectedSequence()
+    public void BuiltInOrders_Should_BeInIncreasingSequence_When_Enumerated()
     {
         var orders = new[]
         {
@@ -80,7 +80,7 @@ public class MiddlewareOrderTests
     }
 
     [Fact]
-    public void MiddlewareOrderAttribute_SetsOrder()
+    public void MiddlewareOrderAttribute_Should_SetSpecifiedOrder_When_Applied()
     {
         // Act
         var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
@@ -92,7 +92,7 @@ public class MiddlewareOrderTests
     }
 
     [Fact]
-    public void MiddlewareOrderAttribute_DefaultsToZero_WhenNotSpecified()
+    public void MiddlewareOrderAttribute_Should_BeNull_When_NotSpecified()
     {
         // Act
         var attr = (MiddlewareOrderAttribute?)Attribute.GetCustomAttribute(
@@ -103,7 +103,7 @@ public class MiddlewareOrderTests
     }
 
     [Fact]
-    public void MiddlewareOrderAttribute_CanBeReadFromPipeline()
+    public void Pipeline_Should_ReadAttributeOrder_When_MiddlewareRegistered()
     {
         // Arrange
         var pipeline = new MiddlewarePipeline();
@@ -122,7 +122,7 @@ public class MiddlewareOrderTests
     }
 
     [Fact]
-    public void Pipeline_SortsRegistrationsByOrder()
+    public void Pipeline_Should_SortRegistrationsByOrder_When_Built()
     {
         // Arrange
         var pipeline = new MiddlewarePipeline();

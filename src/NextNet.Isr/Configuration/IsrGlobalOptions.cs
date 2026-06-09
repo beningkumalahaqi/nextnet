@@ -4,7 +4,7 @@ namespace NextNet.Isr;
 /// Global ISR configuration options that apply as defaults to all ISR-configured routes.
 /// Can be overridden per-route via <see cref="IsrOptions"/> or <see cref="Manifest.IsrRouteAttribute"/>.
 /// </summary>
-public class IsrGlobalOptions
+public sealed class IsrGlobalOptions
 {
     /// <summary>
     /// Gets or sets the default revalidation interval in seconds.
@@ -62,12 +62,12 @@ public class IsrGlobalOptions
     public void Validate()
     {
         if (DefaultRevalidateSeconds < 0)
-            throw new InvalidOperationException("DefaultRevalidateSeconds must be non-negative.");
+            throw new InvalidOperationException($"[{IsrErrorCodes.DefaultRevalidateSecondsMustBeNonNegative}] DefaultRevalidateSeconds must be non-negative.");
         if (MaxConcurrentRegenerations < 1)
-            throw new InvalidOperationException("MaxConcurrentRegenerations must be at least 1.");
+            throw new InvalidOperationException($"[{IsrErrorCodes.GlobalMaxConcurrentRegenerationsMustBeAtLeastOne}] MaxConcurrentRegenerations must be at least 1.");
         if (MaxPendingRevalidations < 1)
-            throw new InvalidOperationException("MaxPendingRevalidations must be at least 1.");
+            throw new InvalidOperationException($"[{IsrErrorCodes.MaxPendingRevalidationsMustBeAtLeastOne}] MaxPendingRevalidations must be at least 1.");
         if (DeduplicationWindowSeconds < 0)
-            throw new InvalidOperationException("DeduplicationWindowSeconds must be non-negative.");
+            throw new InvalidOperationException($"[{IsrErrorCodes.DeduplicationWindowMustBeNonNegative}] DeduplicationWindowSeconds must be non-negative.");
     }
 }

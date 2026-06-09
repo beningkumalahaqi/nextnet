@@ -11,7 +11,7 @@ namespace NextNet.ServerActions.Tests
     public class ServerActionInvokerTests
     {
         [Fact]
-        public async Task InvokeAsync_StaticMethod_ReturnsResult()
+        public async Task InvokeAsync_Should_ReturnResult_When_StaticMethod()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -39,7 +39,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_WithServiceInjection_ResolvesService()
+        public async Task InvokeAsync_Should_ResolveService_When_ServiceInjection()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -63,7 +63,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_WithCancellationToken_PassesToken()
+        public async Task InvokeAsync_Should_PassToken_When_CancellationTokenProvided()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -87,7 +87,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_InstanceMethod_CreatesInstanceFromDi()
+        public async Task InvokeAsync_Should_CreateInstanceFromDi_When_InstanceMethod()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -112,7 +112,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_NullDescriptor_ThrowsArgumentNullException()
+        public async Task InvokeAsync_Should_ThrowArgumentNullException_When_DescriptorIsNull()
         {
             // Arrange
             var invoker = new ServerActionInvoker();
@@ -123,7 +123,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_NullParameters_ThrowsArgumentNullException()
+        public async Task InvokeAsync_Should_ThrowArgumentNullException_When_ParametersAreNull()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -137,7 +137,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task InvokeAsync_NullServiceProvider_ThrowsArgumentNullException()
+        public async Task InvokeAsync_Should_ThrowArgumentNullException_When_ServiceProviderIsNull()
         {
             // Arrange
             var registry = new ServerActionRegistry();

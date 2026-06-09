@@ -5,8 +5,19 @@ namespace NextNet.Middleware.Attributes;
 /// Middleware with lower order values execute earlier in the pipeline.
 /// This attribute is applied to middleware implementations to set their default priority.
 /// </summary>
+/// <example>
+/// <code>
+/// // Apply to a middleware class to set its default priority
+/// [MiddlewareOrder(MiddlewareOrder.Early)]
+/// public class MyMiddleware : IMiddleware
+/// {
+///     public Task InvokeAsync(MiddlewareContext context, RequestDelegate next)
+///         => next(context.HttpContext);
+/// }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-public class MiddlewareOrderAttribute : Attribute
+public sealed class MiddlewareOrderAttribute : Attribute
 {
     /// <summary>
     /// Gets the execution order. Lower values run first.

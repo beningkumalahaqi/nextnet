@@ -2,7 +2,22 @@ namespace NextNet.ServerActions.Results;
 
 /// <summary>
 /// Factory for creating error action results.
+/// Provides typed error responses for validation, not-found, unauthorized, and server errors.
 /// </summary>
+/// <example>
+/// Return a validation error:
+/// <code>
+/// return ActionError.Validation("Email is required");
+/// </code>
+/// Return a not-found error:
+/// <code>
+/// return ActionError.NotFound("User not found");
+/// </code>
+/// Return an unauthorized error:
+/// <code>
+/// return ActionError.Unauthorized("Access denied");
+/// </code>
+/// </example>
 public static class ActionError
 {
     /// <summary>
@@ -129,7 +144,7 @@ public static class ActionError
             IsError = true,
             ErrorType = "error",
             StatusCode = 500,
-            Message = ex != null ? $"{message}: {ex.Message}" : message
+            Message = message
         };
     }
 
@@ -145,7 +160,7 @@ public static class ActionError
             IsError = true,
             ErrorType = "error",
             StatusCode = 500,
-            Message = ex != null ? $"{message}: {ex.Message}" : message
+            Message = message
         };
     }
 

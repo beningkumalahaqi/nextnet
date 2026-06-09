@@ -9,7 +9,7 @@ namespace NextNet.ServerActions.Tests
     public class ActionResultTests
     {
         [Fact]
-        public void ActionSuccess_With_SetsProperties()
+        public void ActionSuccess_Should_SetProperties_When_WithCalled()
         {
             // Act
             var result = ActionSuccess.With("test-data");
@@ -22,7 +22,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionSuccess_WithMessage_SetsMessage()
+        public void ActionSuccess_Should_SetMessage_When_WithCalledWithMessage()
         {
             // Act
             var result = ActionSuccess.With(42, "the answer");
@@ -34,7 +34,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionSuccess_Empty_ReturnsNonGenericResult()
+        public void ActionSuccess_Should_ReturnNonGenericResult_When_EmptyCalled()
         {
             // Act
             var result = ActionSuccess.Empty();
@@ -46,7 +46,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionSuccess_WithStatus_SetsStatusCode()
+        public void ActionSuccess_Should_SetStatusCode_When_WithStatusCalled()
         {
             // Act
             var result = ActionSuccess.WithStatus(201, "Created");
@@ -58,7 +58,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_Validation_WithMessage_SetsCorrectProperties()
+        public void ActionError_Validation_Should_SetCorrectProperties_When_WithMessage()
         {
             // Act
             var result = ActionError.Validation("Email is required");
@@ -72,7 +72,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_Validation_Generic_WithMessage_SetsCorrectProperties()
+        public void ActionError_Validation_Should_SetCorrectProperties_When_GenericWithMessage()
         {
             // Act
             var result = ActionError.Validation<string>("Name is required");
@@ -85,7 +85,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_Validation_WithErrors_SetsFieldErrors()
+        public void ActionError_Validation_Should_SetFieldErrors_When_WithErrors()
         {
             // Arrange
             var errors = new Dictionary<string, string[]>
@@ -105,7 +105,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_NotFound_SetsCorrectProperties()
+        public void ActionError_NotFound_Should_SetCorrectProperties_When_Called()
         {
             // Act
             var result = ActionError.NotFound("User not found");
@@ -119,7 +119,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_NotFound_NonGeneric_SetsCorrectProperties()
+        public void ActionError_NotFound_Should_SetCorrectProperties_When_NonGenericCalled()
         {
             // Act
             var result = ActionError.NotFound("Item not found");
@@ -131,7 +131,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_Unauthorized_SetsCorrectProperties()
+        public void ActionError_Unauthorized_Should_SetCorrectProperties_When_Called()
         {
             // Act
             var result = ActionError.Unauthorized("Access denied");
@@ -144,7 +144,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_Unauthorized_NonGeneric_SetsCorrectProperties()
+        public void ActionError_Unauthorized_Should_SetCorrectProperties_When_NonGenericCalled()
         {
             // Act
             var result = ActionError.Unauthorized();
@@ -156,7 +156,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_Error_SetsCorrectProperties()
+        public void ActionError_Error_Should_SetCorrectProperties_When_Called()
         {
             // Act
             var result = ActionError.Error("Something went wrong");
@@ -169,18 +169,18 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ActionError_Error_WithException_IncludesMessage()
+        public void ActionError_Error_Should_UseCallerMessage_When_WithException()
         {
             // Act
             var result = ActionError.Error("Failed", new System.Exception("Inner details"));
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Contains("Inner details", result.Message);
+            Assert.Equal("Failed", result.Message);
         }
 
         [Fact]
-        public void ActionError_Error_Generic_SetsCorrectProperties()
+        public void ActionError_Error_Should_SetCorrectProperties_When_GenericCalled()
         {
             // Act
             var result = ActionError.Error<string>("Critical failure");
@@ -193,7 +193,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public async Task ActionResult_WriteAsync_SetsResponseHeaders()
+        public async Task ActionResult_WriteAsync_Should_SetResponseHeaders_When_Written()
         {
             // Arrange
             var result = ActionSuccess.With("test");

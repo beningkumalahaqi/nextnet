@@ -5,7 +5,7 @@ namespace NextNet.Isr.Tests;
 public class CacheEntryTests
 {
     [Fact]
-    public void Constructor_WithValidParameters_SetsProperties()
+    public void Constructor_Should_SetProperties_When_ValidParameters()
     {
         var now = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
 
@@ -29,35 +29,35 @@ public class CacheEntryTests
     }
 
     [Fact]
-    public void Constructor_NullRoute_Throws()
+    public void Constructor_Should_Throw_When_RouteIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new CacheEntry(null!, DateTime.UtcNow, 60));
     }
 
     [Fact]
-    public void Constructor_NegativeInterval_Throws()
+    public void Constructor_Should_Throw_When_IntervalIsNegative()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             new CacheEntry("/test", DateTime.UtcNow, -1));
     }
 
     [Fact]
-    public void Constructor_ZeroInterval_SetsRevalidateAfterToMaxValue()
+    public void Constructor_Should_SetRevalidateAfterToMaxValue_When_IntervalIsZero()
     {
         var entry = new CacheEntry("/static", DateTime.UtcNow, 0);
         Assert.Equal(DateTime.MaxValue, entry.RevalidateAfter);
     }
 
     [Fact]
-    public void Constructor_NullTags_DefaultsToEmpty()
+    public void Constructor_Should_DefaultToEmptyTags_When_TagsAreNull()
     {
         var entry = new CacheEntry("/test", DateTime.UtcNow, 60, null);
         Assert.Empty(entry.Tags);
     }
 
     [Fact]
-    public void IsStale_PastRevalidateAfter_ReturnsTrue()
+    public void IsStale_Should_ReturnTrue_When_PastRevalidateAfter()
     {
         var now = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var entry = new CacheEntry("/test", now, 60);
@@ -66,7 +66,7 @@ public class CacheEntryTests
     }
 
     [Fact]
-    public void IsStale_BeforeRevalidateAfter_ReturnsFalse()
+    public void IsStale_Should_ReturnFalse_When_BeforeRevalidateAfter()
     {
         var now = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var entry = new CacheEntry("/test", now, 60);
@@ -75,7 +75,7 @@ public class CacheEntryTests
     }
 
     [Fact]
-    public void IsStale_ExactlyAtRevalidateAfter_ReturnsTrue()
+    public void IsStale_Should_ReturnTrue_When_ExactlyAtRevalidateAfter()
     {
         var now = new DateTime(2026, 6, 6, 12, 0, 0, DateTimeKind.Utc);
         var entry = new CacheEntry("/test", now, 60);
@@ -84,7 +84,7 @@ public class CacheEntryTests
     }
 
     [Fact]
-    public void HasTag_WithMatchingTag_ReturnsTrue()
+    public void HasTag_Should_ReturnTrue_When_TagMatches()
     {
         var entry = new CacheEntry("/test", DateTime.UtcNow, 60,
             tags: new[] { "blog", "news" });
@@ -94,7 +94,7 @@ public class CacheEntryTests
     }
 
     [Fact]
-    public void HasTag_WithNonMatchingTag_ReturnsFalse()
+    public void HasTag_Should_ReturnFalse_When_TagDoesNotMatch()
     {
         var entry = new CacheEntry("/test", DateTime.UtcNow, 60,
             tags: new[] { "blog" });
@@ -103,7 +103,7 @@ public class CacheEntryTests
     }
 
     [Fact]
-    public void HasTag_CaseInsensitive_ReturnsTrue()
+    public void HasTag_Should_ReturnTrue_When_CaseInsensitiveMatch()
     {
         var entry = new CacheEntry("/test", DateTime.UtcNow, 60,
             tags: new[] { "Blog" });

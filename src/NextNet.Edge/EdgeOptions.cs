@@ -7,7 +7,7 @@ namespace NextNet.Edge;
 /// Controls which edge provider is used, compatibility checking strictness,
 /// and size budget limits for edge deployments.
 /// </summary>
-public class EdgeOptions
+public sealed class EdgeOptions
 {
     /// <summary>
     /// Gets or sets whether edge runtime is enabled.

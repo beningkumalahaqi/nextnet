@@ -20,7 +20,7 @@ public class DistributedIsrCacheStoreAdditionalTests
     }
 
     [Fact]
-    public async Task GetMetadataAsync_WhenFound_ReturnsEntry()
+    public async Task GetMetadataAsync_Should_ReturnEntry_When_Found()
     {
         var metaBytes = Encoding.UTF8.GetBytes(
             "{\"route\":\"/test\",\"generatedAt\":\"2026-06-06T12:00:00Z\",\"revalidateAfter\":\"2026-06-06T12:01:00Z\",\"revalidateIntervalSeconds\":60,\"tags\":[],\"hash\":\"\",\"size\":0}");
@@ -36,7 +36,7 @@ public class DistributedIsrCacheStoreAdditionalTests
     }
 
     [Fact]
-    public async Task GetMetadataAsync_WhenNotFound_ReturnsNull()
+    public async Task GetMetadataAsync_Should_ReturnNull_When_NotFound()
     {
         _mockDistributed.Setup(d => d.GetAsync("isr:meta:/test", It.IsAny<CancellationToken>()))
             .ReturnsAsync((byte[]?)null);
@@ -47,7 +47,7 @@ public class DistributedIsrCacheStoreAdditionalTests
     }
 
     [Fact]
-    public async Task RemoveTagAsync_ExistingTag_RemovesRoute()
+    public async Task RemoveTagAsync_Should_RemoveRoute_When_TagExists()
     {
         var existingRoutes = Encoding.UTF8.GetBytes("[\"/route1\",\"/route2\"]");
 
@@ -72,7 +72,7 @@ public class DistributedIsrCacheStoreAdditionalTests
     }
 
     [Fact]
-    public async Task RemoveTagAsync_LastRoute_RemovesTag()
+    public async Task RemoveTagAsync_Should_RemoveTag_When_LastRouteRemoved()
     {
         var existingRoutes = Encoding.UTF8.GetBytes("[\"/route1\"]");
 
@@ -88,7 +88,7 @@ public class DistributedIsrCacheStoreAdditionalTests
     }
 
     [Fact]
-    public async Task RemoveTagAsync_NonExistentTag_DoesNothing()
+    public async Task RemoveTagAsync_Should_NotThrow_When_TagDoesNotExist()
     {
         _mockDistributed.Setup(d => d.GetAsync("isr:tag:nonexistent", It.IsAny<CancellationToken>()))
             .ReturnsAsync((byte[]?)null);
@@ -98,7 +98,7 @@ public class DistributedIsrCacheStoreAdditionalTests
     }
 
     [Fact]
-    public async Task RemoveAsync_WithExistingTags_CleansUpTags()
+    public async Task RemoveAsync_Should_CleanUpTags_When_ExistingTagsPresent()
     {
         var metaBytes = Encoding.UTF8.GetBytes(
             "{\"route\":\"/test\",\"generatedAt\":\"2026-06-06T12:00:00Z\",\"revalidateAfter\":\"2026-06-06T12:01:00Z\",\"revalidateIntervalSeconds\":60,\"tags\":[\"blog\"],\"hash\":\"\",\"size\":0}");
@@ -120,7 +120,7 @@ public class DistributedIsrCacheStoreAdditionalTests
     }
 
     [Fact]
-    public async Task AddTagAsync_NewTag_CreatesTagEntry()
+    public async Task AddTagAsync_Should_CreateTagEntry_When_NewTagAdded()
     {
         _mockDistributed.Setup(d => d.GetAsync("isr:tag:new-tag", It.IsAny<CancellationToken>()))
             .ReturnsAsync((byte[]?)null);

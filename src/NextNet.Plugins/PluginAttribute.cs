@@ -5,7 +5,7 @@ namespace NextNet.Plugins;
 /// and identifies the plugin type to instantiate.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
-public class NextNetPluginAttribute : Attribute
+public sealed class NextNetPluginAttribute : Attribute
 {
     /// <summary>
     /// Gets the <see cref="Type"/> that implements <see cref="INextNetPlugin"/>.

@@ -5,7 +5,7 @@ namespace NextNet.Isr.Tests;
 public class RevalidationQueueTests
 {
     [Fact]
-    public async Task EnqueueAsync_WithRoute_ReturnsTrue()
+    public async Task EnqueueAsync_Should_ReturnTrue_When_RouteProvided()
     {
         var queue = new RevalidationQueue(capacity: 10, deduplicationWindowSeconds: 30);
         var request = new RevalidationRequest { Route = "/test", Reason = "test" };
@@ -15,7 +15,7 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public async Task EnqueueAsync_DuplicateRouteWithinWindow_ReturnsFalse()
+    public async Task EnqueueAsync_Should_ReturnFalse_When_DuplicateRouteWithinWindow()
     {
         var queue = new RevalidationQueue(capacity: 10, deduplicationWindowSeconds: 30);
 
@@ -27,7 +27,7 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public async Task EnqueueAsync_DifferentRoutes_BothAccepted()
+    public async Task EnqueueAsync_Should_AcceptBoth_When_DifferentRoutes()
     {
         var queue = new RevalidationQueue(capacity: 10);
 
@@ -36,7 +36,7 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public async Task CompleteRevalidation_AllowsReenqueue()
+    public async Task CompleteRevalidation_Should_AllowReenqueue_When_Called()
     {
         var queue = new RevalidationQueue(capacity: 10, deduplicationWindowSeconds: 30);
 
@@ -49,7 +49,7 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public async Task ReadAllAsync_YieldsEnqueuedItems()
+    public async Task ReadAllAsync_Should_YieldEnqueuedItems_When_ItemsAreEnqueued()
     {
         var queue = new RevalidationQueue(capacity: 10);
         var cts = new CancellationTokenSource();
@@ -79,7 +79,7 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public async Task PendingCount_ReflectsQueueDepth()
+    public async Task PendingCount_Should_ReflectQueueDepth_When_ItemsAreEnqueued()
     {
         var queue = new RevalidationQueue(capacity: 5);
         Assert.Equal(0, queue.PendingCount);
@@ -93,21 +93,21 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public void MaxConcurrentPerRoute_ReturnsConfiguredValue()
+    public void MaxConcurrentPerRoute_Should_ReturnConfiguredValue_When_Accessed()
     {
         var queue = new RevalidationQueue(capacity: 10, maxConcurrentPerRoute: 3);
         Assert.Equal(3, queue.MaxConcurrentPerRoute);
     }
 
     [Fact]
-    public void Constructor_NegativeCapacity_Throws()
+    public void Constructor_Should_Throw_When_CapacityIsNegative()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             new RevalidationQueue(capacity: -1));
     }
 
     [Fact]
-    public async Task EnqueueAsync_NullRequest_Throws()
+    public async Task EnqueueAsync_Should_Throw_When_RequestIsNull()
     {
         var queue = new RevalidationQueue();
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
@@ -115,7 +115,7 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public void ToString_WithRoute_ReturnsDescriptive()
+    public void ToString_Should_ReturnDescriptive_When_RouteIsSet()
     {
         var request = new RevalidationRequest { Route = "/test", Reason = "test reason" };
         var str = request.ToString();
@@ -124,7 +124,7 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public void ToString_WithTags_ReturnsDescriptive()
+    public void ToString_Should_ReturnDescriptive_When_TagsAreSet()
     {
         var request = new RevalidationRequest { Tags = new[] { "blog" }, Reason = "tag test" };
         var str = request.ToString();
@@ -132,7 +132,7 @@ public class RevalidationQueueTests
     }
 
     [Fact]
-    public void ToString_WithNeither_ReturnsUnknown()
+    public void ToString_Should_ReturnUnknown_When_NoRouteOrTags()
     {
         var request = new RevalidationRequest();
         Assert.Contains("Unknown", request.ToString());

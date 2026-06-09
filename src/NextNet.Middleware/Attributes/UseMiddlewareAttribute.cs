@@ -5,8 +5,19 @@ namespace NextNet.Middleware.Attributes;
 /// Can be applied multiple times to add multiple middleware components.
 /// Route-level middleware runs after global middleware and before the route handler.
 /// </summary>
+/// <example>
+/// <code>
+/// // Apply middleware to a page class
+/// [UseMiddleware(typeof(AuthMiddleware))]
+/// [UseMiddleware(typeof(LoggingMiddleware), Order = 10)]
+/// public class DashboardPage : IPage
+/// {
+///     // ...
+/// }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class UseMiddlewareAttribute : Attribute
+public sealed class UseMiddlewareAttribute : Attribute
 {
     /// <summary>
     /// Gets the middleware type to apply.
@@ -30,14 +41,14 @@ public class UseMiddlewareAttribute : Attribute
     /// Initializes a new instance of the <see cref="UseMiddlewareAttribute"/> class.
     /// </summary>
     /// <param name="middlewareType">The middleware type implementing <see cref="IMiddleware"/>.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="middlewareType"/> is null.</exception>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="middlewareType"/> does not implement <see cref="IMiddleware"/>.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="middlewareType"/> is null (DS-705).</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="middlewareType"/> does not implement <see cref="IMiddleware"/> (DS-700).</exception>
     public UseMiddlewareAttribute(Type middlewareType)
     {
-        if (middlewareType == null) throw new ArgumentNullException(nameof(middlewareType));
+        if (middlewareType == null) throw new ArgumentNullException(nameof(middlewareType), $"{Errors.MiddlewareErrorCodes.MiddlewareInstanceIsNull}: Middleware type cannot be null.");
         if (!typeof(IMiddleware).IsAssignableFrom(middlewareType))
             throw new ArgumentException(
-                $"Type '{middlewareType.FullName}' must implement {nameof(IMiddleware)}.",
+                $"{Errors.MiddlewareErrorCodes.InvalidMiddlewareType}: Type '{middlewareType.FullName}' must implement {nameof(IMiddleware)}.",
                 nameof(middlewareType));
 
         MiddlewareType = middlewareType;

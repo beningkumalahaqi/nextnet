@@ -14,7 +14,7 @@ namespace NextNet.Isr.Tests;
 public class IsrRevalidationManagerFullTests
 {
     [Fact]
-    public async Task RevalidateAsync_WithNonExistentRoute_ReturnsFailure()
+    public async Task RevalidateAsync_Should_ReturnFailure_When_RouteDoesNotExist()
     {
         var cacheStore = new Mock<IIsrCacheStore>(MockBehavior.Strict);
         var routeManifest = new Routing.RouteManifest(

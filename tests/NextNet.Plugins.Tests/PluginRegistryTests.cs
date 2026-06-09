@@ -15,13 +15,13 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void Constructor_WithNullLogger_ThrowsArgumentNullException()
+    public void Constructor_Should_ThrowArgumentNullException_When_LoggerIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new PluginRegistry(null!));
     }
 
     [Fact]
-    public void GetPlugins_WhenEmpty_ReturnsEmptyList()
+    public void GetPlugins_Should_ReturnEmptyList_When_NoPluginsRegistered()
     {
         var registry = new PluginRegistry(_logger);
         var plugins = registry.GetPlugins();
@@ -29,7 +29,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void Register_WithValidPlugin_AddsToRegistry()
+    public void Register_Should_AddPluginToRegistry_When_PluginIsValid()
     {
         var registry = new PluginRegistry(_logger);
         var plugin = new TestPlugin();
@@ -41,14 +41,14 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void Register_WithNull_ThrowsArgumentNullException()
+    public void Register_Should_ThrowArgumentNullException_When_PluginIsNull()
     {
         var registry = new PluginRegistry(_logger);
         Assert.Throws<ArgumentNullException>(() => registry.Register(null!));
     }
 
     [Fact]
-    public void Register_DuplicatePluginName_DoesNotAddDuplicate()
+    public void Register_Should_NotAddDuplicate_When_PluginNameAlreadyExists()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new TestPlugin());
@@ -58,7 +58,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void RegisterAll_AddsMultiplePlugins()
+    public void RegisterAll_Should_AddMultiplePlugins_When_GivenList()
     {
         var registry = new PluginRegistry(_logger);
         registry.RegisterAll(new INextNetPlugin[]
@@ -71,7 +71,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void Unregister_ExistingPlugin_RemovesIt()
+    public void Unregister_Should_RemoveExistingPlugin_When_NameMatches()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new TestPlugin());
@@ -83,7 +83,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void Unregister_NonExistentPlugin_ReturnsFalse()
+    public void Unregister_Should_ReturnFalse_When_PluginNotFound()
     {
         var registry = new PluginRegistry(_logger);
         var result = registry.Unregister("NonExistent");
@@ -91,7 +91,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void GetPlugin_ByName_ReturnsCorrectPlugin()
+    public void GetPlugin_Should_ReturnCorrectPlugin_When_NameMatches()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new TestPlugin());
@@ -104,7 +104,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void GetPlugin_NonExistent_ReturnsNull()
+    public void GetPlugin_Should_ReturnNull_When_NameDoesNotExist()
     {
         var registry = new PluginRegistry(_logger);
         var plugin = registry.GetPlugin("NonExistent");
@@ -112,7 +112,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void GetHooks_WithNoMatchingHooks_ReturnsEmptyList()
+    public void GetHooks_Should_ReturnEmptyList_When_NoMatchingHooks()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new TestPlugin()); // Does not implement any hook
@@ -123,7 +123,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void GetHooks_WithBuildHook_ReturnsPlugin()
+    public void GetHooks_Should_ReturnPlugin_When_PluginImplementsBuildHook()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new PluginWithBuildHook());
@@ -134,7 +134,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void GetHooks_WithMultipleHookTypes_ReturnsCorrectly()
+    public void GetHooks_Should_FilterCorrectly_When_MultipleHookTypesExist()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new PluginWithBuildHook());        // IBuildHook
@@ -151,7 +151,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void GetHooks_IsCached_AndUpdatedOnRegister()
+    public void GetHooks_Should_InvalidateCache_When_NewPluginRegistered()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new PluginWithBuildHook());
@@ -167,7 +167,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public async Task InitializeAllAsync_WithoutPlugins_DoesNotThrow()
+    public async Task InitializeAllAsync_Should_NotThrow_When_NoPlugins()
     {
         var registry = new PluginRegistry(_logger);
 
@@ -179,7 +179,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public async Task InitializeAllAsync_CallsOnInitializeForEachPlugin()
+    public async Task InitializeAllAsync_Should_CallOnInitializeForEachPlugin()
     {
         var registry = new PluginRegistry(_logger);
         var plugin1 = new TestPlugin();
@@ -192,12 +192,14 @@ public class PluginRegistryTests
         await registry.InitializeAllAsync(p =>
         {
             initCalls++;
-            return new PluginContext(
-                new MockServiceProvider(),
-                _logger,
-                new NextNet.Configuration.NextNetConfig(),
-                "/plugins",
-                new PluginManifest { Name = p.Name, Version = p.Version.ToString() });
+            return new PluginContext
+            {
+                Services = new MockServiceProvider(),
+                Logger = _logger,
+                Config = new NextNet.Configuration.NextNetConfig(),
+                PluginDirectory = "/plugins",
+                Manifest = new PluginManifest { Name = p.Name, Version = p.Version.ToString() }
+            };
         });
 
         Assert.Equal(2, initCalls);
@@ -206,7 +208,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public async Task InitializeAllAsync_PluginException_DoesNotPreventOtherPlugins()
+    public async Task InitializeAllAsync_Should_NotPreventOtherPlugins_When_OnePluginThrows()
     {
         var registry = new PluginRegistry(_logger);
         var failingPlugin = new PluginThatFailsOnInit();
@@ -217,12 +219,14 @@ public class PluginRegistryTests
 
         await registry.InitializeAllAsync(p =>
         {
-            return new PluginContext(
-                new MockServiceProvider(),
-                _logger,
-                new NextNet.Configuration.NextNetConfig(),
-                "/plugins",
-                new PluginManifest { Name = p.Name, Version = p.Version.ToString() });
+            return new PluginContext
+            {
+                Services = new MockServiceProvider(),
+                Logger = _logger,
+                Config = new NextNet.Configuration.NextNetConfig(),
+                PluginDirectory = "/plugins",
+                Manifest = new PluginManifest { Name = p.Name, Version = p.Version.ToString() }
+            };
         });
 
         Assert.True(failingPlugin.InitializeWasCalled);
@@ -230,7 +234,7 @@ public class PluginRegistryTests
     }
 
     [Fact]
-    public void Count_ReturnsCorrectNumberOfPlugins()
+    public void Count_Should_ReturnCorrectNumberOfPlugins_After_RegisterAndUnregister()
     {
         var registry = new PluginRegistry(_logger);
         Assert.Equal(0, registry.Count);

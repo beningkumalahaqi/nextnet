@@ -5,6 +5,30 @@ namespace NextNet.ServerActions;
 /// Server actions are automatically exposed as HTTP POST endpoints at <c>/_actions/{name}</c>
 /// and can be invoked from client code via a generated proxy.
 /// </summary>
+/// <example>
+/// Marking a static method as a server action:
+/// <code>
+/// public static class MyActions
+/// {
+///     [ServerAction]
+///     public static string Hello(string name) => $"Hello, {name}!";
+/// }
+/// </code>
+/// Marking a class so all its public methods become actions:
+/// <code>
+/// [ServerAction]
+/// public static class UserActions
+/// {
+///     public static object GetUser(int id) => ...;
+///     public static object CreateUser(string name) => ...;
+/// }
+/// </code>
+/// Specifying a custom name and requiring authentication:
+/// <code>
+/// [ServerAction(Name = "delete-user", RequireAuth = true)]
+/// public static object DeleteUser(int id) => ...;
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
 public sealed class ServerActionAttribute : Attribute
 {

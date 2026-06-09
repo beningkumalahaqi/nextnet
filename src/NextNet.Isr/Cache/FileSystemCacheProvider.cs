@@ -10,7 +10,7 @@ namespace NextNet.Isr.Cache;
 /// JSON metadata and HTML content files are persisted across application restarts.
 /// Tag-based lookups are supported via a separate tag index file.
 /// </summary>
-public class FileSystemCacheProvider : IIsrCacheStore, IDisposable
+public sealed class FileSystemCacheProvider : IIsrCacheStore, IDisposable
 {
     private readonly string _cacheDirectory;
     private readonly JsonSerializerOptions _jsonOptions;
@@ -43,7 +43,7 @@ public class FileSystemCacheProvider : IIsrCacheStore, IDisposable
             : basePath;
 
         if (!Directory.Exists(resolvedBase))
-            throw new DirectoryNotFoundException($"Base path '{resolvedBase}' does not exist.");
+            throw new DirectoryNotFoundException($"[{IsrErrorCodes.BasePathDoesNotExist}] Base path '{resolvedBase}' does not exist.");
 
         _cacheDirectory = Path.Combine(resolvedBase, ".nextnet", "isr-cache");
         _tagIndexPath = Path.Combine(_cacheDirectory, TagIndexFileName);

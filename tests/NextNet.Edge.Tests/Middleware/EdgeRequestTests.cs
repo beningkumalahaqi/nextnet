@@ -7,7 +7,7 @@ namespace NextNet.Edge.Tests.Middleware;
 public class EdgeRequestTests
 {
     [Fact]
-    public void Constructor_FromHttpRequest_CopiesAllProperties()
+    public void Constructor_Should_CopyAllProperties_When_FromHttpRequest()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -30,7 +30,7 @@ public class EdgeRequestTests
     }
 
     [Fact]
-    public void Constructor_FromRawData_ParsesUrl()
+    public void Constructor_Should_ParseUrl_When_FromRawData()
     {
         // Arrange & Act
         var edgeRequest = new EdgeRequest(
@@ -48,7 +48,7 @@ public class EdgeRequestTests
     }
 
     [Fact]
-    public void Constructor_FromRawData_RelativeUrl_Defaults()
+    public void Constructor_Should_DefaultToLocalhost_When_RelativeUrl()
     {
         // Arrange & Act
         var edgeRequest = new EdgeRequest("GET", "/about");
@@ -59,7 +59,7 @@ public class EdgeRequestTests
     }
 
     [Fact]
-    public void ToAdapterRequest_ReturnsConvertedRequest()
+    public void ToAdapterRequest_Should_ReturnConverted_When_Called()
     {
         // Arrange
         var edgeRequest = new EdgeRequest("GET", "https://example.com/");
@@ -78,19 +78,19 @@ public class EdgeRequestTests
     }
 
     [Fact]
-    public void Constructor_HttpRequest_Null_Throws()
+    public void Constructor_Should_Throw_When_HttpRequestIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new EdgeRequest((HttpRequest)null!));
     }
 
     [Fact]
-    public void Constructor_RawData_NullMethod_Throws()
+    public void Constructor_Should_Throw_When_MethodIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new EdgeRequest(null!, "https://example.com/"));
     }
 
     [Fact]
-    public void Constructor_RawData_NullUrl_Throws()
+    public void Constructor_Should_Throw_When_UrlIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new EdgeRequest("GET", null!));
     }

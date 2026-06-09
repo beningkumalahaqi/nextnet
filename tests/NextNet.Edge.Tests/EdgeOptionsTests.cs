@@ -5,7 +5,7 @@ namespace NextNet.Edge.Tests;
 public class EdgeOptionsTests
 {
     [Fact]
-    public void Constructor_DefaultsAreSet()
+    public void Constructor_Should_SetDefaults_When_Called()
     {
         // Arrange & Act
         var options = new EdgeOptions();
@@ -22,7 +22,7 @@ public class EdgeOptionsTests
     }
 
     [Fact]
-    public void Properties_CanBeSet()
+    public void Properties_Should_BeSettable_When_Assigned()
     {
         // Arrange
         var options = new EdgeOptions

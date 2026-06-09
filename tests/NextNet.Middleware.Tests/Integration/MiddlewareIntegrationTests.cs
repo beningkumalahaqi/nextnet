@@ -15,7 +15,7 @@ namespace NextNet.Middleware.Tests.Integration;
 public class MiddlewareIntegrationTests
 {
     [Fact]
-    public async Task FullPipeline_ExecutesAllMiddlewareInCorrectOrder()
+    public async Task FullPipeline_Should_ExecuteAllMiddlewareInCorrectOrder_When_Configured()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -47,7 +47,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public async Task FullPipeline_WithConditionalMiddleware_RespectsRoute()
+    public async Task FullPipeline_Should_RespectRouteConditional_When_RequestMatchesAdmin()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -79,7 +79,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public async Task FullPipeline_WithConditionalMiddleware_DoesNotLeakToOtherRoutes()
+    public async Task FullPipeline_Should_NotLeakConditions_When_RequestMatchesUnrelatedRoute()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -111,7 +111,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public async Task FullPipeline_ErrorMiddleware_CatchesExceptions()
+    public async Task FullPipeline_Should_CatchExceptions_When_ErrorHandlingMiddlewarePresent()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -138,7 +138,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public async Task FullPipeline_MiddlewareCanSetResponseHeaders()
+    public async Task FullPipeline_Should_SetResponseHeaders_When_MiddlewareAddsThem()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -161,7 +161,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public async Task FullPipeline_RequestItemsFlowBetweenMiddleware()
+    public async Task FullPipeline_Should_FlowDataBetweenMiddleware_When_UsingItems()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -192,7 +192,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public async Task FullPipeline_WithTerminalDelegate_ChainsCorrectly()
+    public async Task FullPipeline_Should_ChainTerminalDelegate_When_BuiltWithTerminal()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -222,7 +222,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public void AddNextNetMiddleware_RegistersServices()
+    public void AddNextNetMiddleware_Should_RegisterBuiltInServices_When_Called()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -239,7 +239,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public void AddNextNetMiddleware_WithConfigureCallback_AddsUserMiddleware()
+    public void AddNextNetMiddleware_Should_AddUserMiddleware_When_ConfigureCallbackProvided()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -259,7 +259,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public void UseMiddlewareAttribute_CapturesMetadata()
+    public void UseMiddlewareAttribute_Should_CaptureMetadata_When_AppliedToClass()
     {
         // Arrange
         var attributes = typeof(TestPage)
@@ -274,19 +274,20 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public void UseMiddlewareAttribute_NullType_Throws()
+    public void UseMiddlewareAttribute_Should_ThrowArgumentNullException_When_TypeIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new UseMiddlewareAttribute(null!));
     }
 
     [Fact]
-    public void UseMiddlewareAttribute_NonMiddlewareType_Throws()
+    public void UseMiddlewareAttribute_Should_ThrowArgumentException_When_NonMiddlewareType()
     {
-        Assert.Throws<ArgumentException>(() => new UseMiddlewareAttribute(typeof(string)));
+        var ex = Assert.Throws<ArgumentException>(() => new UseMiddlewareAttribute(typeof(string)));
+        Assert.Contains("DS-700", ex.Message);
     }
 
     [Fact]
-    public void UseMiddlewareAttribute_DefaultOrder_IsNormal()
+    public void UseMiddlewareAttribute_Should_DefaultToNormalOrder_When_NotSpecified()
     {
         // Arrange
         var attr = new UseMiddlewareAttribute(typeof(TestMiddleware));
@@ -296,7 +297,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public void UseMiddlewareAttribute_CanSetRoutes()
+    public void UseMiddlewareAttribute_Should_StoreRoutes_When_Set()
     {
         // Arrange
         var attr = new UseMiddlewareAttribute(typeof(TestMiddleware))
@@ -311,7 +312,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public async Task Clone_And_Build_WorksIndependently()
+    public async Task Clone_Should_BuildIndependently_When_ClonedAndBuilt()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -340,7 +341,7 @@ public class MiddlewareIntegrationTests
     }
 
     [Fact]
-    public async Task MultipleCallsToBuild_WithSameConfig_ReturnsCached()
+    public async Task Build_Should_ReturnCachedPipeline_When_SameConfiguration()
     {
         // Arrange
         var services = new ServiceCollection();

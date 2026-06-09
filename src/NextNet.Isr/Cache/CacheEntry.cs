@@ -4,7 +4,7 @@ namespace NextNet.Isr.Cache;
 /// Metadata stored alongside a cached HTML page, used to determine
 /// freshness and support tag-based invalidation.
 /// </summary>
-public class CacheEntry
+public sealed record CacheEntry
 {
     /// <summary>
     /// Gets the route path (e.g. <c>"/blog/hello-world"</c>).
@@ -68,7 +68,7 @@ public class CacheEntry
         Size = size;
 
         if (revalidateIntervalSeconds < 0)
-            throw new ArgumentOutOfRangeException(nameof(revalidateIntervalSeconds), "Revalidation interval must be non-negative.");
+            throw new ArgumentOutOfRangeException(nameof(revalidateIntervalSeconds), $"[{IsrErrorCodes.RevalidationIntervalMustBeNonNegative}] Revalidation interval must be non-negative.");
 
         RevalidateIntervalSeconds = revalidateIntervalSeconds;
         RevalidateAfter = revalidateIntervalSeconds > 0

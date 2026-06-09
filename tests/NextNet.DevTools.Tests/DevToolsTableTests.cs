@@ -6,7 +6,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsTableTests
 {
     [Fact]
-    public void Render_WithHeaders_ReturnsFormattedTable()
+    public void Render_Should_ReturnFormattedTable_When_GivenHeaders()
     {
         var table = new DevToolsTable("Name", "Value");
         var result = table.Render();
@@ -15,7 +15,7 @@ public class DevToolsTableTests
     }
 
     [Fact]
-    public void Render_WithRows_ShowsData()
+    public void Render_Should_ShowData_When_RowsAdded()
     {
         var table = new DevToolsTable("A", "B");
         table.AddRow("x", "y");
@@ -25,14 +25,14 @@ public class DevToolsTableTests
     }
 
     [Fact]
-    public void AddRow_MismatchedColumns_Throws()
+    public void AddRow_Should_Throw_When_ColumnCountMismatch()
     {
         var table = new DevToolsTable("A", "B");
         Assert.Throws<ArgumentException>(() => table.AddRow("only one"));
     }
 
     [Fact]
-    public void RenderToConsole_WritesOutput()
+    public void RenderToConsole_Should_WriteToConsole_When_Called()
     {
         var table = new DevToolsTable("H1", "H2");
         table.AddRow("v1", "v2");

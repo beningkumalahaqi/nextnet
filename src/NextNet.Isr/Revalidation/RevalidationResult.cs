@@ -3,7 +3,7 @@ namespace NextNet.Isr.Revalidation;
 /// <summary>
 /// Represents the outcome of a revalidation operation.
 /// </summary>
-public class RevalidationResult
+public sealed record RevalidationResult
 {
     /// <summary>
     /// Gets a value indicating whether the revalidation succeeded.

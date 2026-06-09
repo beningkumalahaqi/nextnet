@@ -6,6 +6,22 @@ namespace NextNet.Plugins;
 /// and can additionally implement hook interfaces (e.g., <see cref="Hooks.IBuildHook"/>)
 /// to extend specific pipeline stages.
 /// </summary>
+/// <example>
+/// <code>
+/// public class MyPlugin : INextNetPlugin
+/// {
+///     public string Name => "MyPlugin";
+///     public string Description => "Does something useful";
+///     public Version Version => new(1, 0, 0);
+///
+///     public Task OnInitializeAsync(PluginContext context)
+///     {
+///         context.Logger.Info("MyPlugin initialized.");
+///         return Task.CompletedTask;
+///     }
+/// }
+/// </code>
+/// </example>
 public interface INextNetPlugin
 {
     /// <summary>

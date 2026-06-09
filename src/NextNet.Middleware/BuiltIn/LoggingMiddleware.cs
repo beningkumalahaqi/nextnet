@@ -9,8 +9,18 @@ namespace NextNet.Middleware.BuiltIn;
 /// Middleware that logs HTTP request and response information including
 /// method, path, status code, and duration.
 /// </summary>
+/// <example>
+/// <code>
+/// // In pipeline configuration (runs first by default):
+/// pipeline.Use&lt;LoggingMiddleware&gt;();
+///
+/// // Output:
+/// // HTTP GET /api/users — started
+/// // HTTP GET /api/users — 200 (45ms)
+/// </code>
+/// </example>
 [MiddlewareOrderAttribute(MiddlewareOrder.Logging)]
-public class LoggingMiddleware : IMiddleware
+public sealed class LoggingMiddleware : IMiddleware
 {
     private readonly ILogger<LoggingMiddleware> _logger;
 

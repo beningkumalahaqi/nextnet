@@ -7,7 +7,7 @@ namespace NextNet.Edge.Tests.Middleware;
 public class EdgeResponseTests
 {
     [Fact]
-    public void Constructor_FromHttpResponse_CopiesProperties()
+    public void Constructor_Should_CopyProperties_When_FromHttpResponse()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -24,7 +24,7 @@ public class EdgeResponseTests
     }
 
     [Fact]
-    public void Constructor_FromScratch_SetsDefaults()
+    public void Constructor_Should_SetDefaults_When_FromScratch()
     {
         // Act
         var edgeResponse = new EdgeResponse();
@@ -37,7 +37,7 @@ public class EdgeResponseTests
     }
 
     [Fact]
-    public void Constructor_WithParameters_SetsValues()
+    public void Constructor_Should_SetValues_When_ParametersProvided()
     {
         // Arrange
         var headers = new Dictionary<string, string> { { "Content-Type", "text/html" } };
@@ -53,7 +53,7 @@ public class EdgeResponseTests
     }
 
     [Fact]
-    public void ContentType_GetterSetter_Works()
+    public void ContentType_Should_GetAndSet_When_Accessed()
     {
         // Arrange
         var edgeResponse = new EdgeResponse();
@@ -67,7 +67,7 @@ public class EdgeResponseTests
     }
 
     [Fact]
-    public void ContentLength_GetterSetter_Works()
+    public void ContentLength_Should_GetAndSet_When_Accessed()
     {
         // Arrange
         var edgeResponse = new EdgeResponse();
@@ -81,7 +81,7 @@ public class EdgeResponseTests
     }
 
     [Fact]
-    public void SetHeader_SetsValue()
+    public void SetHeader_Should_SetValue_When_Called()
     {
         // Arrange
         var edgeResponse = new EdgeResponse();
@@ -94,7 +94,7 @@ public class EdgeResponseTests
     }
 
     [Fact]
-    public async Task WriteAsync_WritesToBody()
+    public async Task WriteAsync_Should_WriteToBody_When_Called()
     {
         // Arrange
         var edgeResponse = new EdgeResponse();
@@ -111,7 +111,7 @@ public class EdgeResponseTests
     }
 
     [Fact]
-    public void ToAdapterResponse_ReturnsConverted()
+    public void ToAdapterResponse_Should_ReturnConverted_When_Called()
     {
         // Arrange
         var edgeResponse = new EdgeResponse(200,
@@ -127,7 +127,7 @@ public class EdgeResponseTests
     }
 
     [Fact]
-    public void Constructor_HttpResponse_Null_Throws()
+    public void Constructor_Should_Throw_When_HttpResponseIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new EdgeResponse((HttpResponse)null!));
     }

@@ -3,7 +3,7 @@ namespace NextNet.Edge.Compatibility;
 /// <summary>
 /// Represents a single compatibility violation found during edge compatibility checking.
 /// </summary>
-public class EdgeViolation
+public sealed record EdgeViolation
 {
     /// <summary>
     /// Gets the severity level of the violation.

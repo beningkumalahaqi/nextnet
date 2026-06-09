@@ -4,7 +4,7 @@ namespace NextNet.Edge.Adapters;
 /// Edge runtime adapter for Cloudflare Workers.
 /// Generates <c>wrangler.toml</c> configuration and <c>worker.js</c> entry points.
 /// </summary>
-public class CloudflareWorkersAdapter : IEdgeRuntimeAdapter
+public sealed class CloudflareWorkersAdapter : IEdgeRuntimeAdapter
 {
     /// <summary>
     /// Gets the provider-specific configuration prefix for wrangler.toml.

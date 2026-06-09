@@ -38,7 +38,7 @@ public class EdgeMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_EdgeDisabled_PassesThrough()
+    public async Task InvokeAsync_Should_PassThrough_When_EdgeDisabled()
     {
         // Arrange
         var (middleware, context) = CreateMiddleware(
@@ -52,7 +52,7 @@ public class EdgeMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_EdgeEnabled_AddsHeaders()
+    public async Task InvokeAsync_Should_AddHeaders_When_EdgeEnabled()
     {
         // Arrange
         var (middleware, context) = CreateMiddleware();
@@ -67,7 +67,7 @@ public class EdgeMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_SizeBudget_WrapsBody()
+    public async Task InvokeAsync_Should_WrapResponseBody_When_SizeBudgetSet()
     {
         // Arrange
         var options = new EdgeOptions { Enabled = true, MaxBundleSize = 1000 };
@@ -82,7 +82,7 @@ public class EdgeMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_ResponseHeaders_AddedOnStart()
+    public async Task InvokeAsync_Should_AddResponseHeaders_When_Called()
     {
         // Arrange
         var (middleware, context) = CreateMiddleware();
@@ -95,7 +95,7 @@ public class EdgeMiddlewareTests
     }
 
     [Fact]
-    public async Task InvokeAsync_NullContext_Throws()
+    public async Task InvokeAsync_Should_Throw_When_ContextIsNull()
     {
         var (middleware, _) = CreateMiddleware();
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
@@ -106,7 +106,7 @@ public class EdgeMiddlewareTests
 public class EdgeBudgetStreamTests
 {
     [Fact]
-    public void Write_WithinBudget_Succeeds()
+    public void Write_Should_Succeed_When_WithinBudget()
     {
         // Arrange
         var inner = new MemoryStream();
@@ -122,7 +122,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public void Write_ExceedsBudget_Throws()
+    public void Write_Should_Throw_When_ExceedsBudget()
     {
         // Arrange
         var inner = new MemoryStream();
@@ -135,7 +135,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public async Task WriteAsync_ExceedsBudget_Throws()
+    public async Task WriteAsync_Should_Throw_When_ExceedsBudget()
     {
         // Arrange
         var inner = new MemoryStream();
@@ -148,7 +148,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public void Write_Accumulates_Correctly()
+    public void Write_Should_AccumulateBytes_When_WritingMultipleTimes()
     {
         // Arrange
         var inner = new MemoryStream();
@@ -163,7 +163,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public void CanRead_CanSeek_CanWrite_Properties()
+    public void Properties_Should_ReturnCorrectValues_When_Accessed()
     {
         var inner = new MemoryStream();
         var budgetStream = new EdgeBudgetStream(inner, 100);
@@ -174,7 +174,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public void Read_ThrowsNotSupported()
+    public void Read_Should_ThrowNotSupported_When_Called()
     {
         var inner = new MemoryStream();
         var budgetStream = new EdgeBudgetStream(inner, 100);
@@ -184,7 +184,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public void Seek_ThrowsNotSupported()
+    public void Seek_Should_ThrowNotSupported_When_Called()
     {
         var inner = new MemoryStream();
         var budgetStream = new EdgeBudgetStream(inner, 100);
@@ -194,7 +194,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public void SetLength_ThrowsNotSupported()
+    public void SetLength_Should_ThrowNotSupported_When_Called()
     {
         var inner = new MemoryStream();
         var budgetStream = new EdgeBudgetStream(inner, 100);
@@ -204,7 +204,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public void Flush_DoesNotThrow()
+    public void Flush_Should_NotThrow_When_Called()
     {
         var inner = new MemoryStream();
         var budgetStream = new EdgeBudgetStream(inner, 100);
@@ -213,7 +213,7 @@ public class EdgeBudgetStreamTests
     }
 
     [Fact]
-    public async Task FlushAsync_DoesNotThrow()
+    public async Task FlushAsync_Should_NotThrow_When_Called()
     {
         var inner = new MemoryStream();
         var budgetStream = new EdgeBudgetStream(inner, 100);

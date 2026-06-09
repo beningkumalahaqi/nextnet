@@ -9,7 +9,7 @@ namespace NextNet.Edge.Middleware;
 /// Wraps ASP.NET Core's <see cref="HttpResponse"/> or provides a standalone implementation
 /// for edge environments (Cloudflare Workers, Deno Deploy).
 /// </summary>
-public class EdgeResponse
+public sealed class EdgeResponse
 {
     /// <summary>
     /// Gets or sets the HTTP status code.

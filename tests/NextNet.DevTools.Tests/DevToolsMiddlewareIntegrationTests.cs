@@ -33,14 +33,14 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task NonDevToolsPath_PassesThrough()
+    public async Task NonDevToolsPath_Should_PassThrough_When_NotDevToolsPrefix()
     {
         var response = await _client.GetAsync("/");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
     [Fact]
-    public async Task Status_ReturnsOk()
+    public async Task Status_Should_ReturnOk_When_Queried()
     {
         var response = await _client.GetAsync("/__devtools/status");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -51,7 +51,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task Routes_ReturnsEmptyList()
+    public async Task Routes_Should_ReturnEmptyList_When_NoRoutesConfigured()
     {
         var response = await _client.GetAsync("/__devtools/routes");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -62,7 +62,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task Routes_WithData_ReturnsRoutes()
+    public async Task Routes_Should_ReturnRoutes_When_DataExists()
     {
         _dataStore.SetRoutes(new[]
         {
@@ -96,7 +96,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task RouteDetail_ReturnsRoute()
+    public async Task RouteDetail_Should_ReturnRoute_When_RouteExists()
     {
         _dataStore.SetRoutes(new[]
         {
@@ -124,7 +124,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task RouteDetail_NotFound_Returns404()
+    public async Task RouteDetail_Should_Return404_When_RouteNotFound()
     {
         var response = await _client.GetAsync("/__devtools/routes/nonexistent");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -134,7 +134,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task Components_ReturnsEmptyList()
+    public async Task Components_Should_ReturnEmptyList_When_NoComponents()
     {
         var response = await _client.GetAsync("/__devtools/components");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -145,7 +145,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task Components_WithData_ReturnsComponents()
+    public async Task Components_Should_ReturnComponents_When_DataExists()
     {
         _dataStore.SetComponents(new[]
         {
@@ -168,7 +168,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task Performance_ReturnsMetrics()
+    public async Task Performance_Should_ReturnMetrics_When_DataExists()
     {
         _dataStore.AddMetric(new PerformanceProfilerPanel.PerformanceMetric
         {
@@ -186,7 +186,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task Network_ReturnsRequests()
+    public async Task Network_Should_ReturnRequests_When_DataExists()
     {
         _dataStore.AddNetworkRequest(new NetworkInspectorPanel.NetworkRequest
         {
@@ -206,7 +206,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task Console_ReturnsLogs()
+    public async Task Console_Should_ReturnLogs_When_DataExists()
     {
         _dataStore.AddConsoleLog("[INFO] Server started");
         _dataStore.AddConsoleLog("[WARN] Something odd");
@@ -221,7 +221,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ProfilerStart_ReturnsSuccess()
+    public async Task ProfilerStart_Should_ReturnSuccess_When_Called()
     {
         var response = await _client.PostAsync("/__devtools/profiler/start", null);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -231,7 +231,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task ProfilerStop_ReturnsSuccess()
+    public async Task ProfilerStop_Should_ReturnSuccess_When_Called()
     {
         var response = await _client.PostAsync("/__devtools/profiler/stop", null);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -241,7 +241,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task UnknownEndpoint_Returns404()
+    public async Task UnknownEndpoint_Should_Return404_When_UnknownPath()
     {
         var response = await _client.GetAsync("/__devtools/unknown");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -251,7 +251,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task RouteDetail_UrlEncoded_Works()
+    public async Task RouteDetail_Should_Work_When_UrlEncoded()
     {
         _dataStore.SetRoutes(new[]
         {
@@ -269,7 +269,7 @@ public class DevToolsMiddlewareIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task Response_IsCamelCase()
+    public async Task Response_Should_UseCamelCase_When_Serialized()
     {
         var response = await _client.GetAsync("/__devtools/status");
         var json = await response.Content.ReadAsStringAsync();

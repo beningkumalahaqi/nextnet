@@ -20,6 +20,8 @@
       href: core-concepts/layouts.md
     - name: Components
       href: core-concepts/components.md
+    - name: Design System
+      href: core-concepts/design-system.md
 - name: Features
   items:
     - name: Server Actions
@@ -34,6 +36,12 @@
       href: features/middleware.md
     - name: Plugins
       href: features/plugins.md
+    - name: UI Components
+      href: features/ui-components.md
+    - name: Theming
+      href: features/theming.md
+    - name: Tailwind Integration
+      href: features/tailwind-integration.md
 - name: Advanced
   items:
     - name: Edge Runtime

@@ -9,7 +9,7 @@ namespace NextNet.Edge.Middleware;
 /// Wraps ASP.NET Core's <see cref="HttpRequest"/> or provides a standalone implementation
 /// for edge environments (Cloudflare Workers, Deno Deploy).
 /// </summary>
-public class EdgeRequest
+public sealed class EdgeRequest
 {
     /// <summary>
     /// Gets the HTTP method (GET, POST, etc.).

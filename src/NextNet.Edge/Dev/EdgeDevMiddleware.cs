@@ -8,7 +8,7 @@ namespace NextNet.Edge.Dev;
 /// Provides diagnostic information about edge compatibility for the current request,
 /// including which APIs would be blocked and why.
 /// </summary>
-public class EdgeDevMiddleware
+public sealed class EdgeDevMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly EdgeOptions _options;

@@ -4,7 +4,16 @@ namespace NextNet.DevTools.UI;
 
 /// <summary>
 /// A terminal-renderable table for DevTools.
+/// Supports headers, data rows, automatic column width calculation, and rendering to string or console.
 /// </summary>
+/// <example>
+/// <code>
+/// var table = new DevToolsTable("Name", "Type", "Renders", "Avg (ms)");
+/// table.AddRow("Header", "component", "150", "5");
+/// table.AddRow("Footer", "component", "80", "3");
+/// Console.Write(table.Render());
+/// </code>
+/// </example>
 public sealed class DevToolsTable
 {
     private readonly string[] _headers;
@@ -14,13 +23,17 @@ public sealed class DevToolsTable
     /// <summary>
     /// Creates a new DevTools table with the specified column headers.
     /// </summary>
+    /// <param name="headers">Column header names (variable length).</param>
     public DevToolsTable(params string[] headers)
     {
         _headers = headers;
         _columnWidths = headers.Select(h => h.Length).ToList();
     }
 
-    /// <summary>Add a row to the table.</summary>
+    /// <summary>Add a row to the table. The number of values must match the number of headers.</summary>
+    /// <param name="values">Cell values for the row.</param>
+    /// <returns>The table instance for chaining.</returns>
+    /// <exception cref="ArgumentException">Thrown when the number of values does not match the number of headers.</exception>
     public DevToolsTable AddRow(params string[] values)
     {
         if (values.Length != _headers.Length)

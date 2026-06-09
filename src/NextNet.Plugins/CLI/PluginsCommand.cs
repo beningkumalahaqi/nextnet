@@ -9,7 +9,7 @@ namespace NextNet.Plugins.CLI;
 /// Implements the <c>nextnet plugins</c> command — lists installed and discovered plugins,
 /// their versions, descriptions, and the hook interfaces they implement.
 /// </summary>
-public class PluginsCommand
+public sealed class PluginsCommand
 {
     private readonly PluginRegistry _registry;
     private readonly PluginLoader _loader;

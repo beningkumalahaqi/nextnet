@@ -16,7 +16,7 @@ public class DistributedIsrCacheStoreTests
     }
 
     [Fact]
-    public async Task GetAsync_WhenCacheHasContentAndMetadata_ReturnsCachedPage()
+    public async Task GetAsync_Should_ReturnCachedPage_When_CacheHasContentAndMetadata()
     {
         var contentBytes = System.Text.Encoding.UTF8.GetBytes("<html>hello</html>");
         var metaBytes = System.Text.Encoding.UTF8.GetBytes(
@@ -35,7 +35,7 @@ public class DistributedIsrCacheStoreTests
     }
 
     [Fact]
-    public async Task GetAsync_WhenContentMissing_ReturnsNull()
+    public async Task GetAsync_Should_ReturnNull_When_ContentIsMissing()
     {
         _mockDistributed.Setup(d => d.GetAsync("isr:content:/test", It.IsAny<CancellationToken>()))
             .ReturnsAsync((byte[]?)null);
@@ -46,7 +46,7 @@ public class DistributedIsrCacheStoreTests
     }
 
     [Fact]
-    public async Task ExistsAsync_WhenMetadataExists_ReturnsTrue()
+    public async Task ExistsAsync_Should_ReturnTrue_When_MetadataExists()
     {
         _mockDistributed.Setup(d => d.GetAsync("isr:meta:/test", It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<byte>());
@@ -55,7 +55,7 @@ public class DistributedIsrCacheStoreTests
     }
 
     [Fact]
-    public async Task ExistsAsync_WhenMetadataMissing_ReturnsFalse()
+    public async Task ExistsAsync_Should_ReturnFalse_When_MetadataIsMissing()
     {
         _mockDistributed.Setup(d => d.GetAsync("isr:meta:/test", It.IsAny<CancellationToken>()))
             .ReturnsAsync((byte[]?)null);
@@ -64,7 +64,7 @@ public class DistributedIsrCacheStoreTests
     }
 
     [Fact]
-    public async Task SetAsync_StoresContentMetadataAndTags()
+    public async Task SetAsync_Should_StoreContentMetadataAndTags_When_Called()
     {
         var entry = new CacheEntry("/test", DateTime.UtcNow, 60,
             tags: new[] { "blog" }, hash: "abc", size: 100);
@@ -112,7 +112,7 @@ public class DistributedIsrCacheStoreTests
     }
 
     [Fact]
-    public async Task RemoveAsync_RemovesContentAndMetadata()
+    public async Task RemoveAsync_Should_RemoveContentAndMetadata_When_Called()
     {
         _mockDistributed.Setup(d => d.GetAsync("isr:meta:/test", It.IsAny<CancellationToken>()))
             .ReturnsAsync((byte[]?)null); // No metadata, so no tags to clean up
@@ -129,7 +129,7 @@ public class DistributedIsrCacheStoreTests
     }
 
     [Fact]
-    public async Task GetRoutesByTagAsync_ReturnsRoutes()
+    public async Task GetRoutesByTagAsync_Should_ReturnRoutes_When_Called()
     {
         var routesBytes = System.Text.Encoding.UTF8.GetBytes("[\"/blog/post-1\"]");
 

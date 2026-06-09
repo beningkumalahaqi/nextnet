@@ -20,7 +20,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void RegisterAndGetAdapter_ReturnsAdapter()
+    public void RegisterAndGetAdapter_Should_ReturnAdapter_When_ProviderIsRegistered()
     {
         // Arrange
         var (registry, _) = CreateRegistry();
@@ -35,7 +35,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void Register_WithCustomProviderId_UsesCustomId()
+    public void Register_Should_UseCustomProviderId_When_Specified()
     {
         // Arrange
         var (registry, _) = CreateRegistry();
@@ -49,7 +49,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void Register_DuplicateProviderId_Throws()
+    public void Register_Should_Throw_When_ProviderIdIsDuplicate()
     {
         // Arrange
         var (registry, _) = CreateRegistry();
@@ -61,7 +61,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void GetAdapter_UnknownProvider_Throws()
+    public void GetAdapter_Should_Throw_When_ProviderIsNotRegistered()
     {
         // Arrange
         var (registry, _) = CreateRegistry();
@@ -72,7 +72,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void TryGetAdapter_KnownProvider_ReturnsTrue()
+    public void TryGetAdapter_Should_ReturnTrue_When_ProviderIsRegistered()
     {
         // Arrange
         var (registry, _) = CreateRegistry();
@@ -87,7 +87,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void TryGetAdapter_UnknownProvider_ReturnsFalse()
+    public void TryGetAdapter_Should_ReturnFalse_When_ProviderIsNotRegistered()
     {
         // Arrange
         var (registry, _) = CreateRegistry();
@@ -101,7 +101,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void GetRegisteredProviders_ReturnsAll()
+    public void GetRegisteredProviders_Should_ReturnAllProviders_When_MultipleAreRegistered()
     {
         // Arrange
         var (registry, _) = CreateRegistry();
@@ -117,7 +117,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void Register_Factory_ResolvesAdapter()
+    public void Register_Should_ResolveAdapter_When_UsingFactory()
     {
         // Arrange
         var (registry, sp) = CreateRegistry();
@@ -132,7 +132,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void Register_FactoryNullProviderId_Throws()
+    public void Register_Should_Throw_When_FactoryProviderIdIsNull()
     {
         var (registry, _) = CreateRegistry();
         Assert.Throws<ArgumentNullException>(() =>
@@ -140,7 +140,7 @@ public class AdapterRegistryTests
     }
 
     [Fact]
-    public void Register_FactoryNullFactory_Throws()
+    public void Register_Should_Throw_When_FactoryIsNull()
     {
         var (registry, _) = CreateRegistry();
         Assert.Throws<ArgumentNullException>(() =>

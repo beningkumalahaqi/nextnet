@@ -6,7 +6,7 @@ namespace NextNet.Isr.Tests;
 public class IsrRevalidationRequestTests
 {
     [Fact]
-    public void Deserialize_WithPathAndSecret_ParsesCorrectly()
+    public void Deserialize_Should_ParseCorrectly_When_PathAndSecretProvided()
     {
         var json = "{\"path\":\"/blog/post-1\",\"secret\":\"my-secret\"}";
         var request = JsonSerializer.Deserialize<IsrRevalidationRequest>(json);
@@ -18,7 +18,7 @@ public class IsrRevalidationRequestTests
     }
 
     [Fact]
-    public void Deserialize_WithTags_ParsesCorrectly()
+    public void Deserialize_Should_ParseCorrectly_When_TagsProvided()
     {
         var json = "{\"tags\":[\"blog\",\"news\"],\"secret\":\"abc\"}";
         var request = JsonSerializer.Deserialize<IsrRevalidationRequest>(json);
@@ -30,7 +30,7 @@ public class IsrRevalidationRequestTests
     }
 
     [Fact]
-    public void Deserialize_WithCamelCase_Works()
+    public void Deserialize_Should_Work_When_CamelCaseJsonPropertyNames()
     {
         var json = "{\"path\":\"/about\",\"tags\":null}";
         var request = JsonSerializer.Deserialize<IsrRevalidationRequest>(json);
@@ -41,7 +41,7 @@ public class IsrRevalidationRequestTests
     }
 
     [Fact]
-    public void Serialize_RoundTrip_PreservesValues()
+    public void Serialize_Should_PreserveValues_When_RoundTrip()
     {
         var request = new IsrRevalidationRequest
         {

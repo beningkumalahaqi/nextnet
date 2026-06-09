@@ -8,7 +8,7 @@ namespace NextNet.ServerActions.Tests
     public class ServerActionServiceCollectionExtensionsTests
     {
         [Fact]
-        public void AddNextNetServerActions_RegistersServices()
+        public void AddNextNetServerActions_Should_RegisterServices_When_Called()
         {
             // Arrange
             var services = new ServiceCollection();
@@ -24,7 +24,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void AddNextNetServerActions_WithAutoDiscovery_RegistersActions()
+        public void AddNextNetServerActions_Should_RegisterActions_When_AutoDiscoveryEnabled()
         {
             // Arrange
             var services = new ServiceCollection();
@@ -42,7 +42,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void AddNextNetServerActions_NullServices_ThrowsArgumentNullException()
+        public void AddNextNetServerActions_Should_ThrowArgumentNullException_When_ServicesIsNull()
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
@@ -50,7 +50,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void ServerActionOptions_DefaultValues()
+        public void ServerActionOptions_Should_HaveNullDefault_When_AutoDiscoverAssembliesNotSet()
         {
             // Arrange
             var options = new ServerActionOptions();

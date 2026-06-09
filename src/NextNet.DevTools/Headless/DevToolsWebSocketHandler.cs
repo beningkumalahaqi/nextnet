@@ -1,11 +1,21 @@
+using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
+using NextNet.DevTools.Errors;
 
 namespace NextNet.DevTools.Headless;
 
 /// <summary>
 /// Handles a single WebSocket connection for DevTools real-time communication.
+/// Manages the receive/send loop and provides helpers for sending text, JSON, and raw data.
 /// </summary>
+/// <example>
+/// <code>
+/// var ws = await context.WebSockets.AcceptWebSocketAsync();
+/// var handler = new DevToolsWebSocketHandler(ws, dataStore);
+/// await handler.ReceiveLoopAsync();
+/// </code>
+/// </example>
 public sealed class DevToolsWebSocketHandler : IDisposable
 {
     private readonly WebSocket _webSocket;
@@ -16,6 +26,9 @@ public sealed class DevToolsWebSocketHandler : IDisposable
     /// <summary>
     /// Creates a new WebSocket handler for the given connection.
     /// </summary>
+    /// <param name="webSocket">The WebSocket connection.</param>
+    /// <param name="dataStore">The DevTools data store for reading/writing runtime data.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="webSocket"/> or <paramref name="dataStore"/> is null.</exception>
     public DevToolsWebSocketHandler(WebSocket webSocket, DevToolsDataStore dataStore)
     {
         _webSocket = webSocket ?? throw new ArgumentNullException(nameof(webSocket));
@@ -59,9 +72,10 @@ public sealed class DevToolsWebSocketHandler : IDisposable
         {
             // Normal cancellation
         }
-        catch (WebSocketException)
+        catch (WebSocketException ex)
         {
-            // Connection lost
+            // DS-902: WebSocket connection failed
+            Debug.WriteLine($"{DevToolsErrorCodes.WebSocketConnectionFailed}: WebSocket error: {ex.Message}");
         }
         finally
         {

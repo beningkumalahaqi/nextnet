@@ -21,18 +21,20 @@ public class PluginCoverageTests
     public PluginCoverageTests()
     {
         _logger = new NextNetLogger("CoverageTest");
-        _defaultContext = new PluginContext(
-            new MockServiceProvider(),
-            _logger,
-            new NextNetConfig(),
-            "/plugins",
-            new PluginManifest { Name = "test", Version = "1.0.0" });
+        _defaultContext = new PluginContext
+        {
+            Services = new MockServiceProvider(),
+            Logger = _logger,
+            Config = new NextNetConfig(),
+            PluginDirectory = "/plugins",
+            Manifest = new PluginManifest { Name = "test", Version = "1.0.0" }
+        };
     }
 
     // ─── PluginManifest coverage ───────────────────────────────────────
 
     [Fact]
-    public void PluginManifest_DefaultValues()
+    public void PluginManifest_Should_HaveDefaultValues_When_ConstructedWithNoArgs()
     {
         var manifest = new PluginManifest();
         Assert.Equal(string.Empty, manifest.Name);
@@ -44,7 +46,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginManifest_WithValues()
+    public void PluginManifest_Should_StoreValues_When_ConstructedWithArgs()
     {
         var manifest = new PluginManifest
         {
@@ -55,7 +57,7 @@ public class PluginCoverageTests
             AssemblyPath = "/path/to/plugin.dll",
             Dependencies = new List<PluginDependency>
             {
-                new() { Name = "Dep1", Version = "1.0.0" }
+                new PluginDependency { Name = "Dep1", Version = "1.0.0" }
             }
         };
 
@@ -70,7 +72,7 @@ public class PluginCoverageTests
     // ─── PluginDependency coverage ─────────────────────────────────────
 
     [Fact]
-    public void PluginDependency_DefaultValues()
+    public void PluginDependency_Should_HaveDefaultValues_When_ConstructedWithNoArgs()
     {
         var dep = new PluginDependency();
         Assert.Equal(string.Empty, dep.Name);
@@ -78,7 +80,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginDependency_WithValues()
+    public void PluginDependency_Should_StoreValues_When_ConstructedWithArgs()
     {
         var dep = new PluginDependency { Name = "Core", Version = "2.0.0" };
         Assert.Equal("Core", dep.Name);
@@ -88,32 +90,55 @@ public class PluginCoverageTests
     // ─── PluginContext coverage ────────────────────────────────────────
 
     [Fact]
-    public void PluginContext_Constructor_ThrowsOnNullArgs()
+    public void PluginContext_Should_ThrowArgumentNullException_When_RequiredPropertyIsNull()
     {
         var config = new NextNetConfig();
         var manifest = new PluginManifest { Name = "test", Version = "1.0" };
 
         Assert.Throws<ArgumentNullException>(() =>
-            new PluginContext(null!, _logger, config, "/plugins", manifest));
+        {
+            var ctx = new PluginContext { Services = null!, Logger = _logger, Config = config, PluginDirectory = "/plugins", Manifest = manifest };
+            ctx.Validate();
+        });
         Assert.Throws<ArgumentNullException>(() =>
-            new PluginContext(new MockServiceProvider(), null!, config, "/plugins", manifest));
+        {
+            var ctx = new PluginContext { Services = new MockServiceProvider(), Logger = null!, Config = config, PluginDirectory = "/plugins", Manifest = manifest };
+            ctx.Validate();
+        });
         Assert.Throws<ArgumentNullException>(() =>
-            new PluginContext(new MockServiceProvider(), _logger, null!, "/plugins", manifest));
+        {
+            var ctx = new PluginContext { Services = new MockServiceProvider(), Logger = _logger, Config = null!, PluginDirectory = "/plugins", Manifest = manifest };
+            ctx.Validate();
+        });
         Assert.Throws<ArgumentNullException>(() =>
-            new PluginContext(new MockServiceProvider(), _logger, config, null!, manifest));
+        {
+            var ctx = new PluginContext { Services = new MockServiceProvider(), Logger = _logger, Config = config, PluginDirectory = null!, Manifest = manifest };
+            ctx.Validate();
+        });
         Assert.Throws<ArgumentNullException>(() =>
-            new PluginContext(new MockServiceProvider(), _logger, config, "/plugins", null!));
+        {
+            var ctx = new PluginContext { Services = new MockServiceProvider(), Logger = _logger, Config = config, PluginDirectory = "/plugins", Manifest = null! };
+            ctx.Validate();
+        });
     }
 
     [Fact]
-    public void PluginContext_PropertiesAreAccessible()
+    public void PluginContext_Should_HaveAccessibleProperties_When_Initialized()
     {
         var services = new MockServiceProvider();
         var config = new NextNetConfig();
         var manifest = new PluginManifest { Name = "ctx-plugin", Version = "3.0.0" };
         var cts = new CancellationTokenSource();
 
-        var ctx = new PluginContext(services, _logger, config, "/my/plugins", manifest, cts.Token);
+        var ctx = new PluginContext
+        {
+            Services = services,
+            Logger = _logger,
+            Config = config,
+            PluginDirectory = "/my/plugins",
+            Manifest = manifest,
+            CancellationToken = cts.Token
+        };
 
         Assert.Same(services, ctx.Services);
         Assert.Same(_logger, ctx.Logger);
@@ -126,7 +151,7 @@ public class PluginCoverageTests
     // ─── NextNetPlugin coverage ───────────────────────────────────────
 
     [Fact]
-    public async Task NextNetPlugin_DefaultImplementations()
+    public async Task NextNetPlugin_Should_UseDefaultImplementations_When_OnlyNameIsOverridden()
     {
         var plugin = new MinimalPlugin();
 
@@ -149,7 +174,7 @@ public class PluginCoverageTests
     // ─── PluginLoader coverage ─────────────────────────────────────────
 
     [Fact]
-    public void PluginLoader_LoadAll_UsesDefaultPluginDirectory()
+    public void LoadAll_Should_ReturnEmptyList_When_DefaultPluginDirectoryDoesNotExist()
     {
         var loader = new PluginLoader(_logger);
         var plugins = loader.LoadAll(Path.GetTempPath());
@@ -158,7 +183,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginLoader_LoadFromAssemblyMetadata_AssemblyWithAttribute_ReturnsPlugin()
+    public void LoadFromAssemblyMetadata_Should_ReturnPlugin_When_AssemblyHasAttribute()
     {
         var assembly = TestPluginBuilder.BuildPluginAssembly(
             "CoveredPlugin", "1.0.0", typeof(TestPlugin));
@@ -171,7 +196,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginLoader_LoadFromAssembly_WithRealFile_CreatesPlugin()
+    public void LoadFromAssembly_Should_ReturnNull_When_AssemblyFileDoesNotExist()
     {
         // Test that the LoadFromAssembly code path doesn't crash on non-existent file
         var loader = new PluginLoader(_logger);
@@ -182,7 +207,7 @@ public class PluginCoverageTests
     // ─── PluginAssemblyLoadContext coverage ────────────────────────────
 
     [Fact]
-    public void PluginAssemblyLoadContext_Constructor_CreatesCollectibleContext()
+    public void Constructor_Should_CreateCollectibleContext_When_GivenValidAssemblyPath()
     {
         // AssemblyDependencyResolver requires a valid managed assembly.
         // Use our own test assembly which is guaranteed to be a valid PE file.
@@ -195,7 +220,7 @@ public class PluginCoverageTests
     // ─── PluginServiceCollectionExtensions coverage ────────────────────
 
     [Fact]
-    public void AddNextNetPlugins_RegistersServices()
+    public void AddNextNetPlugins_Should_RegisterPluginServices_When_Called()
     {
         var services = new ServiceCollection();
 
@@ -217,7 +242,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void AddNextNetPlugin_RegistersSpecificPlugin()
+    public void AddNextNetPlugin_Should_RegisterPluginInRegistry_When_ResolvedFromDI()
     {
         var services = new ServiceCollection();
         services.AddSingleton<INextNetLogger>(_logger);
@@ -241,7 +266,7 @@ public class PluginCoverageTests
     // ─── PluginsCommand coverage ───────────────────────────────────────
 
     [Fact]
-    public void PluginsCommand_Execute_WithNoPlugins_ReturnsZero()
+    public void Execute_Should_ReturnZero_When_NoPluginsRegistered()
     {
         var registry = new PluginRegistry(_logger);
         var loader = new PluginLoader(_logger);
@@ -252,7 +277,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginsCommand_Execute_WithPlugins_ReturnsZero()
+    public void Execute_Should_ReturnZero_When_PluginsAreRegistered()
     {
         var registry = new PluginRegistry(_logger);
         var loader = new PluginLoader(_logger);
@@ -266,7 +291,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginsCommand_Execute_WithScanOption_ReturnsZero()
+    public void Execute_Should_ReturnZero_When_ScanOptionIsUsed()
     {
         var registry = new PluginRegistry(_logger);
         var loader = new PluginLoader(_logger);
@@ -280,7 +305,7 @@ public class PluginCoverageTests
     // ─── Edge case coverage ────────────────────────────────────────────
 
     [Fact]
-    public void Registry_GetHooks_WithNoPlugins_ReturnsEmpty()
+    public void GetHooks_Should_ReturnEmpty_When_NoPluginsRegistered()
     {
         var registry = new PluginRegistry(_logger);
         Assert.Empty(registry.GetHooks<IBuildHook>());
@@ -292,7 +317,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginLoader_LoadAllFromDirectory_WithNoMatchingDlls_ReturnsEmpty()
+    public void LoadAllFromDirectory_Should_ReturnEmptyList_When_NoMatchingDllFiles()
     {
         // Create a temp directory with a non-dll file
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -315,7 +340,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginAttribute_Constructors_StoreValues()
+    public void NextNetPluginAttribute_Should_StoreValues_When_ConstructedWithArgs()
     {
         var attr = new NextNetPluginAttribute(typeof(TestPlugin), "AttrPlugin", "4.0.0");
 
@@ -325,7 +350,7 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void PluginAttribute_NullArgs_Throw()
+    public void NextNetPluginAttribute_Should_ThrowArgumentNullException_When_AnyArgumentIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new NextNetPluginAttribute(null!, "name", "1.0"));
@@ -336,18 +361,30 @@ public class PluginCoverageTests
     }
 
     [Fact]
-    public void InitializeAllAsync_Twice_LogsWarning()
+    public async Task InitializeAllAsync_Should_NotThrow_When_CalledTwice()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new TestPlugin());
 
-        var initTask1 = registry.InitializeAllAsync(p =>
-            new PluginContext(new MockServiceProvider(), _logger, new NextNetConfig(),
-                "/plugins", new PluginManifest { Name = p.Name, Version = p.Version.ToString() }));
+        await registry.InitializeAllAsync(p =>
+            new PluginContext
+            {
+                Services = new MockServiceProvider(),
+                Logger = _logger,
+                Config = new NextNetConfig(),
+                PluginDirectory = "/plugins",
+                Manifest = new PluginManifest { Name = p.Name, Version = p.Version.ToString() }
+            });
 
         // Second call should not throw but log a warning
-        var initTask2 = registry.InitializeAllAsync(p =>
-            new PluginContext(new MockServiceProvider(), _logger, new NextNetConfig(),
-                "/plugins", new PluginManifest { Name = p.Name, Version = p.Version.ToString() }));
+        await registry.InitializeAllAsync(p =>
+            new PluginContext
+            {
+                Services = new MockServiceProvider(),
+                Logger = _logger,
+                Config = new NextNetConfig(),
+                PluginDirectory = "/plugins",
+                Manifest = new PluginManifest { Name = p.Name, Version = p.Version.ToString() }
+            });
     }
 }

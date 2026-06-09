@@ -9,7 +9,18 @@ namespace NextNet.Middleware.BuiltIn;
 /// <summary>
 /// Options for the <see cref="CompressionMiddleware"/>.
 /// </summary>
-public class CompressionOptions
+/// <example>
+/// <code>
+/// // Configure compression in Startup
+/// services.Configure&lt;CompressionOptions&gt;(options =>
+/// {
+///     options.Level = CompressionLevel.Optimal;
+///     options.MinimumSizeBytes = 512;
+///     options.MimeTypes.Add("application/grpc");
+/// });
+/// </code>
+/// </example>
+public sealed record CompressionOptions
 {
     /// <summary>
     /// Gets or sets the compression level. Defaults to <see cref="CompressionLevel.Fastest"/>.
@@ -63,8 +74,21 @@ public enum CompressionAlgorithm
 /// Middleware that compresses HTTP responses using Brotli, GZip, or Deflate
 /// based on the client's Accept-Encoding header.
 /// </summary>
+/// <example>
+/// <code>
+/// // In pipeline configuration:
+/// pipeline.Use&lt;CompressionMiddleware&gt;();
+///
+/// // With custom options:
+/// services.Configure&lt;CompressionOptions&gt;(options =>
+/// {
+///     options.Level = CompressionLevel.Optimal;
+///     options.MinimumSizeBytes = 512;
+/// });
+/// </code>
+/// </example>
 [MiddlewareOrderAttribute(MiddlewareOrder.Compression)]
-public class CompressionMiddleware : IMiddleware
+public sealed class CompressionMiddleware : IMiddleware
 {
     private readonly CompressionOptions _options;
     private readonly ILogger<CompressionMiddleware> _logger;
@@ -204,14 +228,14 @@ public class CompressionMiddleware : IMiddleware
         return null;
     }
 
-    private static Stream CreateCompressionStream(Stream destination, string encoding)
+    private Stream CreateCompressionStream(Stream destination, string encoding)
     {
         return encoding switch
         {
-            "br" => new BrotliStream(destination, CompressionLevel.Fastest),
-            "gzip" => new GZipStream(destination, CompressionLevel.Fastest),
-            "deflate" => new DeflateStream(destination, CompressionLevel.Fastest),
-            _ => throw new NotSupportedException($"Compression encoding '{encoding}' is not supported."),
+            "br" => new BrotliStream(destination, _options.Level),
+            "gzip" => new GZipStream(destination, _options.Level),
+            "deflate" => new DeflateStream(destination, _options.Level),
+            _ => throw new NotSupportedException($"{Errors.MiddlewareErrorCodes.TerminalDelegateError}: Compression encoding '{encoding}' is not supported."),
         };
     }
 }

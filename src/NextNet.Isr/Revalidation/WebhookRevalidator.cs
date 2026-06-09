@@ -7,7 +7,7 @@ namespace NextNet.Isr.Revalidation;
 /// Handles webhook-triggered revalidation from external services (CMS, etc.)
 /// with HMAC-SHA256 signature verification for request authenticity.
 /// </summary>
-public class WebhookRevalidator
+public sealed class WebhookRevalidator
 {
     private readonly IIsrRevalidationManager _revalidationManager;
     private readonly IsrGlobalOptions _globalOptions;
@@ -68,7 +68,7 @@ public class WebhookRevalidator
         CancellationToken cancellationToken = default)
     {
         if (!VerifySignature(body, signature))
-            return RevalidationResult.Fail("Invalid webhook signature.");
+            return RevalidationResult.Fail($"[{IsrErrorCodes.InvalidWebhookSignature}] Invalid webhook signature.");
 
         var revalidated = new List<string>();
 

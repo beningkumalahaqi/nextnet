@@ -6,7 +6,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsServerAdvancedTests
 {
     [Fact]
-    public void Server_WithCustomOptions_RespectsSettings()
+    public void Server_Should_RespectSettings_When_CustomOptionsProvided()
     {
         var options = new DevToolsOptions
         {
@@ -25,7 +25,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void Server_SwitchPanel_AllIndices()
+    public void Server_Should_SwitchToAllIndices_When_CyclingThroughPanels()
     {
         using var server = new DevToolsServer(new DevToolsOptions { Mode = DevToolsMode.Tui });
 
@@ -37,14 +37,14 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void Server_WsManager_NullInTuiMode()
+    public void Server_Should_HaveNullWsManager_When_InTuiMode()
     {
         using var server = new DevToolsServer(new DevToolsOptions { Mode = DevToolsMode.Tui });
         Assert.Null(server.WsManager);
     }
 
     [Fact]
-    public async Task DataStore_ConcurrentAccess_NoCrash()
+    public async Task DataStore_Should_NotCrash_When_AccessedConcurrently()
     {
         var store = new DevToolsDataStore();
         var exceptions = new List<Exception>();
@@ -86,7 +86,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void DataStore_ClearNetwork_WhileAdding()
+    public void DataStore_Should_ClearNetworkRequests_When_Called()
     {
         var store = new DevToolsDataStore();
 
@@ -106,7 +106,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void DataStore_ClearConsole_WhileAdding()
+    public void DataStore_Should_ClearConsoleLogs_When_Called()
     {
         var store = new DevToolsDataStore();
 
@@ -121,7 +121,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void DataStore_SetComponents_Replaces()
+    public void DataStore_Should_ReplaceComponents_When_SetComponentsCalledTwice()
     {
         var store = new DevToolsDataStore();
 
@@ -140,7 +140,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void DataStore_MaxNetwork_CapsEntries()
+    public void DataStore_Should_CapNetworkEntries_When_ExceedingMax()
     {
         var store = new DevToolsDataStore();
         store.MaxNetworkEntries = 10;
@@ -159,7 +159,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void DataStore_MaxConsole_CapsEntries()
+    public void DataStore_Should_CapConsoleEntries_When_ExceedingMax()
     {
         var store = new DevToolsDataStore();
         store.MaxConsoleEntries = 10;
@@ -173,7 +173,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void DevToolsEventBus_SubscribeToDifferentTypes()
+    public void DevToolsEventBus_Should_HandleDifferentTypes_When_Subscribed()
     {
         var bus = new DevToolsEventBus();
         var routeEvents = 0;
@@ -190,7 +190,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void DevToolsEventBus_HandlerException_DoesNotCrash()
+    public void DevToolsEventBus_Should_NotCrash_When_HandlerThrows()
     {
         var bus = new DevToolsEventBus();
         var goodHandlerCalled = false;
@@ -204,7 +204,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void RouteInfo_DefaultValues_Complete()
+    public void RouteInfo_Should_HaveValues_When_Initialized()
     {
         var info = new RouteInspectorPanel.RouteInfo
         {
@@ -229,7 +229,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void PerformanceMetric_DefaultValues_Complete()
+    public void PerformanceMetric_Should_HaveValues_When_Initialized()
     {
         var metric = new PerformanceProfilerPanel.PerformanceMetric
         {
@@ -244,7 +244,7 @@ public class DevToolsServerAdvancedTests
     }
 
     [Fact]
-    public void NetworkRequest_DefaultValues_Complete()
+    public void NetworkRequest_Should_HaveValues_When_Initialized()
     {
         var req = new NetworkInspectorPanel.NetworkRequest
         {

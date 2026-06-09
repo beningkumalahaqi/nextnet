@@ -6,6 +6,26 @@ namespace NextNet.ServerActions.ServerActions;
 /// to receive dependency-injected services via the <see cref="SetServices"/> method
 /// before action execution.
 /// </summary>
+/// <example>
+/// <code>
+/// [ServerAction]
+/// public class UserActions : IServerAction
+/// {
+///     private IUserService? _userService;
+///
+///     public void SetServices(IServiceProvider services)
+///     {
+///         _userService = services.GetRequiredService&lt;IUserService&gt;();
+///     }
+///
+///     public Task&lt;ActionResult&gt; GetUser(int id)
+///     {
+///         var user = _userService!.GetById(id);
+///         return Task.FromResult(ActionSuccess.With(user));
+///     }
+/// }
+/// </code>
+/// </example>
 public interface IServerAction
 {
     /// <summary>

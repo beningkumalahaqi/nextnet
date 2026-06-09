@@ -5,7 +5,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsEventTests
 {
     [Fact]
-    public void RouteDiscoveredEvent_HasProperties()
+    public void RouteDiscoveredEvent_Should_HaveProperties_When_Initialized()
     {
         var evt = new RouteDiscoveredEvent
         {
@@ -20,7 +20,7 @@ public class DevToolsEventTests
     }
 
     [Fact]
-    public void ComponentRenderedEvent_HasProperties()
+    public void ComponentRenderedEvent_Should_HaveProperties_When_Initialized()
     {
         var evt = new ComponentRenderedEvent
         {
@@ -35,7 +35,7 @@ public class DevToolsEventTests
     }
 
     [Fact]
-    public void BuildCompletedEvent_HasSteps()
+    public void BuildCompletedEvent_Should_HaveSteps_When_Initialized()
     {
         var evt = new BuildCompletedEvent
         {
@@ -54,7 +54,7 @@ public class DevToolsEventTests
     }
 
     [Fact]
-    public void HmrUpdatedEvent_HasProperties()
+    public void HmrUpdatedEvent_Should_HaveProperties_When_Initialized()
     {
         var evt = new HmrUpdatedEvent
         {
@@ -69,7 +69,7 @@ public class DevToolsEventTests
     }
 
     [Fact]
-    public void ErrorOccurredEvent_HasProperties()
+    public void ErrorOccurredEvent_Should_HaveProperties_When_Initialized()
     {
         var evt = new ErrorOccurredEvent
         {
@@ -84,7 +84,7 @@ public class DevToolsEventTests
     }
 
     [Fact]
-    public void BuildStepMetric_HasProperties()
+    public void BuildStepMetric_Should_HaveProperties_When_Initialized()
     {
         var metric = new BuildStepMetric
         {

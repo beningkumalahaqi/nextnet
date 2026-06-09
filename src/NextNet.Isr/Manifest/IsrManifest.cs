@@ -7,7 +7,7 @@ namespace NextNet.Isr.Manifest;
 /// Generated at build/startup time and consumed by the ISR middleware
 /// to determine revalidation behaviour per route.
 /// </summary>
-public class IsrManifest
+public sealed record IsrManifest
 {
     /// <summary>
     /// Gets the dictionary of route patterns to their ISR metadata.

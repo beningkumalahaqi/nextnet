@@ -23,7 +23,7 @@ public class IsrManifestGeneratorTests
     }
 
     [Fact]
-    public void Generate_WithNoRoutes_ReturnsEmptyManifest()
+    public void Generate_Should_ReturnEmptyManifest_When_NoRoutes()
     {
         var generator = new IsrManifestGenerator(_emptyRouteManifest, _globalOptions);
         var manifest = generator.Generate();
@@ -33,7 +33,7 @@ public class IsrManifestGeneratorTests
     }
 
     [Fact]
-    public void Generate_WithPage_AddsRouteToManifest()
+    public void Generate_Should_AddRouteToManifest_When_PageExists()
     {
         var pages = new List<RouteEntry>
         {
@@ -51,7 +51,7 @@ public class IsrManifestGeneratorTests
     }
 
     [Fact]
-    public void CreateMetadata_WithDefaultRoute_UsesGlobalDefaults()
+    public void CreateMetadata_Should_UseGlobalDefaults_When_DefaultRoute()
     {
         var entry = new RouteEntry("/test", "app/Pages/Test.cs", RouteType.Page, RouteSegmentKind.Static);
 
@@ -66,21 +66,21 @@ public class IsrManifestGeneratorTests
     }
 
     [Fact]
-    public void ConvertFilePathToTypeName_ConvertsCorrectly()
+    public void ConvertFilePathToTypeName_Should_ConvertCorrectly_When_ForwardSlashPath()
     {
         var result = IsrManifestGenerator.ConvertFilePathToTypeName("app/Pages/Blog/Index.cs");
         Assert.Equal("App.Pages.Blog.Index", result);
     }
 
     [Fact]
-    public void ConvertFilePathToTypeName_WithBackslash_ConvertsCorrectly()
+    public void ConvertFilePathToTypeName_Should_ConvertCorrectly_When_BackslashPath()
     {
         var result = IsrManifestGenerator.ConvertFilePathToTypeName("app\\Pages\\About.cshtml");
         Assert.Equal("App.Pages.About", result);
     }
 
     [Fact]
-    public void ConvertFilePathToTypeName_WithoutExtension_TrimsBasedOnLastDot()
+    public void ConvertFilePathToTypeName_Should_TrimBasedOnLastDot_When_NoExtension()
     {
         var result = IsrManifestGenerator.ConvertFilePathToTypeName("Home.Index");
         // The method removes the last extension part
@@ -88,7 +88,7 @@ public class IsrManifestGeneratorTests
     }
 
     [Fact]
-    public void ConvertFilePathToTypeName_WithMixedCase()
+    public void ConvertFilePathToTypeName_Should_CapitalizeSegments_When_MixedCase()
     {
         var result = IsrManifestGenerator.ConvertFilePathToTypeName("app/pages/blog/post.cs");
         Assert.Equal("App.Pages.Blog.Post", result);

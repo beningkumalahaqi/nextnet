@@ -7,7 +7,7 @@ namespace NextNet.Isr.Tests;
 public class BackgroundRevalidationServiceTests
 {
     [Fact]
-    public async Task StartAndStop_DoesNotThrow()
+    public async Task StartAndStop_Should_NotThrow_When_Called()
     {
         var queue = new RevalidationQueue(capacity: 10);
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -23,7 +23,7 @@ public class BackgroundRevalidationServiceTests
     }
 
     [Fact]
-    public async Task ProcessesQueuedRequests()
+    public async Task BackgroundService_Should_ProcessQueuedRequests_When_Enqueued()
     {
         var queue = new RevalidationQueue(capacity: 10);
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -48,7 +48,7 @@ public class BackgroundRevalidationServiceTests
     }
 
     [Fact]
-    public void Constructor_NullQueue_Throws()
+    public void Constructor_Should_Throw_When_QueueIsNull()
     {
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
         var globalOptions = new IsrGlobalOptions();
@@ -58,7 +58,7 @@ public class BackgroundRevalidationServiceTests
     }
 
     [Fact]
-    public void Constructor_NullManager_Throws()
+    public void Constructor_Should_Throw_When_ManagerIsNull()
     {
         var queue = new RevalidationQueue();
         var globalOptions = new IsrGlobalOptions();
@@ -68,7 +68,7 @@ public class BackgroundRevalidationServiceTests
     }
 
     [Fact]
-    public void Constructor_NullGlobalOptions_Throws()
+    public void Constructor_Should_Throw_When_GlobalOptionsIsNull()
     {
         var queue = new RevalidationQueue();
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -78,7 +78,7 @@ public class BackgroundRevalidationServiceTests
     }
 
     [Fact]
-    public async Task Dispose_CanBeCalledMultipleTimes()
+    public async Task Dispose_Should_NotThrow_When_CalledMultipleTimes()
     {
         var queue = new RevalidationQueue();
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);

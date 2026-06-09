@@ -15,16 +15,18 @@ public class HookExecutionTests
     public HookExecutionTests()
     {
         _logger = new NextNetLogger("Test");
-        _defaultContext = new PluginContext(
-            new MockServiceProvider(),
-            _logger,
-            new NextNet.Configuration.NextNetConfig(),
-            "/plugins",
-            new PluginManifest { Name = "Test", Version = "1.0.0" });
+        _defaultContext = new PluginContext
+        {
+            Services = new MockServiceProvider(),
+            Logger = _logger,
+            Config = new NextNet.Configuration.NextNetConfig(),
+            PluginDirectory = "/plugins",
+            Manifest = new PluginManifest { Name = "Test", Version = "1.0.0" }
+        };
     }
 
     [Fact]
-    public void BuildHook_PluginsImplementingInterface_AreDiscoverable()
+    public void GetHooks_Should_DiscoverBuildHooks_When_PluginsImplementIBuildHook()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new PluginWithBuildHook());
@@ -37,7 +39,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task BuildHook_OnBuildStart_CalledCorrectly()
+    public async Task OnBuildStart_Should_SetFlag_When_CalledOnBuildHookPlugin()
     {
         var plugin = new PluginWithBuildHook();
         var registry = new PluginRegistry(_logger);
@@ -54,7 +56,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task BuildHook_OnBuildEnd_CalledCorrectly()
+    public async Task OnBuildEnd_Should_SetFlag_When_CalledOnBuildHookPlugin()
     {
         var plugin = new PluginWithBuildHook();
         var registry = new PluginRegistry(_logger);
@@ -71,7 +73,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task RouteScannerHook_OnRoutesDiscovered_CalledWithManifest()
+    public async Task OnRoutesDiscovered_Should_ReceiveManifest_When_CalledOnRouteScannerPlugin()
     {
         var plugin = new PluginWithRouteScannerHook();
         var registry = new PluginRegistry(_logger);
@@ -89,7 +91,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task StartupHook_OnStartup_CalledCorrectly()
+    public async Task OnStartup_Should_SetFlag_When_CalledOnStartupHookPlugin()
     {
         var plugin = new PluginWithMultipleHooks();
         var registry = new PluginRegistry(_logger);
@@ -105,7 +107,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task RequestHook_OnRequestAsync_CalledWithHttpContext()
+    public async Task OnRequestAsync_Should_ReceiveHttpContext_When_CalledOnRequestHookPlugin()
     {
         var plugin = new PluginWithRequestHook();
         var registry = new PluginRegistry(_logger);
@@ -123,7 +125,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task ErrorHook_OnError_CalledWithException()
+    public async Task OnError_Should_ReceiveException_When_CalledOnErrorHookPlugin()
     {
         var plugin = new PluginWithErrorHook();
         var registry = new PluginRegistry(_logger);
@@ -141,7 +143,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task RenderHook_OnPreRender_CalledCorrectly()
+    public async Task OnPreRender_Should_SetFlag_When_CalledOnRenderHookPlugin()
     {
         var plugin = new PluginWithRenderHook();
         var registry = new PluginRegistry(_logger);
@@ -158,7 +160,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task RenderHook_OnPostRender_CalledWithContent()
+    public async Task OnPostRender_Should_ReceiveContent_When_CalledOnRenderHookPlugin()
     {
         var plugin = new PluginWithRenderHook();
         var registry = new PluginRegistry(_logger);
@@ -175,7 +177,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public async Task HookException_DoesNotThrowInRegistry()
+    public async Task OnBuildStart_Should_Throw_When_HookPluginThrows()
     {
         var registry = new PluginRegistry(_logger);
         registry.Register(new PluginWithFailingBuildHook());
@@ -192,7 +194,7 @@ public class HookExecutionTests
     }
 
     [Fact]
-    public void MultipleHooks_OnSamePlugin_AllDiscovered()
+    public void GetHooks_Should_DiscoverAllInterfaces_When_PluginImplementsMultipleHooks()
     {
         var plugin = new PluginWithMultipleHooks();
         var type = plugin.GetType();

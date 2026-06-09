@@ -2,7 +2,22 @@ namespace NextNet.ServerActions.Results;
 
 /// <summary>
 /// Factory for creating successful action results.
+/// Provides factory methods for wrapping return values in a standardized success envelope.
 /// </summary>
+/// <example>
+/// Return a success with data:
+/// <code>
+/// return ActionSuccess.With(new { id = 1, name = "Alice" });
+/// </code>
+/// Return an empty success:
+/// <code>
+/// return ActionSuccess.Empty();
+/// </code>
+/// Return a success with a custom status code:
+/// <code>
+/// return ActionSuccess.WithStatus(201, "Created");
+/// </code>
+/// </example>
 public static class ActionSuccess
 {
     /// <summary>

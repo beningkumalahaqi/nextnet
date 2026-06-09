@@ -7,7 +7,7 @@
     <Description>NextNet Plugins - Plugin system, discovery, isolation, lifecycle hooks, and extensibility</Description>
     <PackageTags>nextnet;plugins;extensibility;hooks</PackageTags>
     <PackageId>NextNet.Plugins</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

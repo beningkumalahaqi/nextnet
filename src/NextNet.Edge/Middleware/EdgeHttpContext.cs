@@ -9,7 +9,7 @@ namespace NextNet.Edge.Middleware;
 /// In edge environments, the full <see cref="HttpContext"/> may not be available,
 /// so this wraps the minimal set of features needed for NextNet to function.
 /// </summary>
-public class EdgeHttpContext
+public sealed class EdgeHttpContext
 {
     /// <summary>
     /// Gets the edge request.
@@ -85,7 +85,7 @@ public class EdgeHttpContext
             return AspNetCoreHttpContext;
 
         throw new InvalidOperationException(
-            "Cannot convert EdgeHttpContext to ASP.NET Core HttpContext " +
+            $"[{EdgeErrorCodes.CannotConvertToAspNetCoreContext}] Cannot convert EdgeHttpContext to ASP.NET Core HttpContext " +
             "when running on a pure edge runtime. Wrap edge-specific code in " +
             "#if !EDGE_RUNTIME conditionals.");
     }
@@ -94,7 +94,7 @@ public class EdgeHttpContext
 /// <summary>
 /// Provides minimal connection information available on edge runtimes.
 /// </summary>
-public class EdgeConnectionInfo
+public sealed record EdgeConnectionInfo
 {
     /// <summary>
     /// Gets or sets the remote IP address (may be null on some edge providers).

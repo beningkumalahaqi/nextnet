@@ -6,7 +6,7 @@ namespace NextNet.Isr.Revalidation;
 /// Handles on-demand revalidation triggered by API calls or server actions.
 /// Validates the provided secret before allowing revalidation to proceed.
 /// </summary>
-public class OnDemandRevalidator
+public sealed class OnDemandRevalidator
 {
     private readonly IIsrRevalidationManager _revalidationManager;
     private readonly IsrGlobalOptions _globalOptions;

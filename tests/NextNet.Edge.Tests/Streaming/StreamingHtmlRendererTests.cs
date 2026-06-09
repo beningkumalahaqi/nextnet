@@ -9,14 +9,14 @@ namespace NextNet.Edge.Tests.Streaming;
 public class EdgeStreamingHtmlRendererTests
 {
     [Fact]
-    public void Constructor_NullInnerRenderer_Throws()
+    public void Constructor_Should_Throw_When_InnerRendererIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new EdgeStreamingHtmlRenderer(null!, new EdgeOptions()));
     }
 
     [Fact]
-    public void Constructor_NullOptions_Throws()
+    public void Constructor_Should_Throw_When_OptionsIsNull()
     {
         var innerRenderer = new NextNet.Rendering.Streaming.StreamingHtmlRenderer(
             new NextNet.Rendering.SsrRenderer(
@@ -29,7 +29,7 @@ public class EdgeStreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderToStreamAsync_NullRoute_Throws()
+    public async Task RenderToStreamAsync_Should_Throw_When_RouteIsNull()
     {
         var innerRenderer = new NextNet.Rendering.Streaming.StreamingHtmlRenderer(
             new NextNet.Rendering.SsrRenderer(
@@ -46,7 +46,7 @@ public class EdgeStreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderToStreamAsync_NullContext_Throws()
+    public async Task RenderToStreamAsync_Should_Throw_When_ContextIsNull()
     {
         var innerRenderer = new NextNet.Rendering.Streaming.StreamingHtmlRenderer(
             new NextNet.Rendering.SsrRenderer(
@@ -61,7 +61,7 @@ public class EdgeStreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderToStreamAsync_NullWriter_Throws()
+    public async Task RenderToStreamAsync_Should_Throw_When_WriterIsNull()
     {
         var innerRenderer = new NextNet.Rendering.Streaming.StreamingHtmlRenderer(
             new NextNet.Rendering.SsrRenderer(

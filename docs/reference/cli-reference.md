@@ -205,6 +205,276 @@ Project: my-app
 
 ---
 
+## V5 Design System Commands `v5.0` `stable`
+
+New commands in NextNet V5 for managing the design system, UI components, and theming. V5 is now fully implemented across all packages.
+
+### `nextnet add ui`
+
+Install the complete design system into your project.
+
+```bash
+nextnet add ui [options]
+```
+
+**Options:**
+
+| Option | Short | Default | Description |
+|--------|-------|---------|-------------|
+| `--components` | `-c` | `all` | Components to include (`all`, `minimal`, or comma-separated list) |
+| `--with-tailwind` | | `true` | Include Tailwind CSS integration |
+| `--with-darkmode` | | `true` | Include dark mode support |
+| `--prefix` | | `nn` | CSS class prefix for components |
+| `--force` | | `false` | Overwrite existing design system files |
+
+**Examples:**
+
+```bash
+nextnet add ui
+nextnet add ui --components minimal --no-tailwind
+nextnet add ui --components Button,Card,Input --prefix app
+```
+
+**Output:**
+
+```bash
+$ nextnet add ui
+✓ Design system installed
+  → 17 components added
+  → Theme engine configured (light + dark)
+  → Tailwind config generated
+  → CSS tokens generated
+  → Runtime theme switcher added
+```
+
+---
+
+### `nextnet add tailwind`
+
+Install and configure Tailwind CSS for your project.
+
+```bash
+nextnet add tailwind [options]
+```
+
+**Options:**
+
+| Option | Short | Default | Description |
+|--------|-------|---------|-------------|
+| `--version` | | `4` | Tailwind major version (`3`, `4`) |
+| `--prefix` | | `""` | Tailwind class prefix |
+| `--purge` | | `true` | Enable unused class purging |
+| `--config-only` | | `false` | Generate config only, skip npm install |
+| `--force` | | `false` | Overwrite existing config |
+
+**Examples:**
+
+```bash
+nextnet add tailwind
+nextnet add tailwind --version 3
+nextnet add tailwind --config-only
+nextnet add tailwind --prefix tw-
+```
+
+**Output:**
+
+```bash
+$ nextnet add tailwind
+✓ Tailwind CSS installed
+  → Version: 4.x
+  → Config generated: _design/tailwind.config.js
+  → PostCSS configured
+  → Build pipeline updated
+  → Theme tokens mapped to Tailwind utilities
+```
+
+---
+
+### `nextnet add <component>`
+
+Install individual UI components from the design system.
+
+```bash
+nextnet add <component> [options]
+```
+
+**Available components:**
+
+| Component | Description |
+|-----------|-------------|
+| `button` | Action button with variants |
+| `card` | Content container |
+| `input` | Text input field |
+| `select` | Dropdown selector |
+| `checkbox` | Multi-select input |
+| `radio` | Single-select input |
+| `toggle` | On/off switch |
+| `modal` | Dialog overlay |
+| `drawer` | Slide-out panel |
+| `toast` | Notification toast |
+| `badge` | Status indicator |
+| `table` | Data table |
+| `tabs` | Tabbed content |
+| `accordion` | Expandable sections |
+| `nav` | Navigation menu |
+| `progress` | Loading indicator |
+| `avatar` | User avatar |
+
+**Options:**
+
+| Option | Short | Default | Description |
+|--------|-------|---------|-------------|
+| `--output` | `-o` | `_design/components` | Output directory |
+| `--force` | | `false` | Overwrite existing files |
+
+**Examples:**
+
+```bash
+nextnet add button
+nextnet add modal
+nextnet add table --force
+nextnet add card input button
+```
+
+**Output:**
+
+```bash
+$ nextnet add button
+✓ Component added: Button
+  → File: _design/components/button.css
+  → Variants: primary, secondary, ghost, danger, link
+  → Sizes: sm, md, lg
+```
+
+---
+
+### `nextnet generate component`
+
+Scaffold a custom UI component with the design system pattern.
+
+```bash
+nextnet generate component [name] [options]
+```
+
+**Arguments:**
+
+| Argument | Required | Description |
+|----------|----------|-------------|
+| `name` | Yes | Component name (PascalCase) |
+
+**Options:**
+
+| Option | Short | Default | Description |
+|--------|-------|---------|-------------|
+| `--output` | `-o` | `app/_components` | Output directory |
+| `--no-styles` | | `false` | Skip CSS file generation |
+| `--with-types` | | `true` | Generate options/types class |
+| `--interactive` | | `false` | Add JavaScript interactivity |
+| `--prefix` | | `nn` | CSS class prefix |
+
+**Examples:**
+
+```bash
+nextnet generate component PricingCard
+nextnet generate component DataChart --interactive
+nextnet generate component HeroSection --output app/_components/marketing
+```
+
+**Generated files:**
+
+```text
+app/_components/
+├── _PricingCard.cs        # Component class
+├── PricingCardOptions.cs   # Options class (--with-types)
+├── pricing-card.css        # Component styles (--no-styles to skip)
+└── pricing-card.js         # Interactivity (--interactive)
+```
+
+**Output:**
+
+```bash
+$ nextnet generate component PricingCard
+✓ Component generated: PricingCard
+  → _PricingCard.cs
+  → PricingCardOptions.cs
+  → pricing-card.css
+  → Register in _components/index.cs to expose globally
+```
+
+---
+
+### `nextnet add darkmode`
+
+Add dark mode support to your project, including theme switching and persistence.
+
+```bash
+nextnet add darkmode [options]
+```
+
+**Options:**
+
+| Option | Short | Default | Description |
+|--------|-------|---------|-------------|
+| `--strategy` | `-s` | `class` | Theme strategy (`class`, `data-attribute`, `media-query`) |
+| `--storage-key` | | `nn-theme` | localStorage key for persistence |
+| `--respect-system` | | `true` | Respect `prefers-color-scheme` |
+| `--toggle-position` | | `bottom-right` | Theme toggle position (`top-right`, `bottom-right`, `top-left`, `bottom-left`, `none`) |
+| `--transition` | | `300` | Theme transition duration in ms |
+| `--force` | | `false` | Overwrite existing theme files |
+
+**Examples:**
+
+```bash
+nextnet add darkmode
+nextnet add darkmode --strategy media-query --toggle-position none
+nextnet add darkmode --storage-key my-app-theme --no-respect-system
+```
+
+**Generated files:**
+
+```text
+_design/
+├── theme.css               # Light and dark theme variables
+├── theme-runtime.js         # Theme switching runtime
+└── components/
+    └── theme-toggle.css     # Theme toggle button styles
+```
+
+**Output:**
+
+```bash
+$ nextnet add darkmode
+✓ Dark mode configured
+  → Strategy: data-attribute
+  → Light theme variables generated
+  → Dark theme variables generated
+  → Theme toggle added (bottom-right)
+  → Persistence: localStorage (nn-theme)
+  → System preference detection: enabled
+```
+
+---
+
+### `nextnet new` (V5 Templates)
+
+Updated `nextnet new` now supports design system templates:
+
+```bash
+nextnet new my-app --template default --with-ui --with-darkmode
+nextnet new my-app --template blog --with-ui --with-tailwind
+```
+
+**New template options:**
+
+| Option | Short | Default | Description |
+|--------|-------|---------|-------------|
+| `--with-ui` | | `false` | Include design system |
+| `--with-tailwind` | | `false` | Include Tailwind CSS |
+| `--with-darkmode` | | `false` | Include dark mode support |
+| `--components` | | `all` | Components to include |
+
+---
+
 ### `nextnet new --help`
 
 ```text

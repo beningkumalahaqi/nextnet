@@ -6,6 +6,20 @@ namespace NextNet.Plugins.Hooks;
 /// Hook that fires when the route scanner has finished discovering routes.
 /// Plugins can inspect or modify the route manifest.
 /// </summary>
+/// <example>
+/// <code>
+/// public class MyRouteInspector : NextNetPlugin, IRouteScannerHook
+/// {
+///     public override string Name => "RouteInspector";
+///
+///     public Task OnRoutesDiscovered(PluginContext ctx, RouteManifest manifest)
+///     {
+///         ctx.Logger.Info("Discovered {0} routes.", manifest.Routes.Count);
+///         return Task.CompletedTask;
+///     }
+/// }
+/// </code>
+/// </example>
 public interface IRouteScannerHook
 {
     /// <summary>

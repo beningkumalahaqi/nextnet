@@ -6,7 +6,25 @@ namespace NextNet.Middleware;
 /// Provides context for middleware execution, including access to the
 /// HTTP context, a per-request items dictionary, and the owning pipeline.
 /// </summary>
-public class MiddlewareContext
+/// <example>
+/// <code>
+/// // MiddlewareContext is created by the pipeline for each request
+/// public class MyMiddleware : IMiddleware
+/// {
+///     public async Task InvokeAsync(MiddlewareContext context, RequestDelegate next)
+///     {
+///         // Access HTTP context
+///         var path = context.HttpContext.Request.Path;
+///
+///         // Store data for downstream middleware
+///         context.Items["my-data"] = "value";
+///
+///         await next(context.HttpContext);
+///     }
+/// }
+/// </code>
+/// </example>
+public sealed record MiddlewareContext
 {
     /// <summary>
     /// Gets the current <see cref="HttpContext"/> for the request.
@@ -29,6 +47,8 @@ public class MiddlewareContext
     /// </summary>
     /// <param name="httpContext">The current HTTP context.</param>
     /// <param name="pipeline">The owning middleware pipeline.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="httpContext"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="pipeline"/> is null.</exception>
     public MiddlewareContext(HttpContext httpContext, MiddlewarePipeline pipeline)
     {
         HttpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));

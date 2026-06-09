@@ -4,7 +4,7 @@ namespace NextNet.Edge.Compatibility;
 /// Defines which .NET APIs are allowed and blocked on edge runtimes (V8/WASM).
 /// Provides a centralized whitelist/blocklist for the compatibility checker.
 /// </summary>
-public class EdgeApiWhitelist
+public sealed class EdgeApiWhitelist
 {
     /// <summary>
     /// Initializes a new instance of <see cref="EdgeApiWhitelist"/>.

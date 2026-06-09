@@ -6,7 +6,7 @@ namespace NextNet.Isr.Tests;
 public class OnDemandRevalidatorTests
 {
     [Fact]
-    public void ValidateSecret_WithMatchingSecret_ReturnsTrue()
+    public void ValidateSecret_Should_ReturnTrue_When_SecretMatches()
     {
         var options = new IsrGlobalOptions { RevalidationSecret = "my-secret" };
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -16,7 +16,7 @@ public class OnDemandRevalidatorTests
     }
 
     [Fact]
-    public void ValidateSecret_WithNonMatchingSecret_ReturnsFalse()
+    public void ValidateSecret_Should_ReturnFalse_When_SecretDoesNotMatch()
     {
         var options = new IsrGlobalOptions { RevalidationSecret = "my-secret" };
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -26,7 +26,7 @@ public class OnDemandRevalidatorTests
     }
 
     [Fact]
-    public void ValidateSecret_WithNoConfiguredSecret_ReturnsTrue()
+    public void ValidateSecret_Should_ReturnTrue_When_NoSecretConfigured()
     {
         var options = new IsrGlobalOptions { RevalidationSecret = null };
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -36,7 +36,7 @@ public class OnDemandRevalidatorTests
     }
 
     [Fact]
-    public void ValidateSecret_WithNullProvidedSecret_ReturnsFalse()
+    public void ValidateSecret_Should_ReturnFalse_When_ProvidedSecretIsNull()
     {
         var options = new IsrGlobalOptions { RevalidationSecret = "secret" };
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -46,7 +46,7 @@ public class OnDemandRevalidatorTests
     }
 
     [Fact]
-    public void ValidateSecret_WithEmptyProvidedSecret_ReturnsFalse()
+    public void ValidateSecret_Should_ReturnFalse_When_ProvidedSecretIsEmpty()
     {
         var options = new IsrGlobalOptions { RevalidationSecret = "secret" };
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -56,7 +56,7 @@ public class OnDemandRevalidatorTests
     }
 
     [Fact]
-    public void ValidateSecret_WithEmptyConfiguredSecret_ReturnsTrue()
+    public void ValidateSecret_Should_ReturnTrue_When_ConfiguredSecretIsEmpty()
     {
         var options = new IsrGlobalOptions { RevalidationSecret = "" };
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -66,7 +66,7 @@ public class OnDemandRevalidatorTests
     }
 
     [Fact]
-    public async Task RevalidateRouteAsync_DelegatesToManager()
+    public async Task RevalidateRouteAsync_Should_DelegateToManager_When_Called()
     {
         var options = new IsrGlobalOptions();
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);
@@ -81,7 +81,7 @@ public class OnDemandRevalidatorTests
     }
 
     [Fact]
-    public async Task RevalidateByTagsAsync_DelegatesToManager()
+    public async Task RevalidateByTagsAsync_Should_DelegateToManager_When_Called()
     {
         var options = new IsrGlobalOptions();
         var manager = new Mock<IIsrRevalidationManager>(MockBehavior.Strict);

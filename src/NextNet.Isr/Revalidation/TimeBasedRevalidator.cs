@@ -4,7 +4,7 @@ namespace NextNet.Isr.Revalidation;
 /// Handles time-based revalidation: checks whether a cached page's age
 /// has exceeded its configured revalidation interval.
 /// </summary>
-public class TimeBasedRevalidator
+public sealed class TimeBasedRevalidator
 {
     private readonly IsrGlobalOptions _globalOptions;
 

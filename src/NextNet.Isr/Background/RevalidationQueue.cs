@@ -8,7 +8,7 @@ namespace NextNet.Isr.Background;
 /// Supports deduplication to prevent multiple concurrent revalidation
 /// operations for the same route.
 /// </summary>
-public class RevalidationQueue
+public sealed class RevalidationQueue
 {
     private readonly Channel<RevalidationRequest> _channel;
     private readonly ConcurrentDictionary<string, DateTime> _pendingRoutes;
@@ -124,28 +124,28 @@ public class RevalidationQueue
 /// <summary>
 /// Represents a request to revalidate one or more routes.
 /// </summary>
-public class RevalidationRequest
+public sealed record RevalidationRequest
 {
     /// <summary>
     /// Gets or sets the specific route to revalidate (e.g. <c>"/blog/hello-world"</c>).
     /// </summary>
-    public string? Route { get; set; }
+    public string? Route { get; init; }
 
     /// <summary>
     /// Gets or sets the tags to invalidate. When specified, all routes with
     /// matching tags will be revalidated.
     /// </summary>
-    public IReadOnlyList<string>? Tags { get; set; }
+    public IReadOnlyList<string>? Tags { get; init; }
 
     /// <summary>
     /// Gets or sets the reason for this revalidation (for logging/diagnostics).
     /// </summary>
-    public string? Reason { get; set; }
+    public string? Reason { get; init; }
 
     /// <summary>
     /// Gets the UTC timestamp when this request was created.
     /// </summary>
-    public DateTime CreatedAt { get; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
     /// <summary>
     /// Returns a string representation of this request.

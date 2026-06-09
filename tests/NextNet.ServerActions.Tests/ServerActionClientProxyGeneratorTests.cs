@@ -8,7 +8,7 @@ namespace NextNet.ServerActions.Tests
     public class ServerActionClientProxyGeneratorTests
     {
         [Fact]
-        public void GenerateClientProxy_WithActions_GeneratesValidCode()
+        public void GenerateClientProxy_Should_GenerateValidCode_When_ActionsRegistered()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -26,7 +26,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GenerateClientProxy_WithCustomBaseUrl_IncludesBaseUrl()
+        public void GenerateClientProxy_Should_IncludeBaseUrl_When_CustomBaseUrlProvided()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -41,7 +41,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GenerateClientProxy_WithCustomClassName_UsesClassName()
+        public void GenerateClientProxy_Should_UseClassName_When_CustomClassNameProvided()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -56,7 +56,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GenerateClientProxy_WithCustomNamespace_UsesNamespace()
+        public void GenerateClientProxy_Should_UseNamespace_When_CustomNamespaceProvided()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -71,7 +71,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GenerateClientProxy_WithMultipleParameters_CreatesAnonymousPayload()
+        public void GenerateClientProxy_Should_CreateAnonymousPayload_When_MultipleParameters()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -88,7 +88,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GenerateClientProxy_WithNoActions_GeneratesEmptyClass()
+        public void GenerateClientProxy_Should_GenerateEmptyClass_When_NoActions()
         {
             // Arrange
             var registry = new ServerActionRegistry();
@@ -102,7 +102,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void Constructor_NullBaseUrl_DoesNotThrow()
+        public void Constructor_Should_NotThrow_When_NullBaseUrl()
         {
             // Act
             var generator = new ServerActionClientProxyGenerator(null!);

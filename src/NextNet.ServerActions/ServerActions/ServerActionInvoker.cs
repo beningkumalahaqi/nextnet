@@ -11,6 +11,13 @@ namespace NextNet.ServerActions.ServerActions;
 /// Handles parameter binding: deserialized request parameters, DI-resolved services,
 /// and CancellationToken.
 /// </summary>
+/// <example>
+/// The invoker is used internally by <see cref="ServerActionExecutor"/>:
+/// <code>
+/// var invoker = new ServerActionInvoker();
+/// var result = await invoker.InvokeAsync(descriptor, parameters, serviceProvider);
+/// </code>
+/// </example>
 public sealed class ServerActionInvoker
 {
     private static readonly ConcurrentDictionary<MethodInfo, Func<object?[], object?>?> InvocationCache = new();

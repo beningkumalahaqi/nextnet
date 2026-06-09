@@ -16,7 +16,7 @@ namespace NextNet.Edge.Dev;
 /// The preview server applies the same API restrictions and size budgets
 /// that would apply on a real edge deployment.
 /// </summary>
-public class EdgePreviewServer
+public sealed class EdgePreviewServer
 {
     private readonly EdgeOptions _options;
     private readonly EdgeCompatibilityChecker _compatibilityChecker;

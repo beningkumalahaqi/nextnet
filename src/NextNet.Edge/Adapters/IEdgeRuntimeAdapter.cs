@@ -52,7 +52,7 @@ public interface IEdgeResponse
 /// <summary>
 /// Represents a static asset to be deployed alongside the edge function.
 /// </summary>
-public class StaticAsset
+public sealed record StaticAsset
 {
     /// <summary>
     /// Gets the route path for the asset (e.g., "/styles/main.css").

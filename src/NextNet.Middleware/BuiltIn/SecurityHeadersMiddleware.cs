@@ -8,7 +8,17 @@ namespace NextNet.Middleware.BuiltIn;
 /// <summary>
 /// Options for the <see cref="SecurityHeadersMiddleware"/>.
 /// </summary>
-public class SecurityHeadersOptions
+/// <example>
+/// <code>
+/// // Customize security headers
+/// services.Configure&lt;SecurityHeadersOptions&gt;(options =>
+/// {
+///     options.ContentSecurityPolicy = "default-src 'self'";
+///     options.XFrameOptions = "SAMEORIGIN";
+/// });
+/// </code>
+/// </example>
+public sealed record SecurityHeadersOptions
 {
     /// <summary>
     /// Gets or sets the Content-Security-Policy header value.
@@ -78,8 +88,17 @@ public class SecurityHeadersOptions
 /// Middleware that sets security-related HTTP headers on all responses.
 /// Configurable via <see cref="SecurityHeadersOptions"/>.
 /// </summary>
+/// <example>
+/// <code>
+/// // In pipeline configuration:
+/// pipeline.Use&lt;SecurityHeadersMiddleware&gt;();
+///
+/// // The middleware sets headers before the response starts,
+/// // including CSP, HSTS, X-Frame-Options, and more.
+/// </code>
+/// </example>
 [MiddlewareOrderAttribute(MiddlewareOrder.Early + 10)]
-public class SecurityHeadersMiddleware : IMiddleware
+public sealed class SecurityHeadersMiddleware : IMiddleware
 {
     private readonly SecurityHeadersOptions _options;
     private readonly ILogger<SecurityHeadersMiddleware> _logger;

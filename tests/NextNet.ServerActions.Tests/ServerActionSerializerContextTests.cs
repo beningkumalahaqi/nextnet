@@ -6,7 +6,7 @@ namespace NextNet.ServerActions.Tests
     public class ServerActionSerializerContextTests
     {
         [Fact]
-        public void Default_Instance_IsAccessible()
+        public void Default_Should_BeAccessible_When_Accessed()
         {
             // Act
             var context = ServerActionSerializerContext.Default;
@@ -16,7 +16,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GetTypeInfo_ActionResult_ReturnsNotNull()
+        public void GetTypeInfo_Should_ReturnNotNull_When_ActionResult()
         {
             // Act
             var typeInfo = ServerActionSerializerContext.Default.GetTypeInfo(typeof(Results.ActionResult));
@@ -26,7 +26,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GetTypeInfo_String_ReturnsNotNull()
+        public void GetTypeInfo_Should_ReturnNotNull_When_String()
         {
             // Act
             var typeInfo = ServerActionSerializerContext.Default.GetTypeInfo(typeof(string));
@@ -36,7 +36,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GetTypeInfo_Int32_ReturnsNotNull()
+        public void GetTypeInfo_Should_ReturnNotNull_When_Int32()
         {
             // Act
             var typeInfo = ServerActionSerializerContext.Default.GetTypeInfo(typeof(int));
@@ -46,7 +46,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void GetTypeInfo_Boolean_ReturnsNotNull()
+        public void GetTypeInfo_Should_ReturnNotNull_When_Boolean()
         {
             // Act
             var typeInfo = ServerActionSerializerContext.Default.GetTypeInfo(typeof(bool));

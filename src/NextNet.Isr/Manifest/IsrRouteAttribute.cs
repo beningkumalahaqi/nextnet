@@ -6,7 +6,7 @@ namespace NextNet.Isr.Manifest;
 /// the global ISR defaults.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class IsrRouteAttribute : Attribute
+public sealed class IsrRouteAttribute : Attribute
 {
     /// <summary>
     /// Gets or sets the revalidation interval in seconds.

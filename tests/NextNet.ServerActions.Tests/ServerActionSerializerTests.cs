@@ -11,7 +11,7 @@ namespace NextNet.ServerActions.Tests
         private readonly ServerActionSerializer _serializer = new();
 
         [Fact]
-        public void Serialize_SuccessResult_ReturnsValidJson()
+        public void Serialize_Should_ReturnValidJson_When_SuccessResult()
         {
             // Arrange
             var result = ActionSuccess.With(new { Name = "Test", Value = 42 }, "Success");
@@ -26,7 +26,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void Serialize_EmptyResult_ReturnsJson()
+        public void Serialize_Should_ReturnJson_When_EmptyResult()
         {
             // Arrange
             var result = ActionSuccess.Empty();
@@ -39,7 +39,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void Serialize_ValidationError_ReturnsErrorJson()
+        public void Serialize_Should_ReturnErrorJson_When_ValidationError()
         {
             // Arrange
             var result = ActionError.Validation("Email is required");
@@ -55,7 +55,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void Serialize_NotFoundError_Returns404()
+        public void Serialize_Should_ReturnNotFoundJson_When_NotFoundError()
         {
             // Arrange
             var result = ActionError.NotFound("User not found");
@@ -70,7 +70,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void Serialize_UnauthorizedError_ReturnsUnauthorizedJson()
+        public void Serialize_Should_ReturnUnauthorizedJson_When_UnauthorizedError()
         {
             // Arrange
             var result = ActionError.Unauthorized("Access denied");
@@ -85,7 +85,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void Serialize_GenericError_ReturnsErrorJson()
+        public void Serialize_Should_ReturnErrorJson_When_GenericError()
         {
             // Arrange
             var result = ActionError.Error("Something went wrong", new Exception("Inner error"));
@@ -96,11 +96,11 @@ namespace NextNet.ServerActions.Tests
             // Assert
             Assert.Contains("\"isSuccess\":false", json);
             Assert.Contains("\"errorType\":\"error\"", json);
-            Assert.Contains("Inner error", json);
+            Assert.Contains("Something went wrong", json);
         }
 
         [Fact]
-        public void Serialize_FieldValidationErrors_IncludesErrors()
+        public void Serialize_Should_IncludeErrors_When_FieldValidationErrors()
         {
             // Arrange
             var errors = new Dictionary<string, string[]>
@@ -120,7 +120,7 @@ namespace NextNet.ServerActions.Tests
         }
 
         [Fact]
-        public void DeserializeResult_Generic_ReturnsTypedResult()
+        public void DeserializeResult_Should_ReturnTypedResult_When_Generic()
         {
             // Arrange
             var json = @"{""isSuccess"":true,""isError"":false,""data"":""test-value""}";
@@ -137,7 +137,7 @@ namespace NextNet.ServerActions.Tests
 
 
         [Fact]
-        public void DeserializeParameters_ValidJson_ReturnsDictionary()
+        public void DeserializeParameters_Should_ReturnDictionary_When_ValidJson()
         {
             // Arrange
             var json = @"{""name"":""Alice"",""age"":30}";

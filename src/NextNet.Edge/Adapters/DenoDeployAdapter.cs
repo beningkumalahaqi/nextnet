@@ -4,7 +4,7 @@ namespace NextNet.Edge.Adapters;
 /// Edge runtime adapter for Deno Deploy.
 /// Generates a <c>main.ts</c> entry point for Deno Deploy.
 /// </summary>
-public class DenoDeployAdapter : IEdgeRuntimeAdapter
+public sealed class DenoDeployAdapter : IEdgeRuntimeAdapter
 {
     /// <inheritdoc />
     public string ProviderName => "Deno Deploy";

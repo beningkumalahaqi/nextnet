@@ -6,7 +6,7 @@ namespace NextNet.Edge.Adapters;
 /// Registry for edge runtime adapters. Provides factory-style resolution
 /// of adapters by provider identifier.
 /// </summary>
-public class AdapterRegistry
+public sealed class AdapterRegistry
 {
     private readonly Dictionary<string, Func<IEdgeRuntimeAdapter>> _adapterFactories = new(StringComparer.OrdinalIgnoreCase);
     private readonly IServiceProvider _serviceProvider;
@@ -34,7 +34,7 @@ public class AdapterRegistry
         if (factory == null) throw new ArgumentNullException(nameof(factory));
 
         if (_adapterFactories.ContainsKey(providerId))
-            throw new ArgumentException($"Adapter for provider '{providerId}' is already registered.", nameof(providerId));
+            throw new ArgumentException($"[{EdgeErrorCodes.AdapterAlreadyRegistered}] Adapter for provider '{providerId}' is already registered.", nameof(providerId));
 
         _adapterFactories[providerId] = factory;
     }
@@ -52,7 +52,7 @@ public class AdapterRegistry
         var id = providerId ?? temp.ProviderId;
 
         if (_adapterFactories.ContainsKey(id))
-            throw new ArgumentException($"Adapter for provider '{id}' is already registered.", nameof(providerId));
+            throw new ArgumentException($"[{EdgeErrorCodes.AdapterAlreadyRegistered}] Adapter for provider '{id}' is already registered.", nameof(providerId));
 
         _adapterFactories[id] = () => ActivatorUtilities.CreateInstance<T>(_serviceProvider);
     }
@@ -71,7 +71,7 @@ public class AdapterRegistry
         if (_adapterFactories.TryGetValue(providerId, out var factory))
             return factory();
 
-        throw new KeyNotFoundException($"No adapter registered for edge provider '{providerId}'. " +
+        throw new KeyNotFoundException($"[{EdgeErrorCodes.NoAdapterRegisteredForProvider}] No adapter registered for edge provider '{providerId}'. " +
             $"Available providers: {string.Join(", ", _adapterFactories.Keys)}");
     }
 

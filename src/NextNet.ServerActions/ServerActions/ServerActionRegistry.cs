@@ -8,6 +8,18 @@ namespace NextNet.ServerActions.ServerActions;
 /// Registry of discovered server action methods.
 /// Stores metadata about each action and caches invocation delegates for performance.
 /// </summary>
+/// <example>
+/// Register actions and look them up by name:
+/// <code>
+/// var registry = new ServerActionRegistry();
+/// registry.RegisterFromType(typeof(MyActions));
+/// if (registry.TryGetAction("hello", out var descriptor))
+/// {
+///     var allActions = registry.GetAllActions();
+///     Console.WriteLine($"Total: {registry.Count}");
+/// }
+/// </code>
+/// </example>
 public sealed class ServerActionRegistry
 {
     private readonly ConcurrentDictionary<string, ServerActionDescriptor> _actions = new(StringComparer.OrdinalIgnoreCase);
@@ -144,7 +156,16 @@ public sealed class ServerActionRegistry
 /// <summary>
 /// Describes a registered server action.
 /// </summary>
-public sealed class ServerActionDescriptor
+/// <example>
+/// Descriptors are created automatically by <see cref="ServerActionRegistry.RegisterFromType"/>.
+/// <code>
+/// if (registry.TryGetAction("createUser", out var descriptor))
+/// {
+///     Console.WriteLine($"Action: {descriptor.ActionName}, Route: {descriptor.Route}");
+/// }
+/// </code>
+/// </example>
+public sealed record ServerActionDescriptor
 {
     /// <summary>
     /// The action name used for routing.
@@ -185,7 +206,16 @@ public sealed class ServerActionDescriptor
 /// <summary>
 /// Describes a parameter of a server action method.
 /// </summary>
-public sealed class ActionParameterDescriptor
+/// <example>
+/// <code>
+/// foreach (var param in descriptor.Parameters)
+/// {
+///     Console.WriteLine($"{param.Name}: {param.ParameterType.Name}" +
+///         $" (service={param.IsService}, cancel={param.IsCancellationToken})");
+/// }
+/// </code>
+/// </example>
+public sealed record ActionParameterDescriptor
 {
     /// <summary>
     /// The parameter name.

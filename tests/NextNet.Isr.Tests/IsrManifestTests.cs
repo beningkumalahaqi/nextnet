@@ -5,7 +5,7 @@ namespace NextNet.Isr.Tests;
 public class IsrManifestTests
 {
     [Fact]
-    public void Empty_ReturnsEmptyManifest()
+    public void Empty_Should_ReturnEmptyManifest_When_Called()
     {
         var manifest = IsrManifest.Empty;
 
@@ -15,7 +15,7 @@ public class IsrManifestTests
     }
 
     [Fact]
-    public void Constructor_StoresRoutes()
+    public void Constructor_Should_StoreRoutes_When_Provided()
     {
         var routes = new Dictionary<string, IsrRouteMetadata>
         {
@@ -29,7 +29,7 @@ public class IsrManifestTests
     }
 
     [Fact]
-    public void TryGetMetadata_ExactMatch_ReturnsTrue()
+    public void TryGetMetadata_Should_ReturnTrue_When_ExactMatch()
     {
         var routes = new Dictionary<string, IsrRouteMetadata>
         {
@@ -44,7 +44,7 @@ public class IsrManifestTests
     }
 
     [Fact]
-    public void TryGetMetadata_PatternMatch_ReturnsTrue()
+    public void TryGetMetadata_Should_ReturnTrue_When_PatternMatch()
     {
         var routes = new Dictionary<string, IsrRouteMetadata>
         {
@@ -60,7 +60,7 @@ public class IsrManifestTests
     }
 
     [Fact]
-    public void TryGetMetadata_NoMatch_ReturnsFalse()
+    public void TryGetMetadata_Should_ReturnFalse_When_NoMatch()
     {
         var manifest = IsrManifest.Empty;
 
@@ -69,7 +69,7 @@ public class IsrManifestTests
     }
 
     [Fact]
-    public void GetMetadataOrDefault_WithMatch_ReturnsMetadata()
+    public void GetMetadataOrDefault_Should_ReturnMetadata_When_MatchFound()
     {
         var routes = new Dictionary<string, IsrRouteMetadata>
         {
@@ -83,7 +83,7 @@ public class IsrManifestTests
     }
 
     [Fact]
-    public void GetMetadataOrDefault_WithoutMatch_ReturnsDefault()
+    public void GetMetadataOrDefault_Should_ReturnDefault_When_NoMatch()
     {
         var globalOptions = new IsrGlobalOptions { DefaultRevalidateSeconds = 60 };
         var manifest = new IsrManifest(new Dictionary<string, IsrRouteMetadata>(), globalOptions);
@@ -95,14 +95,14 @@ public class IsrManifestTests
     }
 
     [Fact]
-    public void Constructor_NullRoutes_Throws()
+    public void Constructor_Should_Throw_When_RoutesIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new IsrManifest(null!, new IsrGlobalOptions()));
     }
 
     [Fact]
-    public void Constructor_NullGlobalOptions_Throws()
+    public void Constructor_Should_Throw_When_GlobalOptionsIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new IsrManifest(new Dictionary<string, IsrRouteMetadata>(), null!));

@@ -5,7 +5,7 @@ namespace NextNet.Isr.Tests;
 public class IsrRouteAttributeTests
 {
     [Fact]
-    public void DefaultValues()
+    public void DefaultValues_Should_HaveCorrectDefaults()
     {
         var attr = new IsrRouteAttribute();
 
@@ -16,7 +16,7 @@ public class IsrRouteAttributeTests
     }
 
     [Fact]
-    public void CanSetProperties()
+    public void CanSetProperties_Should_StoreValues_When_Assigned()
     {
         var attr = new IsrRouteAttribute
         {

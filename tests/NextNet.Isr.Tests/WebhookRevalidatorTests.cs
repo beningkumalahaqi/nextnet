@@ -17,7 +17,7 @@ public class WebhookRevalidatorTests
     }
 
     [Fact]
-    public void VerifySignature_WithValidSignature_ReturnsTrue()
+    public void VerifySignature_Should_ReturnTrue_When_SignatureIsValid()
     {
         var body = Encoding.UTF8.GetBytes("{\"event\":\"update\"}");
         using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes("whsec_test"));
@@ -29,7 +29,7 @@ public class WebhookRevalidatorTests
     }
 
     [Fact]
-    public void VerifySignature_WithInvalidSignature_ReturnsFalse()
+    public void VerifySignature_Should_ReturnFalse_When_SignatureIsInvalid()
     {
         var body = Encoding.UTF8.GetBytes("{\"event\":\"update\"}");
 
@@ -38,7 +38,7 @@ public class WebhookRevalidatorTests
     }
 
     [Fact]
-    public void VerifySignature_WithNoConfiguredSecret_ReturnsTrue()
+    public void VerifySignature_Should_ReturnTrue_When_NoSecretConfigured()
     {
         var options = new IsrGlobalOptions { WebhookSecret = null };
         var body = Encoding.UTF8.GetBytes("test");
@@ -48,7 +48,7 @@ public class WebhookRevalidatorTests
     }
 
     [Fact]
-    public void VerifySignature_WithNullSignature_ReturnsFalse()
+    public void VerifySignature_Should_ReturnFalse_When_SignatureIsNull()
     {
         var body = Encoding.UTF8.GetBytes("test");
 
@@ -57,7 +57,7 @@ public class WebhookRevalidatorTests
     }
 
     [Fact]
-    public void VerifySignature_WithEmptySignature_ReturnsFalse()
+    public void VerifySignature_Should_ReturnFalse_When_SignatureIsEmpty()
     {
         var body = Encoding.UTF8.GetBytes("test");
 
@@ -66,21 +66,21 @@ public class WebhookRevalidatorTests
     }
 
     [Fact]
-    public void VerifySignature_WithNullBody_ReturnsFalse()
+    public void VerifySignature_Should_ReturnFalse_When_BodyIsNull()
     {
         var revalidator = new WebhookRevalidator(_manager.Object, _options);
         Assert.False(revalidator.VerifySignature(null!, "sha256=abc"));
     }
 
     [Fact]
-    public void VerifySignature_WithEmptyBody_ReturnsFalse()
+    public void VerifySignature_Should_ReturnFalse_When_BodyIsEmpty()
     {
         var revalidator = new WebhookRevalidator(_manager.Object, _options);
         Assert.False(revalidator.VerifySignature(Array.Empty<byte>(), "sha256=abc"));
     }
 
     [Fact]
-    public async Task ProcessWebhookAsync_WithValidSignature_RevalidatesRoutes()
+    public async Task ProcessWebhookAsync_Should_RevalidateRoutes_When_SignatureIsValid()
     {
         var body = Encoding.UTF8.GetBytes("{\"event\":\"update\"}");
         using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes("whsec_test"));
@@ -103,7 +103,7 @@ public class WebhookRevalidatorTests
     }
 
     [Fact]
-    public async Task ProcessWebhookAsync_WithInvalidSignature_ReturnsFailure()
+    public async Task ProcessWebhookAsync_Should_ReturnFailure_When_SignatureIsInvalid()
     {
         var body = Encoding.UTF8.GetBytes("test");
 
@@ -114,11 +114,11 @@ public class WebhookRevalidatorTests
             tags: null);
 
         Assert.False(result.Success);
-        Assert.Equal("Invalid webhook signature.", result.ErrorMessage);
+        Assert.Equal("[DS-318] Invalid webhook signature.", result.ErrorMessage);
     }
 
     [Fact]
-    public async Task ProcessWebhookAsync_WithTags_InvalidatesByTags()
+    public async Task ProcessWebhookAsync_Should_InvalidateByTags_When_TagsProvided()
     {
         var body = Encoding.UTF8.GetBytes("{}");
         using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes("whsec_test"));

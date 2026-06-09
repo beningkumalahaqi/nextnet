@@ -8,7 +8,7 @@ namespace NextNet.Isr.Cache;
 /// an <see cref="IDistributedCache"/> (e.g. Redis, SQL Server).
 /// Serializes cached pages and metadata as JSON.
 /// </summary>
-public class DistributedIsrCacheStore : IIsrCacheStore
+public sealed class DistributedIsrCacheStore : IIsrCacheStore
 {
     private readonly IDistributedCache _distributedCache;
     private readonly JsonSerializerOptions _jsonOptions;

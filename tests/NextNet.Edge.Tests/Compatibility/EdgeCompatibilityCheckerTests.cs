@@ -18,7 +18,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Check_NoIssues_ReturnsEmptyReport()
+    public void Check_Should_ReturnEmptyReport_When_NoIssues()
     {
         // Arrange
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
@@ -34,7 +34,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Check_WithSsg_Warns()
+    public void Check_Should_Warn_When_SsgEnabled()
     {
         // Arrange
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
@@ -52,17 +52,17 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Check_WithMiddleware_ReportsInfo()
+    public void Check_Should_ReportInfo_When_MiddlewareRegistered()
     {
         // Arrange
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
         var manifest = new RouteManifest(
-            routes: new[] { new RouteEntry("/test", "/test.cshtml", RouteType.Page, RouteSegmentKind.Static) },
-            pages: Array.Empty<RouteEntry>(),
-            layouts: Array.Empty<RouteEntry>(),
-            apiRoutes: Array.Empty<RouteEntry>(),
-            errorPage: null,
-            conflicts: Array.Empty<RouteConflict>());
+            Routes: new[] { new RouteEntry("/test", "/test.cshtml", RouteType.Page, RouteSegmentKind.Static) },
+            Pages: Array.Empty<RouteEntry>(),
+            Layouts: Array.Empty<RouteEntry>(),
+            ApiRoutes: Array.Empty<RouteEntry>(),
+            ErrorPage: null,
+            Conflicts: Array.Empty<RouteConflict>());
         var config = new NextNetConfig();
 
         // Act
@@ -76,18 +76,18 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Check_WithApiRoutes_ReportsInfo()
+    public void Check_Should_ReportInfo_When_ApiRoutesPresent()
     {
         // Arrange
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
         var apiRoute = new RouteEntry("/api/test", "/api/test.cshtml", RouteType.Api, RouteSegmentKind.Static);
         var manifest = new RouteManifest(
-            routes: new[] { apiRoute },
-            pages: Array.Empty<RouteEntry>(),
-            layouts: Array.Empty<RouteEntry>(),
-            apiRoutes: new[] { apiRoute },
-            errorPage: null,
-            conflicts: Array.Empty<RouteConflict>());
+            Routes: new[] { apiRoute },
+            Pages: Array.Empty<RouteEntry>(),
+            Layouts: Array.Empty<RouteEntry>(),
+            ApiRoutes: new[] { apiRoute },
+            ErrorPage: null,
+            Conflicts: Array.Empty<RouteConflict>());
         var config = new NextNetConfig();
 
         // Act
@@ -101,7 +101,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Check_WithStreaming_ReportsInfo()
+    public void Check_Should_ReportInfo_When_StreamingEnabled()
     {
         // Arrange
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
@@ -119,7 +119,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Check_NullManifest_Throws()
+    public void Check_Should_Throw_When_ManifestIsNull()
     {
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
         Assert.Throws<ArgumentNullException>(() =>
@@ -127,7 +127,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Check_NullConfig_Throws()
+    public void Check_Should_Throw_When_ConfigIsNull()
     {
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
         Assert.Throws<ArgumentNullException>(() =>
@@ -135,7 +135,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void CheckType_BlockedType_ReturnsViolation()
+    public void CheckType_Should_ReturnViolation_When_TypeIsBlocked()
     {
         // Arrange
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
@@ -151,7 +151,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void CheckType_AllowedType_ReturnsNull()
+    public void CheckType_Should_ReturnNull_When_TypeIsAllowed()
     {
         // Arrange
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
@@ -164,7 +164,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void CheckType_StrictMode_ReturnsError()
+    public void CheckType_Should_ReturnError_When_StrictMode()
     {
         // Arrange
         var strictOptions = new EdgeOptions { Strict = true };
@@ -179,7 +179,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void CheckTypes_MultipleTypes_ReportsAll()
+    public void CheckTypes_Should_ReportAllViolations_When_MultipleBlockedTypes()
     {
         // Arrange
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
@@ -194,7 +194,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void IsAllowedType_Allowed_ReturnsTrue()
+    public void IsAllowedType_Should_ReturnTrue_When_TypeIsAllowed()
     {
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
         Assert.True(checker.IsAllowedType("System.Text.Json.JsonSerializer"));
@@ -202,7 +202,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void GetAlternative_ReturnsSuggestion()
+    public void GetAlternative_Should_ReturnSuggestion_When_TypeIsBlocked()
     {
         var checker = new EdgeCompatibilityChecker(_whitelist, _options);
         var suggestion = checker.GetAlternative("System.IO.File");
@@ -211,7 +211,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Report_HasViolations_CountsCorrectly()
+    public void Report_Should_CountViolationsCorrectly_When_HasMultiple()
     {
         // Arrange
         var report = new EdgeCompatibilityReport(new[]
@@ -232,7 +232,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Report_NoViolations_Empty()
+    public void Report_Should_BeEmpty_When_NoViolations()
     {
         var report = new EdgeCompatibilityReport();
         Assert.False(report.HasViolations);
@@ -241,7 +241,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Report_ThrowIfErrors_ThrowsException()
+    public void Report_Should_Throw_When_ErrorsAndThrowRequested()
     {
         var report = new EdgeCompatibilityReport(new[]
         {
@@ -253,7 +253,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Report_ThrowIfErrors_NoErrors_NoThrow()
+    public void Report_Should_NotThrow_When_NoErrors()
     {
         var report = new EdgeCompatibilityReport(new[]
         {
@@ -264,7 +264,7 @@ public class EdgeCompatibilityCheckerTests
     }
 
     [Fact]
-    public void Violation_ToString_IncludesDetails()
+    public void Violation_Should_IncludeDetails_When_ToStringCalled()
     {
         var violation = new EdgeViolation(
             EdgeViolationSeverity.Error,

@@ -11,7 +11,7 @@ namespace NextNet.Edge.Middleware;
 /// When running in standard ASP.NET Core, this middleware adapts requests/responses
 /// to behave as they would on edge, flagging any incompatibilities.
 /// </summary>
-public class EdgeMiddleware
+public sealed class EdgeMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly EdgeOptions _options;
@@ -76,7 +76,7 @@ public class EdgeMiddleware
 /// A write-only stream that enforces a size budget. Throws if the budget is exceeded.
 /// Used by <see cref="EdgeMiddleware"/> to simulate edge deployment size constraints.
 /// </summary>
-internal class EdgeBudgetStream : Stream
+internal sealed class EdgeBudgetStream : Stream
 {
     private readonly Stream _innerStream;
     private readonly long _maxSize;
@@ -135,7 +135,7 @@ internal class EdgeBudgetStream : Stream
         if (_bytesWritten + count > _maxSize)
         {
             throw new InvalidOperationException(
-                $"Edge size budget exceeded: {_bytesWritten + count} bytes written " +
+                $"[{EdgeErrorCodes.SizeBudgetExceeded}] Edge size budget exceeded: {_bytesWritten + count} bytes written " +
                 $"but maximum is {_maxSize} bytes ({_maxSize / 1024.0:F1} KB). " +
                 "Reduce bundle size or increase EdgeOptions.MaxBundleSize.");
         }

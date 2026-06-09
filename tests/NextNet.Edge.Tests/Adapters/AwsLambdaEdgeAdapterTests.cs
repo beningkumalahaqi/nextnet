@@ -6,21 +6,21 @@ namespace NextNet.Edge.Tests.Adapters;
 public class AwsLambdaEdgeAdapterTests
 {
     [Fact]
-    public void ProviderName_ReturnsCorrect()
+    public void ProviderName_Should_ReturnCorrectValue_When_Accessed()
     {
         var adapter = new AwsLambdaEdgeAdapter();
         Assert.Equal("AWS Lambda@Edge", adapter.ProviderName);
     }
 
     [Fact]
-    public void ProviderId_ReturnsCorrect()
+    public void ProviderId_Should_ReturnCorrectValue_When_Accessed()
     {
         var adapter = new AwsLambdaEdgeAdapter();
         Assert.Equal("aws", adapter.ProviderId);
     }
 
     [Fact]
-    public async Task HandleRequestAsync_ReturnsResponse()
+    public async Task HandleRequestAsync_Should_ReturnResponse_When_Called()
     {
         // Arrange
         var adapter = new AwsLambdaEdgeAdapter();
@@ -36,7 +36,7 @@ public class AwsLambdaEdgeAdapterTests
     }
 
     [Fact]
-    public void GenerateCloudFormationTemplate_IncludesAllParams()
+    public void GenerateCloudFormationTemplate_Should_IncludeAllParameters_When_Generated()
     {
         // Arrange
         var adapter = new AwsLambdaEdgeAdapter();
@@ -61,7 +61,7 @@ public class AwsLambdaEdgeAdapterTests
     [InlineData("name", null, "bucket", "key")]
     [InlineData("name", "handler", null, "key")]
     [InlineData("name", "handler", "bucket", null)]
-    public void GenerateCloudFormationTemplate_NullParam_Throws(
+    public void GenerateCloudFormationTemplate_Should_Throw_When_ParameterIsNull(
         string? name, string? handler, string? bucket, string? key)
     {
         var adapter = new AwsLambdaEdgeAdapter();

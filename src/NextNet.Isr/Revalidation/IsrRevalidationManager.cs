@@ -15,7 +15,7 @@ namespace NextNet.Isr.Revalidation;
 /// Coordinates between the cache store, SSR renderer, and revalidation queue
 /// to serve fresh or stale content while regenerating pages in the background.
 /// </summary>
-public class IsrRevalidationManager : IIsrRevalidationManager
+public sealed class IsrRevalidationManager : IIsrRevalidationManager
 {
     private readonly IIsrCacheStore _cacheStore;
     private readonly SsrRenderer _ssrRenderer;
@@ -90,12 +90,12 @@ public class IsrRevalidationManager : IIsrRevalidationManager
         catch (OperationCanceledException)
         {
             _logger?.Warn("Revalidation cancelled for route {Route}", route);
-            return RevalidationResult.Fail($"Revalidation cancelled for {route}");
+            return RevalidationResult.Fail($"[{IsrErrorCodes.RevalidationCancelled}] Revalidation cancelled for {route}");
         }
         catch (Exception ex)
         {
             _logger?.Error("Failed to revalidate route {Route}: {Exception}", route, ex);
-            return RevalidationResult.Fail($"Failed to revalidate {route}: {ex.Message}");
+            return RevalidationResult.Fail($"[{IsrErrorCodes.RevalidationFailedForRoute}] Failed to revalidate {route}: {ex.Message}");
         }
     }
 
@@ -103,7 +103,7 @@ public class IsrRevalidationManager : IIsrRevalidationManager
     public async Task<RevalidationResult> InvalidateByTagsAsync(IReadOnlyList<string> tags, CancellationToken cancellationToken = default)
     {
         if (tags == null || tags.Count == 0)
-            return RevalidationResult.Fail("No tags provided for invalidation.");
+            return RevalidationResult.Fail($"[{IsrErrorCodes.NoTagsProvidedForInvalidation}] No tags provided for invalidation.");
 
         try
         {
@@ -132,7 +132,7 @@ public class IsrRevalidationManager : IIsrRevalidationManager
         catch (Exception ex)
         {
             _logger?.Error("Tag-based invalidation failed: {Exception}", ex);
-            return RevalidationResult.Fail($"Tag-based invalidation failed: {ex.Message}");
+            return RevalidationResult.Fail($"[{IsrErrorCodes.TagBasedInvalidationFailed}] Tag-based invalidation failed: {ex.Message}");
         }
     }
 
@@ -162,7 +162,7 @@ public class IsrRevalidationManager : IIsrRevalidationManager
     /// <summary>
     /// Computes a SHA-256 hash of the content for integrity checking.
     /// </summary>
-    protected internal static string ComputeHash(string content)
+    internal static string ComputeHash(string content)
     {
         if (string.IsNullOrEmpty(content))
             return string.Empty;

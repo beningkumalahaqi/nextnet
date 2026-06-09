@@ -7,7 +7,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsMiddlewareTests
 {
     [Fact]
-    public void Constructor_WithNulls_Throws()
+    public void Constructor_Should_NotThrow_When_Constructed()
     {
         var store = new DevToolsDataStore();
         var wsManager = new DevToolsWebSocketManager();
@@ -19,7 +19,7 @@ public class DevToolsMiddlewareTests
     }
 
     [Fact]
-    public void DevToolsApiController_SerializesCorrectly()
+    public void DevToolsApiController_Should_SerializeCorrectly_When_GivenObject()
     {
         var json = DevToolsApiController.SerializeResponse(new
         {

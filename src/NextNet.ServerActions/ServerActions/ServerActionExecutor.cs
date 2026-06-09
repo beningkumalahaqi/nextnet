@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using NextNet.ServerActions.Errors;
 using NextNet.ServerActions.Results;
 using NextNet.ServerActions.Serialization;
 
@@ -11,6 +12,13 @@ namespace NextNet.ServerActions.ServerActions;
 /// 3. Invoke the action method via <see cref="ServerActionInvoker"/>
 /// 4. Serialize the result to the HTTP response
 /// </summary>
+/// <example>
+/// The executor is typically used by middleware, not called directly:
+/// <code>
+/// var executor = serviceProvider.GetRequiredService&lt;ServerActionExecutor&gt;();
+/// await executor.ExecuteAsync(httpContext, "myAction", cancellationToken);
+/// </code>
+/// </example>
 public sealed class ServerActionExecutor
 {
     private readonly ServerActionRegistry _registry;
@@ -45,7 +53,7 @@ public sealed class ServerActionExecutor
         if (context == null)
             throw new ArgumentNullException(nameof(context));
         if (string.IsNullOrWhiteSpace(actionName))
-            throw new ArgumentException("Action name is required.", nameof(actionName));
+            throw new ArgumentException($"{ServerActionErrorCodes.ActionNameRequired}: Action name is required.", nameof(actionName));
 
         // 1. Lookup action
         if (!_registry.TryGetAction(actionName, out var descriptor) || descriptor == null)
@@ -53,7 +61,7 @@ public sealed class ServerActionExecutor
             context.Response.StatusCode = 404;
             context.Response.ContentType = "application/json; charset=utf-8";
             var errorJson = _serializer.Serialize(
-                ActionError.NotFound($"Action '{actionName}' not found."));
+                ActionError.NotFound($"{ServerActionErrorCodes.ActionNotFound}: Action '{actionName}' not found."));
             await context.Response.WriteAsync(errorJson, cancellationToken);
             return;
         }
@@ -72,7 +80,7 @@ public sealed class ServerActionExecutor
         try
         {
             // 3. Deserialize request parameters
-            var requestParameters = await DeserializeRequestAsync(context, descriptor);
+            var requestParameters = await DeserializeRequestAsync(context, descriptor, cancellationToken);
 
             // 4. Invoke action method
             var result = await _invoker.InvokeAsync(
@@ -112,14 +120,15 @@ public sealed class ServerActionExecutor
             context.Response.StatusCode = 500;
             context.Response.ContentType = "application/json; charset=utf-8";
             var errorJson = _serializer.Serialize(
-                ActionError.Error("An error occurred while executing the action", ex));
+                ActionError.Error($"{ServerActionErrorCodes.ActionExecutionFailed}: Action execution failed: {ex.GetType().Name}", ex));
             await context.Response.WriteAsync(errorJson, cancellationToken);
         }
     }
 
     private async Task<IReadOnlyDictionary<string, object?>> DeserializeRequestAsync(
         HttpContext context,
-        ServerActionDescriptor descriptor)
+        ServerActionDescriptor descriptor,
+        CancellationToken cancellationToken = default)
     {
         if (context.Request.ContentLength == null || context.Request.ContentLength == 0)
             return new Dictionary<string, object?>();
@@ -130,7 +139,7 @@ public sealed class ServerActionExecutor
         {
             // Read the body as a single JSON object and match properties to parameters
             using var reader = new StreamReader(context.Request.Body);
-            var body = await reader.ReadToEndAsync();
+            var body = await reader.ReadToEndAsync(cancellationToken);
             if (string.IsNullOrWhiteSpace(body))
                 return new Dictionary<string, object?>();
 

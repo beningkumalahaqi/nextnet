@@ -8,7 +8,7 @@ namespace NextNet.DevTools.Tests;
 public class DevToolsServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddNextNetDevTools_RegistersServices()
+    public void AddNextNetDevTools_Should_RegisterServices_When_Called()
     {
         var services = new ServiceCollection();
         services.AddNextNetDevTools();
@@ -22,7 +22,7 @@ public class DevToolsServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetDevTools_WithOptions_RegistersOptions()
+    public void AddNextNetDevTools_Should_RegisterOptions_When_GivenOptions()
     {
         var services = new ServiceCollection();
         var options = new DevToolsOptions
@@ -40,7 +40,7 @@ public class DevToolsServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetDevTools_HeadlessMode_RegistersWebSocketManager()
+    public void AddNextNetDevTools_Should_RegisterWsManager_When_HeadlessMode()
     {
         var services = new ServiceCollection();
         services.AddNextNetDevTools(new DevToolsOptions { Mode = DevToolsMode.Headless });
@@ -52,7 +52,7 @@ public class DevToolsServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetDevTools_TuiMode_DoesNotRegisterWebSocketManager()
+    public void AddNextNetDevTools_Should_NotRegisterWsManager_When_TuiMode()
     {
         var services = new ServiceCollection();
         services.AddNextNetDevTools(new DevToolsOptions { Mode = DevToolsMode.Tui });
@@ -64,7 +64,7 @@ public class DevToolsServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetDevToolsServer_RegistersServer()
+    public void AddNextNetDevToolsServer_Should_RegisterServer_When_Called()
     {
         var services = new ServiceCollection();
         services.AddNextNetDevToolsServer();
