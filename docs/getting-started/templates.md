@@ -1,12 +1,12 @@
 ---
 uid: getting-started/templates
 title: Templates
-description: Get started with NextNet V3's first-class template system
+description: Get started with NextNet V3's first class template system
 ---
 
 # Getting Started with Templates `v3.0` `stable`
 
-NextNet V3 introduces a first-class template system. Generate a new project in seconds with one of four official templates, or create your own.
+NextNet V3 introduces a first class template system. Generate a new project in seconds with one of four official templates, or create your own.
 
 ## Quick Start
 
@@ -35,7 +35,7 @@ saas        v1.0.0  Multi-tenant SaaS starter with users, organizations, and aut
 
 ### Blog Template
 
-Create a content-focused blog with built-in Markdown support, RSS feeds, and SEO:
+Create a content focused blog with built in Markdown support, RSS feeds, and SEO:
 
 ```bash
 nextnet new blog MyBlog
@@ -44,12 +44,12 @@ dotnet run
 ```
 
 The blog template includes:
-- Markdown-based blog posts
+- Markdown based blog posts
 - RSS/Atom feed generation
-- Tag-based categorization
+- Tag based categorization
 - Newsletter subscription API
 - Blog search functionality
-- SEO-friendly URLs
+- SEO friendly URLs
 
 ### API Template
 
@@ -89,7 +89,7 @@ The dashboard template includes:
 
 ### SaaS Template
 
-Create a multi-tenant SaaS starter with organizations, user management, and billing stubs:
+Create a multi tenant SaaS starter with organizations, user management, and billing stubs:
 
 ```bash
 nextnet new saas MySaaS
@@ -98,7 +98,7 @@ dotnet run
 ```
 
 The SaaS template includes:
-- Multi-tenant architecture
+- Multi tenant architecture
 - Organization CRUD
 - Team/role management
 - Billing plan stubs

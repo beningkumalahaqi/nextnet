@@ -10,7 +10,7 @@ Middleware lets you run code before and after requests to your NextNet applicati
 
 ## How It Works
 
-Middleware runs in a pipeline. Each middleware component can inspect, modify, or short-circuit the request before it reaches your page or API route.
+Middleware runs in a pipeline. Each middleware component can inspect, modify, or short circuit the request before it reaches your page or API route.
 
 ```mermaid
 flowchart LR
@@ -60,7 +60,7 @@ public class RequestLoggerMiddleware : IMiddleware
 > [!NOTE]
 > Middleware receives a `MiddlewareContext` (which wraps the `HttpContext`) and a `RequestDelegate` for the next stage.
 > Pass `context.HttpContext` to `next()` to continue the pipeline.
-> If you don't call `next`, the request is short-circuited.
+> If you don't call `next`, the request is short circuited.
 
 ## Registering Middleware
 
@@ -88,7 +88,7 @@ app.UseNextNet();
 await app.RunAsync();
 ```
 
-### Route-Specific Middleware
+### Route Specific Middleware
 
 Apply middleware to specific routes or route groups:
 
@@ -166,11 +166,11 @@ Request -> Logging -> Auth -> Rate Limit -> Handler -> Response
 ```
 
 > [!TIP]
-> Order matters. Put logging and error handling first, authentication before route-specific logic.
+> Order matters. Put logging and error handling first, authentication before route specific logic.
 
-## Built-in Middleware
+## Built in Middleware
 
-NextNet includes built-in middleware for common tasks:
+NextNet includes built in middleware for common tasks:
 
 | Middleware | Description |
 |-----------|-------------|
@@ -202,7 +202,7 @@ Enable them in configuration:
 }
 ```
 
-## Short-Circuiting Requests
+## Short Circuiting Requests
 
 Prevent the request from reaching the route handler:
 

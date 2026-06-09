@@ -1,6 +1,6 @@
 # PostgreSQL Provider
 
-The `NextNet.Data.PostgreSQL` package provides a production-grade PostgreSQL provider for the NextNet data layer, built on Npgsql and EF Core. It is the recommended provider for production relational database workloads.
+The `NextNet.Data.PostgreSQL` package provides a production grade PostgreSQL provider for the NextNet data layer, built on Npgsql and EF Core. It is the recommended provider for production relational database workloads.
 
 ## Table of Contents
 
@@ -143,7 +143,7 @@ Host=db.example.com;Database=myapp;Username=app;Password=secret;SSL Mode=VerifyF
 
 ## Connection Pooling
 
-The provider uses Npgsql's built-in connection pooling. Configure via options:
+The provider uses Npgsql's built in connection pooling. Configure via options:
 
 ```csharp
 services.Configure<PostgresPoolingOptions>(options =>
@@ -162,9 +162,9 @@ services.Configure<PostgresPoolingOptions>(options =>
 |----------|----------------------|-----------|
 | Small API (< 100 req/s) | 10-20 | Minimal concurrency needs |
 | Medium API (< 1000 req/s) | 20-50 | Balance between resource usage and throughput |
-| High-throughput API | 50-200 | Scale with concurrent requests |
-| Background workers | 2-5 | Limited concurrency, long-running queries |
-| Serverless/Functions | 1-5 | Short-lived, auto-scaling instances |
+| High throughput API | 50-200 | Scale with concurrent requests |
+| Background workers | 2-5 | Limited concurrency, long running queries |
+| Serverless/Functions | 1-5 | Short lived, auto scaling instances |
 
 > [!TIP]
 > Set `MaxPoolSize` to roughly `(max concurrent requests) * (average query duration in seconds)`.

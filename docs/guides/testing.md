@@ -1,7 +1,7 @@
 ---
 uid: guides/testing
 title: Testing
-description: Unit, integration, and end-to-end testing for NextNet apps
+description: Unit, integration, and end to end testing for NextNet apps
 ---
 
 # Testing `v1.0` `stable`
@@ -14,7 +14,7 @@ Test your NextNet applications at multiple levels — from unit tests on individ
 |-------|-------------|-------|-------|
 | **Unit** | Individual components, helpers, services | 🚀 Fast | xUnit, NUnit |
 | **Integration** | Route resolution, rendering pipeline | ⚡ Medium | TestServer, xUnit |
-| **End-to-End** | Full application flows | 🐢 Slow | Playwright, Selenium |
+| **End to End** | Full application flows | 🐢 Slow | Playwright, Selenium |
 
 ## Unit Testing Pages
 
@@ -289,9 +289,9 @@ public async Task HomePage_Render_Should_MatchSnapshot()
 > Snapshot testing tools like `Verify` (by VerifyTests) automatically manage
 > `.verified.cs` files containing expected HTML output.
 
-## End-to-End Testing
+## End to End Testing
 
-Use Playwright for browser-level testing:
+Use Playwright for browser level testing:
 
 ```csharp
 // File: tests/NextNet.E2ETests/HomePageTests.cs

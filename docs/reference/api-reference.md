@@ -9,7 +9,7 @@ description: Complete API documentation for NextNet types and members
 Core API documentation for NextNet types and members. This reference covers the most commonly used public APIs.
 
 > [!NOTE]
-> This reference is a curated overview. The full auto-generated API documentation (produced by DocFX from XML comments) covers every public type, method, and property in detail.
+> This reference is a curated overview. The full auto generated API documentation (produced by DocFX from XML comments) covers every public type, method, and property in detail.
 
 ## `IPage` (interface)
 
@@ -17,7 +17,7 @@ Core API documentation for NextNet types and members. This reference covers the 
 
 **Assembly:** `NextNet.Core`
 
-The interface for all NextNet page components. Pages are the top-level routeable components that render HTML for a given URL.
+The interface for all NextNet page components. Pages are the top level routeable components that render HTML for a given URL.
 
 ### Properties
 
@@ -149,7 +149,7 @@ Provides static helper methods for building HTML content programmatically.
 | Method | Returns | Description |
 |--------|---------|-------------|
 | `Element(tagName, attributes, content)` | `IHtmlContent` | Creates any HTML element with optional attributes and content |
-| `Text(text)` | `IHtmlContent` | Creates HTML-encoded text content |
+| `Text(text)` | `IHtmlContent` | Creates HTML encoded text content |
 | `Raw(html)` | `IHtmlContent` | Creates raw (unencoded) HTML content |
 | `Fragment(contents)` | `IHtmlContent` | Combines multiple content items into a single fragment |
 | `DocType(type)` | `IHtmlContent` | Creates a DOCTYPE declaration (defaults to `"html"`) |
@@ -183,7 +183,7 @@ HtmlHelper.Fragment(
 
 > [!CAUTION]
 > `HtmlHelper.Raw()` bypasses HTML encoding. Only use it with trusted content.
-> User-provided HTML must be sanitized to prevent XSS attacks. For user content,
+> User provided HTML must be sanitized to prevent XSS attacks. For user content,
 > use `HtmlHelper.Text()` which automatically encodes.
 
 ---
@@ -287,7 +287,7 @@ Provides context for middleware execution.
 | Property | Type | Description |
 |----------|------|-------------|
 | `HttpContext` | `HttpContext` | The current HTTP context |
-| `Items` | `IDictionary<string, object?>` | Per-request dictionary for sharing data between middleware |
+| `Items` | `IDictionary<string, object?>` | Per request dictionary for sharing data between middleware |
 | `Pipeline` | `MiddlewarePipeline` | The owning middleware pipeline |
 
 ---
@@ -372,7 +372,7 @@ Resolves route components (pages, layouts, error pages) from file system paths.
 
 **Assembly:** `NextNet.Rendering`
 
-The server-side rendering engine that produces complete HTML pages.
+The server side rendering engine that produces complete HTML pages.
 
 ### Methods
 

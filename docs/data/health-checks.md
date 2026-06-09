@@ -17,7 +17,7 @@ NextNet provides a unified health check system for monitoring database connectiv
 
 ## Overview
 
-The `NextNet.Data.HealthChecks` package automatically registers health checks for every enabled database connection. It aggregates results from all providers into a single health endpoint, providing real-time visibility into database connectivity.
+The `NextNet.Data.HealthChecks` package automatically registers health checks for every enabled database connection. It aggregates results from all providers into a single health endpoint, providing real time visibility into database connectivity.
 
 ### Architecture
 
@@ -39,7 +39,7 @@ The `NextNet.Data.HealthChecks` package automatically registers health checks fo
 
 ## Built-in Health Checks
 
-Each provider includes a built-in health check that registers automatically:
+Each provider includes a built in health check that registers automatically:
 
 | Provider | Health Check Class | What It Does |
 |----------|-------------------|--------------|
@@ -98,7 +98,7 @@ dotnet add package NextNet.Data.HealthChecks
 | `showDetails` | bool | `false` | Show detailed results (includes connection names) |
 | `cacheDurationSeconds` | int | `5` | Cache duration between checks |
 | `includeMigrationStatus` | bool | `true` | Include pending migration count |
-| `timeoutSeconds` | int | `10` | Per-check timeout |
+| `timeoutSeconds` | int | `10` | Per check timeout |
 | `degradedThresholdMs` | int | `100` | Response time threshold for Degraded status (ms) |
 | `unhealthyThresholdMs` | int | `5000` | Response time threshold for Unhealthy status (ms) |
 
@@ -173,7 +173,7 @@ app.MapNextNetHealthChecks();
 
 ## Custom Health Checks
 
-You can add custom health checks beyond the built-in database checks:
+You can add custom health checks beyond the built in database checks:
 
 ### Implementing IHealthCheckProvider
 
@@ -297,7 +297,7 @@ The `IHealthCheckAggregator` will use the distributed cache if available, fallin
 | Concern | Recommendation |
 |---------|---------------|
 | **Connection string leakage** | Error messages automatically strip connection strings. Custom health checks must follow the same pattern. |
-| **DoS via health endpoint** | Cache results (default 5s) to prevent rapid-fire health checks overwhelming the database. |
+| **DoS via health endpoint** | Cache results (default 5s) to prevent rapid fire health checks overwhelming the database. |
 | **Information disclosure** | Set `showDetails: false` in production to hide connection names and provider details. |
 | **Authentication** | Protect the health endpoint in production: |
 | **Authorization** | Restrict health checks to monitoring systems. |

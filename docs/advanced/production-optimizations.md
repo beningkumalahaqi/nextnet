@@ -98,8 +98,8 @@ public class HomePage : IPage
 |-------------|----------------|---------|
 | Static pages | `max-age=3600, immutable` | Blog posts, about page |
 | API responses | `max-age=60, must-revalidate` | Product listings |
-| User-specific | `private, no-cache` | Dashboard, settings |
-| Dynamic data | `no-store` | Real-time data |
+| User specific | `private, no-cache` | Dashboard, settings |
+| Dynamic data | `no-store` | Real time data |
 
 ### Response Compression
 
@@ -142,7 +142,7 @@ app.UseStaticFiles(new StaticFileOptions
 | Reduce layout nesting depth | High | Low |
 | Cache database queries | High | Medium |
 | Use streaming for slow data | Medium | Low |
-| Pre-render static pages (SSG) | High | Medium |
+| Pre render static pages (SSG) | High | Medium |
 | Enable response compression | Medium | Low |
 
 ### Database Queries
@@ -274,7 +274,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 
 ### Metrics
 
-Expose Prometheus-compatible metrics:
+Expose Prometheus compatible metrics:
 
 ```csharp
 // File: Program.cs

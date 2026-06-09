@@ -14,7 +14,7 @@ All raw SQL in provider packages **must** use parameterized queries. String conc
 | 2 | No string concatenation in SQL building | All provider packages | ✅ |
 | 3 | Dapper queries use `new { ... }` anonymous parameters | `NextNet.Data.Dapper` | ✅ |
 | 4 | Migration SQL scripts reviewed for injection vectors | All migration engines | ✅ |
-| 5 | Scaffolding templates escape user-provided identifiers | All scaffold providers | ✅ |
+| 5 | Scaffolding templates escape user provided identifiers | All scaffold providers | ✅ |
 
 ### 1.2 Code Pattern (Safe)
 
@@ -61,7 +61,7 @@ Connection strings contain sensitive credentials and must be protected at all ti
 - **Never log connection strings**: The `ConnectionString` property must never be passed to `ILogger.Log()` or any logging framework.
 - **Sanitize exceptions**: If a connection error occurs, replace the connection string value with `[REDACTED]` before including it in exception messages.
 - **Health check safety**: Health check results must strip connection string values from error descriptions.
-- **Configuration storage**: In production, use Azure Key Vault, AWS Secrets Manager, or environment variables rather than storing plain-text connection strings in configuration files.
+- **Configuration storage**: In production, use Azure Key Vault, AWS Secrets Manager, or environment variables rather than storing plain text connection strings in configuration files.
 
 ## 3. Secrets Management
 
@@ -96,8 +96,8 @@ builder.Configuration.AddAzureKeyVault(
 
 | # | Check | Scope | Status |
 |---|-------|-------|--------|
-| 1 | All user-supplied data HTML-encoded before rendering | Admin dashboard | ✅ |
-| 2 | No `Html.Raw()` with user-controlled input | Admin dashboard | ✅ |
+| 1 | All user supplied data HTML-encoded before rendering | Admin dashboard | ✅ |
+| 2 | No `Html.Raw()` with user controlled input | Admin dashboard | ✅ |
 | 3 | SQL preview renders use `HttpUtility.HtmlEncode` | Admin dashboard | ✅ |
 | 4 | Content-Type headers set to `text/html; charset=utf-8` | Admin dashboard | ✅ |
 | 5 | CSP headers present on admin dashboard responses | Admin dashboard | ✅ |
@@ -122,7 +122,7 @@ builder.Configuration.AddAzureKeyVault(
 | 1 | All NuGet dependencies scanned for known vulnerabilities | `dotnet list package --vulnerable` | ✅ |
 | 2 | No packages with "High" or "Critical" severity vulnerabilities | `dotnet list package --vulnerable --severity high` | ✅ |
 | 3 | Dependencies are within supported versions | Manual review | ✅ |
-| 4 | Transitive dependencies reviewed for supply-chain risk | `dotnet nuget why` | ✅ |
+| 4 | Transitive dependencies reviewed for supply chain risk | `dotnet nuget why` | ✅ |
 
 ### 5.1 Running the Vulnerability Scan
 

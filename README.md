@@ -5,12 +5,12 @@
 # NextNet
 
 > A modern full-stack web framework for .NET — inspired by Next.js, powered by ASP.NET Core.
-> **V5 is live.** Design system, streaming SSR, server actions, plugin isolation, edge runtime, multi-database support — all at version 0.2.0.
+> **V5 is live.** Design system, streaming SSR, server actions, plugin isolation, edge runtime, multi-database support — all at version 5.0.0.
 >
 > [![NuGet](https://img.shields.io/nuget/v/NextNet.Cli)](https://nuget.org/packages/NextNet.Cli)
 > ![License](https://img.shields.io/github/license/beningkumalahaqi/nextnet)
 > ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4)
-> ![Version](https://img.shields.io/badge/NextNet-0.2.0-8A2BE2)
+> ![Version](https://img.shields.io/badge/NextNet-5.0.0-8A2BE2)
 
 ---
 
@@ -22,7 +22,7 @@ Create a file, get a route. No controllers. No manual routing. Just C# and a `pa
 
 ## 🚀 V5 Upgrade — What's New
 
-NextNet V5 is a major release that brings 27 upgraded packages to version 0.2.0, a unified Design System, and a complete UI component framework. **3,005 tests pass** across the entire codebase.
+NextNet V5 is a major release that brings 27 upgraded packages to version 5.0.0, a unified Design System, and a complete UI component framework. **3,005 tests pass** across the entire codebase.
 
 ### V5 Highlights
 
@@ -43,7 +43,7 @@ NextNet V5 is a major release that brings 27 upgraded packages to version 0.2.0,
 
 ## Packages
 
-NextNet is distributed as **27 NuGet packages** at version 0.2.0. The only one you install directly is the CLI:
+NextNet is distributed as **27 NuGet packages** at version 5.0.0. The only one you install directly is the CLI:
 
 ```bash
 dotnet tool install -g NextNet.Cli
@@ -196,7 +196,7 @@ public class SlugPage : IPage
 ### V5 Highlights
 
 - **3,005 unit tests** passing across 32 test projects
-- **27 NuGet packages** at version **0.2.0**
+- **27 NuGet packages** at version **5.0.0**
 - **258+ structured error codes** (DS-000 → DS-929)
 - Design System with token-based theming and CSS variable generation
 - Tailwind CSS integration with UI component library

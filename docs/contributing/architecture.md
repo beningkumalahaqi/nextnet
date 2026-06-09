@@ -40,7 +40,7 @@ NextNet is organized into distinct modules, each with a clear responsibility:
 | Module | Purpose | V5 Status | Error Codes |
 |--------|---------|-----------|-------------|
 | `NextNet.Core` | Core abstractions: `Page`, `Layout`, `Html`, `IHtmlContent` | V5 ✓ Complete | DS-000 |
-| `NextNet.Routing` | File-based route discovery and parsing | V5 ✓ Complete | — |
+| `NextNet.Routing` | File based route discovery and parsing | V5 ✓ Complete | — |
 | `NextNet.SourceGenerators` | Roslyn incremental source generators | V5 ✓ Complete | — |
 | `NextNet.Rendering` | SSR and streaming HTML rendering | V5 ✓ Complete | — |
 | `NextNet.Layouts` | Layout chain resolution and composition | V5 ✓ Complete | DS-100 – DS-105 |
@@ -69,11 +69,11 @@ NextNet is organized into distinct modules, each with a clear responsibility:
 | Module | Purpose | V5 Status | Error Codes |
 |--------|---------|-----------|-------------|
 | `NextNet.Data.Abstractions` | Data access contracts (`IRepository`, `IUnitOfWork`) | V5 ✓ Complete | DS-400 |
-| `NextNet.Data.Dapper` | Dapper-based data provider | V5 ✓ Complete | — |
+| `NextNet.Data.Dapper` | Dapper based data provider | V5 ✓ Complete | — |
 | `NextNet.Data.EntityFramework` | Entity Framework Core provider | V5 ✓ Complete | — |
 | `NextNet.Data.HealthChecks` | Database health check integrations | V5 ✓ Complete | — |
 | `NextNet.Data.MongoDB` | MongoDB provider with GridFS support | V5 ✓ Complete | DS-500 |
-| `NextNet.Data.MultiDb` | Multi-database routing and management | V5 ✓ Complete | — |
+| `NextNet.Data.MultiDb` | Multi database routing and management | V5 ✓ Complete | — |
 | `NextNet.Data.PostgreSQL` | PostgreSQL-specific provider | V5 ✓ Complete | — |
 | `NextNet.Data.Providers` | Provider factory and registration | V5 ✓ Complete | — |
 | `NextNet.Data.Sdk` | Data SDK for code generation and tooling | V5 ✓ Complete | DS-600 |
@@ -180,7 +180,7 @@ sequenceDiagram
 1. Walk the `app/` directory recursively
 2. For each `page.cs` or `route.cs`, determine the URL path from the file's relative path
 3. Parse bracket notation `[param]` into route parameters
-4. Sort routes by priority: static > dynamic > catch-all > optional catch-all
+4. Sort routes by priority: static > dynamic > catch all > optional catch all
 5. Build the route manifest
 
 ## Source Generator (`NextNet.SourceGenerators`)

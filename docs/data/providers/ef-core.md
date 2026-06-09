@@ -1,6 +1,6 @@
 # Entity Framework Core Provider
 
-The `NextNet.Data.EntityFramework` package provides a full-featured Entity Framework Core provider for the NextNet data layer. It supports SQL Server, SQLite, PostgreSQL, and any other EF Core-compatible database.
+The `NextNet.Data.EntityFramework` package provides a full featured Entity Framework Core provider for the NextNet data layer. It supports SQL Server, SQLite, PostgreSQL, and any other EF Core compatible database.
 
 ## Table of Contents
 
@@ -521,7 +521,7 @@ public class BlogService
 
 ### Query Filters
 
-Global query filters for soft deletes or multi-tenancy:
+Global query filters for soft deletes or multi tenancy:
 
 ```csharp
 public sealed record Product
@@ -543,7 +543,7 @@ public sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 }
 ```
 
-Tenant-aware filter:
+Tenant aware filter:
 
 ```csharp
 public sealed class AppDbContext : DbContext

@@ -1,6 +1,6 @@
 # Provider SDK
 
-The NextNet Provider SDK (`NextNet.Data.Sdk`) allows third-party developers to create custom database providers that integrate seamlessly with the NextNet data layer.
+The NextNet Provider SDK (`NextNet.Data.Sdk`) allows third party developers to create custom database providers that integrate seamlessly with the NextNet data layer.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ The SDK provides base classes, attributes, and analyzers that:
 - **Simplify development** — Reduce boilerplate with `DataProviderBase`, `RepositoryBase<T>`, etc.
 - **Ensure consistency** — Enforce NextNet's conventions and contracts.
 - **Validate at compile time** — Roslyn analyzers catch common mistakes before runtime.
-- **Streamline registration** — The `[DataProvider]` attribute enables auto-discovery.
+- **Streamline registration** — The `[DataProvider]` attribute enables auto discovery.
 
 ### Package
 
@@ -588,7 +588,7 @@ Before releasing a custom provider, verify:
 
 - [ ] Implements `IDataProvider`
 - [ ] Decorated with `[DataProvider("identifier")]`
-- [ ] `InitializeAsync` validates it is called only once (throws on double-call)
+- [ ] `InitializeAsync` validates it is called only once (throws on double call)
 - [ ] `CreateConnection()` returns `null` if not initialized
 - [ ] Connection strings are never logged or exposed in error messages
 - [ ] Health check wraps all exceptions (never throws)

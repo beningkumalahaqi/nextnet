@@ -70,7 +70,7 @@ This command:
 
 1. Adds the required NuGet package(s) to the project.
 2. Creates or updates `nextnet.config.json` with a default connection configuration.
-3. Wires up the provider registration in `Program.cs` (auto-detection).
+3. Wires up the provider registration in `Program.cs` (auto detection).
 4. Creates the `Migrations/` directory (if applicable).
 5. Adds `NextNet.Data.HealthChecks` package (for health check support).
 
@@ -86,7 +86,7 @@ nextnet db init [type]
 
 | Argument | Description |
 |----------|-------------|
-| `type` | Database type: `sqlite`, `postgres`, `mssql` (optional, auto-detected from config if omitted) |
+| `type` | Database type: `sqlite`, `postgres`, `mssql` (optional, auto detected from config if omitted) |
 
 ### Options
 
@@ -424,7 +424,7 @@ nextnet generate admin <entity>
 
 | Argument | Description |
 |----------|-------------|
-| `entity` | Entity name (can be comma-separated for multiple) |
+| `entity` | Entity name (can be comma separated for multiple) |
 
 ### Options
 
@@ -450,7 +450,7 @@ nextnet generate admin User --path "admin/users" --layout "AdminLayout"
 
 ## nextnet db scaffold
 
-Generate models, repositories, and CRUD endpoints from an existing database schema (database-first).
+Generate models, repositories, and CRUD endpoints from an existing database schema (database first).
 
 ```bash
 nextnet db scaffold [tables]
@@ -460,7 +460,7 @@ nextnet db scaffold [tables]
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `tables` | *(all tables)* | Comma-separated list of table names to scaffold |
+| `tables` | *(all tables)* | Comma separated list of table names to scaffold |
 
 ### Options
 

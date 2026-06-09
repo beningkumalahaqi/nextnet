@@ -176,6 +176,6 @@ my-app/
 ## Next Steps
 
 - [Project Structure](project-structure.md) — Deep dive into the project layout
-- [File-Based Routing](../core-concepts/routing.md) — Understand how routing works
+- [File Based Routing](../core-concepts/routing.md) — Understand how routing works
 - [Configuration](configuration.md) — Customize NextNet's behavior
 - [API Routes](../features/api-routes.md) — Add REST endpoints to your app

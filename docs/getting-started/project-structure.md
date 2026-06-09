@@ -70,7 +70,7 @@ app/
 | `app/page.cs` | `/` | Static |
 | `app/about/page.cs` | `/about` | Static |
 | `app/blog/[slug]/page.cs` | `/blog/{slug}` | Dynamic |
-| `app/docs/[...path]/page.cs` | `/docs/{*path}` | Catch-all |
+| `app/docs/[...path]/page.cs` | `/docs/{*path}` | Catch all |
 | `app/blog/[[slug]]/page.cs` | `/blog{/slug}?` | Optional |
 
 ## The `public/` Directory
@@ -171,10 +171,10 @@ dist/
 ```
 
 > [!TIP]
-> The `_nextnet/manifest.json` contains the route manifest used for client-side navigation and ISR revalidation.
+> The `_nextnet/manifest.json` contains the route manifest used for client side navigation and ISR revalidation.
 
 ## Next Steps
 
 - [Quickstart](quickstart.md) — Build your first page
-- [File-Based Routing](../core-concepts/routing.md) — Deep dive into routing
+- [File Based Routing](../core-concepts/routing.md) — Deep dive into routing
 - [Configuration](configuration.md) — Configure NextNet behavior

@@ -1,12 +1,12 @@
 ---
 uid: reference/cli-reference
 title: CLI Reference
-description: Complete reference for the nextnet command-line tool
+description: Complete reference for the nextnet command line tool
 ---
 
 # CLI Reference `v1.0` `stable`
 
-Complete reference for the `nextnet` command-line tool.
+Complete reference for the `nextnet` command line tool.
 
 ## Global Options
 
@@ -221,7 +221,7 @@ nextnet add ui [options]
 
 | Option | Short | Default | Description |
 |--------|-------|---------|-------------|
-| `--components` | `-c` | `all` | Components to include (`all`, `minimal`, or comma-separated list) |
+| `--components` | `-c` | `all` | Components to include (`all`, `minimal`, or comma separated list) |
 | `--with-tailwind` | | `true` | Include Tailwind CSS integration |
 | `--with-darkmode` | | `true` | Include dark mode support |
 | `--prefix` | | `nn` | CSS class prefix for components |
@@ -306,11 +306,11 @@ nextnet add <component> [options]
 | `card` | Content container |
 | `input` | Text input field |
 | `select` | Dropdown selector |
-| `checkbox` | Multi-select input |
-| `radio` | Single-select input |
+| `checkbox` | Multi select input |
+| `radio` | Single select input |
 | `toggle` | On/off switch |
 | `modal` | Dialog overlay |
-| `drawer` | Slide-out panel |
+| `drawer` | Slide out panel |
 | `toast` | Notification toast |
 | `badge` | Status indicator |
 | `table` | Data table |

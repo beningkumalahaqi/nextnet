@@ -24,8 +24,8 @@ Migrations allow you to evolve your database schema over time in a controlled, r
 |----------|-----------------|-----------|---------------|
 | EF Core | `EfCoreMigrationEngine` | EF Core migrations (C#) | `__EFMigrationsHistory` |
 | Dapper | `DapperMigrationEngine` | SQL script files | `__NextNetMigrations` |
-| SQLite | EF Core-based | EF Core migrations (C#) | `__EFMigrationsHistory` |
-| PostgreSQL | EF Core-based | EF Core migrations (C#) | `__EFMigrationsHistory` |
+| SQLite | EF Core based | EF Core migrations (C#) | `__EFMigrationsHistory` |
+| PostgreSQL | EF Core based | EF Core migrations (C#) | `__EFMigrationsHistory` |
 | MongoDB | `MongoDbMigrationEngine` | Index management scripts | NextNet tracks in metadata |
 
 ## How It Works
@@ -78,7 +78,7 @@ Migrations allow you to evolve your database schema over time in a controlled, r
 | `autoApply` | bool | `false` | Apply pending migrations on startup |
 | `directory` | string | `"Migrations"` | Directory for migration files |
 | `historyTableName` | string | `"__NextNetMigrations"` | History table name (Dapper only) |
-| `timeoutSeconds` | int | `60` | Per-migration timeout |
+| `timeoutSeconds` | int | `60` | Per migration timeout |
 | `enableConfirmations` | bool | `false` | Require confirmation before destructive changes |
 | `backupEnabled` | bool | `true` | Create database backup before migration |
 | `backupDirectory` | string | `"Migrations/Backups"` | Backup output directory |
@@ -100,7 +100,7 @@ nextnet db migration add AddUserTable --connection Reports
 
 ### EF Core (Generated C#)
 
-For EF Core-based providers, migrations are C# classes generated in the `Migrations` directory:
+For EF Core based providers, migrations are C# classes generated in the `Migrations` directory:
 
 ```bash
 nextnet db migration add AddUserTable
@@ -290,13 +290,13 @@ builder.Services.AddNextNetData()
 ```
 
 > [!WARNING]
-> Auto-apply is convenient for development but **not recommended for production**. Use CI/CD pipelines or manual apply for production databases.
+> Auto apply is convenient for development but **not recommended for production**. Use CI/CD pipelines or manual apply for production databases.
 
 ## Production Safety
 
 | Safety Feature | Description | How to Enable |
 |---------------|-------------|---------------|
-| **Dry-Run** | Preview SQL without executing | `nextnet db migrate --dry-run` |
+| **Dry Run** | Preview SQL without executing | `nextnet db migrate --dry-run` |
 | **Confirmation Prompts** | Require confirmation for destructive changes | Set `enableConfirmations: true` in config |
 | **Automatic Backups** | Backup database before applying migrations | Set `backupEnabled: true` (default) |
 | **Transaction Wrapping** | Wrap each migration in a transaction | Supported by EF Core (ensure provider supports DDL transactions) |

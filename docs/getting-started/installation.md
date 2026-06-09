@@ -18,7 +18,7 @@ Before installing NextNet, ensure you have the following:
 | An IDE | Any | VS 2025+, VS Code, Rider, or Neovim |
 
 > [!WARNING]
-> NextNet requires .NET 10 or later. It uses C# 13 features including file-scoped namespaces, primary constructors, and collection expressions.
+> NextNet requires .NET 10 or later. It uses C# 13 features including file scoped namespaces, primary constructors, and collection expressions.
 > Verify your .NET version with `dotnet --version`.
 
 ## Install the Templates

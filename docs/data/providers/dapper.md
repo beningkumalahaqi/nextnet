@@ -1,6 +1,6 @@
 # Dapper Provider
 
-The `NextNet.Data.Dapper` package provides a lightweight Dapper-based provider for the NextNet data layer. It is ideal for high-performance scenarios where full ORM features are not needed and you want maximum control over SQL.
+The `NextNet.Data.Dapper` package provides a lightweight Dapper based provider for the NextNet data layer. It is ideal for high performance scenarios where full ORM features are not needed and you want maximum control over SQL.
 
 ## Table of Contents
 
@@ -101,8 +101,8 @@ public class ProductService
 
 | Approach | When to Use |
 |----------|------------|
-| `CreateConnection()` — create/open/close per operation | Short-lived operations, simple queries |
-| `IConnectionFactory` with pooling | High-throughput scenarios |
+| `CreateConnection()` — create/open/close per operation | Short lived operations, simple queries |
+| `IConnectionFactory` with pooling | High throughput scenarios |
 | `DbConnection` directly via DI | When you need full ADO.NET control |
 
 ### Transaction Support
@@ -349,12 +349,12 @@ var count = parameters.Get<int>("@Count");
 | **Use `AsList()` or `AsArray()`** | Avoids extra allocation when reusing parameter collections. |
 | **Prefer `ExecuteScalarAsync` for single values** | More efficient than `QueryAsync` + `FirstOrDefault`. |
 | **Use buffered = false for large result sets** | Reduces memory pressure by streaming results. |
-| **Batch inserts with `ExecuteAsync` and arrays** | One round-trip for multiple rows. |
+| **Batch inserts with `ExecuteAsync` and arrays** | One round trip for multiple rows. |
 | **Enable query plan caching** | Same SQL text reuses cached plans — use consistent formatting. |
-| **Use `ColumnMapping` for non-matching names** | Avoids runtime reflection overhead. |
-| **Disable tracking (not applicable — Dapper has none)** | Dapper is already a read-only micro-ORM with no change tracking. |
+| **Use `ColumnMapping` for non matching names** | Avoids runtime reflection overhead. |
+| **Disable tracking (not applicable — Dapper has none)** | Dapper is already a read only micro-ORM with no change tracking. |
 | **Use `DynamicParameters` for complex params** | Better performance than anonymous objects for large parameter sets. |
-| **Consider `SqlMapper.AddTypeHandler` for custom types** | Registers efficient type mappings for domain-specific types. |
+| **Consider `SqlMapper.AddTypeHandler` for custom types** | Registers efficient type mappings for domain specific types. |
 
 ### Benchmark Guidance
 

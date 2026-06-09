@@ -81,7 +81,7 @@ public class UsersRoute
 | Benefit | Description |
 |---------|-------------|
 | No `[Route]` attributes | Path determined by file location |
-| No `[ApiController]` | Convention-based, not attribute-based |
+| No `[ApiController]` | Convention based, not attribute based |
 | Reduced boilerplate | No controller base class needed |
 
 ## From Razor Pages to NextNet Pages
@@ -316,7 +316,7 @@ app.UseNextNet();
 app.Run();
 ```
 
-## Step-by-Step Migration Strategy
+## Step by Step Migration Strategy
 
 ### Step 1: Create a new NextNet project
 

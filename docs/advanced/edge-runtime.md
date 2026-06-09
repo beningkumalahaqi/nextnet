@@ -69,13 +69,13 @@ public class HomePage : IPage
 | API | Edge Support | Notes |
 |-----|-------------|-------|
 | `HttpClient` | ✅ Supported | Use for external API calls |
-| `MemoryCache` | ✅ Supported | In-memory only |
+| `MemoryCache` | ✅ Supported | In memory only |
 | `Task.Run` | ✅ Supported | Thread pool available |
 | File I/O (`File.Read`, `Directory`) | ❌ Not supported | Use blob storage instead |
 | `System.Data` / ADO.NET | ❌ Not supported | Use HTTP-based databases |
 | `System.Drawing` | ❌ Not supported | Use image CDN services |
 | Synchronous blocking calls | ❌ Not supported | Use `async` everywhere |
-| `Assembly.Load` | ⚠️ Limited | Pre-loaded assemblies only |
+| `Assembly.Load` | ⚠️ Limited | Pre loaded assemblies only |
 | `StackExchange.Redis` | ⚠️ Limited | Connection multiplexer works |
 
 ## Enabling Edge Mode
@@ -128,7 +128,7 @@ public class HomePage : IPage
 
 ## Edge Caching
 
-Set cache headers for edge-optimized delivery:
+Set cache headers for edge optimized delivery:
 
 ```csharp
 public class HomePage : IPage
@@ -169,7 +169,7 @@ public class HomePage : IPage
 nextnet build --target edge
 ```
 
-This produces an edge-optimized bundle:
+This produces an edge optimized bundle:
 
 ```text
 dist/

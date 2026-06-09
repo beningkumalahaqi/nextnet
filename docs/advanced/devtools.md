@@ -6,7 +6,7 @@ description: Debugging, inspection, and performance monitoring tools
 
 # DevTools `v1.0` `experimental`
 
-NextNet DevTools provide real-time debugging, route inspection, performance monitoring, and request tracing during development.
+NextNet DevTools provide real time debugging, route inspection, performance monitoring, and request tracing during development.
 
 ## How It Works
 
@@ -43,7 +43,7 @@ The DevTools dashboard is available at `http://localhost:3001`.
 
 ### Route Inspector
 
-See all discovered routes in real-time:
+See all discovered routes in real time:
 
 ```text
 NextNet DevTools — Route Inspector

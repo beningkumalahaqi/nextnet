@@ -12,10 +12,10 @@ NextNet provides project templates for quickly scaffolding new applications. Use
 
 | Template | Description | When to Use |
 |----------|-------------|-------------|
-| `default` | Full-featured app with layouts, pages, and API | Most projects |
+| `default` | Full featured app with layouts, pages, and API | Most projects |
 | `empty` | Minimal project with one page | Starting from scratch |
 | `blog` | Blog with posts, tags, and RSS | Content sites |
-| `api` | API-only project without pages | Backend services |
+| `api` | API only project without pages | Backend services |
 
 ## Template: `default`
 
@@ -65,7 +65,7 @@ my-api/
 
 ## Template: `blog`
 
-The blog template includes blog-specific features.
+The blog template includes blog specific features.
 
 ```bash
 nextnet new my-blog --template blog

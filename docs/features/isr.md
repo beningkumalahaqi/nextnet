@@ -1,12 +1,12 @@
 ---
 uid: features/isr
 title: Incremental Static Regeneration (ISR)
-description: Combine static generation with on-demand revalidation
+description: Combine static generation with on demand revalidation
 ---
 
 # Incremental Static Regeneration (ISR) `v1.0` `beta`
 
-ISR combines the performance of static generation with the freshness of server-side rendering. Pages are served as static HTML but can be revalidated in the background when data changes.
+ISR combines the performance of static generation with the freshness of server side rendering. Pages are served as static HTML but can be revalidated in the background when data changes.
 
 ## How It Works
 
@@ -84,7 +84,7 @@ public class BlogPostPage : IPage
 > [!NOTE]
 > The `Revalidate` value is in seconds. A value of `60` means NextNet will revalidate at most once per minute.
 
-## On-Demand Revalidation
+## On Demand Revalidation
 
 Trigger revalidation when data changes, such as after a CMS webhook:
 
@@ -135,7 +135,7 @@ public class ProductsPage : IPage
 }
 ```
 
-### On-Demand Revalidation
+### On Demand Revalidation
 
 Revalidate when specific data changes:
 
@@ -150,7 +150,7 @@ await _manager.RevalidateManyAsync(
 await _manager.RevalidateByTagAsync("products");
 ```
 
-### Stale-While-Revalidate
+### Stale While Revalidate
 
 Serve stale content while fetching fresh data in the background:
 
@@ -247,7 +247,7 @@ await _manager.RevalidateByTagAsync("blog");
 | `revalidate` | `number` | `60` | Revalidation interval (seconds) |
 | `staleWhileRevalidate` | `boolean` | `true` | Serve stale during revalidation |
 | `staleMaxAge` | `number` | `3600` | Max age before serving fresh (seconds) |
-| `revalidationToken` | `string` | `""` | Secret token for on-demand revalidation |
+| `revalidationToken` | `string` | `""` | Secret token for on demand revalidation |
 | `cacheProvider` | `string` | `"memory"` | Cache backend (`memory`, `redis`, `file`) |
 
 ## Related

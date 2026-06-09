@@ -113,7 +113,7 @@ git checkout -b feat/my-feature
 ### 3. Make changes
 
 Follow the conventions in [AGENTS.md](../../AGENTS.md):
-- File-scoped namespaces
+- File scoped namespaces
 - Primary constructors for simple DI
 - XML documentation comments on all public types
 - Tests follow `{Method}_Should_{Expected}_When_{Condition}` naming
@@ -184,7 +184,7 @@ dotnet format NextNet.sln
 
 | Convention | Rule |
 |-----------|------|
-| File-scoped namespaces | `namespace NextNet.Routing;` (not block-scoped) |
+| File scoped namespaces | `namespace NextNet.Routing;` (not block scoped) |
 | Primary constructors | `public class MyClass(IService service)` for simple DI |
 | XML docs on public API | Every public type, method, and property |
 | Immutable data models | Use `record` types for route metadata, config |

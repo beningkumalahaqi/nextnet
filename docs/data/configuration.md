@@ -108,9 +108,9 @@ Each entry in the `connections` map configures a single database connection.
 | `provider` | string | `"EntityFramework"` | Provider identifier. One of: `EntityFramework`, `Dapper`, `Sqlite`, `PostgreSQL`, `MongoDB` |
 | `timeoutSeconds` | int | `30` | Command timeout in seconds (valid range: 1-3600) |
 | `enabled` | bool | `true` | Whether this connection is active at startup |
-| `poolSize` | int? | `null` | Connection pool size (provider-dependent; uses provider default when null) |
+| `poolSize` | int? | `null` | Connection pool size (provider dependent; uses provider default when null) |
 | `tags` | string[]? | `null` | Categorization tags for dynamic connection resolution |
-| `options` | object | `{}` | Provider-specific options (see [provider-specific config](#provider-specific-configuration)) |
+| `options` | object | `{}` | Provider specific options (see [provider specific config](#provider-specific-configuration)) |
 
 ### TypeScript Interface
 
@@ -144,7 +144,7 @@ public sealed record ConnectionConfig
 | `autoApply` | bool | `false` | Apply pending migrations on application startup (not recommended for production) |
 | `directory` | string | `"Migrations"` | Directory path for migration files (relative to project root) |
 | `historyTableName` | string | `"__NextNetMigrations"` | Name of the migration history table (Dapper provider only) |
-| `timeoutSeconds` | int | `60` | Per-migration timeout in seconds |
+| `timeoutSeconds` | int | `60` | Per migration timeout in seconds |
 | `enableConfirmations` | bool | `false` | Require confirmation before applying destructive changes |
 | `backupEnabled` | bool | `true` | Create a database backup before applying migrations |
 | `backupDirectory` | string | `"Migrations/Backups"` | Directory for migration backups |
@@ -209,10 +209,10 @@ public sealed record ScaffoldingConfig
 |----------|------|---------|-------------|
 | `path` | string | `"/health"` | URL path for the health check endpoint |
 | `tags` | string[] | `["nextnet", "data"]` | Tags assigned to health check results |
-| `showDetails` | bool | `false` | Show detailed per-connection results (set to `false` in production) |
+| `showDetails` | bool | `false` | Show detailed per connection results (set to `false` in production) |
 | `cacheDurationSeconds` | int | `5` | How long to cache health check results (seconds) |
 | `includeMigrationStatus` | bool | `true` | Include pending migration info in responses |
-| `timeoutSeconds` | int | `10` | Per-health-check timeout (seconds) |
+| `timeoutSeconds` | int | `10` | Per health check timeout (seconds) |
 | `degradedThresholdMs` | int | `100` | Response time threshold for Degraded status (milliseconds) |
 | `unhealthyThresholdMs` | int | `5000` | Response time threshold for Unhealthy status (milliseconds) |
 
@@ -232,7 +232,7 @@ public sealed record HealthChecksConfig
 
 ## Provider-Specific Configuration
 
-Provider-specific options are configured in the `options` property of a connection entry or via `services.Configure<T>()`.
+Provider specific options are configured in the `options` property of a connection entry or via `services.Configure<T>()`.
 
 ### EF Core
 

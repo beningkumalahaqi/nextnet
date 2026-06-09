@@ -18,22 +18,22 @@ Scaffolding generates model classes, repository interfaces/implementations, CRUD
 
 NextNet's scaffolding system uses `IScaffoldProvider` to generate code. The scaffolding can work in two directions:
 
-1. **Model-first**: Generate repositories and CRUD from your model classes.
-2. **Database-first**: Generate models, repositories, and CRUD from an existing database schema.
+1. **Model first**: Generate repositories and CRUD from your model classes.
+2. **Database first**: Generate models, repositories, and CRUD from an existing database schema.
 
 | Approach | Direction | Use Case |
 |----------|-----------|----------|
-| Model-first | Model → Repository → CRUD | Greenfield projects, domain-driven design |
-| Database-first | Schema → Model → Repository → CRUD | Existing databases, legacy systems |
+| Model first | Model → Repository → CRUD | Greenfield projects, domain driven design |
+| Database first | Schema → Model → Repository → CRUD | Existing databases, legacy systems |
 
 ### Provider Support
 
-| Provider | Scaffold Provider | Model-first | Database-first |
+| Provider | Scaffold Provider | Model first | Database first |
 |----------|-------------------|-------------|----------------|
 | EF Core | `EfCoreScaffoldProvider` | ✅ | ✅ |
 | Dapper | `DapperScaffoldProvider` | ✅ | ✅ |
-| SQLite | EF Core-based | ✅ | ✅ |
-| PostgreSQL | EF Core-based | ✅ | ✅ |
+| SQLite | EF Core based | ✅ | ✅ |
+| PostgreSQL | EF Core based | ✅ | ✅ |
 | MongoDB | `MongoDbScaffoldProvider` | ✅ | Limited |
 
 ## Model Generation
@@ -469,7 +469,7 @@ Each property uses the format: `Name:Type:Constraint1,Constraint2`
 |------|-------------|---------|
 | `Name` | Property name (PascalCase) | `Id`, `FirstName`, `CreatedAt` |
 | `Type` | C# type name | `int`, `string`, `decimal`, `DateTime`, `bool` |
-| `Constraints` | Comma-separated modifiers | `pk`, `required`, `max(100)`, `email`, `default(0)` |
+| `Constraints` | Comma separated modifiers | `pk`, `required`, `max(100)`, `email`, `default(0)` |
 
 ### Supported Constraints
 

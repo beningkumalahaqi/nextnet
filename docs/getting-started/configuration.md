@@ -28,7 +28,7 @@ my-app/
 | `appDir` | `string` | `"app"` | Root directory for application pages and routes |
 | `outputDir` | `string` | `"dist"` | Build output directory |
 | `devPort` | `number` | `3000` | Development server port |
-| `ssr` | `boolean` | `true` | Enable server-side rendering |
+| `ssr` | `boolean` | `true` | Enable server side rendering |
 | `ssg` | `boolean` | `false` | Enable static site generation at build time |
 | `streaming` | `boolean` | `true` | Enable streaming SSR |
 | `serverActions` | `boolean` | `true` | Enable server actions |
@@ -38,7 +38,7 @@ my-app/
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `rendering.prettyPrint` | `boolean` | `false` | Pretty-print HTML output (development only) |
+| `rendering.prettyPrint` | `boolean` | `false` | Pretty print HTML output (development only) |
 | `rendering.maxRecursionDepth` | `number` | `128` | Maximum layout nesting depth |
 | `rendering.minify` | `boolean` | `true` | Minify HTML output (production only) |
 
@@ -75,7 +75,7 @@ ASPNETCORE_ENVIRONMENT=Production nextnet build
 ```
 
 In **Development** mode:
-- Pretty-print is enabled by default
+- Pretty print is enabled by default
 - Source maps are generated
 - Hot reload is active
 
@@ -101,7 +101,7 @@ nextnet build --ssg
 
 > [!TIP]
 > CLI flags take precedence over `nextnet.config.json` settings.
-> Use flags for one-off overrides and the config file for persistent settings.
+> Use flags for one off overrides and the config file for persistent settings.
 
 ## Configuration Precedence
 

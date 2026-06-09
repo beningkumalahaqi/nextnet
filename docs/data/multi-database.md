@@ -16,12 +16,12 @@ NextNet supports multiple database connections in a single application through t
 
 ## Overview
 
-The multi-database feature enables:
+The multi database feature enables:
 
 - **Read/write splitting** — Primary for writes, replicas for reads.
-- **Multi-tenant applications** — Database-per-tenant with dynamic resolution.
+- **Multi tenant applications** — Database per tenant with dynamic resolution.
 - **Polyglot persistence** — Different database technologies for different concerns (e.g., PostgreSQL for transactions, MongoDB for analytics).
-- **Gradual migration** — Run old and new databases side-by-side during migration.
+- **Gradual migration** — Run old and new databases side by side during migration.
 - **Reporting databases** — Isolated read replicas for reporting workloads.
 
 ### Architecture
@@ -387,9 +387,9 @@ var tenantDb = _db.For($"Tenant_{currentTenantId}");
 
 | Limitation | Description | Mitigation |
 |------------|-------------|------------|
-| **No distributed transactions** | Cross-database transactions are not supported. Each connection operates independently. | Use the Saga pattern or Outbox pattern for distributed operations. |
+| **No distributed transactions** | Cross database transactions are not supported. Each connection operates independently. | Use the Saga pattern or Outbox pattern for distributed operations. |
 | **No cross-DB queries** | You cannot JOIN across connections or providers. | Perform queries separately and combine in application code. |
-| **No automatic failover** | NextNet does not detect or handle database failures automatically. | Use connection pooling health checks and implement application-level retry logic. |
+| **No automatic failover** | NextNet does not detect or handle database failures automatically. | Use connection pooling health checks and implement application level retry logic. |
 | **Different provider capabilities** | Not all `IRepository<T>` methods are equally efficient across providers. | Test specific query patterns on each provider. |
 | **Connection metadata is static** | Connection configurations are read at startup and cached. | Restart the application to pick up configuration changes (or use config reload). |
 

@@ -104,7 +104,7 @@ builder.Services.Configure<MongoDbConventionOptions>(options =>
 | `CamelCaseElementNameConvention` | Maps C# PascalCase to BSON camelCase |
 | `IgnoreExtraElementsConvention(true)` | Ignores unknown BSON fields during deserialization |
 | `EnumRepresentationConvention(BsonType.String)` | Stores enums as strings instead of integers |
-| `IgnoreIfDefaultConvention` | Omits default-valued fields during serialization |
+| `IgnoreIfDefaultConvention` | Omits default valued fields during serialization |
 | `NamedIdMemberConvention` | Maps `Id` property to `_id` in MongoDB |
 
 ### Custom Class Maps

@@ -76,7 +76,7 @@ Complete reference for all NextNet configuration options in `nextnet.config.json
 | `appDir` | `string` | `"app"` | Root directory for application pages and routes |
 | `outputDir` | `string` | `"dist"` | Build output directory |
 | `devPort` | `number` | `3000` | Development server port |
-| `ssr` | `boolean` | `true` | Enable server-side rendering |
+| `ssr` | `boolean` | `true` | Enable server side rendering |
 | `ssg` | `boolean` | `false` | Enable static site generation |
 | `streaming` | `boolean` | `true` | Enable streaming SSR |
 | `serverActions` | `boolean` | `true` | Enable server actions |
@@ -107,7 +107,7 @@ V5 Design System configuration. Controls theming, UI components, and Tailwind CS
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `prettyPrint` | `boolean` | `false` | Pretty-print HTML output (dev only) |
+| `prettyPrint` | `boolean` | `false` | Pretty print HTML output (dev only) |
 | `maxRecursionDepth` | `number` | `128` | Maximum layout nesting depth |
 | `minify` | `boolean` | `true` | Minify HTML output (production only) |
 
@@ -119,7 +119,7 @@ V5 Design System configuration. Controls theming, UI components, and Tailwind CS
 | `revalidate` | `number` | `60` | Revalidation interval in seconds |
 | `staleWhileRevalidate` | `boolean` | `true` | Serve stale content during revalidation |
 | `staleMaxAge` | `number` | `3600` | Max age for stale content in seconds |
-| `revalidationToken` | `string` | `""` | Secret token for on-demand revalidation |
+| `revalidationToken` | `string` | `""` | Secret token for on demand revalidation |
 | `cacheProvider` | `string` | `"memory"` | Cache backend (`memory`, `redis`, `file`) |
 
 ## `middleware` Options
@@ -208,7 +208,7 @@ Each plugin entry in the array:
 |----------|------|---------|-------------|
 | `name` | `string` | required | Plugin package name |
 | `enabled` | `boolean` | `true` | Enable the plugin |
-| `config` | `object` | `{}` | Plugin-specific configuration |
+| `config` | `object` | `{}` | Plugin specific configuration |
 
 ## Example: Production Configuration
 

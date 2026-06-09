@@ -1,12 +1,12 @@
 ---
 uid: index
 title: NextNet Documentation
-description: Welcome to the NextNet documentation. NextNet is a modern full-stack web framework for .NET.
+description: Welcome to the NextNet documentation. NextNet is a modern full stack web framework for .NET.
 ---
 
 # NextNet Documentation
 
-Welcome to the NextNet documentation. NextNet is a modern full-stack web framework for .NET that brings the productivity of file-based routing and convention-over-configuration to the ASP.NET Core ecosystem.
+Welcome to the NextNet documentation. NextNet is a modern full stack web framework for .NET that brings the productivity of file based routing and convention over configuration to the ASP.NET Core ecosystem.
 
 > [!TIP]
 > **New to NextNet?** Start with the [Quickstart Guide](getting-started/quickstart.md) — you'll have a working app in under 2 minutes.
@@ -30,7 +30,7 @@ Understand the mental models that power NextNet.
 
 | Topic | Description |
 |-------|-------------|
-| [File-Based Routing](core-concepts/routing.md) | How files become routes |
+| [File Based Routing](core-concepts/routing.md) | How files become routes |
 | [Rendering](core-concepts/rendering.md) | SSR, streaming, and rendering strategies |
 | [Layouts](core-concepts/layouts.md) | Nested, composable page shells |
 | [Components](core-concepts/components.md) | Pages, API routes, and the component model |
@@ -43,14 +43,14 @@ Deep dives into NextNet's feature set.
 |---------|-------------|
 | [Server Actions](features/server-actions.md) | Call server functions directly from client code |
 | [API Routes](features/api-routes.md) | Build REST endpoints alongside your pages |
-| [Static Generation](features/static-generation.md) | Pre-render pages at build time |
+| [Static Generation](features/static-generation.md) | Pre render pages at build time |
 | [ISR](features/isr.md) | Incremental Static Regeneration |
 | [Middleware](features/middleware.md) | Route-level request pipeline |
 | [Plugins](features/plugins.md) | Extend NextNet with community plugins |
 
 ## Advanced
 
-Power-user features for production deployments.
+Power user features for production deployments.
 
 | Guide | Description |
 |-------|-------------|
@@ -71,7 +71,7 @@ Complete API and configuration reference.
 
 ## Guides
 
-Task-oriented guides for common scenarios.
+Task oriented guides for common scenarios.
 
 | Guide | Description |
 |-------|-------------|

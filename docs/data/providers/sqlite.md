@@ -1,6 +1,6 @@
 # SQLite Provider
 
-The `NextNet.Data.Sqlite` package provides a lightweight SQLite provider for the NextNet data layer, ideal for development, testing, CI pipelines, and single-user desktop scenarios. It requires no database server installation.
+The `NextNet.Data.Sqlite` package provides a lightweight SQLite provider for the NextNet data layer, ideal for development, testing, CI pipelines, and single user desktop scenarios. It requires no database server installation.
 
 ## Table of Contents
 
@@ -100,7 +100,7 @@ var connectionString = builder.ToString();
 
 ## In-Memory Mode for Testing
 
-SQLite in-memory databases are perfect for unit and integration tests -- they are fast, isolated, and require no cleanup.
+SQLite in memory databases are perfect for unit and integration tests -- they are fast, isolated, and require no cleanup.
 
 ```ini
 # In-memory, named (shared across connections)
@@ -289,7 +289,7 @@ services.Configure<SqliteConnectionFactoryOptions>(options =>
 
 ### Pooling
 
-SQLite connection pooling is enabled by default with `Cache=Shared`. Pooling benefits read-heavy workloads but offers less benefit for write-heavy scenarios.
+SQLite connection pooling is enabled by default with `Cache=Shared`. Pooling benefits read heavy workloads but offers less benefit for write heavy scenarios.
 
 | Cache Mode | Behavior |
 |------------|----------|
@@ -301,14 +301,14 @@ SQLite connection pooling is enabled by default with `Cache=Shared`. Pooling ben
 
 | Limitation | Details | Workaround |
 |------------|---------|------------|
-| **Concurrent Writes** | SQLite uses a database-level lock. Concurrent write-heavy workloads can cause `SQLITE_BUSY` errors. | Use WAL mode: `Data Source=app.db;Cache=Shared;Mode=ReadWriteCreate` + set PRAGMA journal_mode=WAL. |
+| **Concurrent Writes** | SQLite uses a database-level lock. Concurrent write heavy workloads can cause `SQLITE_BUSY` errors. | Use WAL mode: `Data Source=app.db;Cache=Shared;Mode=ReadWriteCreate` + set PRAGMA journal_mode=WAL. |
 | **ALTER TABLE** | Cannot drop columns, change column types, or add constraints. | Recreate the table for complex schema changes. |
-| **No Stored Procedures** | SQLite does not support stored procedures or functions. | Use application-side logic. |
-| **No User Management** | No built-in user/role system. | Use application-level authentication and authorization. |
+| **No Stored Procedures** | SQLite does not support stored procedures or functions. | Use application side logic. |
+| **No User Management** | No built in user/role system. | Use application level authentication and authorization. |
 | **Max Database Size** | Default max is ~140TB, but practical limit is much lower for performance. | Consider PostgreSQL for databases exceeding 50GB. |
-| **No Replication** | No built-in replication. | Use SQLite backups or consider a client-server database for production. |
+| **No Replication** | No built in replication. | Use SQLite backups or consider a client server database for production. |
 | **No UNIQUE INDEX on NULL** | Multiple NULLs are allowed in unique columns. | Use application validation. |
-| **Concurrency Limit** | Best suited for single-server, low-concurrency scenarios. | Not recommended for high-traffic web applications (use PostgreSQL/MongoDB instead). |
+| **Concurrency Limit** | Best suited for single server, low concurrency scenarios. | Not recommended for high traffic web applications (use PostgreSQL/MongoDB instead). |
 
 ### Enabling WAL Mode
 

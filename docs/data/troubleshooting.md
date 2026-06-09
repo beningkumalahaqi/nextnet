@@ -279,7 +279,7 @@ nextnet db migration add --fake AddUserTable
 nextnet db migration status
 ```
 
-For EF Core, you can generate a no-op migration:
+For EF Core, you can generate a no op migration:
 
 ```bash
 nextnet db migration add AddUserTable --no-op
@@ -352,8 +352,8 @@ ALTER TABLE Users_New RENAME TO Users;
 
 | Issue | Solution |
 |-------|----------|
-| `The LINQ expression could not be translated` | Use `AsEnumerable()` or switch to client-side evaluation for unsupported expressions. Or rewrite the query with supported constructs. |
-| `A second operation was started on this context instance` | EF Core DbContext is not thread-safe. Use `AddDbContextPool` or ensure each operation creates a new scope. NextNet manages this automatically via `DbContextPool`. |
+| `The LINQ expression could not be translated` | Use `AsEnumerable()` or switch to client side evaluation for unsupported expressions. Or rewrite the query with supported constructs. |
+| `A second operation was started on this context instance` | EF Core DbContext is not thread safe. Use `AddDbContextPool` or ensure each operation creates a new scope. NextNet manages this automatically via `DbContextPool`. |
 | `Cannot use table 'X' for entity type 'Y' since it is being used for entity type 'Z'` | Entities are mapped to the same table. Use `[Table("different_name")]` or configure separate table names via Fluent API. |
 | `Invalid column name 'Discriminator'` | TPH inheritance mapping is active. Add `[NotMapped]` to base class properties or configure TPH explicitly. |
 | `Npgsql.PostgresException: 42P01: relation "X" does not exist` | Migration has not been applied or the table name is incorrect. Check for case sensitivity (use lowercase table names with PostgreSQL). |
@@ -363,7 +363,7 @@ ALTER TABLE Users_New RENAME TO Users;
 | Issue | Solution |
 |-------|----------|
 | `A column named 'X' does not match any property` | The SQL result column does not map to any property on the target type. Use column aliases: `SELECT column AS PropertyName FROM ...`. |
-| `Object reference not set to an instance of an object` (in multi-mapping) | The `splitOn` parameter is incorrect. Ensure the split column name matches exactly. |
+| `Object reference not set to an instance of an object` (in multi mapping) | The `splitOn` parameter is incorrect. Ensure the split column name matches exactly. |
 | `The connection was not closed. The connection's current state is open` | Ensure `using` statements or `await using` are used for connections. |
 | Slow query performance | Check if query plan caching is working. Use `SqlMapper.PurgeQueryCache()` only during development. |
 
@@ -461,13 +461,13 @@ nextnet generate model User --dry-run
 
 | Tip | Description |
 |-----|-------------|
-| **Use `AsNoTracking()` for read-only queries** | (EF Core) Disable change tracking for queries that don't need it. |
+| **Use `AsNoTracking()` for read only queries** | (EF Core) Disable change tracking for queries that don't need it. |
 | **Enable query logging only in development** | `options.EnableSensitiveDataLogging = false` in production. |
 | **Use projection (`Select`) instead of loading entire entities** | Reduces data transferred from the database. |
-| **Batch operations in transactions** | Reduces round-trips for related operations. |
+| **Batch operations in transactions** | Reduces round trips for related operations. |
 | **Use `CountAsync()` instead of loading all records** | More efficient than `(await GetAllAsync()).TotalCount`. |
 | **Configure pool size appropriately** | Too large = wasted resources, too small = contention. |
-| **Monitor slow queries** | Use `nextnet db explore` and database-specific query analyzers. |
+| **Monitor slow queries** | Use `nextnet db explore` and database specific query analyzers. |
 
 ### Connection Pooling
 
@@ -502,7 +502,7 @@ Example: 100 concurrent requests × 0.2s average query = 20 connections.
 
 ### Caching
 
-For read-heavy workloads, consider caching:
+For read heavy workloads, consider caching:
 
 ```csharp
 public class CachedUserRepository
