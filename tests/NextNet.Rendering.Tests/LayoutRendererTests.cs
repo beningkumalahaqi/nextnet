@@ -69,7 +69,7 @@ public class LayoutRendererTests
     // ─── Tests ────────────────────────────────────────────────────────────
 
     [Fact]
-    public async Task RenderAsync_WithEmptyLayoutChain_ReturnsBareContent()
+    public async Task RenderAsync_Should_ReturnBareContent_WhenLayoutChainIsEmpty()
     {
         var renderer = CreateLayoutRenderer();
         var services = CreateServiceProvider();
@@ -81,7 +81,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithNullLayoutChain_ThrowsArgumentNullException()
+    public async Task RenderAsync_Should_ThrowArgumentNullException_WhenLayoutChainIsNull()
     {
         var renderer = CreateLayoutRenderer();
         var services = CreateServiceProvider();
@@ -91,7 +91,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithSingleLayout_WrapsContent()
+    public async Task RenderAsync_Should_WrapContent_WhenSingleLayoutProvided()
     {
         var layoutMap = new Dictionary<string, Type>
         {
@@ -107,7 +107,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithTwoLayouts_WrapsNested()
+    public async Task RenderAsync_Should_WrapNested_WhenTwoLayoutsProvided()
     {
         var layoutMap = new Dictionary<string, Type>
         {
@@ -147,7 +147,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithThreeLevels_ComposesCorrectly()
+    public async Task RenderAsync_Should_ComposeCorrectly_WhenThreeLayoutLevelsProvided()
     {
         // Innermost wraps in <span>
         // Middle wraps in <div>
@@ -179,7 +179,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithUnregisteredLayout_ThrowsRenderException()
+    public async Task RenderAsync_Should_ThrowRenderException_WhenLayoutIsNotRegistered()
     {
         var layoutMap = new Dictionary<string, Type>
         {
@@ -198,7 +198,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithUnresolvableLayoutPath_ThrowsRenderException()
+    public async Task RenderAsync_Should_ThrowRenderException_WhenLayoutPathCannotBeResolved()
     {
         var resolver = new ConventionRouteComponentResolver(
             new Dictionary<string, Type>(), new Dictionary<string, Type>());

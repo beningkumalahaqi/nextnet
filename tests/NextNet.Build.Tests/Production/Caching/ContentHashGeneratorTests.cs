@@ -8,7 +8,7 @@ public class ContentHashGeneratorTests
     private readonly ContentHashGenerator _generator = new();
 
     [Fact]
-    public void GenerateHash_SameContent_ReturnsSameHash()
+    public void GenerateHash_Should_ReturnSameHash_When_SameContent()
     {
         var content = "Hello, World!";
         var hash1 = _generator.GenerateHash(content);
@@ -17,7 +17,7 @@ public class ContentHashGeneratorTests
     }
 
     [Fact]
-    public void GenerateHash_DifferentContent_ReturnsDifferentHash()
+    public void GenerateHash_Should_ReturnDifferentHash_When_DifferentContent()
     {
         var hash1 = _generator.GenerateHash("Hello, World!");
         var hash2 = _generator.GenerateHash("Goodbye, World!");
@@ -25,26 +25,26 @@ public class ContentHashGeneratorTests
     }
 
     [Fact]
-    public void GenerateHash_EmptyContent_ReturnsEmpty()
+    public void GenerateHash_Should_ReturnEmpty_When_EmptyContent()
     {
         Assert.Equal(string.Empty, _generator.GenerateHash(""));
     }
 
     [Fact]
-    public void GenerateHash_NullContent_ReturnsEmpty()
+    public void GenerateHash_Should_ReturnEmpty_When_NullContent()
     {
         Assert.Equal(string.Empty, _generator.GenerateHash((string)null!));
     }
 
     [Fact]
-    public void GenerateHash_ReturnsCorrectLength()
+    public void GenerateHash_Should_ReturnCorrectLength_When_DefaultLength()
     {
         var hash = _generator.GenerateHash("test content");
         Assert.Equal(8, hash.Length);
     }
 
     [Fact]
-    public void GenerateHash_CustomLength_ReturnsCorrectLength()
+    public void GenerateHash_Should_ReturnCorrectLength_When_CustomLength()
     {
         var generator = new ContentHashGenerator(16);
         var hash = generator.GenerateHash("test content");
@@ -52,7 +52,7 @@ public class ContentHashGeneratorTests
     }
 
     [Fact]
-    public void GenerateETag_ReturnsQuotedHash()
+    public void GenerateETag_Should_ReturnQuotedHash_When_ContentProvided()
     {
         var etag = _generator.GenerateETag("test content");
         Assert.StartsWith("\"", etag);
@@ -60,7 +60,7 @@ public class ContentHashGeneratorTests
     }
 
     [Fact]
-    public void HashFileName_AddsHashToFilename()
+    public void HashFileName_Should_AddHashToFilename_When_ContentProvided()
     {
         var content = System.Text.Encoding.UTF8.GetBytes("file content");
         var hashed = _generator.HashFileName("styles.css", content);
@@ -68,7 +68,7 @@ public class ContentHashGeneratorTests
     }
 
     [Fact]
-    public void HashFileName_SameContent_SameHashedName()
+    public void HashFileName_Should_ReturnSameName_When_SameContent()
     {
         var content = System.Text.Encoding.UTF8.GetBytes("same content");
         var name1 = _generator.HashFileName("app.js", content);
@@ -77,7 +77,7 @@ public class ContentHashGeneratorTests
     }
 
     [Fact]
-    public void HashFileName_DifferentContent_DifferentHashedName()
+    public void HashFileName_Should_ReturnDifferentName_When_DifferentContent()
     {
         var content1 = System.Text.Encoding.UTF8.GetBytes("content one");
         var content2 = System.Text.Encoding.UTF8.GetBytes("content two");

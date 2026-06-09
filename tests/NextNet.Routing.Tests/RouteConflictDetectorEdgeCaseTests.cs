@@ -17,7 +17,7 @@ public class RouteConflictDetectorEdgeCaseTests
     }
 
     [Fact]
-    public void Detect_DynamicCatchAllOverlap_ReturnsWarning()
+    public void Detect_Should_ReturnWarning_When_DynamicAndCatchAllOverlap()
     {
         var entries = new List<RouteEntry>
         {
@@ -34,7 +34,7 @@ public class RouteConflictDetectorEdgeCaseTests
     }
 
     [Fact]
-    public void Detect_NoPages_NoLayoutWarnings()
+    public void Detect_Should_NotWarnAboutMissingLayout_When_NoPagesExist()
     {
         var entries = new List<RouteEntry>
         {
@@ -45,13 +45,12 @@ public class RouteConflictDetectorEdgeCaseTests
         var conflicts = _detector.Detect(entries);
 
         // No pages means no missing root layout warning (layout only applies to pages)
-        // Actually the detector only warns about missing root layout when pages exist
         Assert.DoesNotContain(conflicts, c =>
             c.Message.Contains("No root layout", StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]
-    public void Detect_AllTypesTogether_ReportsOnlyRelevantConflicts()
+    public void Detect_Should_ReportNoConflicts_When_AllEntryTypesAndWellFormed()
     {
         var entries = new List<RouteEntry>
         {
@@ -69,7 +68,7 @@ public class RouteConflictDetectorEdgeCaseTests
     }
 
     [Fact]
-    public void Detect_OrphanedLayoutWithPagesUnderOtherLayouts_DetectsCorrectOrphan()
+    public void Detect_Should_DetectCorrectOrphan_When_OnlyOneLayoutOrphaned()
     {
         var entries = new List<RouteEntry>
         {
@@ -99,7 +98,7 @@ public class RouteConflictDetectorEdgeCaseTests
     }
 
     [Fact]
-    public void Detect_PatternsOverlap_DifferentSegments_NoConflict()
+    public void Detect_Should_NotFindOverlap_When_PatternSegmentsDiffer()
     {
         // /blog and /about don't overlap
         var entries = new List<RouteEntry>
@@ -118,7 +117,7 @@ public class RouteConflictDetectorEdgeCaseTests
     }
 
     [Fact]
-    public void Detect_NoRootLayoutButNoPages_NoWarning()
+    public void Detect_Should_NotWarnAboutMissingRootLayout_When_OnlyApiRoutes()
     {
         var entries = new List<RouteEntry>
         {
@@ -132,7 +131,7 @@ public class RouteConflictDetectorEdgeCaseTests
     }
 
     [Fact]
-    public void Detect_RootLayoutExists_NoWarning()
+    public void Detect_Should_NotWarnAboutMissingRootLayout_When_RootLayoutExists()
     {
         var entries = new List<RouteEntry>
         {
@@ -148,7 +147,7 @@ public class RouteConflictDetectorEdgeCaseTests
     }
 
     [Fact]
-    public void Detect_DuplicateStatic_CorrectSeverityAndFiles()
+    public void Detect_Should_HaveCorrectSeverityAndFiles_When_DuplicateStaticExists()
     {
         var entries = new List<RouteEntry>
         {
@@ -167,7 +166,7 @@ public class RouteConflictDetectorEdgeCaseTests
     }
 
     [Fact]
-    public void Detect_AllEntryTypes_HasCorrectMetadata()
+    public void Detect_Should_HaveCorrectMetadata_When_AllEntryTypesPresent()
     {
         var entries = new List<RouteEntry>
         {

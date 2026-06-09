@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NextNet.Components;
 using NextNet.Exceptions;
 using NextNet.Logging;
+using NextNet.Rendering.Errors;
 
 namespace NextNet.Rendering;
 
@@ -9,7 +10,7 @@ namespace NextNet.Rendering;
 /// Composes the layout chain for a page, wrapping the page content inside
 /// nested layouts from innermost to outermost.
 /// </summary>
-public class LayoutRenderer
+public sealed class LayoutRenderer
 {
     private readonly IRouteComponentResolver _componentResolver;
     private readonly INextNetLogger? _logger;
@@ -72,7 +73,7 @@ public class LayoutRenderer
     private ILayout ResolveLayout(string layoutPath, IServiceProvider serviceProvider)
     {
         var layoutType = _componentResolver.GetLayoutType(layoutPath)
-            ?? throw new RenderException($"Cannot resolve layout type for: {layoutPath}");
+            ?? throw new RenderException($"[{Errors.RenderingErrorCodes.LayoutTypeNotResolved}] Cannot resolve layout type for: {layoutPath}");
 
         try
         {
@@ -81,7 +82,7 @@ public class LayoutRenderer
         catch (InvalidOperationException ex)
         {
             throw new RenderException(
-                $"Layout type '{layoutType.FullName}' (from '{layoutPath}') is not registered in DI. " +
+                $"[{Errors.RenderingErrorCodes.LayoutTypeNotRegistered}] Layout type '{layoutType.FullName}' (from '{layoutPath}') is not registered in DI. " +
                 "Ensure the layout is registered via services.AddScoped<ILayout, ...>().", ex);
         }
     }

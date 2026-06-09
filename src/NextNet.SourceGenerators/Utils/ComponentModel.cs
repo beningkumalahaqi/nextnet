@@ -1,12 +1,22 @@
 using System;
 
-namespace NextNet.SourceGenerators.Utils
-{
+namespace NextNet.SourceGenerators.Utils;
     /// <summary>
     /// Represents metadata about a discovered component class (page, layout, API route).
     /// This is a value-equatable type used in the incremental generator pipeline.
     /// Only string data is stored — no ISymbol or SyntaxNode references (prevents memory leaks).
     /// </summary>
+    /// <example>
+    /// <code>
+    /// var component = new ComponentModel
+    /// {
+    ///     TypeName = "global::App.IndexPage",
+    ///     FilePath = "/Users/project/app/page.cs",
+    ///     RoutePattern = "/",
+    ///     ComponentType = "Page"
+    /// };
+    /// </code>
+    /// </example>
     internal sealed record ComponentModel
     {
         /// <summary>
@@ -29,4 +39,3 @@ namespace NextNet.SourceGenerators.Utils
         /// </summary>
         public string ComponentType { get; set; } = string.Empty;
     }
-}

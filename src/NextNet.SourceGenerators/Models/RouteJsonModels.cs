@@ -1,11 +1,23 @@
 using System.Collections.Generic;
 
-namespace NextNet.SourceGenerators.Models
-{
+namespace NextNet.SourceGenerators.Models;
     /// <summary>
     /// Root model for the <c>nextnet.routes.json</c> manifest produced by the RouteScanner.
     /// Uses a dedicated <see cref="Utils.RouteManifestModelComparer"/> for pipeline equality.
     /// </summary>
+    /// <example>
+    /// Typical JSON structure deserialized into this model:
+    /// <code>
+    /// {
+    ///   "Routes": [...],
+    ///   "Pages": [{ "RoutePattern": "/", "FilePath": "app/page.cs", "Type": "Page", "SegmentKind": "Static" }],
+    ///   "Layouts": [],
+    ///   "ApiRoutes": [],
+    ///   "ErrorPage": null,
+    ///   "Conflicts": []
+    /// }
+    /// </code>
+    /// </example>
     public record RouteManifestModel
     {
         /// <summary>
@@ -45,6 +57,18 @@ namespace NextNet.SourceGenerators.Models
     /// Custom equality is required because the synthesized record equality would compare
     /// <see cref="LayoutChain"/> by reference, which breaks pipeline caching.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// new RouteEntryModel
+    /// {
+    ///     RoutePattern = "/blog/{slug}",
+    ///     FilePath = "app/blog/[slug]/page.cs",
+    ///     Type = "Page",
+    ///     SegmentKind = "Dynamic",
+    ///     HttpMethods = new List&lt;string&gt;()
+    /// };
+    /// </code>
+    /// </example>
     public record RouteEntryModel
     {
         /// <summary>
@@ -117,6 +141,17 @@ namespace NextNet.SourceGenerators.Models
     /// Custom equality is required because the synthesized record equality would compare
     /// <see cref="ConflictingFiles"/> by reference, which breaks pipeline caching.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// new RouteConflictModel
+    /// {
+    ///     Message = "Two pages share the same route pattern '/about'",
+    ///     RoutePattern = "/about",
+    ///     Severity = "Warning",
+    ///     ConflictingFiles = { "app/about/page.cs", "app/about/page2.cs" }
+    /// };
+    /// </code>
+    /// </example>
     public record RouteConflictModel
     {
         /// <summary>
@@ -163,4 +198,3 @@ namespace NextNet.SourceGenerators.Models
             }
         }
     }
-}

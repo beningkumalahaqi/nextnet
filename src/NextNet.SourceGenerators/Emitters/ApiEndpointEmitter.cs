@@ -4,8 +4,7 @@ using System.Text;
 using NextNet.SourceGenerators.Models;
 using NextNet.SourceGenerators.Utils;
 
-namespace NextNet.SourceGenerators.Emitters
-{
+namespace NextNet.SourceGenerators.Emitters;
     /// <summary>
     /// Generates endpoint registration code (MapGet, MapPost, MapPut, MapPatch, MapDelete)
     /// for API route handlers. Each generated handler resolves the route class from DI,
@@ -196,4 +195,3 @@ namespace NextNet.SourceGenerators.Emitters
         private static string GetWrapperName(RouteEntryModel entry, string appDir)
             => IncrementalHelpers.GetWrapperName(entry, appDir);
     }
-}

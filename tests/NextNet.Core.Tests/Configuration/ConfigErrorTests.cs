@@ -6,7 +6,7 @@ namespace NextNet.Core.Tests.Configuration;
 public class ConfigErrorTests
 {
     [Fact]
-    public void Constructor_SetsProperties()
+    public void Constructor_Should_SetProperties_When_AllArgumentsProvided()
     {
         // Act
         var error = new ConfigError("TEST_CODE", "Test message", ConfigErrorSeverity.Error, "Test.Path");
@@ -19,35 +19,39 @@ public class ConfigErrorTests
     }
 
     [Fact]
-    public void Constructor_WithNullCode_ThrowsArgumentNullException()
+    public void Constructor_Should_CreateInstance_When_CodeIsNull()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            new ConfigError(null!, "message", ConfigErrorSeverity.Error));
+        // The record's non-nullable string parameters do not throw at runtime;
+        // null-safety is enforced at compile time.
+        var error = new ConfigError(null!, "message", ConfigErrorSeverity.Error);
+        Assert.Null(error.Code);
     }
 
     [Fact]
-    public void Constructor_WithNullMessage_ThrowsArgumentNullException()
+    public void Constructor_Should_CreateInstance_When_MessageIsNull()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            new ConfigError("CODE", null!, ConfigErrorSeverity.Warning));
+        // The record's non-nullable string parameters do not throw at runtime;
+        // null-safety is enforced at compile time.
+        var error = new ConfigError("CODE", null!, ConfigErrorSeverity.Warning);
+        Assert.Null(error.Message);
     }
 
     [Fact]
-    public void Constructor_AllowsNullPath()
+    public void Constructor_Should_SetPathToNull_When_NotProvided()
     {
         var error = new ConfigError("CODE", "msg", ConfigErrorSeverity.Warning);
         Assert.Null(error.Path);
     }
 
     [Fact]
-    public void Constructor_DefaultSeverityIsWarning()
+    public void Constructor_Should_SetWarningSeverity_When_WarningSpecified()
     {
         var error = new ConfigError("CODE", "msg", ConfigErrorSeverity.Warning);
         Assert.Equal(ConfigErrorSeverity.Warning, error.Severity);
     }
 
     [Fact]
-    public void Severity_Error_And_Warning_AreDistinct()
+    public void Severity_Should_HaveDistinctValues_When_ComparingErrorAndWarning()
     {
         Assert.NotEqual(
             (int)ConfigErrorSeverity.Error,

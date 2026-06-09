@@ -12,20 +12,20 @@ namespace NextNet.Routing.Tests;
 public class RouteFileWatcherTests
 {
     [Fact]
-    public void Constructor_WithAppDir_SetsAppDir()
+    public void Constructor_Should_SetAppDir_When_ValidPath()
     {
         using var watcher = new RouteFileWatcher("/test/app");
         Assert.NotNull(watcher);
     }
 
     [Fact]
-    public void Constructor_NullAppDir_Throws()
+    public void Constructor_Should_ThrowArgumentNull_When_AppDirIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new RouteFileWatcher(null!));
     }
 
     [Fact]
-    public void Constructor_WithLogger_DoesNotThrow()
+    public void Constructor_Should_NotThrow_When_LoggerProvided()
     {
         var logger = new NextNetLogger("TestWatcher");
         using var watcher = new RouteFileWatcher("/test/app", logger);
@@ -33,14 +33,14 @@ public class RouteFileWatcherTests
     }
 
     [Fact]
-    public void Constructor_WithCustomDebounce_SetsDebounce()
+    public void Constructor_Should_SetDebounce_When_CustomValueProvided()
     {
         using var watcher = new RouteFileWatcher("/test/app", debounceMilliseconds: 100);
         Assert.NotNull(watcher);
     }
 
     [Fact]
-    public void Start_OnNonexistentDirectory_DoesNotThrow()
+    public void Start_Should_NotThrow_When_DirectoryDoesNotExist()
     {
         using var watcher = new RouteFileWatcher("/nonexistent/path");
         // Should not throw, just log a warning
@@ -48,7 +48,7 @@ public class RouteFileWatcherTests
     }
 
     [Fact]
-    public void Start_AndStop_DoesNotThrow()
+    public void Start_AndStop_Should_NotThrow_When_ValidDirectory()
     {
         // Create a real temp directory so FileSystemWatcher works
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
@@ -66,7 +66,7 @@ public class RouteFileWatcherTests
     }
 
     [Fact]
-    public void Start_Twice_DoesNotThrow()
+    public void Start_Should_BeIdempotent_When_CalledTwice()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
@@ -84,7 +84,7 @@ public class RouteFileWatcherTests
     }
 
     [Fact]
-    public void Dispose_StopsWatcher()
+    public void Dispose_Should_StopWatcher_When_Called()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
@@ -106,7 +106,7 @@ public class RouteFileWatcherTests
     }
 
     [Fact]
-    public async Task Start_OnExistingDirectory_RaisesEventOnFileChange()
+    public async Task Start_Should_RaiseEvent_When_FileCreated()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
@@ -155,7 +155,7 @@ public class RouteFileWatcherTests
     }
 
     [Fact]
-    public void FileChangeEvent_ToString_FormatsCorrectly()
+    public void FileChangeEvent_Should_FormatToString_When_Called()
     {
         var evt = new FileChangeEvent("/app/file.cs", FileChangeType.Modified);
         var str = evt.ToString();
@@ -165,7 +165,7 @@ public class RouteFileWatcherTests
     }
 
     [Fact]
-    public void FileChangeEvent_Constructor_SetsProperties()
+    public void FileChangeEvent_Should_SetProperties_When_Constructed()
     {
         var evt = new FileChangeEvent("/app/file.cs", FileChangeType.Deleted);
 

@@ -17,7 +17,7 @@ public class RouteConflictDetectorPatternOverlapTests
     }
 
     [Fact]
-    public void Detect_DynamicAndCatchAll_SamePrefix_OverlapDetected()
+    public void Detect_Should_FindOverlap_When_DynamicAndCatchAllSharePrefix()
     {
         var entries = new List<RouteEntry>
         {
@@ -34,7 +34,7 @@ public class RouteConflictDetectorPatternOverlapTests
     }
 
     [Fact]
-    public void Detect_DynamicAndCatchAll_DifferentPrefix_NoOverlap()
+    public void Detect_Should_NotFindOverlap_When_DynamicAndCatchAllDiffer()
     {
         var entries = new List<RouteEntry>
         {
@@ -50,7 +50,7 @@ public class RouteConflictDetectorPatternOverlapTests
     }
 
     [Fact]
-    public void Detect_OptionalCatchAllAndDynamic_OverlapDetected()
+    public void Detect_Should_FindOverlap_When_OptionalCatchAllAndDynamicSharePrefix()
     {
         var entries = new List<RouteEntry>
         {
@@ -66,7 +66,7 @@ public class RouteConflictDetectorPatternOverlapTests
     }
 
     [Fact]
-    public void Detect_MultipleDynamicInPattern_OverlapWithCatchAll()
+    public void Detect_Should_FindOverlap_When_MultipleDynamicAndCatchAllOverlap()
     {
         var entries = new List<RouteEntry>
         {
@@ -82,7 +82,7 @@ public class RouteConflictDetectorPatternOverlapTests
     }
 
     [Fact]
-    public void Detect_NoOverlap_WhenPatternsCompletelyDifferent()
+    public void Detect_Should_NotFindOverlap_When_PatternsCompletelyDifferent()
     {
         var entries = new List<RouteEntry>
         {
@@ -99,7 +99,7 @@ public class RouteConflictDetectorPatternOverlapTests
     }
 
     [Fact]
-    public void Detect_MultipleConflicts_AllReported()
+    public void Detect_Should_ReportAllConflicts_When_MultipleTypesPresent()
     {
         var entries = new List<RouteEntry>
         {

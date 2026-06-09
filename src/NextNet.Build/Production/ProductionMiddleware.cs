@@ -92,7 +92,7 @@ public static class ProductionMiddleware
 /// <summary>
 /// Options for configuring the production middleware pipeline.
 /// </summary>
-public class ProductionMiddlewareOptions
+public sealed class ProductionMiddlewareOptions
 {
     /// <summary>
     /// Whether to enable security headers middleware.

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NextNet.Components;
 using NextNet.Exceptions;
+using NextNet.Layouts.Errors;
 using NextNet.Logging;
 
 namespace NextNet.Layouts;
@@ -10,7 +11,19 @@ namespace NextNet.Layouts;
 /// nested layouts from innermost to outermost.
 /// Works with pre-resolved layout types (see <see cref="LayoutChainResolver"/>).
 /// </summary>
-public class LayoutRenderer
+/// <example>
+/// <code>
+/// var renderer = new LayoutRenderer();
+/// var services = new ServiceCollection()
+///     .AddScoped&lt;MainLayout&gt;()
+///     .BuildServiceProvider();
+/// var layoutTypes = new[] { typeof(MainLayout) };
+/// var pageContent = new RawHtmlContent("&lt;h1&gt;Hello&lt;/h1&gt;");
+/// var result = await renderer.RenderAsync(pageContent, layoutTypes, services);
+/// // result contains the page wrapped in MainLayout
+/// </code>
+/// </example>
+public sealed class LayoutRenderer
 {
     private readonly INextNetLogger? _logger;
 
@@ -77,7 +90,7 @@ public class LayoutRenderer
         catch (InvalidOperationException ex)
         {
             throw new RenderException(
-                $"Layout type '{layoutType.FullName}' is not registered in the DI container. " +
+                $"[{LayoutErrorCodes.LayoutNotInContainer}] Layout type '{layoutType.FullName}' is not registered in the DI container. " +
                 "Ensure the layout is registered via services.AddScoped<ILayout, ...>() or " +
                 "services.AddTransient<ILayout, ...>().", ex);
         }

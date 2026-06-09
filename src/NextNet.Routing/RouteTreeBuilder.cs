@@ -6,7 +6,7 @@ namespace NextNet.Routing;
 /// Builds a tree structure from a <see cref="RouteManifest"/> where each node
 /// corresponds to a directory segment and leaf nodes hold route entries.
 /// </summary>
-public class RouteTreeBuilder
+public sealed class RouteTreeBuilder
 {
     /// <summary>
     /// Builds a route tree from the given manifest.
@@ -19,12 +19,12 @@ public class RouteTreeBuilder
         ArgumentNullException.ThrowIfNull(manifest);
 
         var root = new RouteTreeNode(
-            segment: "/",
-            routePattern: "/",
-            entry: manifest.Layouts.FirstOrDefault(l =>
+            Segment: "/",
+            RoutePattern: "/",
+            Entry: manifest.Layouts.FirstOrDefault(l =>
                 string.Equals(l.RoutePattern, "/", StringComparison.Ordinal)),
-            parent: null,
-            children: new List<RouteTreeNode>());
+            Parent: null,
+            Children: new List<RouteTreeNode>());
 
         foreach (var entry in manifest.Routes)
         {
@@ -64,11 +64,11 @@ public class RouteTreeBuilder
             if (child == null)
             {
                 child = new RouteTreeNode(
-                    segment: segment,
-                    routePattern: isLast ? routePattern : null,
-                    entry: isLast ? entry : null,
-                    parent: current,
-                    children: new List<RouteTreeNode>());
+                    Segment: segment,
+                    RoutePattern: isLast ? routePattern : null,
+                    Entry: isLast ? entry : null,
+                    Parent: current,
+                    Children: new List<RouteTreeNode>());
 
                 children.Add(child);
             }
@@ -77,11 +77,11 @@ public class RouteTreeBuilder
                 // Update the existing node with the entry (if it doesn't have one already)
                 // Use reflection to create a new node since the properties are immutable
                 child = new RouteTreeNode(
-                    segment: child.Segment,
-                    routePattern: routePattern,
-                    entry: entry,
-                    parent: current,
-                    children: child.Children);
+                    Segment: child.Segment,
+                    RoutePattern: routePattern,
+                    Entry: entry,
+                    Parent: current,
+                    Children: child.Children);
 
                 // Replace the old node in the children list
                 var index = children.FindIndex(c =>

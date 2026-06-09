@@ -3,6 +3,7 @@ using NextNet.Conventions;
 using NextNet.Exceptions;
 using NextNet.IO;
 using NextNet.Logging;
+using NextNet.Routing.Errors;
 using NextNet.Routing.Models;
 
 namespace NextNet.Routing;
@@ -12,7 +13,7 @@ namespace NextNet.Routing;
 /// converts file paths to route patterns, and detects supported HTTP methods
 /// by scanning method overrides in the source file.
 /// </summary>
-public class ApiRouteScanner
+public sealed class ApiRouteScanner
 {
     private readonly string _appDir;
     private readonly INextNetLogger? _logger;
@@ -151,7 +152,7 @@ public class ApiRouteScanner
         catch (Exception ex)
         {
             throw new RouteDiscoveryException(
-                $"Failed to parse API route pattern from '{filePath}': {ex.Message}", ex);
+                $"[{RoutingErrorCodes.ApiRouteParseFailed}] Failed to parse API route pattern from '{filePath}': {ex.Message}", ex);
         }
     }
 

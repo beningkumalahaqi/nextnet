@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using NextNet.Components;
 using NextNet.Exceptions;
+using NextNet.Layouts.Errors;
 using NextNet.Logging;
 using NextNet.Rendering;
 using NextNet.Routing;
@@ -12,7 +13,17 @@ namespace NextNet.Layouts;
 /// (from <see cref="RouteEntry.LayoutChain"/>) to CLR types via
 /// <see cref="IRouteComponentResolver"/>.
 /// </summary>
-public class LayoutChainResolver
+/// <example>
+/// <code>
+/// var resolver = new LayoutChainResolver(componentResolver);
+/// var entry = new RouteEntry("/blog/post", "app/blog/posts/[slug].cs", RouteType.Page, RouteSegmentKind.Static);
+/// entry.LayoutChain = new[] { "app/blog/posts/layout.cs", "app/blog/layout.cs", "app/layout.cs" };
+/// var layoutTypes = resolver.ResolveChain(entry);
+/// // layoutTypes[0] is the innermost (app/blog/posts/layout.cs)
+/// // layoutTypes[^1] is the outermost (app/layout.cs)
+/// </code>
+/// </example>
+public sealed class LayoutChainResolver
 {
     private readonly IRouteComponentResolver _componentResolver;
     private readonly INextNetLogger? _logger;
@@ -84,7 +95,7 @@ public class LayoutChainResolver
         if (entry.LayoutChain.Count > MaxDepth)
         {
             throw new RenderException(
-                $"Layout chain for route '{entry.RoutePattern}' has {entry.LayoutChain.Count} levels, " +
+                $"[{LayoutErrorCodes.LayoutChainTooDeep}] Layout chain for route '{entry.RoutePattern}' has {entry.LayoutChain.Count} levels, " +
                 $"which exceeds the maximum depth of {MaxDepth}. This may indicate a circular layout reference.");
         }
 
@@ -95,14 +106,14 @@ public class LayoutChainResolver
             if (layoutType == null)
             {
                 throw new RenderException(
-                    $"Cannot resolve layout type for path '{layoutPath}' (route: {entry.RoutePattern}). " +
+                    $"[{LayoutErrorCodes.LayoutTypeNotResolved}] Cannot resolve layout type for path '{layoutPath}' (route: {entry.RoutePattern}). " +
                     "Ensure the layout file exists and implements ILayout.");
             }
 
             if (!typeof(ILayout).IsAssignableFrom(layoutType))
             {
                 throw new RenderException(
-                    $"Type '{layoutType.FullName}' (resolved from '{layoutPath}') does not implement ILayout.");
+                    $"[{LayoutErrorCodes.LayoutDoesNotImplementILayout}] Type '{layoutType.FullName}' (resolved from '{layoutPath}') does not implement ILayout.");
             }
 
             _logger?.Debug("Resolved layout {LayoutPath} -> {LayoutType}", layoutPath, layoutType.Name);

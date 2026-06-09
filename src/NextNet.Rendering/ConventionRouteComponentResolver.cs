@@ -12,7 +12,18 @@ namespace NextNet.Rendering;
 /// by scanning assemblies for types implementing <see cref="IPage"/> and <see cref="ILayout"/>.
 /// Matches file paths to type names via configurable conventions.
 /// </summary>
-public class ConventionRouteComponentResolver : IRouteComponentResolver
+/// <example>
+/// <code>
+/// // Default usage — scans all loaded assemblies:
+/// var resolver = new ConventionRouteComponentResolver();
+///
+/// // Provide explicit type mappings for testing:
+/// var resolver = new ConventionRouteComponentResolver(
+///     new Dictionary&lt;string, Type&gt; { ["app/page.cs"] = typeof(MyPage) },
+///     new Dictionary&lt;string, Type&gt; { ["app/layout.cs"] = typeof(MyLayout) });
+/// </code>
+/// </example>
+public sealed class ConventionRouteComponentResolver : IRouteComponentResolver
 {
     private readonly IReadOnlyDictionary<string, Type> _pageMap;
     private readonly IReadOnlyDictionary<string, Type> _layoutMap;

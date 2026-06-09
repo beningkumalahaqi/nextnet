@@ -115,7 +115,7 @@ public class SsrRendererTests
     // ─── Route Resolution Tests ───────────────────────────────────────────
 
     [Fact]
-    public void ResolveRoute_WithExactMatch_ReturnsEntry()
+    public void ResolveRoute_Should_ReturnEntry_WhenExactMatch()
     {
         var manifest = CreateManifest(PageEntry("/", "app/page.cs"));
         var (renderer, _) = CreateRenderer(manifest);
@@ -127,7 +127,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public void ResolveRoute_WithNormalizedPath_ReturnsEntry()
+    public void ResolveRoute_Should_ReturnEntry_WhenPathIsNormalized()
     {
         var manifest = CreateManifest(PageEntry("/about", "app/about/page.cs"));
         var (renderer, _) = CreateRenderer(manifest);
@@ -139,7 +139,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public void ResolveRoute_WithUnknownRoute_ReturnsNull()
+    public void ResolveRoute_Should_ReturnNull_WhenRouteIsUnknown()
     {
         var manifest = CreateManifest(PageEntry("/", "app/page.cs"));
         var (renderer, _) = CreateRenderer(manifest);
@@ -150,7 +150,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public void ResolveRoute_WithNull_ReturnsNull()
+    public void ResolveRoute_Should_ReturnNull_WhenRouteIsNull()
     {
         var manifest = CreateManifest();
         var (renderer, _) = CreateRenderer(manifest);
@@ -161,7 +161,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public void ResolveRoute_WithEmptyString_ReturnsNull()
+    public void ResolveRoute_Should_ReturnNull_WhenRouteIsEmpty()
     {
         var manifest = CreateManifest();
         var (renderer, _) = CreateRenderer(manifest);
@@ -172,7 +172,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public void ResolveRoute_WithParameterisedMatch_ReturnsEntry()
+    public void ResolveRoute_Should_ReturnEntry_WhenRouteMatchesDynamicPattern()
     {
         var manifest = CreateManifest(
             PageEntry("/blog/{slug}", "app/blog/[slug]/page.cs", RouteSegmentKind.Dynamic));
@@ -187,7 +187,7 @@ public class SsrRendererTests
     // ─── RenderAsync Tests ────────────────────────────────────────────────
 
     [Fact]
-    public async Task RenderAsync_WithValidRoute_ReturnsHtmlResponse()
+    public async Task RenderAsync_Should_ReturnHtmlResponse_WhenRouteIsValid()
     {
         var manifest = CreateManifest(PageEntry("/", "app/page.cs"));
         var pageMap = new Dictionary<string, Type> { ["app/page.cs"] = typeof(SimplePage) };
@@ -205,7 +205,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithNotFoundRoute_Returns404()
+    public async Task RenderAsync_Should_Return404_WhenRouteNotFound()
     {
         var manifest = CreateManifest(PageEntry("/", "app/page.cs"));
         var (renderer, _) = CreateRenderer(manifest);
@@ -218,7 +218,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithRenderFailure_ReturnsErrorPage()
+    public async Task RenderAsync_Should_ReturnErrorPage_WhenRenderFails()
     {
         var manifest = CreateManifest(PageEntry("/error", "app/error/page.cs"));
         var pageMap = new Dictionary<string, Type> { ["app/error/page.cs"] = typeof(ErrorPage) };
@@ -234,7 +234,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithTimeout_ReturnsErrorPage()
+    public async Task RenderAsync_Should_ReturnErrorPage_WhenRenderTimesOut()
     {
         var manifest = CreateManifest(PageEntry("/slow", "app/slow/page.cs"));
         var pageMap = new Dictionary<string, Type> { ["app/slow/page.cs"] = typeof(SlowPage) };
@@ -250,7 +250,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithLayoutChain_ComposesFullDocument()
+    public async Task RenderAsync_Should_ComposeFullDocument_WhenLayoutChainIsPresent()
     {
         // Create a test layout that wraps content
         var manifest = CreateManifest(PageEntry("/", "app/page.cs", layoutChain: ["app/layout.cs"]));
@@ -275,7 +275,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithCustomErrorPage_RendersUserErrorPage()
+    public async Task RenderAsync_Should_RenderUserErrorPage_WhenCustomErrorPageIsConfigured()
     {
         var manifest = CreateManifest(
             PageEntry("/", "app/page.cs"));
@@ -309,7 +309,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task RenderErrorAsync_WithoutCustomErrorPage_RendersBuiltIn()
+    public async Task RenderErrorAsync_Should_RenderBuiltIn_WhenNoCustomErrorPage()
     {
         var manifest = CreateManifest(PageEntry("/", "app/page.cs"));
         var (renderer, _) = CreateRenderer(manifest);
@@ -322,7 +322,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task RenderErrorAsync_WithErrorPageRendererThrows_FallsBackToBuiltIn()
+    public async Task RenderErrorAsync_Should_FallbackToBuiltIn_WhenErrorPageRendererThrows()
     {
         // Create manifest with error page but without registering it in DI
         var manifest = CreateManifest(PageEntry("/", "app/page.cs"));
@@ -356,7 +356,7 @@ public class SsrRendererTests
     // ─── Cache Control Tests ──────────────────────────────────────────────
 
     [Fact]
-    public void GetCacheControl_ForPage_ReturnsPublicMaxAge()
+    public void GetCacheControl_Should_ReturnPublicMaxAge_ForPageRoute()
     {
         var entry = PageEntry("/", "app/page.cs");
         var result = SsrRenderer.GetCacheControl(entry);
@@ -364,7 +364,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public void GetCacheControl_ForApi_ReturnsNoCache()
+    public void GetCacheControl_Should_ReturnNoCache_ForApiRoute()
     {
         var entry = new RouteEntry("/api/data", "app/api/data/route.cs", RouteType.Api, RouteSegmentKind.Static);
         var result = SsrRenderer.GetCacheControl(entry);
@@ -372,7 +372,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public void GetCacheControl_ForError_ReturnsNoStore()
+    public void GetCacheControl_Should_ReturnNoStore_ForErrorRoute()
     {
         var entry = new RouteEntry("/_error", "app/error.cs", RouteType.Error, RouteSegmentKind.Static);
         var result = SsrRenderer.GetCacheControl(entry);
@@ -382,7 +382,7 @@ public class SsrRendererTests
     // ─── RenderContentAsync Tests ─────────────────────────────────────────
 
     [Fact]
-    public async Task RenderContentAsync_ReturnsRawIHtmlContent()
+    public async Task RenderContentAsync_Should_ReturnRawIHtmlContent_WhenRouteIsValid()
     {
         var manifest = CreateManifest(PageEntry("/", "app/page.cs"));
         var pageMap = new Dictionary<string, Type> { ["app/page.cs"] = typeof(SimplePage) };
@@ -398,7 +398,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task RenderContentAsync_WithUnknownRoute_ThrowsRenderException()
+    public async Task RenderContentAsync_Should_ThrowRenderException_WhenRouteIsUnknown()
     {
         var manifest = CreateManifest();
         var (renderer, _) = CreateRenderer(manifest);
@@ -410,7 +410,7 @@ public class SsrRendererTests
     // ─── HtmlResponse Tests ───────────────────────────────────────────────
 
     [Fact]
-    public void HtmlResponse_NotFound_Returns404()
+    public void HtmlResponse_NotFound_Should_Return404_WhenCalled()
     {
         var response = HtmlResponse.NotFound();
         Assert.Equal(404, response.StatusCode);
@@ -418,7 +418,7 @@ public class SsrRendererTests
     }
 
     [Fact]
-    public async Task HtmlResponse_ExecuteAsync_SetsHeadersAndWritesContent()
+    public async Task HtmlResponse_ExecuteAsync_Should_SetHeadersAndWriteContent_WhenCalled()
     {
         var ctx = new DefaultHttpContext();
         ctx.Response.Body = new MemoryStream();

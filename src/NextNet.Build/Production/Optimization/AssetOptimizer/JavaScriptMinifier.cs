@@ -7,7 +7,7 @@ namespace NextNet.Build.Production.Optimization.AssetOptimizer;
 /// Basic JavaScript minifier that removes whitespace, comments, and performs
 /// simple size-reduction transformations.
 /// </summary>
-public partial class JavaScriptMinifier : IAssetOptimizer
+public sealed partial class JavaScriptMinifier : IAssetOptimizer
 {
     private readonly ISharpFileSystem _fileSystem;
 

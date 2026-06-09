@@ -6,7 +6,7 @@ namespace NextNet.Build.Tests.StaticGeneration;
 public class PublicAssetCopierTests
 {
     [Fact]
-    public async Task CopyAsync_WhenPublicDirDoesNotExist_ReturnsEmpty()
+    public async Task CopyAsync_Should_ReturnEmpty_When_PublicDirDoesNotExist()
     {
         using var tempDir = new TempDirectory();
         var nonExistentPublic = System.IO.Path.Combine(tempDir.Path, "nonexistent-public");
@@ -20,7 +20,7 @@ public class PublicAssetCopierTests
     }
 
     [Fact]
-    public async Task CopyAsync_CopiesAllFiles()
+    public async Task CopyAsync_Should_CopyAllFiles_When_PublicDirHasFiles()
     {
         using var tempDir = new TempDirectory();
         var publicDir = System.IO.Path.Combine(tempDir.Path, "public");
@@ -41,7 +41,7 @@ public class PublicAssetCopierTests
     }
 
     [Fact]
-    public async Task CopyAsync_PreservesDirectoryStructure()
+    public async Task CopyAsync_Should_PreserveDirectoryStructure_When_SubdirectoriesExist()
     {
         using var tempDir = new TempDirectory();
         var publicDir = System.IO.Path.Combine(tempDir.Path, "public");
@@ -63,7 +63,7 @@ public class PublicAssetCopierTests
     }
 
     [Fact]
-    public async Task CopyAsync_OverwritesExistingFiles()
+    public async Task CopyAsync_Should_OverwriteExistingFiles_When_DestinationExists()
     {
         using var tempDir = new TempDirectory();
         var publicDir = System.IO.Path.Combine(tempDir.Path, "public");

@@ -6,7 +6,7 @@ namespace NextNet.Routing.Tests;
 public class RouteManifestTests
 {
     [Fact]
-    public void Empty_ReturnsEmptyManifest()
+    public void Empty_Should_ReturnEmptyManifest_When_Called()
     {
         var empty = RouteManifest.Empty;
 
@@ -20,7 +20,7 @@ public class RouteManifestTests
     }
 
     [Fact]
-    public void Constructor_WithEntries_PopulatesProperties()
+    public void Constructor_Should_PopulateProperties_When_EntriesProvided()
     {
         var pages = new List<RouteEntry>
         {
@@ -62,7 +62,7 @@ public class RouteManifestTests
     }
 
     [Fact]
-    public void RouteEntry_ToString_FormatsCorrectly()
+    public void RouteEntry_Should_FormatToString_When_Called()
     {
         var entry = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
         var str = entry.ToString();
@@ -72,7 +72,7 @@ public class RouteManifestTests
     }
 
     [Fact]
-    public void RouteEntry_Equals_ByFilePath()
+    public void RouteEntry_Should_BeEqual_When_SameFilePath()
     {
         var entry1 = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
         var entry2 = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
@@ -83,7 +83,7 @@ public class RouteManifestTests
     }
 
     [Fact]
-    public void RouteEntry_GetHashCode_MatchesFilePath()
+    public void RouteEntry_Should_HaveSameHashCode_When_SameFilePath()
     {
         var entry1 = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
         var entry2 = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
@@ -92,7 +92,7 @@ public class RouteManifestTests
     }
 
     [Fact]
-    public void RouteEntry_LayoutChain_InitializedEmpty()
+    public void RouteEntry_Should_HaveEmptyLayoutChain_When_Initialized()
     {
         var entry = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
 
@@ -101,7 +101,7 @@ public class RouteManifestTests
     }
 
     [Fact]
-    public void RouteEntry_LayoutPath_NullByDefault()
+    public void RouteEntry_Should_HaveNullLayoutPath_When_Default()
     {
         var entry = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
 
@@ -109,7 +109,7 @@ public class RouteManifestTests
     }
 
     [Fact]
-    public void RouteManifest_HasConflicts_TrueWhenConflictsExist()
+    public void RouteManifest_Should_HaveConflictsTrue_When_ConflictsExist()
     {
         var manifest = new RouteManifest(
             Array.Empty<RouteEntry>(),
@@ -126,7 +126,7 @@ public class RouteManifestTests
     }
 
     [Fact]
-    public void RouteConflict_ToString_IncludesSeverityAndPattern()
+    public void RouteConflict_Should_FormatToString_When_Called()
     {
         var conflict = new RouteConflict(
             "Duplicate route",

@@ -8,7 +8,14 @@ namespace NextNet.Build.StaticGeneration;
 /// Generates a build manifest JSON file that describes all generated routes,
 /// assets, and build metadata.
 /// </summary>
-public class BuildManifestGenerator
+/// <example>
+/// <code>
+/// var generator = new BuildManifestGenerator("dist/_buildManifest.json");
+/// await generator.GenerateAsync(manifest, generatedRoutes, assets, duration, pageCount);
+/// // Outputs: dist/_buildManifest.json with route listing and build stats
+/// </code>
+/// </example>
+public sealed class BuildManifestGenerator
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -36,23 +43,17 @@ public class BuildManifestGenerator
     /// <summary>
     /// Represents a single route entry in the build manifest.
     /// </summary>
-    public class ManifestRouteEntry
-    {
-        /// <summary>The route pattern (e.g. <c>"/"</c>, <c>"/blog/{slug}"</c>).</summary>
-        public string Route { get; set; } = string.Empty;
-
-        /// <summary>The relative file path in the output directory (e.g. <c>"index.html"</c>).</summary>
-        public string File { get; set; } = string.Empty;
-
-        /// <summary>Whether this route is fully static (no dynamic segments).</summary>
-        public bool Static { get; set; }
-
-        /// <summary>The parameter names for dynamic routes (e.g. <c>["slug"]</c>).</summary>
-        public List<string>? Params { get; set; }
-
-        /// <summary>The file size in bytes.</summary>
-        public long Size { get; set; }
-    }
+    /// <param name="Route">The route pattern (e.g. <c>"/"</c>, <c>"/blog/{slug}"</c>).</param>
+    /// <param name="File">The relative file path in the output directory (e.g. <c>"index.html"</c>).</param>
+    /// <param name="Static">Whether this route is fully static (no dynamic segments).</param>
+    /// <param name="Params">The parameter names for dynamic routes (e.g. <c>["slug"]</c>).</param>
+    /// <param name="Size">The file size in bytes.</param>
+    public sealed record ManifestRouteEntry(
+        string Route,
+        string File,
+        bool Static,
+        List<string>? Params,
+        long Size);
 
     /// <summary>
     /// Generates the build manifest and writes it to the output path.
@@ -78,14 +79,12 @@ public class BuildManifestGenerator
         {
             ["generatedAt"] = DateTime.UtcNow.ToString("o"),
             ["nextnetVersion"] = _nextnetVersion.ToString(),
-            ["routes"] = generatedRoutes.Select(r => new ManifestRouteEntry
-            {
-                Route = r.route,
-                File = r.file,
-                Static = r.isStatic,
-                Params = r.paramNames?.ToList(),
-                Size = r.size,
-            }).ToList(),
+            ["routes"] = generatedRoutes.Select(r => new ManifestRouteEntry(
+                r.route,
+                r.file,
+                r.isStatic,
+                r.paramNames?.ToList(),
+                r.size)).ToList(),
             ["assets"] = assets.ToList(),
             ["build"] = new Dictionary<string, object>
             {

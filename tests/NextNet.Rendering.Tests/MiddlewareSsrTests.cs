@@ -73,7 +73,7 @@ public class MiddlewareSsrTests
     // ─── Tests ────────────────────────────────────────────────────────────
 
     [Fact]
-    public async Task StreamingMiddleware_WithValidRoute_WritesChunks()
+    public async Task InvokeAsync_Should_WriteChunks_WhenStreamingAndValidRoute()
     {
         var manifest = new RouteManifest(
             new[] { new RouteEntry("/", "app/page.cs", RouteType.Page, RouteSegmentKind.Static) },
@@ -102,7 +102,7 @@ public class MiddlewareSsrTests
     }
 
     [Fact]
-    public async Task StandardMiddleware_ErrorDuringRender_Returns500()
+    public async Task InvokeAsync_Should_Return500_WhenStandardRenderFails()
     {
         var manifest = new RouteManifest(
             new[] { new RouteEntry("/fail", "app/fail/page.cs", RouteType.Page, RouteSegmentKind.Static) },
@@ -146,7 +146,7 @@ public class MiddlewareSsrTests
     // ─── Additional Edge Case Tests ──────────────────────────────────────
 
     [Fact]
-    public async Task InvokeAsync_WithPostMethod_PassesThrough()
+    public async Task InvokeAsync_Should_PassThrough_WhenMethodIsPost()
     {
         var manifest = new RouteManifest(
             new[] { new RouteEntry("/", "app/page.cs", RouteType.Page, RouteSegmentKind.Static) },
@@ -170,7 +170,7 @@ public class MiddlewareSsrTests
     }
 
     [Fact]
-    public async Task InvokeAsync_WithNonHtmlAccept_PassesThrough()
+    public async Task InvokeAsync_Should_PassThrough_WhenAcceptIsNonHtml()
     {
         var manifest = new RouteManifest(
             new[] { new RouteEntry("/", "app/page.cs", RouteType.Page, RouteSegmentKind.Static) },
@@ -193,7 +193,7 @@ public class MiddlewareSsrTests
     }
 
     [Fact]
-    public async Task InvokeAsync_WithUnknownRoute_PassesThrough()
+    public async Task InvokeAsync_Should_PassThrough_WhenRouteIsUnknown()
     {
         var manifest = new RouteManifest(
             Array.Empty<RouteEntry>(),
@@ -216,7 +216,7 @@ public class MiddlewareSsrTests
     }
 
     [Fact]
-    public async Task StandardMiddleware_WithNotFoundRoute_Returns404()
+    public async Task InvokeAsync_Should_NotSetStatus_WhenNotFoundAndStandard()
     {
         var manifest = new RouteManifest(
             Array.Empty<RouteEntry>(),
@@ -237,7 +237,7 @@ public class MiddlewareSsrTests
     }
 
     [Fact]
-    public async Task StandardMiddleware_WithStreamingDisabled_UsesStandardPath()
+    public async Task InvokeAsync_Should_UseStandardPath_WhenStreamingDisabled()
     {
         var manifest = new RouteManifest(
             new[] { new RouteEntry("/", "app/page.cs", RouteType.Page, RouteSegmentKind.Static) },
@@ -264,7 +264,7 @@ public class MiddlewareSsrTests
     }
 
     [Fact]
-    public async Task StreamingMiddleware_WithEmptyAccept_PassesThroughToRoute()
+    public async Task InvokeAsync_Should_HandleRequest_WhenAcceptHeaderIsEmpty()
     {
         var manifest = new RouteManifest(
             new[] { new RouteEntry("/", "app/page.cs", RouteType.Page, RouteSegmentKind.Static) },

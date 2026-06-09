@@ -20,7 +20,19 @@ namespace NextNet.Rendering.Streaming;
 /// that do not implement <see cref="ILayout.RenderShell"/> / <see cref="ILayout.RenderFooter"/>
 /// are handled transparently via the standard layout rendering pipeline.
 /// </summary>
-public class StreamingHtmlRenderer
+/// <example>
+/// <code>
+/// // Use with SsrMiddleware for progressive rendering:
+/// await foreach (var chunk in streamingRenderer.RenderAsyncEnumerable(
+///     "/about", componentContext, cancellationToken))
+/// {
+///     var bytes = Encoding.UTF8.GetBytes(chunk);
+///     await response.Body.WriteAsync(bytes, cancellationToken);
+///     await response.Body.FlushAsync(cancellationToken);
+/// }
+/// </code>
+/// </example>
+public sealed class StreamingHtmlRenderer
 {
     private readonly SsrRenderer _ssrRenderer;
     private readonly SsrOptions _options;

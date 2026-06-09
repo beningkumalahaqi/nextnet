@@ -6,6 +6,16 @@ namespace NextNet.Routing;
 /// Parses file paths from the <c>app/</c> directory into route patterns
 /// by stripping known suffixes and converting convention segments.
 /// </summary>
+/// <example>
+/// Parsing a dynamic route from a file path:
+/// <code>
+/// var (pattern, kind) = RoutePatternParser.Parse(
+///     "/project/app/blog/[slug]/page.cs",
+///     "/project/app");
+/// Console.WriteLine(pattern); // "/blog/{slug}"
+/// Console.WriteLine(kind);    // RouteSegmentKind.Dynamic
+/// </code>
+/// </example>
 internal static class RoutePatternParser
 {
     // The known file suffixes that have special routing meaning.

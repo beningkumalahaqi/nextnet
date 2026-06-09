@@ -44,7 +44,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_ContainsRegisterApiEndpointsMethod()
+        public void Emit_ShouldContainRegisterApiEndpointsMethod_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -54,7 +54,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_ContainsMapGet()
+        public void Emit_ShouldContainMapGet_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -63,7 +63,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_ContainsMapPost()
+        public void Emit_ShouldContainMapPost_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -72,7 +72,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_ContainsMapPut()
+        public void Emit_ShouldContainMapPut_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -81,7 +81,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_ContainsMapDelete()
+        public void Emit_ShouldContainMapDelete_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -90,7 +90,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_DoesNotContainUnregisteredMethods()
+        public void Emit_ShouldNotContainUnregisteredMethods_WhenApiRoutesHaveLimitedMethods()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -100,7 +100,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_UsesDIServiceResolution()
+        public void Emit_ShouldUseDIServiceResolution_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -109,7 +109,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_SetsHttpContext()
+        public void Emit_ShouldSetHttpContext_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -118,7 +118,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_CallsPascalCaseMethods()
+        public void Emit_ShouldCallPascalCaseMethods_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -130,7 +130,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithDynamicRoute_PassesRouteParams()
+        public void Emit_ShouldPassRouteParams_WhenDynamicRoute()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -142,7 +142,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_UsesWrapperTypes()
+        public void Emit_ShouldUseWrapperTypes_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -152,7 +152,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_UsesGlobalPrefix()
+        public void Emit_ShouldUseGlobalPrefix_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -161,7 +161,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_EmptyManifest_ReturnsEmptyRegistration()
+        public void Emit_ShouldReturnEmptyRegistration_WhenManifestEmpty()
         {
             var manifest = new RouteManifestModel
             {
@@ -180,7 +180,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithAllHttpMethods_GeneratesAllFive()
+        public void Emit_ShouldGenerateAllFiveMethods_WhenAllHttpMethods()
         {
             var manifest = new RouteManifestModel
             {
@@ -211,7 +211,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_HasAutoGeneratedHeader()
+        public void Emit_ShouldContainAutoGeneratedHeader_WhenCalled()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);
@@ -220,7 +220,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithNullNamespace_GeneratesWithoutNamespace()
+        public void Emit_ShouldGenerateWithoutNamespace_WhenNamespaceNullEmpty()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", string.Empty);
@@ -229,7 +229,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void Emit_WithApiRoutes_AllMethodsUseContextSignature()
+        public void Emit_ShouldIncludeContextSignature_WhenApiRoutes()
         {
             var manifest = CreateSampleManifest();
             var result = ApiEndpointEmitter.Emit(manifest, "app", TestNs);

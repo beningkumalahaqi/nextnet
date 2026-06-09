@@ -4,7 +4,7 @@ namespace NextNet.Exceptions;
 /// Exception thrown when the route discovery process encounters an error,
 /// such as duplicate routes, invalid route patterns, or file system access issues.
 /// </summary>
-public class RouteDiscoveryException : Exception
+public sealed class RouteDiscoveryException : Exception
 {
     /// <summary>
     /// Initializes a new instance of <see cref="RouteDiscoveryException"/>.

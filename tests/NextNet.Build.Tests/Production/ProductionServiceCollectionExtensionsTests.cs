@@ -17,11 +17,10 @@ namespace NextNet.Build.Tests.Production;
 public class ProductionServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddNextNetProduction_RegistersAllServices()
+    public void AddNextNetProduction_Should_RegisterAllServices_When_Called()
     {
         var services = new ServiceCollection();
 
-        // Add logging infrastructure required by ProductionLogger
         services.AddLogging();
 
         services.AddNextNetProduction(options =>
@@ -32,35 +31,21 @@ public class ProductionServiceCollectionExtensionsTests
 
         var provider = services.BuildServiceProvider();
 
-        // Build services
         Assert.NotNull(provider.GetService<ProductionBuildOptions>());
         Assert.NotNull(provider.GetService<ProductionBuildStep>());
         Assert.NotNull(provider.GetService<BuildReportGenerator>());
-
-        // Compression
         Assert.NotNull(provider.GetService<NextNetCompressionOptions>());
-
-        // Caching
         Assert.NotNull(provider.GetService<CacheHeaderOptions>());
         Assert.NotNull(provider.GetService<ContentHashGenerator>());
-
-        // Security
         Assert.NotNull(provider.GetService<SecurityHeadersOptions>());
-
-        // Health
         Assert.NotNull(provider.GetService<NextNetHealthCheck>());
         Assert.NotNull(provider.GetService<HealthCheckEndpoint>());
-
-        // Logging
         Assert.NotNull(provider.GetService<ProductionLogger>());
         Assert.NotNull(provider.GetService<MetricsCollector>());
-
-        // Optimization
         Assert.NotNull(provider.GetService<BundleAnalyzer>());
         Assert.NotNull(provider.GetService<PerformanceBudgetEvaluator>());
         Assert.NotNull(provider.GetService<OptimizationPipeline>());
 
-        // Asset optimizers
         var optimizers = provider.GetServices<IAssetOptimizer>();
         Assert.NotEmpty(optimizers);
         Assert.Contains(optimizers, o => o is CssMinifier);
@@ -69,7 +54,7 @@ public class ProductionServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetProduction_WithoutConfigure_RegistersDefaults()
+    public void AddNextNetProduction_Should_RegisterDefaults_When_NoConfigureDelegate()
     {
         var services = new ServiceCollection();
         services.AddNextNetProduction();
@@ -81,7 +66,7 @@ public class ProductionServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetProduction_ThrowsOnNull()
+    public void AddNextNetProduction_Should_ThrowArgumentNullException_When_NullServices()
     {
         Assert.Throws<ArgumentNullException>(() =>
             ((IServiceCollection)null!).AddNextNetProduction());

@@ -9,7 +9,7 @@ namespace NextNet.Build.Tests.StaticGeneration;
 public class BuildManifestGeneratorTests
 {
     [Fact]
-    public async Task GenerateAsync_CreatesManifestFile()
+    public async Task GenerateAsync_Should_CreateManifestFile_When_Invoked()
     {
         using var tempDir = new TempDirectory();
         var manifestPath = System.IO.Path.Combine(tempDir.Path, "_buildManifest.json");
@@ -32,11 +32,9 @@ public class BuildManifestGeneratorTests
         var doc = JsonDocument.Parse(json);
         var root = doc.RootElement;
 
-        // Check top-level properties
         Assert.True(root.TryGetProperty("generatedAt", out _));
         Assert.Equal("1.0.0", root.GetProperty("nextnetVersion").GetString());
 
-        // Check routes
         var routes = root.GetProperty("routes");
         Assert.Equal(3, routes.GetArrayLength());
 
@@ -49,17 +47,15 @@ public class BuildManifestGeneratorTests
         Assert.Equal("/blog/{slug}", lastRoute.GetProperty("route").GetString());
         Assert.False(lastRoute.GetProperty("static").GetBoolean());
 
-        // Check assets
         var assetsArray = root.GetProperty("assets");
         Assert.Equal(2, assetsArray.GetArrayLength());
 
-        // Check build info
         var build = root.GetProperty("build");
         Assert.Equal(5, build.GetProperty("totalPages").GetInt32());
     }
 
     [Fact]
-    public async Task GenerateAsync_WithoutParams_OmitsParamsField()
+    public async Task GenerateAsync_Should_OmitsParams_When_StaticRoute()
     {
         using var tempDir = new TempDirectory();
         var manifestPath = System.IO.Path.Combine(tempDir.Path, "manifest.json");
@@ -78,7 +74,6 @@ public class BuildManifestGeneratorTests
         var routes = doc.RootElement.GetProperty("routes");
 
         Assert.Equal(1, routes.GetArrayLength());
-        // Should not have "params" for static routes
         Assert.False(routes[0].TryGetProperty("params", out _));
     }
 

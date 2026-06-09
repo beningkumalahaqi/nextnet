@@ -10,6 +10,7 @@ using NextNet.Build.Optimization;
 using NextNet.Rendering;
 using NextNet.Routing;
 using NextNet.Routing.Models;
+using NextNet.Build.Errors;
 
 namespace NextNet.Build.StaticGeneration;
 
@@ -19,7 +20,14 @@ namespace NextNet.Build.StaticGeneration;
 /// optionally minifies and compresses HTML, writes output, copies assets,
 /// and generates a build manifest.
 /// </summary>
-public class StaticGenerationEngine
+/// <example>
+/// <code>
+/// var engine = new StaticGenerationEngine(options, renderer, manifest, resolver,
+///     outputWriter, assetCopier, manifestGenerator);
+/// var result = await engine.GenerateAsync(cancellationToken);
+/// </code>
+/// </example>
+public sealed class StaticGenerationEngine
 {
     private readonly SsgOptions _options;
     private readonly SsrRenderer _ssrRenderer;
@@ -249,9 +257,9 @@ public class StaticGenerationEngine
         }
         catch (Exception ex)
         {
-            var error = new SsgError(entry.RoutePattern, $"Unexpected error: {ex.Message}", ex);
+            var error = new SsgError(entry.RoutePattern, $"[{BuildErrorCodes.BuildPipelineFailed}] Unexpected pipeline error for route '{entry.RoutePattern}': {ex.Message}", ex);
             errors.Add(error);
-            _logger?.Error("Failed to render route {Route}: {Message}", entry.RoutePattern, ex.Message);
+            _logger?.Error("[{Code}] Failed to render route {Route}: {Message}", BuildErrorCodes.BuildPipelineFailed, entry.RoutePattern, ex.Message);
         }
     }
 
@@ -288,7 +296,8 @@ public class StaticGenerationEngine
 
             if (htmlResponse.StatusCode != 200)
             {
-                errors.Add(new SsgError(resolvedRoute, $"Render returned status {htmlResponse.StatusCode}"));
+                errors.Add(new SsgError(resolvedRoute, $"[{BuildErrorCodes.PageRenderFailed}] Render returned status {htmlResponse.StatusCode} for route '{resolvedRoute}'"));
+                _logger?.Warn("[{Code}] Render returned non-200 status {StatusCode} for route {Route}", BuildErrorCodes.PageRenderFailed, htmlResponse.StatusCode, resolvedRoute);
                 return;
             }
 
@@ -329,8 +338,8 @@ public class StaticGenerationEngine
         }
         catch (Exception ex)
         {
-            errors.Add(new SsgError(resolvedRoute, $"Render failed: {ex.Message}", ex));
-            _logger?.Error("  ✗ {Route}: {Message}", resolvedRoute, ex.Message);
+            errors.Add(new SsgError(resolvedRoute, $"[{BuildErrorCodes.PageRenderFailed}] Render failed for route '{resolvedRoute}': {ex.Message}", ex));
+            _logger?.Error("[{Code}] ✗ {Route}: {Message}", BuildErrorCodes.PageRenderFailed, resolvedRoute, ex.Message);
         }
     }
 

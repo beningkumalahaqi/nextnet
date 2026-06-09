@@ -107,7 +107,7 @@ public class ErrorBoundaryRendererTests
     // ─── Tests ────────────────────────────────────────────────────────────
 
     [Fact]
-    public async Task RenderAsync_WithNoError_RendersContent()
+    public async Task RenderAsync_Should_RenderContent_When_NoError()
     {
         var boundary = CreateBoundaryRenderer();
         var services = CreateServiceProvider();
@@ -123,7 +123,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithErrorAndNoErrorPage_ReturnsBuiltInError()
+    public async Task RenderAsync_Should_ReturnBuiltInError_When_NoErrorPage()
     {
         var boundary = CreateBoundaryRenderer();
         var services = CreateServiceProvider();
@@ -141,7 +141,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithErrorAndCustomErrorPage_RendersErrorPage()
+    public async Task RenderAsync_Should_RenderErrorPage_When_CustomErrorPageExists()
     {
         var pageMap = new Dictionary<string, Type> { ["app/error.cs"] = typeof(TestErrorPage) };
         var boundary = CreateBoundaryRenderer(pageMap: pageMap);
@@ -160,7 +160,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithErrorAndCustomErrorPage_WrapsInLayoutChain()
+    public async Task RenderAsync_Should_WrapErrorInLayoutChain_When_ErrorPageAndLayoutsExist()
     {
         var pageMap = new Dictionary<string, Type> { ["app/error.cs"] = typeof(TestErrorPage) };
         var layoutMap = new Dictionary<string, Type> { ["app/layout.cs"] = typeof(TestLayout) };
@@ -193,7 +193,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithLayoutThatThrows_FallsBackToErrorPage()
+    public async Task RenderAsync_Should_FallbackToErrorPage_When_LayoutThrows()
     {
         var pageMap = new Dictionary<string, Type> { ["app/error.cs"] = typeof(TestErrorPage) };
         var layoutMap = new Dictionary<string, Type>
@@ -223,7 +223,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithThrowingErrorPage_FallsBackToBuiltIn()
+    public async Task RenderAsync_Should_FallbackToBuiltIn_When_ErrorPageThrows()
     {
         var pageMap = new Dictionary<string, Type> { ["app/error.cs"] = typeof(ThrowingErrorPage) };
         var boundary = CreateBoundaryRenderer(pageMap: pageMap);
@@ -242,7 +242,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_HappyPath_WrapsContentInLayouts()
+    public async Task RenderAsync_Should_WrapContentInLayouts_When_NoErrors()
     {
         var layoutMap = new Dictionary<string, Type> { ["app/layout.cs"] = typeof(TestLayout) };
         var boundary = CreateBoundaryRenderer(layoutMap: layoutMap);
@@ -263,7 +263,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithNullRenderContent_ThrowsArgumentNullException()
+    public async Task RenderAsync_Should_ThrowArgumentNullException_When_RenderContentIsNull()
     {
         var boundary = CreateBoundaryRenderer();
         var services = CreateServiceProvider();
@@ -274,7 +274,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithNullServiceProvider_ThrowsArgumentNullException()
+    public async Task RenderAsync_Should_ThrowArgumentNullException_When_ServiceProviderIsNull()
     {
         var boundary = CreateBoundaryRenderer();
         var manifest = CreateManifest();
@@ -288,7 +288,7 @@ public class ErrorBoundaryRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithNullManifest_ThrowsArgumentNullException()
+    public async Task RenderAsync_Should_ThrowArgumentNullException_When_ManifestIsNull()
     {
         var boundary = CreateBoundaryRenderer();
         var services = CreateServiceProvider();

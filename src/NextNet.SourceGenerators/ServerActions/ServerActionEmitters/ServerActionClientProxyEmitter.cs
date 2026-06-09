@@ -3,8 +3,7 @@ using System.Linq;
 using System.Text;
 using NextNet.SourceGenerators.ServerActions;
 
-namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters
-{
+namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters;
     /// <summary>
     /// Generates C# client proxy source code for server actions.
     /// The generated class uses HttpClient to call server action endpoints.
@@ -173,4 +172,3 @@ namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters
             sb.Append(indent).AppendLine("    }");
         }
     }
-}

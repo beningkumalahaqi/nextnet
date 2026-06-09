@@ -44,30 +44,14 @@ public class PerformanceReport
 /// <summary>
 /// Represents a single budget violation.
 /// </summary>
-public class BudgetViolation
-{
-    /// <summary>
-    /// The metric that was violated (e.g., "TotalSize", "JavaScriptSize").
-    /// </summary>
-    public string Metric { get; set; } = string.Empty;
-
-    /// <summary>
-    /// The expected (maximum) value.
-    /// </summary>
-    public string Expected { get; set; } = string.Empty;
-
-    /// <summary>
-    /// The actual value measured.
-    /// </summary>
-    public string Actual { get; set; } = string.Empty;
-
-    /// <summary>
-    /// The severity of the violation.
-    /// </summary>
-    public BudgetViolationAction Severity { get; set; }
-
-    /// <summary>
-    /// Human-readable message describing the violation.
-    /// </summary>
-    public string Message { get; set; } = string.Empty;
-}
+/// <param name="Metric">The metric that was violated (e.g., "TotalSize", "JavaScriptSize").</param>
+/// <param name="Expected">The expected (maximum) value.</param>
+/// <param name="Actual">The actual value measured.</param>
+/// <param name="Severity">The severity of the violation.</param>
+/// <param name="Message">Human-readable message describing the violation.</param>
+public sealed record BudgetViolation(
+    string Metric,
+    string Expected,
+    string Actual,
+    BudgetViolationAction Severity,
+    string Message);

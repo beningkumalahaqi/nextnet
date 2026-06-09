@@ -4,8 +4,7 @@ using System.Text;
 using NextNet.SourceGenerators.Models;
 using NextNet.SourceGenerators.Utils;
 
-namespace NextNet.SourceGenerators.Emitters
-{
+namespace NextNet.SourceGenerators.Emitters;
     /// <summary>
     /// Generates endpoint registration code (MapGet, MapPost, Map) for all discovered routes.
     /// </summary>
@@ -212,4 +211,3 @@ namespace NextNet.SourceGenerators.Emitters
         private static string GetWrapperName(RouteEntryModel entry, string appDir)
             => IncrementalHelpers.GetWrapperName(entry, appDir);
     }
-}

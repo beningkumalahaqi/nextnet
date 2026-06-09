@@ -6,7 +6,7 @@ namespace NextNet.Routing.Tests;
 public class RouteTreeBuilderEdgeCaseTests
 {
     [Fact]
-    public void BuildTree_RootOnly_ReturnsRootWithEntry()
+    public void BuildTree_Should_ReturnRootWithEntry_When_RootOnly()
     {
         var rootLayout = new RouteEntry("/", "/app/layout.cs", RouteType.Layout, RouteSegmentKind.Static);
         var manifest = new RouteManifest(
@@ -26,7 +26,7 @@ public class RouteTreeBuilderEdgeCaseTests
     }
 
     [Fact]
-    public void BuildTree_MultipleEntriesSameParent_AllInChildren()
+    public void         BuildTree_Should_ContainAllChildren_When_MultipleEntriesSameParent()
     {
         var aboutPage = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
         var blogPage = new RouteEntry("/blog", "/app/blog/page.cs", RouteType.Page, RouteSegmentKind.Static);
@@ -50,7 +50,7 @@ public class RouteTreeBuilderEdgeCaseTests
     }
 
     [Fact]
-    public void BuildTree_VeryDeepNesting_AllLevelsCreated()
+    public void         BuildTree_Should_CreateAllLevels_When_VeryDeepNesting()
     {
         var deepPage = new RouteEntry(
             "/a/b/c/d/e/f/g/h/i/j/page",
@@ -85,7 +85,7 @@ public class RouteTreeBuilderEdgeCaseTests
     }
 
     [Fact]
-    public void BuildTree_ParentReference_Consistent()
+    public void         BuildTree_Should_HaveConsistentParentReference_When_Built()
     {
         var aboutPage = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
         var blogPage = new RouteEntry("/blog", "/app/blog/page.cs", RouteType.Page, RouteSegmentKind.Static);
@@ -109,7 +109,7 @@ public class RouteTreeBuilderEdgeCaseTests
     }
 
     [Fact]
-    public void BuildTree_LayoutAndPageAtSameLevel_BothPresent()
+    public void         BuildTree_Should_HaveBothEntries_When_LayoutAndPageAtSameLevel()
     {
         var blogLayout = new RouteEntry("/blog", "/app/blog/layout.cs", RouteType.Layout, RouteSegmentKind.Static);
         var blogPage = new RouteEntry("/blog", "/app/blog/page.cs", RouteType.Page, RouteSegmentKind.Static);

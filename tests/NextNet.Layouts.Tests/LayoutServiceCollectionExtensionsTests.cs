@@ -7,7 +7,7 @@ namespace NextNet.Layouts.Tests;
 public class LayoutServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddNextNetLayouts_RegistersAllServices()
+    public void AddNextNetLayouts_Should_RegisterAllServices_When_Called()
     {
         var services = new ServiceCollection();
 
@@ -35,14 +35,14 @@ public class LayoutServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetLayouts_WithNullServices_ThrowsArgumentNullException()
+    public void AddNextNetLayouts_Should_ThrowArgumentNullException_When_ServicesIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             ((IServiceCollection)null!).AddNextNetLayouts());
     }
 
     [Fact]
-    public void AddNextNetLayouts_DoesNotDuplicateRegistrations()
+    public void AddNextNetLayouts_Should_NotDuplicateRegistrations_When_CalledTwice()
     {
         var services = new ServiceCollection();
 

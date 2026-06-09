@@ -23,7 +23,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         [InlineData("app/error.cs", "app", "ErrorPage")]
         [InlineData("app/blog/layout.cs", "app", "BlogLayout")]
         [InlineData("app/blog/[slug]/[comment]/page.cs", "app", "BlogSlugCommentPage")]
-        public void FilePathToTypeName_ValidPaths_ReturnsExpected(string filePath, string appDir, string expected)
+        public void FilePathToTypeName_ShouldReturnExpectedName_WhenPathIsValid(string filePath, string appDir, string expected)
         {
             var result = IncrementalHelpers.FilePathToTypeName(filePath, appDir);
             Assert.Equal(expected, result);
@@ -32,21 +32,21 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         [Theory]
         [InlineData(null, "app")]
         [InlineData("", "app")]
-        public void FilePathToTypeName_NullOrEmpty_ReturnsUnknown(string? filePath, string appDir)
+        public void FilePathToTypeName_ShouldReturnUnknown_WhenPathIsNullOrEmpty(string? filePath, string appDir)
         {
             var result = IncrementalHelpers.FilePathToTypeName(filePath ?? string.Empty, appDir);
             Assert.Equal("Unknown", result);
         }
 
         [Fact]
-        public void FilePathToTypeName_CaseInsensitiveAppDir_Works()
+        public void FilePathToTypeName_ShouldHandleCaseInsensitiveAppDir_WhenUsed()
         {
             var result = IncrementalHelpers.FilePathToTypeName("APP/Page.cs", "app");
             Assert.Equal("IndexPage", result);
         }
 
         [Fact]
-        public void FilePathToTypeName_BackslashSeparators_Works()
+        public void FilePathToTypeName_ShouldHandleBackslashSeparators_WhenUsed()
         {
             var result = IncrementalHelpers.FilePathToTypeName("app\\about\\page.cs", "app");
             Assert.Equal("AboutPage", result);
@@ -62,7 +62,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         [InlineData("/{*path}", new[] { "path" })]
         [InlineData(null, new string[0])]
         [InlineData("", new string[0])]
-        public void ExtractRouteParameters_VariousPatterns_ReturnsExpected(string? pattern, string[] expected)
+        public void ExtractRouteParameters_ShouldReturnExpectedParams_WhenPatternIsValid(string? pattern, string[] expected)
         {
             var result = IncrementalHelpers.ExtractRouteParameters(pattern ?? string.Empty);
             Assert.Equal(expected, result);
@@ -78,7 +78,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         [InlineData("/blog/{slug}", false)]
         [InlineData(null, false)]
         [InlineData("", false)]
-        public void HasCatchAll_VariousPatterns_ReturnsExpected(string? pattern, bool expected)
+        public void HasCatchAll_ShouldReturnExpected_WhenPatternIsValid(string? pattern, bool expected)
         {
             var result = IncrementalHelpers.HasCatchAll(pattern ?? string.Empty);
             Assert.Equal(expected, result);
@@ -93,7 +93,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         [InlineData("/about", false)]
         [InlineData(null, false)]
         [InlineData("", false)]
-        public void HasDynamicParams_VariousPatterns_ReturnsExpected(string? pattern, bool expected)
+        public void HasDynamicParams_ShouldReturnExpected_WhenPatternIsValid(string? pattern, bool expected)
         {
             var result = IncrementalHelpers.HasDynamicParams(pattern ?? string.Empty);
             Assert.Equal(expected, result);
@@ -107,7 +107,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         [InlineData("app/api/users/route.cs", "app", "NextNet_ApiUsersRoute")]
         [InlineData("app/error.cs", "app", "NextNet_ErrorPage")]
         [InlineData("", "app", "NextNet_Route")]
-        public void GetWrapperName_VariousEntries_ReturnsExpected(string filePath, string appDir, string expected)
+        public void GetWrapperName_ShouldReturnExpectedName_WhenEntryIsValid(string filePath, string appDir, string expected)
         {
             var entry = new RouteEntryModel
             {
@@ -124,7 +124,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         // ── SanitizeSegment (tested indirectly via FilePathToTypeName) ─────
 
         [Fact]
-        public void FilePathToTypeName_WithSegmentContainingSpecialChars_HandlesGracefully()
+        public void FilePathToTypeName_ShouldSanitizeSpecialChars_WhenSegmentContainsThem()
         {
             // Segments with special chars should be sanitized
             var result = IncrementalHelpers.FilePathToTypeName("app/my-page/page.cs", "app");

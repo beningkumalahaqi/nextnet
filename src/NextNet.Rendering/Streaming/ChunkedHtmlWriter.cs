@@ -7,7 +7,7 @@ namespace NextNet.Rendering.Streaming;
 /// An <see cref="IHtmlContent"/> wrapper around an <see cref="IAsyncEnumerable{T}"/> of string chunks.
 /// Enables streaming HTML content to be used where <see cref="IHtmlContent"/> is expected.
 /// </summary>
-public class ChunkedHtmlWriter : IHtmlContent
+public sealed class ChunkedHtmlWriter : IHtmlContent
 {
     private readonly IAsyncEnumerable<string> _chunks;
     private readonly int _bufferSize;

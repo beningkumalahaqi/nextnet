@@ -4,6 +4,21 @@ namespace NextNet.Components;
 /// Defines a page component that can render itself to HTML.
 /// Pages are the top-level routeable components in a NextNet application.
 /// </summary>
+/// <example>
+/// <code>
+/// // app/index.cs (home page)
+/// public class HomePage : IPage
+/// {
+///     public async Task&lt;IHtmlContent&gt; Render()
+///     {
+///         return HtmlHelper.Element("h1", content: HtmlHelper.Text("Welcome!"));
+///     }
+///
+///     public IReadOnlyDictionary&lt;string, object&gt; Props { get; }
+///         = new Dictionary&lt;string, object&gt;();
+/// }
+/// </code>
+/// </example>
 public interface IPage
 {
     /// <summary>

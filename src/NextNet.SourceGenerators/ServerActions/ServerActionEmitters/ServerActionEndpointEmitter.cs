@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using NextNet.SourceGenerators.ServerActions;
 
-namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters
-{
+namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters;
     /// <summary>
     /// Generates Minimal API endpoint registration code (MapPost) for server actions.
     /// </summary>
@@ -128,4 +127,3 @@ namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters
             sb.AppendLine();
         }
     }
-}

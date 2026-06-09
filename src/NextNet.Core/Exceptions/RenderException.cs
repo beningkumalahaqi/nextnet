@@ -4,7 +4,7 @@ namespace NextNet.Exceptions;
 /// Exception thrown when an error occurs during HTML rendering,
 /// such as circular component references, rendering timeout, or content generation failures.
 /// </summary>
-public class RenderException : Exception
+public sealed class RenderException : Exception
 {
     /// <summary>
     /// Initializes a new instance of <see cref="RenderException"/>.

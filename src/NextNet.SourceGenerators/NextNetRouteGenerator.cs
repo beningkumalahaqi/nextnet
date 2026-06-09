@@ -11,8 +11,7 @@ using NextNet.SourceGenerators.Emitters;
 using NextNet.SourceGenerators.Models;
 using NextNet.SourceGenerators.Utils;
 
-namespace NextNet.SourceGenerators
-{
+namespace NextNet.SourceGenerators;
     /// <summary>
     /// NextNet route source generator. Reads the <c>nextnet.routes.json</c> manifest from
     /// <c>AdditionalFiles</c> and generates endpoint registration, DI registration,
@@ -24,8 +23,17 @@ namespace NextNet.SourceGenerators
     ///   3. <c>SyntaxProvider</c> finds component classes with marker attributes.
     ///   4. Combined pipeline → <c>RegisterSourceOutput</c> generates code.
     /// </summary>
+    /// <example>
+    /// The generator is activated automatically when the <c>NextNetRouteGenerator</c> assembly
+    /// is referenced as an analyzer. No manual instantiation is required.
+    /// <code>
+    /// // In your .csproj:
+    /// &lt;ProjectReference Include="..\NextNet.SourceGenerators\NextNet.SourceGenerators.csproj"
+    ///                   OutputItemType="Analyzer" ReferenceOutputAssembly="false" /&gt;
+    /// </code>
+    /// </example>
     [Generator]
-    public class NextNetRouteGenerator : IIncrementalGenerator
+    public sealed class NextNetRouteGenerator : IIncrementalGenerator
     {
         /// <summary>
         /// Embedded marker attribute source code emitted via RegisterPostInitializationOutput.
@@ -314,4 +322,3 @@ namespace NextNet
             return new ComponentModel();
         }
     }
-}

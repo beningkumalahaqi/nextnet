@@ -69,7 +69,7 @@ public class LayoutRendererTests
     // ─── Tests ────────────────────────────────────────────────────────────
 
     [Fact]
-    public async Task RenderAsync_WithEmptyLayoutTypes_ReturnsBareContent()
+    public async Task RenderAsync_Should_ReturnBareContent_When_NoLayoutTypes()
     {
         var renderer = CreateRenderer();
         var services = CreateServiceProvider();
@@ -81,7 +81,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithNullPageContent_ThrowsArgumentNullException()
+    public async Task RenderAsync_Should_ThrowArgumentNullException_When_PageContentIsNull()
     {
         var renderer = CreateRenderer();
         var services = CreateServiceProvider();
@@ -91,7 +91,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithNullLayoutTypes_ThrowsArgumentNullException()
+    public async Task RenderAsync_Should_ThrowArgumentNullException_When_LayoutTypesIsNull()
     {
         var renderer = CreateRenderer();
         var services = CreateServiceProvider();
@@ -101,7 +101,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithNullServiceProvider_ThrowsArgumentNullException()
+    public async Task RenderAsync_Should_ThrowArgumentNullException_When_ServiceProviderIsNull()
     {
         var renderer = CreateRenderer();
 
@@ -110,7 +110,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithSingleLayout_WrapsContent()
+    public async Task RenderAsync_Should_WrapContent_When_SingleLayout()
     {
         var renderer = CreateRenderer();
         var services = CreateServiceProvider(s => s.AddScoped<DivWrapLayout>());
@@ -123,7 +123,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithTwoLayouts_WrapsNestedInsideOut()
+    public async Task RenderAsync_Should_WrapInsideOut_When_TwoLayouts()
     {
         var renderer = CreateRenderer();
         var services = CreateServiceProvider(s =>
@@ -144,7 +144,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithThreeLevels_ComposesCorrectly()
+    public async Task RenderAsync_Should_ComposeCorrectly_When_ThreeLayouts()
     {
         var renderer = CreateRenderer();
 
@@ -166,7 +166,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithUnregisteredLayout_ThrowsRenderException()
+    public async Task RenderAsync_Should_ThrowRenderException_When_LayoutNotRegistered()
     {
         var renderer = CreateRenderer();
         var services = CreateServiceProvider(); // DivWrapLayout not registered
@@ -178,7 +178,7 @@ public class LayoutRendererTests
     }
 
     [Fact]
-    public async Task RenderAsync_WithUnregisteredType_ThrowsRenderException()
+    public async Task RenderAsync_Should_ThrowRenderException_When_LayoutTypeNotInDi()
     {
         var renderer = CreateRenderer();
         var services = CreateServiceProvider(); // no registrations

@@ -7,7 +7,7 @@
     <Description>NextNet Rendering - Server-side rendering engine, layout composition, streaming SSR</Description>
     <PackageTags>nextnet;web;framework;ssr;rendering;streaming</PackageTags>
     <PackageId>NextNet.Rendering</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

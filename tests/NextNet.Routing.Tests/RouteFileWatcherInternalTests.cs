@@ -19,14 +19,14 @@ public class RouteFileWatcherInternalTests
     [InlineData("component.razor.g.cs", true)]
     [InlineData("generated.g.cs", true)]
     [InlineData("somefile.razor.g.cs", true)]
-    public void ShouldSkipFile_VariousFileNames_ReturnsExpected(string fileName, bool expected)
+    public void ShouldSkipFile_Should_ReturnExpected_When_VariousFileNames(string fileName, bool expected)
     {
         var result = RouteFileWatcher.ShouldSkipFile(fileName);
         Assert.Equal(expected, result);
     }
 
     [Fact]
-    public void QueueEvent_WithDebounce_InvokesOnChanged()
+    public void QueueEvent_Should_InvokeOnChanged_When_DebounceFires()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
@@ -59,7 +59,7 @@ public class RouteFileWatcherInternalTests
     }
 
     [Fact]
-    public void QueueEvent_MultipleFiles_AllReceived()
+    public void QueueEvent_Should_DeliverAllEvents_When_MultipleFilesQueued()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
@@ -91,7 +91,7 @@ public class RouteFileWatcherInternalTests
     }
 
     [Fact]
-    public void QueueEvent_SameFileMultipleTimes_LastEventWins()
+    public void QueueEvent_Should_KeepLastEvent_When_SameFileQueuedMultipleTimes()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
@@ -124,7 +124,7 @@ public class RouteFileWatcherInternalTests
     }
 
     [Fact]
-    public void OnChangedEventHandler_ExceptionDoesNotCrash()
+    public void OnChangedEventHandler_Should_NotCrash_When_HandlerThrows()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
@@ -151,7 +151,7 @@ public class RouteFileWatcherInternalTests
     }
 
     [Fact]
-    public void FirePendingEvents_WithNoHandlers_DoesNotThrow()
+    public void FirePendingEvents_Should_NotThrow_When_NoHandlersRegistered()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);

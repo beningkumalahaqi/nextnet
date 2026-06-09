@@ -1,4 +1,5 @@
 using System.Text.Json;
+using NextNet.Errors;
 using NextNet.Exceptions;
 using NextNet.IO;
 
@@ -9,7 +10,7 @@ namespace NextNet.Configuration;
 /// upward from a starting directory for <c>nextnet.config.json</c>.
 /// Returns default configuration if no config file is found.
 /// </summary>
-public class NextNetConfigLoader
+public sealed class NextNetConfigLoader
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -69,7 +70,7 @@ public class NextNetConfigLoader
         catch (JsonException ex)
         {
             throw new NextNetConfigurationException(
-                $"Failed to parse configuration file at '{configPath}'.", ex);
+                $"[{CoreErrorCodes.ConfigParseFailed}] Failed to parse configuration file at '{configPath}'.", ex);
         }
     }
 

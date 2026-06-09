@@ -6,7 +6,7 @@ namespace NextNet.Rendering.Tests;
 public class SsrOptionsTests
 {
     [Fact]
-    public void Defaults_AreSetCorrectly()
+    public void Defaults_Should_BeSetCorrectly_WhenNewInstanceCreated()
     {
         var options = new SsrOptions();
 
@@ -18,7 +18,7 @@ public class SsrOptionsTests
     }
 
     [Fact]
-    public void Apply_WithConfig_DoesNotChangeBufferSize()
+    public void Apply_Should_NotModifyBufferSize_WhenConfigProvided()
     {
         var options = new SsrOptions();
         var config = new RenderingConfig
@@ -35,21 +35,21 @@ public class SsrOptionsTests
     }
 
     [Fact]
-    public void Apply_WithNullConfig_ThrowsArgumentNullException()
+    public void Apply_Should_ThrowArgumentNullException_WhenConfigIsNull()
     {
         var options = new SsrOptions();
         Assert.Throws<ArgumentNullException>(() => options.Apply(null!));
     }
 
     [Fact]
-    public void BufferSize_CanBeCustomized()
+    public void BufferSize_Should_BeCustomizable_WhenSetDirectly()
     {
         var options = new SsrOptions { BufferSize = 16384 };
         Assert.Equal(16384, options.BufferSize);
     }
 
     [Fact]
-    public void Streaming_CanBeDisabled()
+    public void Streaming_Should_BeDisableable_WhenSetToFalse()
     {
         var options = new SsrOptions { Streaming = false };
         Assert.False(options.Streaming);

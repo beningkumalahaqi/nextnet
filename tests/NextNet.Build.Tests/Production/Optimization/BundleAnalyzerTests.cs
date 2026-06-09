@@ -7,7 +7,7 @@ namespace NextNet.Build.Tests.Production.Optimization;
 public class BundleAnalyzerTests
 {
     [Fact]
-    public async Task AnalyzeAsync_EmptyDirectory_ReturnsEmptyResult()
+    public async Task AnalyzeAsync_Should_ReturnEmptyResult_When_EmptyDirectory()
     {
         var fs = new DefaultSharpFileSystem();
         var analyzer = new BundleAnalyzer(fs);
@@ -28,7 +28,7 @@ public class BundleAnalyzerTests
     }
 
     [Fact]
-    public async Task AnalyzeAsync_WithFiles_ReturnsCorrectCounts()
+    public async Task AnalyzeAsync_Should_ReturnCorrectCounts_When_FilesPresent()
     {
         var fs = new DefaultSharpFileSystem();
         var analyzer = new BundleAnalyzer(fs);
@@ -54,7 +54,7 @@ public class BundleAnalyzerTests
     }
 
     [Fact]
-    public async Task AnalyzeAsync_LargestFiles_OrderedBySize()
+    public async Task AnalyzeAsync_Should_OrderLargestFiles_When_MultipleFiles()
     {
         var fs = new DefaultSharpFileSystem();
         var analyzer = new BundleAnalyzer(fs);
@@ -79,7 +79,7 @@ public class BundleAnalyzerTests
     }
 
     [Fact]
-    public async Task AnalyzeAsync_InvalidDirectory_ReturnsEmpty()
+    public async Task AnalyzeAsync_Should_ReturnEmpty_When_InvalidDirectory()
     {
         var fs = new DefaultSharpFileSystem();
         var analyzer = new BundleAnalyzer(fs);

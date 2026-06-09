@@ -7,7 +7,7 @@ namespace NextNet.Build.Production.Optimization.AssetOptimizer;
 /// Uses <see cref="System.Drawing"/> for basic operations. For production use,
 /// consider SkiaSharp or ImageSharp for more advanced processing.
 /// </summary>
-public class ImageOptimizer : IAssetOptimizer
+public sealed class ImageOptimizer : IAssetOptimizer
 {
     private readonly ISharpFileSystem _fileSystem;
 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using NextNet.Errors;
 
 namespace NextNet.Components;
 
@@ -8,6 +9,19 @@ namespace NextNet.Components;
 /// Backward-compatible: the <see cref="Handle"/> method is still called by default for
 /// any method that is not overridden.
 /// </summary>
+/// <example>
+/// <code>
+/// // app/api/hello/route.cs
+/// public class HelloRoute : ApiRoute
+/// {
+///     public override Task&lt;IResult&gt; Get()
+///         => Task.FromResult(Results.Ok(new { message = "Hello!" }));
+///
+///     public override Task&lt;IResult&gt; Handle(HttpContext context)
+///         => Task.FromResult(Results.Ok("fallback"));
+/// }
+/// </code>
+/// </example>
 public abstract class ApiRoute
 {
     /// <summary>
@@ -29,33 +43,33 @@ public abstract class ApiRoute
     /// Override to provide GET-specific logic.
     /// </summary>
     public virtual Task<IResult> Get()
-        => Handle(HttpContext ?? throw new InvalidOperationException("HttpContext is not set."));
+        => Handle(HttpContext ?? throw new InvalidOperationException($"[{CoreErrorCodes.HttpContextNotSet}] HttpContext is not set."));
 
     /// <summary>
     /// Handles HTTP POST requests. Default behavior delegates to <see cref="Handle"/>.
     /// Override to provide POST-specific logic.
     /// </summary>
     public virtual Task<IResult> Post()
-        => Handle(HttpContext ?? throw new InvalidOperationException("HttpContext is not set."));
+        => Handle(HttpContext ?? throw new InvalidOperationException($"[{CoreErrorCodes.HttpContextNotSet}] HttpContext is not set."));
 
     /// <summary>
     /// Handles HTTP PUT requests. Default behavior delegates to <see cref="Handle"/>.
     /// Override to provide PUT-specific logic.
     /// </summary>
     public virtual Task<IResult> Put()
-        => Handle(HttpContext ?? throw new InvalidOperationException("HttpContext is not set."));
+        => Handle(HttpContext ?? throw new InvalidOperationException($"[{CoreErrorCodes.HttpContextNotSet}] HttpContext is not set."));
 
     /// <summary>
     /// Handles HTTP PATCH requests. Default behavior delegates to <see cref="Handle"/>.
     /// Override to provide PATCH-specific logic.
     /// </summary>
     public virtual Task<IResult> Patch()
-        => Handle(HttpContext ?? throw new InvalidOperationException("HttpContext is not set."));
+        => Handle(HttpContext ?? throw new InvalidOperationException($"[{CoreErrorCodes.HttpContextNotSet}] HttpContext is not set."));
 
     /// <summary>
     /// Handles HTTP DELETE requests. Default behavior delegates to <see cref="Handle"/>.
     /// Override to provide DELETE-specific logic.
     /// </summary>
     public virtual Task<IResult> Delete()
-        => Handle(HttpContext ?? throw new InvalidOperationException("HttpContext is not set."));
+        => Handle(HttpContext ?? throw new InvalidOperationException($"[{CoreErrorCodes.HttpContextNotSet}] HttpContext is not set."));
 }

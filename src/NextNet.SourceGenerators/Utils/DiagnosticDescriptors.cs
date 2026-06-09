@@ -1,11 +1,17 @@
 using Microsoft.CodeAnalysis;
 
-namespace NextNet.SourceGenerators.Utils
-{
+namespace NextNet.SourceGenerators.Utils;
     /// <summary>
     /// Defines all diagnostic descriptors used by the NextNet source generator.
     /// Never throw — use <see cref="GeneratorExecutionContext.ReportDiagnostic"/> instead.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// // Reporting a diagnostic from within RegisterSourceOutput:
+    /// spc.ReportDiagnostic(Diagnostic.Create(
+    ///     DiagnosticDescriptors.ManifestNotFound, Location.None));
+    /// </code>
+    /// </example>
     internal static class DiagnosticDescriptors
     {
         private const string Category = "NextNet.SourceGenerators";
@@ -79,4 +85,3 @@ namespace NextNet.SourceGenerators.Utils
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
     }
-}

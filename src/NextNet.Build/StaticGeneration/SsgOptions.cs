@@ -4,7 +4,19 @@ namespace NextNet.Build.StaticGeneration;
 /// Configuration options for the Static Site Generation (SSG) engine.
 /// Controls output directory, optimisation features, and render behaviour.
 /// </summary>
-public class SsgOptions
+/// <example>
+/// <code>
+/// var options = new SsgOptions
+/// {
+///     OutputDirectory = "dist",
+///     MinifyHtml = true,
+///     CompressGzip = true,
+///     MaxParallelism = 4,
+///     ExcludePaths = new[] { "/api/", "/dashboard" }
+/// };
+/// </code>
+/// </example>
+public sealed class SsgOptions
 {
     /// <summary>
     /// Gets or sets the output directory for generated static files.

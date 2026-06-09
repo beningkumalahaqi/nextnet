@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Logging;
 /// Collects runtime metrics about HTTP requests and system performance.
 /// Provides in-memory aggregation suitable for diagnostics dashboards.
 /// </summary>
-public class MetricsCollector
+public sealed class MetricsCollector
 {
     private readonly ConcurrentDictionary<string, MethodMetrics> _endpointMetrics = new();
     private long _totalRequests;
@@ -51,28 +51,24 @@ public class MetricsCollector
     /// </summary>
     public MetricsSnapshot GetSnapshot()
     {
-        return new MetricsSnapshot
-        {
-            TotalRequests = _totalRequests,
-            TotalErrors = _totalErrors,
-            ErrorRate = _totalRequests > 0
+        return new MetricsSnapshot(
+            TotalRequests: _totalRequests,
+            TotalErrors: _totalErrors,
+            ErrorRate: _totalRequests > 0
                 ? (double)_totalErrors / _totalRequests * 100
                 : 0,
-            Endpoints = _endpointMetrics.Values
-                .Select(m => new EndpointMetric
-                {
-                    Method = m.Method,
-                    Path = m.Path,
-                    Count = m.Count,
-                    AvgDurationMs = m.Count > 0 ? m.TotalDurationMs / m.Count : 0,
-                    MaxDurationMs = m.MaxDurationMs,
-                    MinDurationMs = m.MinDurationMs,
-                    LastStatusCode = m.LastStatusCode,
-                })
+            Endpoints: _endpointMetrics.Values
+                .Select(m => new EndpointMetric(
+                    Method: m.Method,
+                    Path: m.Path,
+                    Count: m.Count,
+                    AvgDurationMs: m.Count > 0 ? m.TotalDurationMs / m.Count : 0,
+                    MaxDurationMs: m.MaxDurationMs,
+                    MinDurationMs: m.MinDurationMs,
+                    LastStatusCode: m.LastStatusCode))
                 .OrderByDescending(e => e.Count)
                 .ToList(),
-            CollectedAt = DateTime.UtcNow,
-        };
+            CollectedAt: DateTime.UtcNow);
     }
 
     /// <summary>
@@ -85,7 +81,7 @@ public class MetricsCollector
         _totalErrors = 0;
     }
 
-    private class MethodMetrics
+    private sealed class MethodMetrics
     {
         public string Method { get; set; } = string.Empty;
         public string Path { get; set; } = string.Empty;
@@ -100,71 +96,33 @@ public class MetricsCollector
 /// <summary>
 /// A snapshot of runtime metrics.
 /// </summary>
-public class MetricsSnapshot
-{
-    /// <summary>
-    /// Total number of requests recorded.
-    /// </summary>
-    public long TotalRequests { get; set; }
-
-    /// <summary>
-    /// Total number of 5xx errors recorded.
-    /// </summary>
-    public long TotalErrors { get; set; }
-
-    /// <summary>
-    /// Error rate as a percentage.
-    /// </summary>
-    public double ErrorRate { get; set; }
-
-    /// <summary>
-    /// Per-endpoint metrics.
-    /// </summary>
-    public List<EndpointMetric> Endpoints { get; set; } = new();
-
-    /// <summary>
-    /// When this snapshot was taken.
-    /// </summary>
-    public DateTime CollectedAt { get; set; }
-}
+/// <param name="TotalRequests">Total number of requests recorded.</param>
+/// <param name="TotalErrors">Total number of 5xx errors recorded.</param>
+/// <param name="ErrorRate">Error rate as a percentage.</param>
+/// <param name="Endpoints">Per-endpoint metrics.</param>
+/// <param name="CollectedAt">When this snapshot was taken.</param>
+public sealed record MetricsSnapshot(
+    long TotalRequests,
+    long TotalErrors,
+    double ErrorRate,
+    List<EndpointMetric> Endpoints,
+    DateTime CollectedAt);
 
 /// <summary>
 /// Metrics for a single endpoint.
 /// </summary>
-public class EndpointMetric
-{
-    /// <summary>
-    /// HTTP method.
-    /// </summary>
-    public string Method { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Request path.
-    /// </summary>
-    public string Path { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Number of requests to this endpoint.
-    /// </summary>
-    public long Count { get; set; }
-
-    /// <summary>
-    /// Average response duration in milliseconds.
-    /// </summary>
-    public double AvgDurationMs { get; set; }
-
-    /// <summary>
-    /// Maximum response duration in milliseconds.
-    /// </summary>
-    public long MaxDurationMs { get; set; }
-
-    /// <summary>
-    /// Minimum response duration in milliseconds.
-    /// </summary>
-    public long MinDurationMs { get; set; }
-
-    /// <summary>
-    /// The last HTTP status code returned.
-    /// </summary>
-    public int LastStatusCode { get; set; }
-}
+/// <param name="Method">HTTP method.</param>
+/// <param name="Path">Request path.</param>
+/// <param name="Count">Number of requests to this endpoint.</param>
+/// <param name="AvgDurationMs">Average response duration in milliseconds.</param>
+/// <param name="MaxDurationMs">Maximum response duration in milliseconds.</param>
+/// <param name="MinDurationMs">Minimum response duration in milliseconds.</param>
+/// <param name="LastStatusCode">The last HTTP status code returned.</param>
+public sealed record EndpointMetric(
+    string Method,
+    string Path,
+    long Count,
+    double AvgDurationMs,
+    long MaxDurationMs,
+    long MinDurationMs,
+    int LastStatusCode);

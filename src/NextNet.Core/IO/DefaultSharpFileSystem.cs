@@ -3,7 +3,7 @@ namespace NextNet.IO;
 /// <summary>
 /// Default implementation of <see cref="ISharpFileSystem"/> using real <c>System.IO</c> APIs.
 /// </summary>
-public class DefaultSharpFileSystem : ISharpFileSystem
+public sealed class DefaultSharpFileSystem : ISharpFileSystem
 {
     /// <inheritdoc />
     public bool FileExists(string path) => File.Exists(path);

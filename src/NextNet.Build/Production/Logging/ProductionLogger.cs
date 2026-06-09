@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Logging;
 /// Structured logger for production diagnostics.
 /// Extends the standard ILogger with NextNet-specific production logging concerns.
 /// </summary>
-public class ProductionLogger
+public sealed class ProductionLogger
 {
     private readonly ILogger _logger;
 

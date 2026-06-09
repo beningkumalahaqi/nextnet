@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Health;
 /// Performs NextNet-specific health checks including route registry,
 /// cache health, and ISR cache health.
 /// </summary>
-public class NextNetHealthCheck
+public sealed class NextNetHealthCheck
 {
     private readonly DateTime _startTime = DateTime.UtcNow;
     private readonly string? _version;
@@ -24,12 +24,10 @@ public class NextNetHealthCheck
     /// </summary>
     public async Task<HealthReport> CheckAsync()
     {
-        var report = new HealthReport
-        {
-            Timestamp = DateTime.UtcNow,
-            Version = _version ?? typeof(NextNetHealthCheck).Assembly.GetName().Version?.ToString(),
-            Uptime = (DateTime.UtcNow - _startTime).ToString(@"d\.hh\:mm\:ss"),
-        };
+        var status = "Healthy";
+        var timestamp = DateTime.UtcNow;
+        var version = _version ?? typeof(NextNetHealthCheck).Assembly.GetName().Version?.ToString();
+        var uptime = (DateTime.UtcNow - _startTime).ToString(@"d\.hh\:mm\:ss");
 
         var checks = new List<HealthCheckResult>();
 
@@ -43,32 +41,29 @@ public class NextNetHealthCheck
         checks.Add(CheckRouteRegistryHealth());
 
         // Determine overall status
-        report.Status = checks.Any(c => c.Status == "Unhealthy")
+        status = checks.Any(c => c.Status == "Unhealthy")
             ? "Unhealthy"
             : checks.Any(c => c.Status == "Degraded")
                 ? "Degraded"
                 : "Healthy";
 
-        report.Checks = checks;
-
-        return report;
+        return new HealthReport(status, timestamp, version, uptime, checks);
     }
 
     private static Task<HealthCheckResult> CheckBasicHealthAsync()
     {
         var sw = Stopwatch.StartNew();
 
-        var result = new HealthCheckResult
-        {
-            Name = "Application Health",
-            Status = "Healthy",
-            Description = "Application is running and responding.",
-        };
+        var result = new HealthCheckResult(
+            "Application Health",
+            "Healthy",
+            "Application is running and responding.",
+            sw.ElapsedMilliseconds,
+            null);
 
         sw.Stop();
-        result.DurationMs = sw.ElapsedMilliseconds;
 
-        return Task.FromResult(result);
+        return Task.FromResult(result with { DurationMs = sw.ElapsedMilliseconds });
     }
 
     private static HealthCheckResult CheckMemoryHealth()
@@ -78,22 +73,22 @@ public class NextNetHealthCheck
         var process = Process.GetCurrentProcess();
         var memoryMb = process.WorkingSet64 / (1024.0 * 1024.0);
 
-        var result = new HealthCheckResult
+        var status = memoryMb < 200 ? "Healthy" : memoryMb < 500 ? "Degraded" : "Unhealthy";
+
+        var data = new Dictionary<string, object>
         {
-            Name = "Memory Usage",
-            Status = memoryMb < 200 ? "Healthy" : memoryMb < 500 ? "Degraded" : "Unhealthy",
-            Description = $"Working set: {memoryMb:F1} MB",
-            Data = new Dictionary<string, object>
-            {
-                ["workingSetMb"] = Math.Round(memoryMb, 1),
-                ["peakWorkingSetMb"] = Math.Round(process.PeakWorkingSet64 / (1024.0 * 1024.0), 1),
-            },
+            ["workingSetMb"] = Math.Round(memoryMb, 1),
+            ["peakWorkingSetMb"] = Math.Round(process.PeakWorkingSet64 / (1024.0 * 1024.0), 1),
         };
 
         sw.Stop();
-        result.DurationMs = sw.ElapsedMilliseconds;
 
-        return result;
+        return new HealthCheckResult(
+            "Memory Usage",
+            status,
+            $"Working set: {memoryMb:F1} MB",
+            sw.ElapsedMilliseconds,
+            data);
     }
 
     private static HealthCheckResult CheckRouteRegistryHealth()
@@ -111,30 +106,29 @@ public class NextNetHealthCheck
 
             sw.Stop();
 
-            return new HealthCheckResult
+            var data = new Dictionary<string, object>
             {
-                Name = "Route Registry",
-                Status = isHealthy ? "Healthy" : "Degraded",
-                Description = isHealthy
+                ["assemblyLoaded"] = isHealthy,
+            };
+
+            return new HealthCheckResult(
+                "Route Registry",
+                isHealthy ? "Healthy" : "Degraded",
+                isHealthy
                     ? "Route registry is loaded."
                     : "NextNet.Routing assembly not found; routes may not be registered.",
-                DurationMs = sw.ElapsedMilliseconds,
-                Data = new Dictionary<string, object>
-                {
-                    ["assemblyLoaded"] = isHealthy,
-                },
-            };
+                sw.ElapsedMilliseconds,
+                data);
         }
         catch (Exception ex)
         {
             sw.Stop();
-            return new HealthCheckResult
-            {
-                Name = "Route Registry",
-                Status = "Unhealthy",
-                Description = $"Route registry check failed: {ex.Message}",
-                DurationMs = sw.ElapsedMilliseconds,
-            };
+            return new HealthCheckResult(
+                "Route Registry",
+                "Unhealthy",
+                $"Route registry check failed: {ex.Message}",
+                sw.ElapsedMilliseconds,
+                null);
         }
     }
 }

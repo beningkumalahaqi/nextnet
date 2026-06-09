@@ -7,10 +7,9 @@ namespace NextNet.Build.Tests.Production.Compression;
 public class CompressionAdapterTests
 {
     [Fact]
-    public async Task BrotliAdapter_CompressAndDecompress_RoundTrips()
+    public async Task BrotliAdapter_Should_RoundTrip_When_CompressAndDecompress()
     {
         var adapter = new BrotliAdapter();
-        // Use repetitive content to ensure compression
         var input = string.Join(" ", Enumerable.Repeat("Hello World Compression Test", 50));
         var inputBytes = Encoding.UTF8.GetBytes(input);
 
@@ -27,7 +26,7 @@ public class CompressionAdapterTests
     }
 
     [Fact]
-    public async Task GzipAdapter_CompressAndDecompress_RoundTrips()
+    public async Task GzipAdapter_Should_RoundTrip_When_CompressAndDecompress()
     {
         var adapter = new GzipAdapter();
         var input = string.Join(" ", Enumerable.Repeat("GZip Compression Test", 50));
@@ -46,7 +45,7 @@ public class CompressionAdapterTests
     }
 
     [Fact]
-    public async Task DeflateAdapter_CompressAndDecompress_RoundTrips()
+    public async Task DeflateAdapter_Should_RoundTrip_When_CompressAndDecompress()
     {
         var adapter = new DeflateAdapter();
         var input = string.Join(" ", Enumerable.Repeat("Deflate Compression Test", 50));
@@ -65,7 +64,7 @@ public class CompressionAdapterTests
     }
 
     [Fact]
-    public async Task ZstdAdapter_CompressAndDecompress_FallsBackGracefully()
+    public async Task ZstdAdapter_Should_FallbackGracefully_When_CompressAndDecompress()
     {
         var adapter = new ZstdAdapter();
         var input = "Hello, World! Zstd compression test (falls back to Brotli).";
@@ -75,7 +74,6 @@ public class CompressionAdapterTests
         using var compressedStream = new MemoryStream();
         await adapter.CompressAsync(inputStream, compressedStream);
 
-        // Should have compressed via fallback
         Assert.True(compressedStream.Length < inputBytes.Length);
 
         compressedStream.Seek(0, SeekOrigin.Begin);
@@ -87,7 +85,7 @@ public class CompressionAdapterTests
     }
 
     [Fact]
-    public void Adapters_ReturnCorrectEncodingNames()
+    public void Adapters_Should_ReturnCorrectEncodingNames_When_Queried()
     {
         Assert.Equal("br", new BrotliAdapter().EncodingName);
         Assert.Equal("gzip", new GzipAdapter().EncodingName);

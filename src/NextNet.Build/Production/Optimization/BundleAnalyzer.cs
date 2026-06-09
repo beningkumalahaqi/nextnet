@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Optimization;
 /// Analyzes the build output directory to understand bundle composition,
 /// identify large files, and generate treemap data for visualization.
 /// </summary>
-public class BundleAnalyzer
+public sealed class BundleAnalyzer
 {
     private readonly ISharpFileSystem _fileSystem;
 

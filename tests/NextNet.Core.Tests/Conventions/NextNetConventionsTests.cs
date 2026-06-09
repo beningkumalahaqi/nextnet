@@ -6,61 +6,61 @@ namespace NextNet.Core.Tests.Conventions;
 public class NextNetConventionsTests
 {
     [Fact]
-    public void ConfigFileName_IsCorrect()
+    public void ConfigFileName_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("nextnet.config.json", NextNetConventions.ConfigFileName);
     }
 
     [Fact]
-    public void AppDirectory_IsCorrect()
+    public void AppDirectory_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("app", NextNetConventions.AppDirectory);
     }
 
     [Fact]
-    public void OutputDirectory_IsCorrect()
+    public void OutputDirectory_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("dist", NextNetConventions.OutputDirectory);
     }
 
     [Fact]
-    public void PublicDirectory_IsCorrect()
+    public void PublicDirectory_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("public", NextNetConventions.PublicDirectory);
     }
 
     [Fact]
-    public void PageFileName_IsCorrect()
+    public void PageFileName_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("page.cs", NextNetConventions.PageFileName);
     }
 
     [Fact]
-    public void LayoutFileName_IsCorrect()
+    public void LayoutFileName_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("layout.cs", NextNetConventions.LayoutFileName);
     }
 
     [Fact]
-    public void RouteFileName_IsCorrect()
+    public void RouteFileName_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("route.cs", NextNetConventions.RouteFileName);
     }
 
     [Fact]
-    public void ErrorFileName_IsCorrect()
+    public void ErrorFileName_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("error.cs", NextNetConventions.ErrorFileName);
     }
 
     [Fact]
-    public void LoadingFileName_IsCorrect()
+    public void LoadingFileName_Should_ReturnCorrectValue_When_Accessed()
     {
         Assert.Equal("loading.cs", NextNetConventions.LoadingFileName);
     }
 
     [Fact]
-    public void ReservedFileNames_ContainsAllReservedNames()
+    public void ReservedFileNames_Should_ContainAllReservedNames_When_Accessed()
     {
         Assert.Contains(NextNetConventions.PageFileName, NextNetConventions.ReservedFileNames);
         Assert.Contains(NextNetConventions.LayoutFileName, NextNetConventions.ReservedFileNames);
@@ -76,7 +76,7 @@ public class NextNetConventionsTests
     [InlineData("Page.cs", true)]
     [InlineData("notpage.cs", false)]
     [InlineData("page.txt", false)]
-    public void IsPageFile_ReturnsExpected(string fileName, bool expected)
+    public void IsPageFile_Should_ReturnExpected_When_FileNameProvided(string fileName, bool expected)
     {
         Assert.Equal(expected, NextNetConventions.IsPageFile(fileName));
     }
@@ -87,7 +87,7 @@ public class NextNetConventionsTests
     [InlineData("Layout.cs", true)]
     [InlineData("notlayout.cs", false)]
     [InlineData("layout.txt", false)]
-    public void IsLayoutFile_ReturnsExpected(string fileName, bool expected)
+    public void IsLayoutFile_Should_ReturnExpected_When_FileNameProvided(string fileName, bool expected)
     {
         Assert.Equal(expected, NextNetConventions.IsLayoutFile(fileName));
     }
@@ -98,7 +98,7 @@ public class NextNetConventionsTests
     [InlineData("Route.cs", true)]
     [InlineData("notroute.cs", false)]
     [InlineData("route.txt", false)]
-    public void IsRouteFile_ReturnsExpected(string fileName, bool expected)
+    public void IsRouteFile_Should_ReturnExpected_When_FileNameProvided(string fileName, bool expected)
     {
         Assert.Equal(expected, NextNetConventions.IsRouteFile(fileName));
     }
@@ -109,7 +109,7 @@ public class NextNetConventionsTests
     [InlineData("Error.cs", true)]
     [InlineData("noterror.cs", false)]
     [InlineData("error.txt", false)]
-    public void IsErrorFile_ReturnsExpected(string fileName, bool expected)
+    public void IsErrorFile_Should_ReturnExpected_When_FileNameProvided(string fileName, bool expected)
     {
         Assert.Equal(expected, NextNetConventions.IsErrorFile(fileName));
     }
@@ -124,7 +124,7 @@ public class NextNetConventionsTests
     [InlineData("page.txt", false)]
     [InlineData("PAGE.cs", true)]
     [InlineData("Layout.cs", true)]
-    public void IsReservedFile_ReturnsExpected(string fileName, bool expected)
+    public void IsReservedFile_Should_ReturnExpected_When_FileNameProvided(string fileName, bool expected)
     {
         Assert.Equal(expected, NextNetConventions.IsReservedFile(fileName));
     }

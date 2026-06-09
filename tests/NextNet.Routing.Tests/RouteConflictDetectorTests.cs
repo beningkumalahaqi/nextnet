@@ -17,21 +17,21 @@ public class RouteConflictDetectorTests
     }
 
     [Fact]
-    public void Detect_NoEntries_ReturnsEmpty()
+    public void Detect_Should_ReturnEmpty_When_NoEntries()
     {
         var conflicts = _detector.Detect(Array.Empty<RouteEntry>());
         Assert.Empty(conflicts);
     }
 
     [Fact]
-    public void Detect_NullEntries_ReturnsEmpty()
+    public void Detect_Should_ReturnEmpty_When_NullEntries()
     {
         var conflicts = _detector.Detect(null!);
         Assert.Empty(conflicts);
     }
 
     [Fact]
-    public void Detect_UniqueStaticRoutes_NoConflicts()
+    public void Detect_Should_ReturnNoConflicts_When_AllRoutesAreUnique()
     {
         var entries = new List<RouteEntry>
         {
@@ -46,7 +46,7 @@ public class RouteConflictDetectorTests
     }
 
     [Fact]
-    public void Detect_DuplicateStaticRoutes_ReturnsError()
+    public void Detect_Should_ReturnError_When_DuplicateStaticRoutesExist()
     {
         var entries = new List<RouteEntry>
         {
@@ -63,7 +63,7 @@ public class RouteConflictDetectorTests
     }
 
     [Fact]
-    public void Detect_StaticDynamicOverlap_ReturnsWarning()
+    public void Detect_Should_ReturnWarning_When_StaticAndDynamicOverlap()
     {
         var entries = new List<RouteEntry>
         {
@@ -80,7 +80,7 @@ public class RouteConflictDetectorTests
     }
 
     [Fact]
-    public void Detect_MissingRootLayout_ReturnsWarning()
+    public void Detect_Should_ReturnWarning_When_RootLayoutMissing()
     {
         var entries = new List<RouteEntry>
         {
@@ -96,7 +96,7 @@ public class RouteConflictDetectorTests
     }
 
     [Fact]
-    public void Detect_WithRootLayout_NoMissingLayoutWarning()
+    public void Detect_Should_NotWarnAboutMissingLayout_When_RootLayoutExists()
     {
         var entries = new List<RouteEntry>
         {
@@ -111,7 +111,7 @@ public class RouteConflictDetectorTests
     }
 
     [Fact]
-    public void Detect_OrphanedLayout_ReturnsWarning()
+    public void Detect_Should_ReturnWarning_When_OrphanedLayoutExists()
     {
         var entries = new List<RouteEntry>
         {
@@ -130,7 +130,7 @@ public class RouteConflictDetectorTests
     }
 
     [Fact]
-    public void Detect_NoPages_NoMissingRootLayoutWarning()
+    public void Detect_Should_NotWarnAboutMissingLayout_When_NoPagesExist()
     {
         var entries = new List<RouteEntry>
         {
@@ -144,7 +144,7 @@ public class RouteConflictDetectorTests
     }
 
     [Fact]
-    public void Detect_ConflictToString_FormatsCorrectly()
+    public void Detect_Should_FormatConflictToString_When_Called()
     {
         var conflict = new RouteConflict(
             "Test conflict",

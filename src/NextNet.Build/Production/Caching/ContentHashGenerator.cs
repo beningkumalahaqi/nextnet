@@ -7,7 +7,7 @@ namespace NextNet.Build.Production.Caching;
 /// Generates content hashes for cache validation and content-based filenames.
 /// Uses SHA-256 for strong hashing with configurable output length.
 /// </summary>
-public class ContentHashGenerator
+public sealed class ContentHashGenerator
 {
     private readonly int _hashLength;
 

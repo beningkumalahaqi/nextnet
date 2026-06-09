@@ -6,7 +6,7 @@ namespace NextNet.Build.Tests.Production.Optimization.AssetOptimizer;
 public class JavaScriptMinifierTests
 {
     [Fact]
-    public void Minify_RemovesSingleLineComments()
+    public void Minify_Should_RemoveSingleLineComments_When_Present()
     {
         var js = "var x = 1; // this is a comment\nvar y = 2;";
         var result = JavaScriptMinifier.Minify(js);
@@ -14,7 +14,7 @@ public class JavaScriptMinifierTests
     }
 
     [Fact]
-    public void Minify_RemovesMultiLineComments()
+    public void Minify_Should_RemoveMultiLineComments_When_Present()
     {
         var js = "/* comment block */ var x = 1;";
         var result = JavaScriptMinifier.Minify(js);
@@ -22,7 +22,7 @@ public class JavaScriptMinifierTests
     }
 
     [Fact]
-    public void Minify_RemovesWhitespaceAroundOperators()
+    public void Minify_Should_RemoveWhitespaceAroundOperators_When_Present()
     {
         var js = "var x = 1 + 2;";
         var result = JavaScriptMinifier.Minify(js);
@@ -30,7 +30,7 @@ public class JavaScriptMinifierTests
     }
 
     [Fact]
-    public void Minify_RemovesUnnecessarySemicolons()
+    public void Minify_Should_RemoveUnnecessarySemicolons_When_Present()
     {
         var js = "function f() { var x = 1; }";
         var result = JavaScriptMinifier.Minify(js);
@@ -38,7 +38,7 @@ public class JavaScriptMinifierTests
     }
 
     [Fact]
-    public void Minify_CollapsesMultipleSpaces()
+    public void Minify_Should_CollapseMultipleSpaces_When_Present()
     {
         var js = "var    x    =    1;";
         var result = JavaScriptMinifier.Minify(js);
@@ -46,14 +46,14 @@ public class JavaScriptMinifierTests
     }
 
     [Fact]
-    public void Minify_NullOrEmpty_ReturnsInput()
+    public void Minify_Should_ReturnInput_When_NullOrEmpty()
     {
         Assert.Null(JavaScriptMinifier.Minify(null!));
         Assert.Equal("", JavaScriptMinifier.Minify(""));
     }
 
     [Fact]
-    public void CanHandle_ReturnsTrueForJsExtensions()
+    public void CanHandle_Should_ReturnTrue_When_JsExtensions()
     {
         var optimizer = new JavaScriptMinifier(new NextNet.IO.DefaultSharpFileSystem());
         Assert.True(optimizer.CanHandle(".js"));

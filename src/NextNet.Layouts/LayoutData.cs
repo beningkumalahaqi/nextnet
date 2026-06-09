@@ -5,7 +5,23 @@ namespace NextNet.Layouts;
 /// outer layouts and provide its own data for inner layouts and pages.
 /// Child data overrides parent data when keys collide.
 /// </summary>
-public record LayoutData
+/// <example>
+/// <code>
+/// var rootData = new LayoutData(new Dictionary&lt;string, object?&gt;
+/// {
+///     ["title"] = "My Site",
+///     ["layout"] = "root"
+/// });
+/// var childData = new LayoutData(new Dictionary&lt;string, object?&gt;
+/// {
+///     ["title"] = "About Us"
+/// });
+/// var merged = childData.Merge(rootData);
+/// Console.WriteLine(merged.Data["title"]);   // "About Us" (child wins)
+/// Console.WriteLine(merged.Data["layout"]);  // "root" (inherited from parent)
+/// </code>
+/// </example>
+public sealed class LayoutData
 {
     /// <summary>
     /// Gets the underlying key-value data dictionary.

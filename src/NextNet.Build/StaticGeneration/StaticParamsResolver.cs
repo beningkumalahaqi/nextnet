@@ -5,6 +5,7 @@ using NextNet.IO;
 using NextNet.Logging;
 using NextNet.Rendering;
 using NextNet.Routing;
+using NextNet.Build.Errors;
 
 namespace NextNet.Build.StaticGeneration;
 
@@ -13,7 +14,14 @@ namespace NextNet.Build.StaticGeneration;
 /// Checks whether a page component implements <see cref="IStaticPathProvider"/>
 /// and calls <see cref="IStaticPathProvider.GetStaticPathsAsync"/> to obtain param sets.
 /// </summary>
-public class StaticParamsResolver
+/// <example>
+/// <code>
+/// var resolver = new StaticParamsResolver(componentResolver, serviceProvider);
+/// var paramSets = await resolver.ResolveAsync(routeEntry);
+/// // paramSets contains [{ slug = "hello-world" }, { slug = "getting-started" }]
+/// </code>
+/// </example>
+public sealed class StaticParamsResolver
 {
     private readonly IRouteComponentResolver _componentResolver;
     private readonly IServiceProvider _serviceProvider;
@@ -110,7 +118,7 @@ public class StaticParamsResolver
         catch (Exception ex)
         {
             // If DI resolution fails, fall through to convention-based approach
-            _logger?.Debug("Failed to resolve static params from page type {Type}: {Message}",
+            _logger?.Debug("[{Code}] Failed to resolve static params from page type {Type}: {Message}", BuildErrorCodes.StaticParamsResolutionFailed,
                 pageType.FullName, ex.Message);
         }
 

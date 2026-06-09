@@ -3,6 +3,7 @@ using TemplateSdkCreate = NextNet.TemplateSdk.CLI.TemplateCreateCommand;
 using TemplateSdkValidate = NextNet.TemplateSdk.CLI.TemplateValidateCommand;
 using TemplateSdkPackage = NextNet.TemplateSdk.CLI.TemplatePackageCommand;
 using TemplateSdkPublish = NextNet.TemplateSdk.CLI.TemplatePublishCommand;
+using TemplateSdkLogin = NextNet.TemplateSdk.CLI.TemplateLoginCommand;
 
 namespace NextNet.Cli.Commands.Template;
 
@@ -18,9 +19,13 @@ public sealed class TemplateCommand : Command
     {
         AddCommand(new TemplateListCommand());
         AddCommand(new TemplateInfoCommand());
+        AddCommand(new TemplateInstallCommand());
+        AddCommand(new TemplateUpdateCommand());
+        AddCommand(new TemplateRemoveCommand());
         AddCommand(new TemplateSdkCreate());
         AddCommand(new TemplateSdkValidate());
         AddCommand(new TemplateSdkPackage());
         AddCommand(new TemplateSdkPublish());
+        AddCommand(new TemplateSdkLogin());
     }
 }

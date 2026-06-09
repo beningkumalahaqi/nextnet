@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Security;
 /// Middleware that adds security headers to all HTTP responses.
 /// Implements OWASP recommended headers by default.
 /// </summary>
-public class SecurityHeadersMiddleware
+public sealed class SecurityHeadersMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly SecurityHeadersOptions _options;

@@ -8,7 +8,7 @@ public class MetricsCollectorTests
     private readonly MetricsCollector _collector = new();
 
     [Fact]
-    public void RecordAndSnapshot_ReturnsCorrectCounts()
+    public void RecordAndSnapshot_Should_ReturnCorrectCounts_When_MultipleRequests()
     {
         _collector.RecordRequest("GET", "/", 200, 10);
         _collector.RecordRequest("GET", "/about", 200, 20);
@@ -22,17 +22,17 @@ public class MetricsCollectorTests
     }
 
     [Fact]
-    public void RecordRequest_ErrorStatus_IncrementsErrorCount()
+    public void RecordRequest_Should_IncrementErrorCount_When_ErrorStatus()
     {
         _collector.RecordRequest("GET", "/fail", 500, 50);
 
         var snapshot = _collector.GetSnapshot();
         Assert.Equal(1, snapshot.TotalErrors);
-        Assert.Equal(100.0, snapshot.ErrorRate); // 1/1 = 100%
+        Assert.Equal(100.0, snapshot.ErrorRate);
     }
 
     [Fact]
-    public void RecordRequest_MultipleCallsToSameEndpoint_Aggregates()
+    public void RecordRequest_Should_Aggregate_When_MultipleCallsToSameEndpoint()
     {
         _collector.RecordRequest("GET", "/api", 200, 10);
         _collector.RecordRequest("GET", "/api", 200, 20);
@@ -42,13 +42,13 @@ public class MetricsCollectorTests
         var endpoint = Assert.Single(snapshot.Endpoints);
 
         Assert.Equal(3, endpoint.Count);
-        Assert.Equal(20, endpoint.AvgDurationMs); // (10+20+30)/3
+        Assert.Equal(20, endpoint.AvgDurationMs);
         Assert.Equal(30, endpoint.MaxDurationMs);
         Assert.Equal(10, endpoint.MinDurationMs);
     }
 
     [Fact]
-    public void Reset_ClearsAllMetrics()
+    public void Reset_Should_ClearAllMetrics_When_Called()
     {
         _collector.RecordRequest("GET", "/", 200, 10);
         _collector.Reset();
@@ -60,14 +60,14 @@ public class MetricsCollectorTests
     }
 
     [Fact]
-    public void Snapshot_ContainsTimestamp()
+    public void Snapshot_Should_ContainTimestamp_When_Retrieved()
     {
         var snapshot = _collector.GetSnapshot();
         Assert.True(snapshot.CollectedAt <= DateTime.UtcNow);
     }
 
     [Fact]
-    public void EmptyCollector_ReturnsZeroSnapshot()
+    public void EmptyCollector_Should_ReturnZeroSnapshot_When_Queried()
     {
         var snapshot = _collector.GetSnapshot();
         Assert.Equal(0, snapshot.TotalRequests);

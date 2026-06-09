@@ -1,3 +1,5 @@
+using NextNet.Errors;
+
 namespace NextNet.Configuration;
 
 /// <summary>
@@ -22,7 +24,7 @@ public static class ConfigValidator
         if (string.IsNullOrWhiteSpace(config.AppDir))
         {
             errors.Add(new ConfigError(
-                "APP_DIR_EMPTY",
+                CoreErrorCodes.ConfigAppDirEmpty,
                 "Application directory (AppDir) must not be null or empty.",
                 ConfigErrorSeverity.Error,
                 nameof(config.AppDir)));
@@ -32,7 +34,7 @@ public static class ConfigValidator
         if (config.DevPort < 1 || config.DevPort > 65535)
         {
             errors.Add(new ConfigError(
-                "DEV_PORT_OUT_OF_RANGE",
+                CoreErrorCodes.ConfigDevPortOutOfRange,
                 $"Development port ({config.DevPort}) must be between 1 and 65535.",
                 ConfigErrorSeverity.Error,
                 nameof(config.DevPort)));
@@ -42,7 +44,7 @@ public static class ConfigValidator
         if (config.WatchDebounceMs <= 0)
         {
             errors.Add(new ConfigError(
-                "WATCH_DEBOUNCE_INVALID",
+                CoreErrorCodes.ConfigWatchDebounceInvalid,
                 $"Watch debounce milliseconds ({config.WatchDebounceMs}) must be greater than 0.",
                 ConfigErrorSeverity.Error,
                 nameof(config.WatchDebounceMs)));

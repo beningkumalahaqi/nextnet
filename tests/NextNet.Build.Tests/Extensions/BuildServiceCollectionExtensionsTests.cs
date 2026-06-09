@@ -8,7 +8,7 @@ namespace NextNet.Build.Tests.Extensions;
 public class BuildServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddNextNetBuild_RegistersServices()
+    public void AddNextNetBuild_Should_RegisterServices_When_Called()
     {
         var services = new ServiceCollection();
 
@@ -22,7 +22,7 @@ public class BuildServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetBuild_WithConfigure_CustomizesOptions()
+    public void AddNextNetBuild_Should_CustomizeOptions_When_ConfigureDelegateProvided()
     {
         var services = new ServiceCollection();
 
@@ -40,7 +40,7 @@ public class BuildServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetBuild_WithDefaults_UsesDefaultOptions()
+    public void AddNextNetBuild_Should_UseDefaultOptions_When_NoConfigureDelegate()
     {
         var services = new ServiceCollection();
 
@@ -54,7 +54,7 @@ public class BuildServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddNextNetBuild_NullServices_Throws()
+    public void AddNextNetBuild_Should_ThrowArgumentNullException_When_NullServices()
     {
         Assert.Throws<ArgumentNullException>(() =>
             ((IServiceCollection)null!).AddNextNetBuild());

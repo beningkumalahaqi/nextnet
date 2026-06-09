@@ -5,7 +5,7 @@ namespace NextNet.Build.Production.Compression;
 /// <summary>
 /// Options for configuring response compression in the NextNet production pipeline.
 /// </summary>
-public class NextNetCompressionOptions
+public sealed class NextNetCompressionOptions
 {
     /// <summary>
     /// Whether to enable response compression middleware.

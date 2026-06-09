@@ -4,8 +4,7 @@ using System.Text;
 using NextNet.SourceGenerators.Models;
 using NextNet.SourceGenerators.Utils;
 
-namespace NextNet.SourceGenerators.Emitters
-{
+namespace NextNet.SourceGenerators.Emitters;
     /// <summary>
     /// Generates wrapper classes that delegate to user-implemented page/layout/route types.
     /// Each wrapper implements the corresponding NextNet interface (IPage, ILayout, etc.)
@@ -304,4 +303,3 @@ namespace NextNet.SourceGenerators.Emitters
             return char.ToUpper(input[0]) + input.Substring(1);
         }
     }
-}

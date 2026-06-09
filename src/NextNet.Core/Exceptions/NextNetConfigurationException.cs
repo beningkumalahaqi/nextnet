@@ -4,7 +4,7 @@ namespace NextNet.Exceptions;
 /// Exception thrown when the NextNet configuration is invalid,
 /// cannot be loaded, or contains unsupported values.
 /// </summary>
-public class NextNetConfigurationException : Exception
+public sealed class NextNetConfigurationException : Exception
 {
     /// <summary>
     /// Initializes a new instance of <see cref="NextNetConfigurationException"/>.

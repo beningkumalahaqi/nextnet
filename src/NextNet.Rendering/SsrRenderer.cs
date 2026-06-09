@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NextNet.Components;
 using NextNet.Exceptions;
 using NextNet.Logging;
+using NextNet.Rendering.Errors;
 using NextNet.Routing;
 using NextNet.Routing.Models;
 
@@ -13,7 +14,18 @@ namespace NextNet.Rendering;
 /// Resolves routes, instantiates page components, composes layout chains,
 /// and produces <see cref="HtmlResponse"/> results.
 /// </summary>
-public class SsrRenderer
+/// <example>
+/// <code>
+/// // Register in DI and use in Minimal API:
+/// var app = builder.Build();
+/// app.MapGet("/{**path}", async (SsrRenderer renderer, HttpContext ctx) =>
+/// {
+///     var context = new ComponentContext(ctx);
+///     return await renderer.RenderAsync(ctx.Request.Path.Value ?? "/", context);
+/// });
+/// </code>
+/// </example>
+public sealed class SsrRenderer
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly RouteManifest _routeManifest;
@@ -77,7 +89,7 @@ public class SsrRenderer
             var entry = ResolveRoute(route);
             if (entry == null)
             {
-                _logger?.Debug("No route found for {Route}", route);
+                _logger?.Debug("[{ErrorCode}] No route found for {Route}", Errors.RenderingErrorCodes.RouteNotFound, route);
                 return HtmlResponse.NotFound();
             }
 
@@ -105,9 +117,9 @@ public class SsrRenderer
         }
         catch (OperationCanceledException) when (timeoutCts.Token.IsCancellationRequested)
         {
-            _logger?.Error("Render timed out for route {Route}", route);
+            _logger?.Error("[{ErrorCode}] Render timed out for route {Route}", Errors.RenderingErrorCodes.RenderTimeout, route);
             return await RenderErrorAsync(
-                new RenderException($"Render timed out after {_options.RenderTimeout.TotalSeconds}s"));
+                new RenderException($"[{Errors.RenderingErrorCodes.RenderTimeout}] Render timed out after {_options.RenderTimeout.TotalSeconds}s"));
         }
         catch (Exception ex)
         {
@@ -129,7 +141,7 @@ public class SsrRenderer
         if (context == null) throw new ArgumentNullException(nameof(context));
 
         var entry = ResolveRoute(route)
-            ?? throw new RenderException($"No route found for '{route}'.");
+            ?? throw new RenderException($"[{Errors.RenderingErrorCodes.RouteNotFound}] No route found for '{route}'.");
 
         var pageContent = await RenderPageAsync(entry, context, cancellationToken);
         return await _layoutRenderer.RenderAsync(
@@ -160,7 +172,7 @@ public class SsrRenderer
     /// Resolves a route string to a <see cref="RouteEntry"/> from the manifest.
     /// Supports exact matches and parameterised route matching.
     /// </summary>
-    protected internal RouteEntry? ResolveRoute(string route)
+    internal RouteEntry? ResolveRoute(string route)
     {
         if (string.IsNullOrEmpty(route))
             return null;
@@ -190,13 +202,13 @@ public class SsrRenderer
     /// <summary>
     /// Instantiates the page component for the given entry and renders it.
     /// </summary>
-    protected internal async Task<IHtmlContent> RenderPageAsync(
+    internal async Task<IHtmlContent> RenderPageAsync(
         RouteEntry entry,
         ComponentContext context,
         CancellationToken cancellationToken = default)
     {
         var pageType = _componentResolver.GetPageType(entry)
-            ?? throw new RenderException($"Cannot resolve page type for route: {entry.RoutePattern} (file: {entry.FilePath})");
+            ?? throw new RenderException($"[{Errors.RenderingErrorCodes.PageTypeNotResolved}] Cannot resolve page type for route: {entry.RoutePattern} (file: {entry.FilePath})");
 
         IPage page;
         try
@@ -206,11 +218,18 @@ public class SsrRenderer
         catch (InvalidOperationException ex)
         {
             throw new RenderException(
-                $"Page type '{pageType.FullName}' is not registered in the DI container. " +
+                $"[{Errors.RenderingErrorCodes.PageTypeNotRegistered}] Page type '{pageType.FullName}' is not registered in the DI container. " +
                 "Ensure the component is registered via services.AddScoped<IPage, ...>().", ex);
         }
 
         cancellationToken.ThrowIfCancellationRequested();
+
+        // If the page implements IComponentContextAware, provide the component context
+        // before rendering. This enables access to Route and Context on the Page base class.
+        if (page is IComponentContextAware contextAware)
+        {
+            contextAware.SetContext(context);
+        }
 
         _logger?.Debug("Rendering page {PageType}", pageType.Name);
 
@@ -232,7 +251,7 @@ public class SsrRenderer
     /// Generates an error <see cref="HtmlResponse"/> from the given exception.
     /// Attempts to resolve an error page from the manifest; falls back to built-in.
     /// </summary>
-    protected internal async Task<HtmlResponse> RenderErrorAsync(Exception exception)
+    internal async Task<HtmlResponse> RenderErrorAsync(Exception exception)
     {
         // Try to use a user-defined error page
         if (_routeManifest.ErrorPage != null)
@@ -261,7 +280,7 @@ public class SsrRenderer
     /// <summary>
     /// Determines the Cache-Control header value based on route type.
     /// </summary>
-    protected internal static string GetCacheControl(RouteEntry entry)
+    internal static string GetCacheControl(RouteEntry entry)
     {
         return entry.Type switch
         {

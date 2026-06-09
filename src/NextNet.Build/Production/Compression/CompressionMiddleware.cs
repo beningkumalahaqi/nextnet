@@ -8,7 +8,14 @@ namespace NextNet.Build.Production.Compression;
 /// Designed to work alongside ASP.NET Core's response compression middleware
 /// with NextNet-specific defaults and control.
 /// </summary>
-public class CompressionMiddleware
+/// <example>
+/// <code>
+/// // Registered automatically via app.UseNextNetProduction():
+/// app.UseMiddleware&lt;CompressionMiddleware&gt;();
+/// // Supports Brotli, Gzip, Deflate, and Zstd content negotiation
+/// </code>
+/// </example>
+public sealed class CompressionMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly NextNetCompressionOptions _options;

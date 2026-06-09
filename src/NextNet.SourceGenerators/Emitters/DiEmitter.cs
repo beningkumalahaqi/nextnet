@@ -3,8 +3,7 @@ using System.Text;
 using NextNet.SourceGenerators.Models;
 using NextNet.SourceGenerators.Utils;
 
-namespace NextNet.SourceGenerators.Emitters
-{
+namespace NextNet.SourceGenerators.Emitters;
     /// <summary>
     /// Generates DI registration code (<c>AddTransient</c>/<c>AddScoped</c>) for all
     /// generated wrapper types so they can be resolved from the DI container.
@@ -125,4 +124,3 @@ namespace NextNet.SourceGenerators.Emitters
         private static string GetWrapperName(RouteEntryModel entry, string appDir)
             => IncrementalHelpers.GetWrapperName(entry, appDir);
     }
-}

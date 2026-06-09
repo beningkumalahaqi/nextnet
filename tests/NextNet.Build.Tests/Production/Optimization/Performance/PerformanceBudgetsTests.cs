@@ -7,14 +7,14 @@ namespace NextNet.Build.Tests.Production.Optimization.Performance;
 public class PerformanceBudgetsTests
 {
     [Fact]
-    public void DefaultBudgets_UseWarnAction()
+    public void DefaultBudgets_Should_UseWarnAction_When_NewInstance()
     {
         var budgets = new PerformanceBudgets();
         Assert.Equal(BudgetViolationAction.Warn, budgets.Action);
     }
 
     [Fact]
-    public void BudgetValues_DefaultToNull()
+    public void BudgetValues_Should_DefaultToNull_When_NewInstance()
     {
         var budgets = new PerformanceBudgets();
         Assert.Null(budgets.TotalSize);
@@ -27,7 +27,7 @@ public class PerformanceBudgetsTests
 public class PerformanceBudgetEvaluatorTests
 {
     [Fact]
-    public async Task EvaluateAsync_NoBudgets_ReturnsPassed()
+    public async Task EvaluateAsync_Should_Pass_When_NoBudgetsSet()
     {
         var fs = new DefaultSharpFileSystem();
         var evaluator = new PerformanceBudgetEvaluator(fs);
@@ -52,7 +52,7 @@ public class PerformanceBudgetEvaluatorTests
     }
 
     [Fact]
-    public async Task EvaluateAsync_ExceedsTotalSize_ReturnsViolation()
+    public async Task EvaluateAsync_Should_ReturnViolation_When_ExceedsTotalSize()
     {
         var fs = new DefaultSharpFileSystem();
         var evaluator = new PerformanceBudgetEvaluator(fs);
@@ -61,7 +61,6 @@ public class PerformanceBudgetEvaluatorTests
         Directory.CreateDirectory(tempDir);
         try
         {
-            // Create a file larger than 1 byte
             await File.WriteAllTextAsync(Path.Combine(tempDir, "big.js"), new string('x', 1000));
 
             var budgets = new PerformanceBudgets
@@ -83,7 +82,7 @@ public class PerformanceBudgetEvaluatorTests
     }
 
     [Fact]
-    public async Task EvaluateAsync_UnderBudget_ReturnsNoViolations()
+    public async Task EvaluateAsync_Should_ReturnNoViolations_When_UnderBudget()
     {
         var fs = new DefaultSharpFileSystem();
         var evaluator = new PerformanceBudgetEvaluator(fs);
@@ -96,7 +95,7 @@ public class PerformanceBudgetEvaluatorTests
 
             var budgets = new PerformanceBudgets
             {
-                JavaScriptSize = 1024 * 100, // 100 KB budget
+                JavaScriptSize = 1024 * 100,
                 Action = BudgetViolationAction.Fail,
             };
 
@@ -112,7 +111,7 @@ public class PerformanceBudgetEvaluatorTests
     }
 
     [Fact]
-    public async Task EvaluateAsync_FailAction_CausesNotPassed()
+    public async Task EvaluateAsync_Should_NotPass_When_FailActionExceeded()
     {
         var fs = new DefaultSharpFileSystem();
         var evaluator = new PerformanceBudgetEvaluator(fs);

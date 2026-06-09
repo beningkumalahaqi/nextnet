@@ -11,7 +11,7 @@ namespace NextNet.Rendering.Middleware;
 /// using SSR. Falls through to the next middleware when no matching route is found.
 /// Supports both standard and streaming rendering modes.
 /// </summary>
-public class SsrMiddleware
+public sealed class SsrMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly SsrRenderer _ssrRenderer;

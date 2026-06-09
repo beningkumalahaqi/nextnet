@@ -8,7 +8,22 @@ namespace NextNet.Rendering;
 /// An ASP.NET Core <see cref="IResult"/> that writes HTML content to the HTTP response.
 /// Sets appropriate headers including Content-Type, Cache-Control, and Content-Length.
 /// </summary>
-public class HtmlResponse : IResult
+/// <example>
+/// <code>
+/// // Return from a Minimal API endpoint:
+/// return new HtmlResponse(
+///     new RawHtmlContent("&lt;h1&gt;Hello World&lt;/h1&gt;"),
+///     200,
+///     "public, max-age=3600");
+///
+/// // Create a 404 response:
+/// return HtmlResponse.NotFound();
+///
+/// // Create a redirect response:
+/// return HtmlResponse.Redirect("/new-location");
+/// </code>
+/// </example>
+public sealed class HtmlResponse : IResult
 {
     /// <summary>
     /// Gets the HTML content to write to the response.

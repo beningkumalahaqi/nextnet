@@ -5,7 +5,7 @@ namespace NextNet.Routing;
 /// <summary>
 /// Represents a single discovered route from the file-system scan.
 /// </summary>
-public class RouteEntry
+public sealed class RouteEntry
 {
     /// <summary>
     /// Gets the route pattern (e.g. <c>"/blog/{slug}"</c>).

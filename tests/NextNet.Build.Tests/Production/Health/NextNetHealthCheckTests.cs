@@ -6,7 +6,7 @@ namespace NextNet.Build.Tests.Production.Health;
 public class NextNetHealthCheckTests
 {
     [Fact]
-    public async Task CheckAsync_ReturnsExpectedStatus()
+    public async Task CheckAsync_Should_ReturnExpectedStatus_When_Called()
     {
         var healthCheck = new NextNetHealthCheck("1.0.0-test");
         var report = await healthCheck.CheckAsync();
@@ -17,7 +17,7 @@ public class NextNetHealthCheckTests
     }
 
     [Fact]
-    public async Task CheckAsync_IncludesBasicHealthCheck()
+    public async Task CheckAsync_Should_IncludeBasicHealthCheck_When_Called()
     {
         var healthCheck = new NextNetHealthCheck();
         var report = await healthCheck.CheckAsync();
@@ -26,7 +26,7 @@ public class NextNetHealthCheckTests
     }
 
     [Fact]
-    public async Task CheckAsync_IncludesMemoryCheck()
+    public async Task CheckAsync_Should_IncludeMemoryCheck_When_Called()
     {
         var healthCheck = new NextNetHealthCheck();
         var report = await healthCheck.CheckAsync();
@@ -35,7 +35,7 @@ public class NextNetHealthCheckTests
     }
 
     [Fact]
-    public async Task CheckAsync_IncludesRouteRegistryCheck()
+    public async Task CheckAsync_Should_IncludeRouteRegistryCheck_When_Called()
     {
         var healthCheck = new NextNetHealthCheck();
         var report = await healthCheck.CheckAsync();
@@ -44,7 +44,7 @@ public class NextNetHealthCheckTests
     }
 
     [Fact]
-    public async Task CheckAsync_MemoryCheck_HasData()
+    public async Task CheckAsync_MemoryCheck_Should_HaveData_When_Called()
     {
         var healthCheck = new NextNetHealthCheck();
         var report = await healthCheck.CheckAsync();
@@ -56,7 +56,7 @@ public class NextNetHealthCheckTests
     }
 
     [Fact]
-    public async Task CheckAsync_AllChecksHaveDuration()
+    public async Task CheckAsync_AllChecks_Should_HaveNonNegativeDuration_When_Called()
     {
         var healthCheck = new NextNetHealthCheck();
         var report = await healthCheck.CheckAsync();
@@ -68,7 +68,7 @@ public class NextNetHealthCheckTests
     }
 
     [Fact]
-    public async Task CheckAsync_UptimeIsFormatted()
+    public async Task CheckAsync_Uptime_Should_BeFormatted_When_Called()
     {
         var healthCheck = new NextNetHealthCheck();
         var report = await healthCheck.CheckAsync();

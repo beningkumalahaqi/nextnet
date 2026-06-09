@@ -10,16 +10,14 @@ namespace NextNet.Build.Tests.Production.Integration;
 public class ProductionPipelineIntegrationTests
 {
     [Fact]
-    public async Task FullPipeline_WithSampleOutput_RunsSuccessfully()
+    public async Task FullPipeline_Should_RunSuccessfully_When_SampleOutputProvided()
     {
         var fs = new DefaultSharpFileSystem();
 
-        // Set up a sample output directory
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         Directory.CreateDirectory(tempDir);
         try
         {
-            // Create sample build output
             await File.WriteAllTextAsync(Path.Combine(tempDir, "index.html"),
                 "<!DOCTYPE html>\n<html>\n<head>\n    <title>Test</title>\n    " +
                 "<link rel=\"stylesheet\" href=\"styles.css\">\n</head>\n" +
@@ -31,7 +29,6 @@ public class ProductionPipelineIntegrationTests
             await File.WriteAllTextAsync(Path.Combine(tempDir, "image.svg"),
                 "<?xml version=\"1.0\"?><svg width=\"100\" height=\"100\"><circle cx=\"50\" cy=\"50\" r=\"40\"/></svg>");
 
-            // Set up the pipeline with all optimizers
             var analyzer = new BundleAnalyzer(fs);
             var evaluator = new PerformanceBudgetEvaluator(fs);
             var optimizers = new IAssetOptimizer[]
@@ -59,18 +56,14 @@ public class ProductionPipelineIntegrationTests
 
             var result = await buildStep.ExecuteAsync(options);
 
-            // Basic assertions
             Assert.True(result.Success, string.Join(", ", result.Errors));
             Assert.NotNull(result.Metrics);
             Assert.True(result.Metrics.TotalBuildTimeMs >= 0);
             Assert.True(result.Metrics.TotalOutputSize > 0);
 
-            // Verify files were processed
             Assert.True(File.Exists(Path.Combine(tempDir, "index.html")));
             Assert.True(File.Exists(Path.Combine(tempDir, "styles.css")));
             Assert.True(File.Exists(Path.Combine(tempDir, "app.js")));
-
-            // Verify report was generated
             Assert.True(File.Exists(Path.Combine(tempDir, "_optimizationReport.json")));
         }
         finally
@@ -80,7 +73,7 @@ public class ProductionPipelineIntegrationTests
     }
 
     [Fact]
-    public async Task FullPipeline_WithPerformanceBudgets_EnforcesThem()
+    public async Task FullPipeline_Should_EnforceBudgets_When_PerformanceBudgetsConfigured()
     {
         var fs = new DefaultSharpFileSystem();
 
@@ -88,7 +81,6 @@ public class ProductionPipelineIntegrationTests
         Directory.CreateDirectory(tempDir);
         try
         {
-            // Create a large file that exceeds budget
             await File.WriteAllTextAsync(Path.Combine(tempDir, "large.js"), new string('x', 50000));
 
             var analyzer = new BundleAnalyzer(fs);
@@ -108,7 +100,6 @@ public class ProductionPipelineIntegrationTests
 
             var result = await pipeline.RunAsync(tempDir, options);
 
-            // Should have warnings but still succeed (Warn action)
             Assert.True(result.Success);
             Assert.NotEmpty(result.Warnings);
             Assert.Contains(result.Warnings, w => w.Contains("JavaScript size"));
@@ -120,7 +111,7 @@ public class ProductionPipelineIntegrationTests
     }
 
     [Fact]
-    public async Task FullPipeline_WithoutOutputDirectory_ReturnsError()
+    public async Task FullPipeline_Should_NotCrash_When_OutputDirectoryMissing()
     {
         var fs = new DefaultSharpFileSystem();
         var analyzer = new BundleAnalyzer(fs);
@@ -134,7 +125,6 @@ public class ProductionPipelineIntegrationTests
 
         var result = await pipeline.RunAsync(options.OutputDirectory, options);
 
-        // Non-existent directory should still produce a result (no crash)
         Assert.NotNull(result);
     }
 }

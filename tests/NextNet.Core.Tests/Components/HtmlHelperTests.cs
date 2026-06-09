@@ -8,21 +8,21 @@ public class HtmlHelperTests
     // ─── Element ────────────────────────────────────────────────────────────
 
     [Fact]
-    public void Element_WithTagOnly_CreatesSelfClosingTag()
+    public void Element_Should_CreateSelfClosingTag_When_OnlyTagProvided()
     {
         var result = HtmlHelper.Element("br");
         Assert.Equal("<br />", result.ToHtml());
     }
 
     [Fact]
-    public void Element_WithTagAndContent_CreatesElementWithContent()
+    public void Element_Should_CreateElementWithContent_When_TagAndContentProvided()
     {
         var result = HtmlHelper.Element("div", content: HtmlHelper.Text("hello"));
         Assert.Equal("<div>hello</div>", result.ToHtml());
     }
 
     [Fact]
-    public void Element_WithAttributes_RendersAttributes()
+    public void Element_Should_RenderAttributes_When_Provided()
     {
         var attrs = new Dictionary<string, string>
         {
@@ -34,7 +34,7 @@ public class HtmlHelperTests
     }
 
     [Fact]
-    public void Element_WithAttributesAndContent_RendersFullElement()
+    public void Element_Should_RenderFullElement_When_AttributesAndContentProvided()
     {
         var attrs = new Dictionary<string, string> { ["href"] = "https://example.com" };
         var result = HtmlHelper.Element("a", attrs, HtmlHelper.Text("click"));
@@ -42,25 +42,25 @@ public class HtmlHelperTests
     }
 
     [Fact]
-    public void Element_WithNullTag_ThrowsArgumentNullException()
+    public void Element_Should_ThrowArgumentNullException_When_TagIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => HtmlHelper.Element(null!));
     }
 
     [Fact]
-    public void Element_WithEmptyTag_ThrowsArgumentException()
+    public void Element_Should_ThrowArgumentException_When_TagIsEmpty()
     {
         Assert.Throws<ArgumentException>(() => HtmlHelper.Element(""));
     }
 
     [Fact]
-    public void Element_WithWhitespaceTag_ThrowsArgumentException()
+    public void Element_Should_ThrowArgumentException_When_TagIsWhitespace()
     {
         Assert.Throws<ArgumentException>(() => HtmlHelper.Element("   "));
     }
 
     [Fact]
-    public void Element_EncodesAttributeValues()
+    public void Element_Should_EncodeAttributeValues_When_Rendered()
     {
         var attrs = new Dictionary<string, string> { ["onclick"] = "alert('xss')" };
         var result = HtmlHelper.Element("div", attrs);
@@ -72,20 +72,20 @@ public class HtmlHelperTests
     // ─── Text ──────────────────────────────────────────────────────────────
 
     [Fact]
-    public void Text_EncodesHtml()
+    public void Text_Should_EncodeHtml_When_ContainsSpecialCharacters()
     {
         var result = HtmlHelper.Text("<b>bold</b>");
         Assert.Equal("&lt;b&gt;bold&lt;/b&gt;", result.ToHtml());
     }
 
     [Fact]
-    public void Text_WithNull_ThrowsArgumentNullException()
+    public void Text_Should_ThrowArgumentNullException_When_InputIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => HtmlHelper.Text(null!));
     }
 
     [Fact]
-    public void Text_WithPlainText_ReturnsSameText()
+    public void Text_Should_ReturnSameText_When_PlainTextProvided()
     {
         var result = HtmlHelper.Text("Hello, World!");
         Assert.Equal("Hello, World!", result.ToHtml());
@@ -94,14 +94,14 @@ public class HtmlHelperTests
     // ─── Raw ────────────────────────────────────────────────────────────────
 
     [Fact]
-    public void Raw_ReturnsUnencodedHtml()
+    public void Raw_Should_ReturnUnencodedHtml_When_Invoked()
     {
         var result = HtmlHelper.Raw("<b>bold</b>");
         Assert.Equal("<b>bold</b>", result.ToHtml());
     }
 
     [Fact]
-    public void Raw_WithNull_ThrowsArgumentNullException()
+    public void Raw_Should_ThrowArgumentNullException_When_InputIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => HtmlHelper.Raw(null!));
     }
@@ -109,7 +109,7 @@ public class HtmlHelperTests
     // ─── Fragment ──────────────────────────────────────────────────────────
 
     [Fact]
-    public void Fragment_CombinesMultipleContents()
+    public void Fragment_Should_CombineMultipleContents_When_Invoked()
     {
         var result = HtmlHelper.Fragment(
             HtmlHelper.Text("Hello"),
@@ -120,14 +120,14 @@ public class HtmlHelperTests
     }
 
     [Fact]
-    public void Fragment_WithSingleItem_ReturnsThatItem()
+    public void Fragment_Should_ReturnSingleItem_When_OneContentProvided()
     {
         var result = HtmlHelper.Fragment(HtmlHelper.Text("only"));
         Assert.Equal("only", result.ToHtml());
     }
 
     [Fact]
-    public void Fragment_WithNull_ThrowsArgumentNullException()
+    public void Fragment_Should_ThrowArgumentNullException_When_InputIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => HtmlHelper.Fragment(null!));
     }
@@ -135,21 +135,21 @@ public class HtmlHelperTests
     // ─── DocType ────────────────────────────────────────────────────────────
 
     [Fact]
-    public void DocType_WithDefault_ReturnsHtml5Doctype()
+    public void DocType_Should_ReturnHtml5Doctype_When_DefaultTypeUsed()
     {
         var result = HtmlHelper.DocType();
         Assert.Equal("<!DOCTYPE html>", result.ToHtml());
     }
 
     [Fact]
-    public void DocType_WithCustomType()
+    public void DocType_Should_ReturnCustomDoctype_When_CustomTypeProvided()
     {
         var result = HtmlHelper.DocType("xml");
         Assert.Equal("<!DOCTYPE xml>", result.ToHtml());
     }
 
     [Fact]
-    public void DocType_WithNull_ThrowsArgumentNullException()
+    public void DocType_Should_ThrowArgumentNullException_When_TypeIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => HtmlHelper.DocType(null!));
     }
@@ -157,7 +157,7 @@ public class HtmlHelperTests
     // ─── Stylesheet ─────────────────────────────────────────────────────────
 
     [Fact]
-    public void Stylesheet_CreatesLinkElement()
+    public void Stylesheet_Should_CreateLinkElement_When_Invoked()
     {
         var result = HtmlHelper.Stylesheet("/styles.css");
         var html = result.ToHtml();
@@ -169,7 +169,7 @@ public class HtmlHelperTests
     // ─── Script ─────────────────────────────────────────────────────────────
 
     [Fact]
-    public void Script_CreatesScriptElement()
+    public void Script_Should_CreateScriptElement_When_Invoked()
     {
         var result = HtmlHelper.Script("/app.js");
         var html = result.ToHtml();

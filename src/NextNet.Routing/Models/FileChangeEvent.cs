@@ -24,29 +24,10 @@ public enum FileChangeType
 /// <summary>
 /// Contains information about a file system change event raised by <see cref="RouteFileWatcher"/>.
 /// </summary>
-public class FileChangeEvent
+/// <param name="FilePath">The full path to the file that changed.</param>
+/// <param name="ChangeType">The type of change that occurred.</param>
+public sealed record FileChangeEvent(string FilePath, FileChangeType ChangeType)
 {
-    /// <summary>
-    /// Gets the full path to the file that changed.
-    /// </summary>
-    public string FilePath { get; }
-
-    /// <summary>
-    /// Gets the type of change that occurred.
-    /// </summary>
-    public FileChangeType ChangeType { get; }
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="FileChangeEvent"/>.
-    /// </summary>
-    /// <param name="filePath">The full path to the file that changed.</param>
-    /// <param name="changeType">The type of change.</param>
-    public FileChangeEvent(string filePath, FileChangeType changeType)
-    {
-        FilePath = filePath;
-        ChangeType = changeType;
-    }
-
     /// <inheritdoc />
     public override string ToString()
         => $"[{ChangeType}] {FilePath}";

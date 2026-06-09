@@ -8,7 +8,7 @@ public class RoutePatternParserTests
     private const string AppDir = "/project/app";
 
     [Fact]
-    public void Parse_StaticPage_ReturnsStaticRoute()
+    public void Parse_Should_ReturnStaticRoute_When_StaticPagePath()
     {
         var filePath = "/project/app/about/page.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -18,7 +18,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_IndexPage_ReturnsRootRoute()
+    public void Parse_Should_ReturnIndexRoute_When_IndexPagePath()
     {
         var filePath = "/project/app/index/page.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -28,7 +28,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_DynamicPage_ReturnsDynamicRoute()
+    public void Parse_Should_ReturnDynamicRoute_When_DynamicSegmentInPath()
     {
         var filePath = "/project/app/blog/[slug]/page.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -38,7 +38,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_CatchAllPage_ReturnsCatchAllRoute()
+    public void Parse_Should_ReturnCatchAllRoute_When_CatchAllSegmentInPath()
     {
         var filePath = "/project/app/docs/[...path]/page.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -48,7 +48,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_OptionalCatchAll_ReturnsOptionalCatchAllRoute()
+    public void Parse_Should_ReturnOptionalCatchAllRoute_When_OptionalCatchAllSegment()
     {
         var filePath = "/project/app/docs/[[...path]]/page.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -58,7 +58,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_RootLayout_ReturnsRootPattern()
+    public void Parse_Should_ReturnRootPattern_When_RootLayout()
     {
         var filePath = "/project/app/layout.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -68,7 +68,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_NestedLayout_ReturnsLayoutPattern()
+    public void Parse_Should_ReturnLayoutPattern_When_NestedLayout()
     {
         var filePath = "/project/app/blog/layout.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -78,7 +78,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_ApiRoute_ReturnsApiPattern()
+    public void Parse_Should_ReturnApiPattern_When_ApiRoutePath()
     {
         var filePath = "/project/app/api/users/route.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -88,7 +88,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_ErrorPage_ReturnsErrorPattern()
+    public void Parse_Should_ReturnRootPattern_When_ErrorPage()
     {
         var filePath = "/project/app/error.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -98,7 +98,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_NestedErrorPage_ReturnsErrorAtCorrectPath()
+    public void Parse_Should_ReturnCorrectPath_When_NestedErrorPage()
     {
         var filePath = "/project/app/blog/error.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -108,7 +108,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_NestedDynamicWithMultipleSegments_ReturnsCorrectPattern()
+    public void Parse_Should_ReturnCorrectPattern_When_MultipleDynamicSegments()
     {
         var filePath = "/project/app/blog/[year]/[month]/[slug]/page.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -118,7 +118,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_DeepNestedLayout_ReturnsCorrectPattern()
+    public void Parse_Should_ReturnCorrectPattern_When_DeepNestedLayout()
     {
         var filePath = "/project/app/dashboard/settings/layout.cs";
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);
@@ -128,7 +128,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_FilePathWithWindowsSeparators_NormalizesCorrectly()
+    public void Parse_Should_NormalizeWindowsSeparators_When_WindowsPath()
     {
         var appDir = @"C:\project\app";
         var filePath = @"C:\project\app\about\page.cs";
@@ -139,7 +139,7 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_RelativeFilePath_HandlesCorrectly()
+    public void Parse_Should_HandleRelativeFilePath_When_AlreadyRelative()
     {
         // If filePath is already relative to appDir
         var filePath = "/project/app/about/page.cs";
@@ -150,14 +150,14 @@ public class RoutePatternParserTests
     }
 
     [Fact]
-    public void Parse_NullFilePath_ThrowsArgumentNullException()
+    public void Parse_Should_ThrowArgumentNull_When_FilePathIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             RoutePatternParser.Parse(null!, AppDir));
     }
 
     [Fact]
-    public void Parse_NullAppDir_ThrowsArgumentNullException()
+    public void Parse_Should_ThrowArgumentNull_When_AppDirIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             RoutePatternParser.Parse("/project/app/about/page.cs", null!));
@@ -168,7 +168,7 @@ public class RoutePatternParserTests
     [InlineData("/project/app/archive/[...date]/page.cs", "/archive/{*date}", RouteSegmentKind.CatchAll)]
     [InlineData("/project/app/settings/layout.cs", "/settings", RouteSegmentKind.Static)]
     [InlineData("/project/app/api/v2/users/route.cs", "/api/v2/users", RouteSegmentKind.Static)]
-    public void Parse_VariousPatterns_ReturnsExpectedResults(
+    public void Parse_Should_ReturnExpectedResults_When_VariousPatternsProvided(
         string filePath, string expectedPattern, RouteSegmentKind expectedKind)
     {
         var (pattern, kind) = RoutePatternParser.Parse(filePath, AppDir);

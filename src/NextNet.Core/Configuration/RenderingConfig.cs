@@ -5,7 +5,7 @@ namespace NextNet.Configuration;
 /// <summary>
 /// Configuration options for HTML rendering.
 /// </summary>
-public class RenderingConfig
+public sealed class RenderingConfig
 {
     /// <summary>
     /// Gets or sets whether rendered HTML should be pretty-printed with indentation.

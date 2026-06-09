@@ -6,7 +6,14 @@ namespace NextNet.Build.Production.Caching;
 /// Middleware that adds cache control headers to HTTP responses based on
 /// file type and content-hashing strategy.
 /// </summary>
-public class CacheHeadersMiddleware
+/// <example>
+/// <code>
+/// // Registered automatically via app.UseNextNetProduction():
+/// // Content-hashed assets get "public,max-age=31536000,immutable"
+/// // Other content gets "public,max-age=300" with ETag support
+/// </code>
+/// </example>
+public sealed class CacheHeadersMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly CacheHeaderOptions _options;

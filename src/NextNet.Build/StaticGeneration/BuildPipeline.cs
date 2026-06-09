@@ -3,6 +3,7 @@ using NextNet.IO;
 using NextNet.Logging;
 using NextNet.Rendering;
 using NextNet.Routing;
+using NextNet.Build.Errors;
 
 namespace NextNet.Build.StaticGeneration;
 
@@ -11,7 +12,14 @@ namespace NextNet.Build.StaticGeneration;
 /// route discovery, parameter resolution, SSR rendering, minification, compression,
 /// asset copying, and manifest generation.
 /// </summary>
-public class BuildPipeline
+/// <example>
+/// <code>
+/// var pipeline = new BuildPipeline(options, serviceProvider);
+/// var result = await pipeline.ExecuteAsync(cancellationToken);
+/// if (result.Success) { Console.WriteLine("Build succeeded!"); }
+/// </code>
+/// </example>
+public sealed class BuildPipeline
 {
     private readonly SsgOptions _options;
     private readonly IServiceProvider _serviceProvider;
@@ -56,8 +64,23 @@ public class BuildPipeline
 
         // 1. Route discovery
         _logger?.Info("Scanning routes in {AppDir}...", _appDir);
-        var scanner = new RouteScanner(_appDir, _logger, _fileSystem);
-        var routeManifest = await scanner.ScanAsync(cancellationToken);
+        RouteManifest routeManifest;
+        try
+        {
+            var scanner = new RouteScanner(_appDir, _logger, _fileSystem);
+            routeManifest = await scanner.ScanAsync(cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger?.Error("[{Code}] Route discovery failed for {AppDir}: {Message}", BuildErrorCodes.RouteDiscoveryFailed, _appDir, ex.Message);
+            return new SsgResult(
+                Array.Empty<string>(),
+                new[] { new SsgError("(discovery)", $"[{BuildErrorCodes.RouteDiscoveryFailed}] Route discovery failed: {ex.Message}", ex) },
+                TimeSpan.Zero,
+                0,
+                0,
+                0);
+        }
 
         if (routeManifest.HasConflicts)
         {
@@ -92,19 +115,34 @@ public class BuildPipeline
         var manifestGenerator = new BuildManifestGenerator(manifestPath);
 
         // 7. Create and run the generation engine
-        var engine = new StaticGenerationEngine(
-            _options,
-            ssrRenderer,
-            routeManifest,
-            paramsResolver,
-            outputWriter,
-            assetCopier,
-            manifestGenerator,
-            _logger,
-            _appDir,
-            _publicDir);
+        SsgResult result;
+        try
+        {
+            var engine = new StaticGenerationEngine(
+                _options,
+                ssrRenderer,
+                routeManifest,
+                paramsResolver,
+                outputWriter,
+                assetCopier,
+                manifestGenerator,
+                _logger,
+                _appDir,
+                _publicDir);
 
-        var result = await engine.GenerateAsync(cancellationToken);
+            result = await engine.GenerateAsync(cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger?.Error("[{Code}] Build pipeline execution failed: {Message}", BuildErrorCodes.BuildPipelineFailed, ex.Message);
+            return new SsgResult(
+                Array.Empty<string>(),
+                new[] { new SsgError("(pipeline)", $"[{BuildErrorCodes.BuildPipelineFailed}] Build pipeline failed: {ex.Message}", ex) },
+                TimeSpan.Zero,
+                0,
+                0,
+                0);
+        }
 
         _logger?.Info("Build pipeline complete: {Result}", result.Success ? "Success" : "Failed");
 

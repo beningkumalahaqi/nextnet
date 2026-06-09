@@ -8,8 +8,7 @@ using System.Text;
 using NextNet.SourceGenerators.ServerActions.ServerActionEmitters;
 using NextNet.SourceGenerators.Utils;
 
-namespace NextNet.SourceGenerators.ServerActions
-{
+namespace NextNet.SourceGenerators.ServerActions;
     /// <summary>
     /// Incremental source generator that discovers methods and classes marked with
     /// <c>[ServerAction]</c> and generates:
@@ -22,8 +21,17 @@ namespace NextNet.SourceGenerators.ServerActions
     ///   2. <c>ForAttributeWithMetadataName</c> discovers attributed methods.
     ///   3. <c>RegisterSourceOutput</c> emits endpoint + client proxy + registration code.
     /// </summary>
+    /// <example>
+    /// The generator discovers methods annotated with <c>[ServerAction]</c> and emits
+    /// a <c>MapPost</c> endpoint, a client proxy class, and DI registration automatically.
+    /// <code>
+    /// // Usage in a page handler:
+    /// [ServerAction(Name = "createUser", RequireAuth = true)]
+    /// public async Task&lt;ActionResult&gt; CreateUser(string name, string email) { ... }
+    /// </code>
+    /// </example>
     [Generator]
-    public class ServerActionGenerator : IIncrementalGenerator
+    public sealed class ServerActionGenerator : IIncrementalGenerator
     {
         /// <summary>
         /// Fully qualified name of the server action attribute.
@@ -335,4 +343,3 @@ namespace NextNet.Generated.ServerActions
 ", Encoding.UTF8));
         }
     }
-}

@@ -143,7 +143,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_EmptyDirectory_ReturnsEmptyManifest()
+    public void Scan_Should_ReturnEmptyManifest_When_DirectoryEmpty()
     {
         var scanner = new RouteScanner(_appDir, fileSystem: _fs);
         var manifest = scanner.Scan();
@@ -158,7 +158,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_SinglePage_ReturnsManifestWithOnePage()
+    public void Scan_Should_ReturnManifestWithOnePage_When_SinglePageExists()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.AddFile("/test/app/about/page.cs");
@@ -179,7 +179,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_PageWithRootLayout_SetsLayoutChain()
+    public void Scan_Should_SetLayoutChain_When_PageWithRootLayout()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.AddFile("/test/app/layout.cs");
@@ -200,7 +200,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_PageWithNestedLayout_ResolvesCorrectLayoutChain()
+    public void Scan_Should_ResolveCorrectLayoutChain_When_PageWithNestedLayout()
     {
         _fs.CreateDirectory("/test/app/blog");
         _fs.AddFile("/test/app/layout.cs");
@@ -220,7 +220,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_MultiplePages_ReturnsAllPages()
+    public void Scan_Should_ReturnAllPages_When_MultiplePagesExist()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.CreateDirectory("/test/app/contact");
@@ -237,7 +237,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_ApiRoutes_ReturnsApiRoutes()
+    public void Scan_Should_ReturnApiRoutes_When_ApiRoutesExist()
     {
         _fs.CreateDirectory("/test/app/api/users");
         _fs.AddFile("/test/app/api/users/route.cs");
@@ -251,7 +251,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_ErrorPage_DetectsErrorPage()
+    public void Scan_Should_DetectErrorPage_When_ErrorFileExists()
     {
         _fs.AddFile("/test/app/error.cs");
 
@@ -264,7 +264,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_MissingRootLayout_Warns()
+    public void Scan_Should_WarnAboutMissingRootLayout_When_PagesExistWithoutRootLayout()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.AddFile("/test/app/about/page.cs");
@@ -277,7 +277,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_OrphanedLayout_Warns()
+    public void Scan_Should_WarnAboutOrphanedLayout_When_LayoutHasNoPages()
     {
         _fs.CreateDirectory("/test/app/blog");
         _fs.AddFile("/test/app/layout.cs");
@@ -293,16 +293,10 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_DuplicateStaticRoutes_ReportsError()
+    public void Scan_Should_NotReportConflicts_When_RoutesAreUnique()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.AddFile("/test/app/about/page.cs");
-        // Two different files with same route pattern (simulate by adding same path twice)
-        // Actually, duplicate would be two files mapping to the same pattern.
-        // Let's create a scenario where two files resolve to "/about":
-        // That can't happen with same suffix, so let's test having two page.cs files in same dir
-        // Actually that's impossible in a real fs. For test we need to handle the case differently.
-        // For now, just verify no false positives on unique routes.
         _fs.AddFile("/test/app/contact/page.cs");
 
         var scanner = new RouteScanner(_appDir, fileSystem: _fs);
@@ -313,7 +307,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void Scan_DirectoryNotExists_ReturnsEmptyManifest()
+    public void Scan_Should_ReturnEmptyManifest_When_DirectoryNotExists()
     {
         var scanner = new RouteScanner("/nonexistent/dir", fileSystem: _fs);
         var manifest = scanner.Scan();
@@ -323,7 +317,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public async Task ScanAsync_ReturnsSameAsScan()
+    public async Task ScanAsync_Should_ReturnSameAsScan_When_Called()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.AddFile("/test/app/layout.cs");
@@ -337,7 +331,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public async Task Scan_CancellationToken_CancelsAsync()
+    public async Task ScanAsync_Should_ThrowOperationCanceled_When_CancellationTokenCancelled()
     {
         var scanner = new RouteScanner(_appDir, fileSystem: _fs);
         var cts = new CancellationTokenSource();
@@ -348,7 +342,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void IncrementalScan_AddedFile_IncludesNewRoute()
+    public void IncrementalScan_Should_IncludeNewRoute_When_FileAdded()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.AddFile("/test/app/layout.cs");
@@ -372,7 +366,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void IncrementalScan_DeletedFile_RemovesRoute()
+    public void IncrementalScan_Should_RemoveRoute_When_FileDeleted()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.CreateDirectory("/test/app/contact");
@@ -397,7 +391,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void IncrementalScan_ModifiedFile_UpdatesRoute()
+    public void IncrementalScan_Should_UpdateRoute_When_FileModified()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.AddFile("/test/app/layout.cs");
@@ -420,7 +414,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void IncrementalScan_NoChanges_ReturnsSameManifest()
+    public void IncrementalScan_Should_ReturnSameManifest_When_NoChanges()
     {
         _fs.CreateDirectory("/test/app/about");
         _fs.AddFile("/test/app/layout.cs");
@@ -435,7 +429,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void IncrementalScan_NullPrevious_Throws()
+    public void IncrementalScan_Should_ThrowArgumentNull_When_PreviousIsNull()
     {
         var scanner = new RouteScanner(_appDir, fileSystem: _fs);
         Assert.Throws<ArgumentNullException>(() =>
@@ -443,7 +437,7 @@ public class RouteScannerTests
     }
 
     [Fact]
-    public void IncrementalScan_NullChangedFiles_Throws()
+    public void IncrementalScan_Should_ThrowArgumentNull_When_ChangedFilesIsNull()
     {
         var scanner = new RouteScanner(_appDir, fileSystem: _fs);
         Assert.Throws<ArgumentNullException>(() =>

@@ -5,7 +5,7 @@ namespace NextNet.Layouts.Tests;
 public class LayoutDataTests
 {
     [Fact]
-    public void DefaultConstructor_CreatesEmptyData()
+    public void DefaultConstructor_Should_CreateEmptyData_When_Invoked()
     {
         var data = new LayoutData();
         Assert.NotNull(data.Data);
@@ -13,7 +13,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void ParameterizedConstructor_WithNull_CreatesEmptyData()
+    public void ParameterizedConstructor_Should_CreateEmptyData_When_NullPassed()
     {
         var data = new LayoutData(null);
         Assert.NotNull(data.Data);
@@ -21,7 +21,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void ParameterizedConstructor_WithDictionary_StoresData()
+    public void ParameterizedConstructor_Should_StoreData_When_DictionaryProvided()
     {
         var dict = new Dictionary<string, object?>
         {
@@ -36,7 +36,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void Merge_WithParentData_MergesCorrectly()
+    public void Merge_Should_MergeParentAndChildData_When_Called()
     {
         var parent = new LayoutData(new Dictionary<string, object?>
         {
@@ -57,7 +57,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void Merge_WithChildOverride_Wins()
+    public void Merge_Should_UseChildValue_When_KeyCollides()
     {
         var parent = new LayoutData(new Dictionary<string, object?> { ["key"] = "parent" });
         var child = new LayoutData(new Dictionary<string, object?> { ["key"] = "child" });
@@ -68,7 +68,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void Merge_WithNullParent_ThrowsArgumentNullException()
+    public void Merge_Should_ThrowArgumentNullException_When_ParentIsNull()
     {
         var child = new LayoutData();
 
@@ -76,7 +76,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void Merge_DoesNotMutateOriginals()
+    public void Merge_Should_NotMutateOriginals_When_Called()
     {
         var parent = new LayoutData(new Dictionary<string, object?> { ["key"] = "parent" });
         var child = new LayoutData(new Dictionary<string, object?> { ["key"] = "child" });
@@ -89,7 +89,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void TryGetValue_WithExistingKey_ReturnsValue()
+    public void TryGetValue_Should_ReturnTrue_When_KeyExists()
     {
         var data = new LayoutData(new Dictionary<string, object?> { ["name"] = "Test" });
 
@@ -100,7 +100,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void TryGetValue_WithMissingKey_ReturnsFalse()
+    public void TryGetValue_Should_ReturnFalse_When_KeyMissing()
     {
         var data = new LayoutData();
 
@@ -111,7 +111,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void TryGetValue_WithWrongType_ReturnsFalse()
+    public void TryGetValue_Should_ReturnFalse_When_TypeMismatch()
     {
         var data = new LayoutData(new Dictionary<string, object?> { ["count"] = 42 });
 
@@ -122,7 +122,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void SetValue_StoresAndRetrieves()
+    public void SetValue_Should_StoreAndRetrieve_When_KeyIsNew()
     {
         var data = new LayoutData();
         data.SetValue("key", "value");
@@ -132,7 +132,7 @@ public class LayoutDataTests
     }
 
     [Fact]
-    public void SetValue_OverwritesExisting()
+    public void SetValue_Should_OverwriteExisting_When_KeyAlreadyExists()
     {
         var data = new LayoutData(new Dictionary<string, object?> { ["key"] = "old" });
         data.SetValue("key", "new");

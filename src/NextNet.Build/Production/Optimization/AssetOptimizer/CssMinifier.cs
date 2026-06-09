@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Optimization.AssetOptimizer;
 /// <summary>
 /// Minifies CSS files by removing whitespace, comments, and optimizing rules.
 /// </summary>
-public partial class CssMinifier : IAssetOptimizer
+public sealed partial class CssMinifier : IAssetOptimizer
 {
     private readonly ISharpFileSystem _fileSystem;
 

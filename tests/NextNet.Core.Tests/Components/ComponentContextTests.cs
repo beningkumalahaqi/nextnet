@@ -7,7 +7,7 @@ namespace NextNet.Core.Tests.Components;
 public class ComponentContextTests
 {
     [Fact]
-    public void Constructor_WithHttpContext_StoresHttpContext()
+    public void Constructor_Should_StoreHttpContext_When_Provided()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -20,13 +20,13 @@ public class ComponentContextTests
     }
 
     [Fact]
-    public void Constructor_WithNullHttpContext_ThrowsArgumentNullException()
+    public void Constructor_Should_ThrowArgumentNullException_When_HttpContextIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new ComponentContext(null!));
     }
 
     [Fact]
-    public void Constructor_WithQueryParams_ParsesQueryString()
+    public void Constructor_Should_ParseQueryString_When_QueryParamsProvided()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -42,7 +42,7 @@ public class ComponentContextTests
     }
 
     [Fact]
-    public void Constructor_WithNoQueryParams_ReturnsEmptyQueryParams()
+    public void Constructor_Should_ReturnEmptyQueryParams_When_NoQueryString()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -56,7 +56,7 @@ public class ComponentContextTests
     }
 
     [Fact]
-    public void Constructor_WithRouteParams_ParsesRouteValues()
+    public void Constructor_Should_ParseRouteValues_When_RouteParamsProvided()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -73,7 +73,7 @@ public class ComponentContextTests
     }
 
     [Fact]
-    public void Constructor_WithNoRouteParams_ReturnsEmptyRouteParams()
+    public void Constructor_Should_ReturnEmptyRouteParams_When_NoRouteValues()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -87,7 +87,7 @@ public class ComponentContextTests
     }
 
     [Fact]
-    public void Constructor_WithNonStringRouteValue_SkipsIt()
+    public void Constructor_Should_SkipNonStringRouteValues_When_Encountered()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
@@ -101,7 +101,7 @@ public class ComponentContextTests
     }
 
     [Fact]
-    public void Constructor_QueryParamsIsCaseInsensitive()
+    public void QueryParams_Should_BeCaseInsensitive_When_Accessed()
     {
         // Arrange
         var httpContext = new DefaultHttpContext();

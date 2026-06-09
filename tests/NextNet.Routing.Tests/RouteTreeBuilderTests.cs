@@ -6,7 +6,7 @@ namespace NextNet.Routing.Tests;
 public class RouteTreeBuilderTests
 {
     [Fact]
-    public void BuildTree_EmptyManifest_ReturnsRootNode()
+    public void BuildTree_Should_ReturnRootNode_When_EmptyManifest()
     {
         var builder = new RouteTreeBuilder();
         var tree = builder.BuildTree(RouteManifest.Empty);
@@ -19,14 +19,14 @@ public class RouteTreeBuilderTests
     }
 
     [Fact]
-    public void BuildTree_NullManifest_Throws()
+    public void BuildTree_Should_ThrowArgumentNull_When_NullManifest()
     {
         var builder = new RouteTreeBuilder();
         Assert.Throws<ArgumentNullException>(() => builder.BuildTree(null!));
     }
 
     [Fact]
-    public void BuildTree_SinglePage_CreatesCorrectTree()
+    public void BuildTree_Should_CreateCorrectTree_When_SinglePage()
     {
         var page = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
         var manifest = new RouteManifest(
@@ -50,7 +50,7 @@ public class RouteTreeBuilderTests
     }
 
     [Fact]
-    public void BuildTree_MultiplePages_CreatesCorrectTree()
+    public void BuildTree_Should_CreateCorrectTree_When_MultiplePages()
     {
         var about = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
         var contact = new RouteEntry("/contact", "/app/contact/page.cs", RouteType.Page, RouteSegmentKind.Static);
@@ -71,7 +71,7 @@ public class RouteTreeBuilderTests
     }
 
     [Fact]
-    public void BuildTree_WithRootLayout_RootNodeHasEntry()
+    public void BuildTree_Should_HaveRootEntry_When_RootLayoutExists()
     {
         var rootLayout = new RouteEntry("/", "/app/layout.cs", RouteType.Layout, RouteSegmentKind.Static);
         var about = new RouteEntry("/about", "/app/about/page.cs", RouteType.Page, RouteSegmentKind.Static);
@@ -92,7 +92,7 @@ public class RouteTreeBuilderTests
     }
 
     [Fact]
-    public void BuildTree_DeepNestedRoutes_CreatesHierarchy()
+    public void BuildTree_Should_CreateHierarchy_When_DeepNestedRoutes()
     {
         var blog2024slug = new RouteEntry(
             "/blog/2024/{slug}",
@@ -129,7 +129,7 @@ public class RouteTreeBuilderTests
     }
 
     [Fact]
-    public void BuildTree_TreeNodeToString_FormatsCorrectly()
+    public void BuildTree_Should_FormatTreeNodeToString_When_Called()
     {
         var node = new RouteTreeNode(
             "{slug}",
@@ -144,7 +144,7 @@ public class RouteTreeBuilderTests
     }
 
     [Fact]
-    public void BuildTree_IntermediateNodeWithEntry_KeepsEntry()
+    public void BuildTree_Should_KeepEntry_When_IntermediateNodeHasEntry()
     {
         // A layout at /blog and a page at /blog/[slug]
         var blogLayout = new RouteEntry("/blog", "/app/blog/layout.cs", RouteType.Layout, RouteSegmentKind.Static);

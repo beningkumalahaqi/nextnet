@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Logging;
 /// <summary>
 /// Middleware that measures and logs request duration.
 /// </summary>
-public class RequestTimingMiddleware
+public sealed class RequestTimingMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ProductionLogger _logger;

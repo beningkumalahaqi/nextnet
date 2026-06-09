@@ -7,7 +7,7 @@ namespace NextNet.Rendering.Tests;
 public class HtmlResponseTests
 {
     [Fact]
-    public void Constructor_WithContent_SetsProperties()
+    public void Constructor_Should_SetProperties_WhenContentProvided()
     {
         var content = new RawHtmlContent("<p>hello</p>");
         var response = new HtmlResponse(content, 200, "public, max-age=3600");
@@ -18,20 +18,20 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public void Constructor_WithDefaultStatusCode_Is200()
+    public void Constructor_Should_DefaultTo200_WhenStatusCodeNotSpecified()
     {
         var response = new HtmlResponse(new RawHtmlContent("ok"));
         Assert.Equal(200, response.StatusCode);
     }
 
     [Fact]
-    public void Constructor_WithNullContent_ThrowsArgumentNullException()
+    public void Constructor_Should_ThrowArgumentNullException_WhenContentIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new HtmlResponse(null!));
     }
 
     [Fact]
-    public void ToString_ReturnsContentHtml()
+    public void ToString_Should_ReturnContentHtml_WhenCalled()
     {
         var content = new RawHtmlContent("<div>test</div>");
         var response = new HtmlResponse(content);
@@ -39,7 +39,7 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public void NotFound_Returns404WithNotFoundBody()
+    public void NotFound_Should_Return404_WhenCalled()
     {
         var response = HtmlResponse.NotFound();
 
@@ -50,7 +50,7 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public void Redirect_Returns301WithLocation()
+    public void Redirect_Should_Return301_WhenCalled()
     {
         var response = HtmlResponse.Redirect("/new-location");
 
@@ -62,7 +62,7 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_SetsStatusCodeAndContentType()
+    public async Task ExecuteAsync_Should_SetStatusCodeAndContentType_WhenCalled()
     {
         var ctx = new DefaultHttpContext();
         ctx.Response.Body = new MemoryStream();
@@ -76,7 +76,7 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithoutCacheControl_OmitsHeader()
+    public async Task ExecuteAsync_Should_NotSetCacheControl_WhenCacheControlIsNull()
     {
         var ctx = new DefaultHttpContext();
         ctx.Response.Body = new MemoryStream();
@@ -88,7 +88,7 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithCacheControl_SetsHeader()
+    public async Task ExecuteAsync_Should_SetCacheControl_WhenCacheControlProvided()
     {
         var ctx = new DefaultHttpContext();
         ctx.Response.Body = new MemoryStream();
@@ -100,7 +100,7 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WritesContentToBody()
+    public async Task ExecuteAsync_Should_WriteContentToBody_WhenCalled()
     {
         var ctx = new DefaultHttpContext();
         ctx.Response.Body = new MemoryStream();
@@ -114,7 +114,7 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ResponseWithHttpContext_WritesCorrectly()
+    public async Task ExecuteAsync_Should_WriteCorrectly_WhenHttpContextProvided()
     {
         var ctx = new DefaultHttpContext();
         ctx.Response.Body = new MemoryStream();
@@ -133,14 +133,14 @@ public class HtmlResponseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_NullHttpContext_Throws()
+    public async Task ExecuteAsync_Should_ThrowArgumentNullException_WhenHttpContextIsNull()
     {
         var response = new HtmlResponse(new RawHtmlContent("test"));
         await Assert.ThrowsAsync<ArgumentNullException>(() => response.ExecuteAsync(null!));
     }
 
     [Fact]
-    public void ToString_RichContent_ReturnsExpected()
+    public void ToString_Should_ReturnExpectedHtml_WhenContentHasSpecialChars()
     {
         var content = new RawHtmlContent("<script>alert('xss')</script>");
         var response = new HtmlResponse(content);

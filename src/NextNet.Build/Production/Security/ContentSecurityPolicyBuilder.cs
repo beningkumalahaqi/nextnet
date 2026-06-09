@@ -5,7 +5,16 @@ namespace NextNet.Build.Production.Security;
 /// <summary>
 /// Builder for constructing Content-Security-Policy headers with a fluent API.
 /// </summary>
-public class ContentSecurityPolicyBuilder
+/// <example>
+/// <code>
+/// var csp = ContentSecurityPolicyBuilder.CreateDefault()
+///     .WithScriptSrc("'self'", "https://cdn.example.com")
+///     .WithStyleSrc("'self'", "'unsafe-inline'")
+///     .Build();
+/// // Result: "default-src 'self'; script-src 'self' https://cdn.example.com; ..."
+/// </code>
+/// </example>
+public sealed class ContentSecurityPolicyBuilder
 {
     private readonly Dictionary<string, List<string>> _directives = new();
     private bool _reportOnly;

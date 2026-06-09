@@ -7,7 +7,7 @@ namespace NextNet.Build.Tests.Optimization;
 public class AssetOptimizerTests
 {
     [Fact]
-    public void OptimizableExtensions_ContainsExpected()
+    public void OptimizableExtensions_Should_ContainExpected_When_Defined()
     {
         Assert.Contains(".html", AssetOptimizer.OptimizableExtensions);
         Assert.Contains(".css", AssetOptimizer.OptimizableExtensions);
@@ -18,7 +18,7 @@ public class AssetOptimizerTests
     }
 
     [Fact]
-    public void OptimizableExtensions_NotContainsBinary()
+    public void OptimizableExtensions_Should_NotContainBinary_When_Defined()
     {
         Assert.DoesNotContain(".png", AssetOptimizer.OptimizableExtensions);
         Assert.DoesNotContain(".woff", AssetOptimizer.OptimizableExtensions);
@@ -26,7 +26,7 @@ public class AssetOptimizerTests
     }
 
     [Fact]
-    public async Task OptimizeDirectoryAsync_NonExistent_ReturnsZero()
+    public async Task OptimizeDirectoryAsync_Should_ReturnZero_When_DirectoryNonExistent()
     {
         using var tempDir = new TempDirectory();
         var optimizer = new AssetOptimizer();
@@ -37,7 +37,7 @@ public class AssetOptimizerTests
     }
 
     [Fact]
-    public async Task OptimizeDirectoryAsync_MinifiesHtml()
+    public async Task OptimizeDirectoryAsync_Should_MinifyHtml_When_HtmlFilesPresent()
     {
         using var tempDir = new TempDirectory();
         var dir = System.IO.Path.Combine(tempDir.Path, "assets");
@@ -51,12 +51,12 @@ public class AssetOptimizerTests
         Assert.True(bytesSaved > 0);
 
         var content = await File.ReadAllTextAsync(file);
-        Assert.DoesNotContain("  ", content); // No double spaces
-        Assert.Contains("Hello", content); // Content preserved
+        Assert.DoesNotContain("  ", content);
+        Assert.Contains("Hello", content);
     }
 
     [Fact]
-    public async Task OptimizeDirectoryAsync_SkipsBinaryFiles()
+    public async Task OptimizeDirectoryAsync_Should_SkipBinaryFiles_When_Present()
     {
         using var tempDir = new TempDirectory();
         var dir = System.IO.Path.Combine(tempDir.Path, "assets");
@@ -71,7 +71,7 @@ public class AssetOptimizerTests
     }
 
     [Fact]
-    public async Task OptimizeDirectoryAsync_ProcessesNestedDirectories()
+    public async Task OptimizeDirectoryAsync_Should_ProcessNestedDirectories_When_SubdirectoriesExist()
     {
         using var tempDir = new TempDirectory();
         var dir = System.IO.Path.Combine(tempDir.Path, "assets");

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NextNet.Components;
 using NextNet.Exceptions;
+using NextNet.Layouts.Errors;
 using NextNet.Logging;
 using NextNet.Rendering;
 using NextNet.Routing;
@@ -13,7 +14,22 @@ namespace NextNet.Layouts;
 /// the configured error page (e.g. <c>app/error.cs</c>), wrapping it in the
 /// layout chain.
 /// </summary>
-public class ErrorBoundaryRenderer
+/// <example>
+/// <code>
+/// var boundary = new ErrorBoundaryRenderer(componentResolver);
+/// var services = serviceProvider;
+/// var manifest = routeManifest;
+/// var result = await boundary.RenderAsync(
+///     () => page.Render(),
+///     layoutTypes,
+///     services,
+///     manifest,
+///     layoutRenderer);
+/// // If page.Render() throws, the error boundary resolves the error page
+/// // from manifest.ErrorPage and renders it inside the layout chain.
+/// </code>
+/// </example>
+public sealed class ErrorBoundaryRenderer
 {
     private readonly IRouteComponentResolver _componentResolver;
     private readonly INextNetLogger? _logger;
@@ -129,13 +145,17 @@ public class ErrorBoundaryRenderer
                 }
                 catch (Exception innerEx)
                 {
-                    _logger?.Error("Error page render itself failed: {ExceptionType}: {Message}",
+                    _logger?.Error("[{ErrorCode}] Error page render itself failed: {ExceptionType}: {Message}",
+                        LayoutErrorCodes.ErrorPageRenderFailed,
                         innerEx.GetType().Name, innerEx.Message);
                 }
             }
         }
 
         // Built-in fallback
+        _logger?.Error("[{ErrorCode}] Error boundary fell back to built-in error page for: {ExceptionType}: {Message}",
+            LayoutErrorCodes.ErrorBoundaryFallback,
+            exception.GetType().Name, exception.Message);
         return GenerateBuiltInErrorContent(exception);
     }
 

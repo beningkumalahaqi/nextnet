@@ -4,7 +4,7 @@ namespace NextNet.Components;
 /// Wraps a raw HTML string as <see cref="IHtmlContent"/>.
 /// The content is written as-is without any encoding.
 /// </summary>
-public class RawHtmlContent : IHtmlContent
+public sealed class RawHtmlContent : IHtmlContent
 {
     /// <summary>
     /// Gets the raw HTML content string.

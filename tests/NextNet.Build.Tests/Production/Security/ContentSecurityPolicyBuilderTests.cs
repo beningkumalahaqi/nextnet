@@ -6,7 +6,7 @@ namespace NextNet.Build.Tests.Production.Security;
 public class ContentSecurityPolicyBuilderTests
 {
     [Fact]
-    public void CreateDefault_GeneratesSecurePolicy()
+    public void CreateDefault_Should_GenerateSecurePolicy_When_Called()
     {
         var csp = ContentSecurityPolicyBuilder.CreateDefault().Build();
         Assert.Contains("default-src 'self'", csp);
@@ -18,7 +18,7 @@ public class ContentSecurityPolicyBuilderTests
     }
 
     [Fact]
-    public void Build_WithCustomDirective_IncludesIt()
+    public void Build_Should_IncludeCustomDirective_When_Added()
     {
         var csp = ContentSecurityPolicyBuilder.CreateDefault()
             .WithDirective("upgrade-insecure-requests")
@@ -28,21 +28,21 @@ public class ContentSecurityPolicyBuilderTests
     }
 
     [Fact]
-    public void ReportOnly_ReturnsCorrectHeaderName()
+    public void ReportOnly_Should_ReturnCorrectHeaderName_When_Called()
     {
         var builder = ContentSecurityPolicyBuilder.CreateDefault().AsReportOnly();
         Assert.Equal("Content-Security-Policy-Report-Only", builder.GetHeaderName());
     }
 
     [Fact]
-    public void Default_ReturnsCorrectHeaderName()
+    public void Default_Should_ReturnCorrectHeaderName_When_Called()
     {
         var builder = ContentSecurityPolicyBuilder.CreateDefault();
         Assert.Equal("Content-Security-Policy", builder.GetHeaderName());
     }
 
     [Fact]
-    public void Build_WithAdditionalSources_AppendsThem()
+    public void Build_Should_AppendAdditionalSources_When_Added()
     {
         var csp = ContentSecurityPolicyBuilder.CreateDefault()
             .WithScriptSrc("https://cdn.example.com")
@@ -52,7 +52,7 @@ public class ContentSecurityPolicyBuilderTests
     }
 
     [Fact]
-    public void Build_WithReportUri_IncludesReportDirectives()
+    public void Build_Should_IncludeReportDirectives_When_Configured()
     {
         var csp = ContentSecurityPolicyBuilder.CreateDefault()
             .WithReportUri("/csp-violations")

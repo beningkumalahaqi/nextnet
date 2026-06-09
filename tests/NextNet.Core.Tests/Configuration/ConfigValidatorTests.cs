@@ -1,4 +1,5 @@
 using NextNet.Configuration;
+using NextNet.Errors;
 using Xunit;
 
 namespace NextNet.Core.Tests.Configuration;
@@ -6,7 +7,7 @@ namespace NextNet.Core.Tests.Configuration;
 public class ConfigValidatorTests
 {
     [Fact]
-    public void Validate_WithDefaultConfig_ReturnsNoErrors()
+    public void Validate_Should_ReturnNoErrors_When_DefaultConfigProvided()
     {
         // Arrange
         var config = new NextNetConfig();
@@ -19,136 +20,145 @@ public class ConfigValidatorTests
     }
 
     [Fact]
-    public void Validate_WithNullConfig_ThrowsArgumentNullException()
+    public void Validate_Should_ThrowArgumentNullException_When_ConfigIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => ConfigValidator.Validate(null!));
     }
 
     [Fact]
-    public void Validate_WithEmptyAppDir_ReturnsError()
+    public void Validate_Should_ReturnError_When_AppDirIsEmpty()
     {
         // Arrange
         var config = new NextNetConfig { AppDir = "" };
+        var expectedCode = CoreErrorCodes.ConfigAppDirEmpty;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
         Assert.Contains(errors, e =>
-            e.Code == "APP_DIR_EMPTY" &&
+            e.Code == expectedCode &&
             e.Severity == ConfigErrorSeverity.Error);
     }
 
     [Fact]
-    public void Validate_WithWhitespaceAppDir_ReturnsError()
+    public void Validate_Should_ReturnError_When_AppDirIsWhitespace()
     {
         // Arrange
         var config = new NextNetConfig { AppDir = "   " };
+        var expectedCode = CoreErrorCodes.ConfigAppDirEmpty;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
-        Assert.Contains(errors, e => e.Code == "APP_DIR_EMPTY");
+        Assert.Contains(errors, e => e.Code == expectedCode);
     }
 
     [Fact]
-    public void Validate_WithDevPortZero_ReturnsError()
+    public void Validate_Should_ReturnError_When_DevPortIsZero()
     {
         // Arrange
         var config = new NextNetConfig { DevPort = 0 };
+        var expectedCode = CoreErrorCodes.ConfigDevPortOutOfRange;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
         Assert.Contains(errors, e =>
-            e.Code == "DEV_PORT_OUT_OF_RANGE" &&
+            e.Code == expectedCode &&
             e.Severity == ConfigErrorSeverity.Error);
     }
 
     [Fact]
-    public void Validate_WithDevPortNegative_ReturnsError()
+    public void Validate_Should_ReturnError_When_DevPortIsNegative()
     {
         // Arrange
         var config = new NextNetConfig { DevPort = -1 };
+        var expectedCode = CoreErrorCodes.ConfigDevPortOutOfRange;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
-        Assert.Contains(errors, e => e.Code == "DEV_PORT_OUT_OF_RANGE");
+        Assert.Contains(errors, e => e.Code == expectedCode);
     }
 
     [Fact]
-    public void Validate_WithDevPortOver65535_ReturnsError()
+    public void Validate_Should_ReturnError_When_DevPortExceedsMax()
     {
         // Arrange
         var config = new NextNetConfig { DevPort = 70000 };
+        var expectedCode = CoreErrorCodes.ConfigDevPortOutOfRange;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
-        Assert.Contains(errors, e => e.Code == "DEV_PORT_OUT_OF_RANGE");
+        Assert.Contains(errors, e => e.Code == expectedCode);
     }
 
     [Fact]
-    public void Validate_WithDevPortValid_NoError()
+    public void Validate_Should_NotReturnError_When_DevPortIsValid()
     {
         // Arrange
         var config = new NextNetConfig { DevPort = 8080 };
+        var expectedCode = CoreErrorCodes.ConfigDevPortOutOfRange;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
-        Assert.DoesNotContain(errors, e => e.Code == "DEV_PORT_OUT_OF_RANGE");
+        Assert.DoesNotContain(errors, e => e.Code == expectedCode);
     }
 
     [Fact]
-    public void Validate_WithWatchDebounceMsZero_ReturnsError()
+    public void Validate_Should_ReturnError_When_WatchDebounceMsIsZero()
     {
         // Arrange
         var config = new NextNetConfig { WatchDebounceMs = 0 };
+        var expectedCode = CoreErrorCodes.ConfigWatchDebounceInvalid;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
         Assert.Contains(errors, e =>
-            e.Code == "WATCH_DEBOUNCE_INVALID" &&
+            e.Code == expectedCode &&
             e.Severity == ConfigErrorSeverity.Error);
     }
 
     [Fact]
-    public void Validate_WithWatchDebounceMsNegative_ReturnsError()
+    public void Validate_Should_ReturnError_When_WatchDebounceMsIsNegative()
     {
         // Arrange
         var config = new NextNetConfig { WatchDebounceMs = -100 };
+        var expectedCode = CoreErrorCodes.ConfigWatchDebounceInvalid;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
-        Assert.Contains(errors, e => e.Code == "WATCH_DEBOUNCE_INVALID");
+        Assert.Contains(errors, e => e.Code == expectedCode);
     }
 
     [Fact]
-    public void Validate_WithWatchDebounceMsValid_NoError()
+    public void Validate_Should_NotReturnError_When_WatchDebounceMsIsValid()
     {
         // Arrange
         var config = new NextNetConfig { WatchDebounceMs = 500 };
+        var expectedCode = CoreErrorCodes.ConfigWatchDebounceInvalid;
 
         // Act
         var errors = ConfigValidator.Validate(config);
 
         // Assert
-        Assert.DoesNotContain(errors, e => e.Code == "WATCH_DEBOUNCE_INVALID");
+        Assert.DoesNotContain(errors, e => e.Code == expectedCode);
     }
 
     [Fact]
-    public void Validate_WithMultipleErrors_ReturnsAllErrors()
+    public void Validate_Should_ReturnAllErrors_When_MultipleIssuesExist()
     {
         // Arrange
         var config = new NextNetConfig
@@ -166,7 +176,7 @@ public class ConfigValidatorTests
     }
 
     [Fact]
-    public void Validate_ResultIsReadOnly()
+    public void Validate_Should_ReturnReadOnlyList_When_Invoked()
     {
         // Arrange
         var config = new NextNetConfig { AppDir = "", DevPort = -1, WatchDebounceMs = 0 };

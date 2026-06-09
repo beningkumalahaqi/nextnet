@@ -37,9 +37,8 @@ public class StaticParamsResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_PageWithIStaticPathProvider_ReturnsParams()
+    public async Task ResolveAsync_Should_ReturnParams_When_PageImplementsIStaticPathProvider()
     {
-        // Arrange
         var services = new ServiceCollection();
         services.AddScoped<IPage>(_ => new TestPageWithParams());
         services.AddScoped<IStaticPathProvider>(_ => new TestPageWithParams());
@@ -50,10 +49,8 @@ public class StaticParamsResolverTests
 
         var entry = new RouteEntry("/blog/{slug}", "app/blog/[slug]/page.cs", RouteType.Page, RouteSegmentKind.Dynamic);
 
-        // Act
         var result = await paramResolver.ResolveAsync(entry);
 
-        // Assert
         Assert.NotNull(result);
         Assert.Equal(2, result.Count);
         Assert.Equal("hello-world", result[0]["slug"]);
@@ -61,7 +58,7 @@ public class StaticParamsResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_PageWithoutIStaticPathProvider_ReturnsNull()
+    public async Task ResolveAsync_Should_ReturnNull_When_PageLacksIStaticPathProvider()
     {
         var services = new ServiceCollection();
         services.AddScoped<IPage>(_ => new TestPageWithoutParams());
@@ -77,24 +74,22 @@ public class StaticParamsResolverTests
     }
 
     [Fact]
-    public void ClearCache_InvalidatesCachedResults()
+    public void ClearCache_Should_Invalidate_When_Called()
     {
         var services = new ServiceCollection().BuildServiceProvider();
         var resolver = new ComponentTypeResolver(typeof(TestPageWithParams), null);
         var paramResolver = new StaticParamsResolver(resolver, services);
 
-        // Should not throw
         paramResolver.ClearCache();
     }
 
     [Fact]
-    public async Task ResolveAsync_WithStaticParamsJsonFile_ReturnsParams()
+    public async Task ResolveAsync_Should_ReturnParams_When_StaticParamsJsonExists()
     {
         using var tempDir = new TempDirectory();
         var pageDir = System.IO.Path.Combine(tempDir.Path, "app", "blog", "[slug]");
         Directory.CreateDirectory(pageDir);
 
-        // Write a staticparams.json file alongside the page component
         var jsonPath = System.IO.Path.Combine(pageDir, "staticparams.json");
         var json = @"[
             { ""slug"": ""hello-world"" },
@@ -105,7 +100,6 @@ public class StaticParamsResolverTests
 
         var services = new ServiceCollection().BuildServiceProvider();
 
-        // Use absolute path for the entry file path so the resolver can locate the json
         var pageEntryPath = System.IO.Path.Combine(pageDir, "page.cs");
         var resolver = new ComponentTypeResolver(null, null);
         var fileSystem = new NextNet.IO.DefaultSharpFileSystem();
@@ -123,7 +117,7 @@ public class StaticParamsResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_WithEmptyJsonArray_ReturnsNull()
+    public async Task ResolveAsync_Should_ReturnNull_When_JsonArrayIsEmpty()
     {
         using var tempDir = new TempDirectory();
         var pageDir = System.IO.Path.Combine(tempDir.Path, "app", "blog", "[slug]");
@@ -146,7 +140,7 @@ public class StaticParamsResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_WithInvalidJson_ReturnsNull()
+    public async Task ResolveAsync_Should_ReturnNull_When_JsonIsInvalid()
     {
         using var tempDir = new TempDirectory();
         var pageDir = System.IO.Path.Combine(tempDir.Path, "app", "blog", "[slug]");
@@ -169,7 +163,7 @@ public class StaticParamsResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_WithoutJsonFile_ReturnsNull()
+    public async Task ResolveAsync_Should_ReturnNull_When_NoJsonFileExists()
     {
         using var tempDir = new TempDirectory();
         var pageDir = System.IO.Path.Combine(tempDir.Path, "app", "about");
@@ -189,14 +183,13 @@ public class StaticParamsResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_WithJsonFileInParentDir_DoesNotFind()
+    public async Task ResolveAsync_Should_NotFind_When_JsonInParentDir()
     {
         using var tempDir = new TempDirectory();
         var parentDir = System.IO.Path.Combine(tempDir.Path, "app", "blog");
         var pageDir = System.IO.Path.Combine(parentDir, "[slug]");
         Directory.CreateDirectory(pageDir);
 
-        // Write staticparams.json in parent dir, not the page dir
         var jsonPath = System.IO.Path.Combine(parentDir, "staticparams.json");
         await File.WriteAllTextAsync(jsonPath, @"[{ ""slug"": ""test"" }]");
 
@@ -214,19 +207,16 @@ public class StaticParamsResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_JsonTakesPriorityOverProvider_WhenBothExist()
+    public async Task ResolveAsync_Should_FallbackToJson_When_ProviderReturnsNull()
     {
         using var tempDir = new TempDirectory();
         var pageDir = System.IO.Path.Combine(tempDir.Path, "app", "blog", "[slug]");
         Directory.CreateDirectory(pageDir);
 
-        // StaticParamsResolver checks provider first, then convention file.
-        // If provider returns null, it falls back to the JSON file.
         var jsonPath = System.IO.Path.Combine(pageDir, "staticparams.json");
         var json = @"[{ ""slug"": ""from-json"" }]";
         await File.WriteAllTextAsync(jsonPath, json);
 
-        // Register a page that implements IStaticPathProvider but returns null
         var services = new ServiceCollection();
         services.AddScoped<IStaticPathProvider>(_ => new NullReturningProvider());
         var sp = services.BuildServiceProvider();
@@ -240,7 +230,6 @@ public class StaticParamsResolverTests
 
         var result = await paramResolver.ResolveAsync(entry);
 
-        // Should fall through to JSON file when provider returns null
         Assert.NotNull(result);
         Assert.Single(result);
         Assert.Equal("from-json", result[0]["slug"]);
@@ -252,9 +241,6 @@ public class StaticParamsResolverTests
             => Task.FromResult<IReadOnlyList<Dictionary<string, string>>>(new List<Dictionary<string, string>>());
     }
 
-    /// <summary>
-    /// Test double for IRouteComponentResolver that returns pre-configured types.
-    /// </summary>
     private sealed class ComponentTypeResolver : IRouteComponentResolver
     {
         private readonly Type? _pageType;

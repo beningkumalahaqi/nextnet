@@ -7,7 +7,7 @@ namespace NextNet.Build.Optimization;
 /// to the output directory. Currently handles basic minification of
 /// known text-based asset types.
 /// </summary>
-public class AssetOptimizer
+public sealed class AssetOptimizer
 {
     private readonly ISharpFileSystem _fileSystem;
 

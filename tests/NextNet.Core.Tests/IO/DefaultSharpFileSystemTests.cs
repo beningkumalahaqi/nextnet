@@ -8,7 +8,7 @@ public class DefaultSharpFileSystemTests
     private readonly DefaultSharpFileSystem _fs = new();
 
     [Fact]
-    public void FileExists_WhenFileExists_ReturnsTrue()
+    public void FileExists_Should_ReturnTrue_When_FileExists()
     {
         var path = Path.GetTempFileName();
         try
@@ -22,14 +22,14 @@ public class DefaultSharpFileSystemTests
     }
 
     [Fact]
-    public void FileExists_WhenFileDoesNotExist_ReturnsFalse()
+    public void FileExists_Should_ReturnFalse_When_FileDoesNotExist()
     {
         var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".tmp");
         Assert.False(_fs.FileExists(path));
     }
 
     [Fact]
-    public void ReadAllText_And_WriteAllText_Roundtrip()
+    public void ReadAllText_Should_Roundtrip_When_WriteAllTextCalled()
     {
         var path = Path.GetTempFileName();
         try
@@ -46,7 +46,7 @@ public class DefaultSharpFileSystemTests
     }
 
     [Fact]
-    public async Task ReadAllTextAsync_And_WriteAllTextAsync_Roundtrip()
+    public async Task ReadAllTextAsync_Should_Roundtrip_When_WriteAllTextAsyncCalled()
     {
         var path = Path.GetTempFileName();
         try
@@ -63,7 +63,7 @@ public class DefaultSharpFileSystemTests
     }
 
     [Fact]
-    public void EnumerateFiles_ReturnsFilesInDirectory()
+    public void EnumerateFiles_Should_ReturnFiles_When_DirectoryHasFiles()
     {
         var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
@@ -86,7 +86,7 @@ public class DefaultSharpFileSystemTests
     }
 
     [Fact]
-    public void EnumerateDirectories_ReturnsSubdirectories()
+    public void EnumerateDirectories_Should_ReturnSubdirectories_When_Invoked()
     {
         var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
@@ -109,21 +109,21 @@ public class DefaultSharpFileSystemTests
     }
 
     [Fact]
-    public void DirectoryExists_WhenExists_ReturnsTrue()
+    public void DirectoryExists_Should_ReturnTrue_When_DirectoryExists()
     {
         var dir = Path.GetTempPath();
         Assert.True(_fs.DirectoryExists(dir));
     }
 
     [Fact]
-    public void DirectoryExists_WhenNotExists_ReturnsFalse()
+    public void DirectoryExists_Should_ReturnFalse_When_DirectoryDoesNotExist()
     {
         var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Assert.False(_fs.DirectoryExists(dir));
     }
 
     [Fact]
-    public void CreateDirectory_CreatesDirectory()
+    public void CreateDirectory_Should_CreateDirectory_When_Invoked()
     {
         var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         try
@@ -138,7 +138,7 @@ public class DefaultSharpFileSystemTests
     }
 
     [Fact]
-    public void CreateDirectory_CreatesNestedDirectories()
+    public void CreateDirectory_Should_CreateNestedDirectories_When_Invoked()
     {
         var root = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         var dir = Path.Combine(root, "nested", "deep");
@@ -155,7 +155,7 @@ public class DefaultSharpFileSystemTests
     }
 
     [Fact]
-    public void GetFullPath_ReturnsAbsolutePath()
+    public void GetFullPath_Should_ReturnAbsolutePath_When_Invoked()
     {
         var path = ".";
         var full = _fs.GetFullPath(path);
@@ -163,28 +163,28 @@ public class DefaultSharpFileSystemTests
     }
 
     [Fact]
-    public void GetDirectoryName_ReturnsDirectoryPart()
+    public void GetDirectoryName_Should_ReturnDirectoryPart_When_Invoked()
     {
         var dir = _fs.GetDirectoryName("/a/b/c.txt");
         Assert.Equal("/a/b", dir);
     }
 
     [Fact]
-    public void GetFileName_ReturnsFileNamePart()
+    public void GetFileName_Should_ReturnFileNamePart_When_Invoked()
     {
         var name = _fs.GetFileName("/a/b/file.txt");
         Assert.Equal("file.txt", name);
     }
 
     [Fact]
-    public void GetFileNameWithoutExtension_ReturnsNameWithoutExtension()
+    public void GetFileNameWithoutExtension_Should_ReturnNameWithoutExtension_When_Invoked()
     {
         var name = _fs.GetFileNameWithoutExtension("/a/b/file.txt");
         Assert.Equal("file", name);
     }
 
     [Fact]
-    public void Combine_JoinsPaths()
+    public void Combine_Should_JoinPaths_When_Invoked()
     {
         var result = _fs.Combine("a", "b", "c.txt");
         var expected = Path.Combine("a", "b", "c.txt");

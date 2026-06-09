@@ -7,7 +7,23 @@ namespace NextNet.Components;
 /// access to the underlying <see cref="Microsoft.AspNetCore.Http.HttpContext"/> and parsed
 /// route/query parameters.
 /// </summary>
-public class ComponentContext
+/// <example>
+/// <code>
+/// public class MyPage : IPage
+/// {
+///     public async Task&lt;IHtmlContent&gt; Render()
+///     {
+///         var slug = Context.RouteParams["slug"];
+///         var page = Context.QueryParams.GetValueOrDefault("page", "1");
+///         return HtmlHelper.Text($"Viewing {slug}, page {page}");
+///     }
+///
+///     public ComponentContext Context { get; set; }
+///     public IReadOnlyDictionary&lt;string, object&gt; Props { get; }
+/// }
+/// </code>
+/// </example>
+public sealed class ComponentContext
 {
     /// <summary>
     /// Gets the underlying ASP.NET Core <see cref="Microsoft.AspNetCore.Http.HttpContext"/>.

@@ -3,7 +3,7 @@ namespace NextNet.Build.Production.Security;
 /// <summary>
 /// Options for configuring security headers middleware.
 /// </summary>
-public class SecurityHeadersOptions
+public sealed class SecurityHeadersOptions
 {
     /// <summary>
     /// Whether to enable security headers.

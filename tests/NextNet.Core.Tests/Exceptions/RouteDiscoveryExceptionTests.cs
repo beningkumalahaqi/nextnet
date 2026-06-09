@@ -6,7 +6,7 @@ namespace NextNet.Core.Tests.Exceptions;
 public class RouteDiscoveryExceptionTests
 {
     [Fact]
-    public void Constructor_NoArguments_CreatesException()
+    public void Constructor_Should_CreateException_When_NoArguments()
     {
         var ex = new RouteDiscoveryException();
         Assert.NotNull(ex);
@@ -14,14 +14,14 @@ public class RouteDiscoveryExceptionTests
     }
 
     [Fact]
-    public void Constructor_WithMessage_SetsMessage()
+    public void Constructor_Should_SetMessage_When_MessageProvided()
     {
         var ex = new RouteDiscoveryException("Route scan failed.");
         Assert.Equal("Route scan failed.", ex.Message);
     }
 
     [Fact]
-    public void Constructor_WithMessageAndInnerException_SetsBoth()
+    public void Constructor_Should_SetMessageAndInnerException_When_BothProvided()
     {
         var inner = new InvalidOperationException("File not found");
         var ex = new RouteDiscoveryException("Discovery error", inner);
@@ -31,7 +31,7 @@ public class RouteDiscoveryExceptionTests
     }
 
     [Fact]
-    public void Constructor_IsAssignableToException()
+    public void Constructor_Should_BeAssignableToException_When_Invoked()
     {
         var ex = new RouteDiscoveryException("test");
         Assert.IsAssignableFrom<Exception>(ex);

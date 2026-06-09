@@ -11,7 +11,7 @@ public class NextNetConfigLoaderTests
     private static readonly string ConfigFileName = NextNetConventions.ConfigFileName;
 
     [Fact]
-    public void Load_WhenNoConfigFileExists_ReturnsDefaultConfig()
+    public void Load_Should_ReturnDefaultConfig_When_NoConfigFileExists()
     {
         // Arrange
         using var tempDir = new TempDirectory();
@@ -36,7 +36,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void Load_WhenConfigFileExistsInDirectory_LoadsConfig()
+    public void Load_Should_LoadConfig_When_ConfigFileExistsInDirectory()
     {
         // Arrange
         using var tempDir = new TempDirectory();
@@ -78,7 +78,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void Load_WhenConfigFileExistsInParentDirectory_LoadsConfig()
+    public void Load_Should_LoadConfig_When_ConfigFileExistsInParentDirectory()
     {
         // Arrange
         using var tempDir = new TempDirectory();
@@ -99,7 +99,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void Load_WhenConfigFileContainsInvalidJson_ThrowsConfigurationException()
+    public void Load_Should_ThrowConfigurationException_When_ConfigFileContainsInvalidJson()
     {
         // Arrange
         using var tempDir = new TempDirectory();
@@ -114,7 +114,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void Load_WhenStartDirectoryIsNull_UsesCurrentDirectory()
+    public void Load_Should_UseCurrentDirectory_When_StartDirectoryIsNull()
     {
         // This test verifies the default parameter doesn't throw.
         var loader = new NextNetConfigLoader();
@@ -123,7 +123,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void FindConfigFile_ReturnsNullWhenNoConfigExists()
+    public void FindConfigFile_Should_ReturnNull_When_NoConfigExists()
     {
         using var tempDir = new TempDirectory();
         var loader = new NextNetConfigLoader();
@@ -132,7 +132,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void FindConfigFile_FindsConfigInCurrentDirectory()
+    public void FindConfigFile_Should_FindConfig_When_InCurrentDirectory()
     {
         using var tempDir = new TempDirectory();
         var configPath = Path.Combine(tempDir.Path, ConfigFileName);
@@ -145,7 +145,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void FindConfigFile_SearchesUpwardWhenNotInCurrentDirectory()
+    public void FindConfigFile_Should_SearchUpward_When_NotInCurrentDirectory()
     {
         using var tempDir = new TempDirectory();
         var configPath = Path.Combine(tempDir.Path, ConfigFileName);
@@ -161,7 +161,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void Constructor_WithCustomFileSystem_UsesIt()
+    public void Constructor_Should_UseCustomFileSystem_When_Provided()
     {
         // Arrange
         var fs = new TestFileSystem();
@@ -178,7 +178,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void Constructor_WithCustomFileSystem_WhenNoFile_ReturnsDefault()
+    public void Constructor_Should_ReturnDefault_When_CustomFileSystemHasNoFile()
     {
         // Arrange
         var fs = new TestFileSystem(); // no files
@@ -193,7 +193,7 @@ public class NextNetConfigLoaderTests
     }
 
     [Fact]
-    public void Constructor_WithNullFileSystem_ThrowsArgumentNullException()
+    public void Constructor_Should_ThrowArgumentNullException_When_FileSystemIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new NextNetConfigLoader(null!));
     }

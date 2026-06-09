@@ -6,7 +6,7 @@ namespace NextNet.Build.Tests.StaticGeneration;
 public class SsgResultTests
 {
     [Fact]
-    public void SsgResult_Success_WhenNoErrors()
+    public void SsgResult_Should_BeSuccess_When_NoErrors()
     {
         var result = new SsgResult(
             new[] { "index.html" },
@@ -24,7 +24,7 @@ public class SsgResultTests
     }
 
     [Fact]
-    public void SsgResult_Failure_WhenErrorsExist()
+    public void SsgResult_Should_BeFailure_When_ErrorsExist()
     {
         var result = new SsgResult(
             Array.Empty<string>(),
@@ -39,7 +39,7 @@ public class SsgResultTests
     }
 
     [Fact]
-    public void SsgResult_Empty_IsEmpty()
+    public void SsgResult_Should_BeEmpty_When_EmptyInstance()
     {
         var result = SsgResult.Empty;
 
@@ -51,7 +51,7 @@ public class SsgResultTests
     }
 
     [Fact]
-    public void SsgError_StoresProperties()
+    public void SsgError_Should_StoreProperties_When_Created()
     {
         var ex = new InvalidOperationException("test");
         var error = new SsgError("/route", "Error message", ex);
@@ -62,7 +62,7 @@ public class SsgResultTests
     }
 
     [Fact]
-    public void SsgError_AllowsNullException()
+    public void SsgError_Should_AllowNullException_When_NotProvided()
     {
         var error = new SsgError("/route", "Error message");
 

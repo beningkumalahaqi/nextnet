@@ -12,7 +12,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
     public class IncrementalCacheTests
     {
         [Fact]
-        public void RouteManifestModelComparer_SameInstance_ReturnsTrue()
+        public void RouteManifestModelComparer_ShouldReturnTrue_WhenSameInstance()
         {
             var manifest = new RouteManifestModel();
             var comparer = RouteManifestModelComparer.Instance;
@@ -21,7 +21,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_BothNull_ReturnsTrue()
+        public void RouteManifestModelComparer_ShouldReturnTrue_WhenBothNull()
         {
             var comparer = RouteManifestModelComparer.Instance;
 
@@ -29,7 +29,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_OneNull_ReturnsFalse()
+        public void RouteManifestModelComparer_ShouldReturnFalse_WhenOneIsNull()
         {
             var comparer = RouteManifestModelComparer.Instance;
             var manifest = new RouteManifestModel();
@@ -39,7 +39,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_IdenticalContent_ReturnsTrue()
+        public void RouteManifestModelComparer_ShouldReturnTrue_WhenContentIdentical()
         {
             var a = new RouteManifestModel
             {
@@ -62,7 +62,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_DifferentRoutePattern_ReturnsFalse()
+        public void RouteManifestModelComparer_ShouldReturnFalse_WhenRoutePatternDiffers()
         {
             var a = new RouteManifestModel
             {
@@ -85,7 +85,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_DifferentCounts_ReturnsFalse()
+        public void RouteManifestModelComparer_ShouldReturnFalse_WhenEntryCountsDiffer()
         {
             var a = new RouteManifestModel
             {
@@ -109,7 +109,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_ErrorPagePresent_WorksCorrectly()
+        public void RouteManifestModelComparer_ShouldReturnTrue_WhenErrorPageMatches()
         {
             var a = new RouteManifestModel
             {
@@ -126,7 +126,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_ErrorPageVsNull_ReturnsFalse()
+        public void RouteManifestModelComparer_ShouldReturnFalse_WhenErrorPageVsNull()
         {
             var a = new RouteManifestModel
             {
@@ -140,7 +140,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_ConsistentHashCode()
+        public void RouteManifestModelComparer_ShouldProduceConsistentHashCode_WhenContentIdentical()
         {
             var a = new RouteManifestModel
             {
@@ -168,7 +168,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void RouteManifestModelComparer_NullInput_GetHashCodeReturnsZero()
+        public void RouteManifestModelComparer_ShouldReturnZero_WhenGetHashCodeCalledOnNull()
         {
             var comparer = RouteManifestModelComparer.Instance;
             var hashCode = comparer.GetHashCode(null!);
@@ -177,7 +177,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void ComponentModel_ValueEquality_SameContent_AreEqual()
+        public void ComponentModel_ShouldBeEqual_WhenContentIsSame()
         {
             var a = new ComponentModel
             {
@@ -200,7 +200,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void ComponentModel_ValueEquality_DifferentTypeName_NotEqual()
+        public void ComponentModel_ShouldNotBeEqual_WhenTypeNameDiffers()
         {
             var a = new ComponentModel
             {
@@ -222,7 +222,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         }
 
         [Fact]
-        public void ComponentModel_ValueEquality_NullComparison_ReturnsFalse()
+        public void ComponentModel_ShouldReturnFalse_WhenComparedToNull()
         {
             var a = new ComponentModel();
             Assert.False(a.Equals(null));

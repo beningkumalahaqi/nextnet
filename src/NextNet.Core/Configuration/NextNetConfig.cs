@@ -6,7 +6,22 @@ namespace NextNet.Configuration;
 /// Represents the root configuration for a NextNet application.
 /// Loaded from <c>nextnet.config.json</c> at project root.
 /// </summary>
-public class NextNetConfig
+/// <example>
+/// <code>
+/// // nextnet.config.json
+/// {
+///     "appDir": "src/app",
+///     "outputDir": "build",
+///     "devPort": 5000,
+///     "ssr": true,
+///     "rendering": {
+///         "prettyPrint": true,
+///         "maxRecursionDepth": 64
+///     }
+/// }
+/// </code>
+/// </example>
+public sealed class NextNetConfig
 {
     /// <summary>
     /// Gets or sets the application source directory (relative to project root).

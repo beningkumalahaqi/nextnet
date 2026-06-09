@@ -25,7 +25,7 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_WithLogger_LogsWithoutThrowing()
+    public void Scan_Should_LogWithoutThrowing_When_LoggerProvided()
     {
         var logger = new NextNetLogger("TestScanner");
         var scanner = new RouteScanner(_appDir, logger: logger, fileSystem: _fs);
@@ -36,7 +36,7 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_WithErrorInDirectoryAccess_ReturnsPartialResults()
+    public void Scan_Should_ReturnPartialResults_When_DirectoryAccessError()
     {
         // The test file system doesn't throw, but simulate by creating an inaccessible path
         // This mainly tests that the scanner handles exceptions gracefully
@@ -50,7 +50,7 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_NonRouteCsFiles_AreSkipped()
+    public void Scan_Should_SkipNonRouteCsFiles_When_Scanning()
     {
         _fs.CreateDirectory("/test/app/shared");
         _fs.AddFile("/test/app/shared/helper.cs");
@@ -64,7 +64,7 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_EmptyAppDir_ReturnsEmptyManifest()
+    public void Scan_Should_ReturnEmptyManifest_When_AppDirEmpty()
     {
         var emptyFs = new TestFileSystem();
         emptyFs.CreateDirectory("/empty/app");
@@ -76,23 +76,10 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_DuplicateRoutePattern_Detected()
+    public void Scan_Should_NotRaiseFalsePositive_When_UniqueRoutes()
     {
-        // Create two files that map to the same route pattern
-        _fs.AddFile("/test/app/layout.cs"); // Already added
-        _fs.AddFile("/test/app/about/page.cs"); // Already added - pattern /about
-
-        // Add another file that also maps to /about (in a different directory pattern)
-        // Wait - that's not possible with the same suffix...
-        // We need two files that both produce the pattern /about
-        // Actually with page.cs suffix: if file is at app/about/page.cs -> /about
-        // If file is at app/(about)/page.cs -> can't happen because `(` isn't a suffix.
-        // 
-        // Actually we can create a scenario: app/index/page.cs -> /index
-        // But we can't easily create two files with same route pattern using different paths
-        // that end with the same suffix, unless they have the same directory path.
-        // 
-        // For now, this test verifies no false positives
+        // This test verifies no false positive duplicate detection
+        // when routes have unique patterns
         var scanner = new RouteScanner(_appDir, fileSystem: _fs);
         var manifest = scanner.Scan();
 
@@ -100,7 +87,7 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_ApiAndPage_AllClassifiedCorrectly()
+    public void Scan_Should_ClassifyApiAndPageRoutes_When_BothPresent()
     {
         _fs.CreateDirectory("/test/app/api/users");
         _fs.AddFile("/test/app/api/users/route.cs");
@@ -121,7 +108,7 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_LayoutHierarchy_DeepNesting()
+    public void Scan_Should_ResolveDeepLayoutHierarchy_When_NestedLayoutsExist()
     {
         // Create nested layout structure:
         // app/layout.cs (root)
@@ -142,7 +129,7 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_PageInRoot_HandledCorrectly()
+    public void Scan_Should_HandleRootPage_When_PageInRoot()
     {
         // app/index/page.cs -> /index
         _fs.CreateDirectory("/test/app/index");
@@ -157,7 +144,7 @@ public class RouteScannerEdgeCaseTests
     }
 
     [Fact]
-    public void Scan_ErrorPageWithLayout_ResolvesLayout()
+    public void Scan_Should_DetectErrorPage_When_ErrorFileTogetherWithLayout()
     {
         _fs.AddFile("/test/app/error.cs");
 

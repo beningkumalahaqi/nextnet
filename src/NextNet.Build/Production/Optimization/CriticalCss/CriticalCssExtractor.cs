@@ -7,7 +7,14 @@ namespace NextNet.Build.Production.Optimization.CriticalCss;
 /// Uses a heuristic approach based on common above-the-fold selectors.
 /// For a production implementation, consider using a headless browser like Playwright.
 /// </summary>
-public partial class CriticalCssExtractor : ICriticalCssExtractor
+/// <example>
+/// <code>
+/// ICriticalCssExtractor extractor = new CriticalCssExtractor();
+/// var result = await extractor.ExtractAsync(htmlContent);
+/// // result.ModifiedHtml contains inlined critical CSS + deferred full CSS
+/// </code>
+/// </example>
+public sealed partial class CriticalCssExtractor : ICriticalCssExtractor
 {
     // Common above-the-fold selectors (heuristic)
     private static readonly HashSet<string> CriticalSelectors = new(StringComparer.OrdinalIgnoreCase)
@@ -25,26 +32,29 @@ public partial class CriticalCssExtractor : ICriticalCssExtractor
         if (string.IsNullOrEmpty(html))
             throw new ArgumentException("HTML content is required.", nameof(html));
 
-        var result = new CriticalCssResult();
-
         // Find all <style> blocks and <link rel="stylesheet"> references
         var styleBlocks = ExtractStyleBlocks(html);
         var cssLinks = ExtractCssLinks(html);
 
         // For inline styles, extract critical rules
         var allCss = string.Join("\n", styleBlocks);
-        result.FullCss = allCss;
-        result.FullSizeBytes = allCss.Length;
-
-        // Parse CSS and extract rules matching critical selectors
         var criticalCss = ExtractCriticalRules(allCss);
-        result.CriticalCss = criticalCss;
-        result.CriticalSizeBytes = criticalCss.Length;
-        result.TotalRuleCount = CountRules(allCss);
-        result.CriticalRuleCount = CountRules(criticalCss);
+
+        var totalRuleCount = CountRules(allCss);
+        var criticalRuleCount = CountRules(criticalCss);
 
         // Generate modified HTML with critical CSS inlined and full CSS deferred
-        result.ModifiedHtml = GenerateModifiedHtml(html, criticalCss, cssLinks);
+        var modifiedHtml = GenerateModifiedHtml(html, criticalCss, cssLinks);
+
+        var result = new CriticalCssResult(
+            CriticalCss: criticalCss,
+            FullCss: allCss,
+            ModifiedHtml: modifiedHtml,
+            CriticalRuleCount: criticalRuleCount,
+            TotalRuleCount: totalRuleCount,
+            CriticalSizeBytes: criticalCss.Length,
+            FullSizeBytes: allCss.Length
+        );
 
         return Task.FromResult(result);
     }

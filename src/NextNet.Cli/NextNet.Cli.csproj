@@ -43,6 +43,7 @@
     <ProjectReference Include="..\NextNet.Templates\NextNet.Templates.csproj" />
     <ProjectReference Include="..\NextNet.Templates.Official\NextNet.Templates.Official.csproj" />
     <ProjectReference Include="..\NextNet.TemplateSdk\NextNet.TemplateSdk.csproj" />
+    <ProjectReference Include="..\NextNet.TemplateRegistry\NextNet.TemplateRegistry.csproj" />
   </ItemGroup>
 
   <ItemGroup>

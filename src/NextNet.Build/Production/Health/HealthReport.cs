@@ -3,61 +3,43 @@ namespace NextNet.Build.Production.Health;
 /// <summary>
 /// A report returned by the NextNet health check endpoint.
 /// </summary>
-public class HealthReport
+/// <param name="Status">Overall status: Healthy, Degraded, or Unhealthy.</param>
+/// <param name="Timestamp">The time at which this report was generated (UTC).</param>
+/// <param name="Version">The application version.</param>
+/// <param name="Uptime">The application's uptime.</param>
+/// <param name="Checks">Individual check results.</param>
+public sealed record HealthReport(
+    string Status,
+    DateTime Timestamp,
+    string? Version,
+    string? Uptime,
+    List<HealthCheckResult> Checks)
 {
     /// <summary>
-    /// Overall status: Healthy, Degraded, or Unhealthy.
+    /// Creates a new health report with default values.
     /// </summary>
-    public string Status { get; set; } = "Healthy";
-
-    /// <summary>
-    /// The time at which this report was generated (UTC).
-    /// </summary>
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-
-    /// <summary>
-    /// The application version.
-    /// </summary>
-    public string? Version { get; set; }
-
-    /// <summary>
-    /// The application's uptime.
-    /// </summary>
-    public string? Uptime { get; set; }
-
-    /// <summary>
-    /// Individual check results.
-    /// </summary>
-    public List<HealthCheckResult> Checks { get; set; } = new();
+    public HealthReport()
+        : this("Healthy", DateTime.UtcNow, null, null, new()) { }
 }
 
 /// <summary>
 /// Result of an individual health check.
 /// </summary>
-public class HealthCheckResult
+/// <param name="Name">Display name of the check.</param>
+/// <param name="Status">Status: Healthy, Degraded, or Unhealthy.</param>
+/// <param name="Description">Optional description or error message.</param>
+/// <param name="DurationMs">Duration of the check in milliseconds.</param>
+/// <param name="Data">Optional data associated with the check.</param>
+public sealed record HealthCheckResult(
+    string Name,
+    string Status,
+    string? Description,
+    long DurationMs,
+    Dictionary<string, object>? Data)
 {
     /// <summary>
-    /// Display name of the check.
+    /// Creates a new health check result with default values.
     /// </summary>
-    public string Name { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Status: Healthy, Degraded, or Unhealthy.
-    /// </summary>
-    public string Status { get; set; } = "Healthy";
-
-    /// <summary>
-    /// Optional description or error message.
-    /// </summary>
-    public string? Description { get; set; }
-
-    /// <summary>
-    /// Duration of the check in milliseconds.
-    /// </summary>
-    public long DurationMs { get; set; }
-
-    /// <summary>
-    /// Optional data associated with the check.
-    /// </summary>
-    public Dictionary<string, object>? Data { get; set; }
+    public HealthCheckResult()
+        : this(string.Empty, "Healthy", null, 0, null) { }
 }

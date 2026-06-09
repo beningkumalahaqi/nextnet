@@ -7,7 +7,7 @@
     <Description>NextNet Layouts - Nested layout system, layout chain resolution, error boundary integration</Description>
     <PackageTags>nextnet;web;framework;ssr;layouts;rendering</PackageTags>
     <PackageId>NextNet.Layouts</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

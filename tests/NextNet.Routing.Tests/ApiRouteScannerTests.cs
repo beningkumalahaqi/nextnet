@@ -24,7 +24,7 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public void Scan_NoApiDirectory_ReturnsEmpty()
+    public void Scan_Should_ReturnEmpty_When_NoApiDirectory()
     {
         var fs = new TestFileSystem();
         var scanner = new ApiRouteScanner(AppDir, fileSystem: fs);
@@ -34,7 +34,7 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public void Scan_WithApiRoutes_ReturnsEntries()
+    public void Scan_Should_ReturnEntries_When_ApiRoutesExist()
     {
         var fs = CreateFileSystem();
         var scanner = new ApiRouteScanner(AppDir, fileSystem: fs);
@@ -44,7 +44,7 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public void Scan_ApiRoutes_HaveCorrectType()
+    public void Scan_Should_HaveCorrectType_When_ApiRoutesDiscovered()
     {
         var fs = CreateFileSystem();
         var scanner = new ApiRouteScanner(AppDir, fileSystem: fs);
@@ -54,7 +54,7 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public void Scan_PathConversion_StaticRoute()
+    public void Scan_Should_ProduceStaticRoutePattern_When_StaticApiRouteDetected()
     {
         var fs = CreateFileSystem();
         var scanner = new ApiRouteScanner(AppDir, fileSystem: fs);
@@ -68,7 +68,7 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public void Scan_PathConversion_DynamicSegment()
+    public void Scan_Should_ProduceDynamicRoutePattern_When_DynamicSegmentInPath()
     {
         var fs = CreateFileSystem();
         var scanner = new ApiRouteScanner(AppDir, fileSystem: fs);
@@ -81,7 +81,7 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public void Scan_ExcludesNonRouteFiles()
+    public void Scan_Should_ExcludeNonRouteFiles_When_ScanningApiDirectory()
     {
         var fs = CreateFileSystem();
         var scanner = new ApiRouteScanner(AppDir, fileSystem: fs);
@@ -92,7 +92,7 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public void Scan_WithMethodDetection_DetectsOverrides()
+    public void Scan_Should_DetectOverriddenMethods_When_SourceHasOverrides()
     {
         var fs = new ApiTestFileSystem();
         var scanner = new ApiRouteScanner(AppDir, fileSystem: fs);
@@ -106,7 +106,7 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public async Task ScanAsync_ReturnsSameResults()
+    public async Task ScanAsync_Should_ReturnSameResults_When_Called()
     {
         var fs = CreateFileSystem();
         var scanner = new ApiRouteScanner(AppDir, fileSystem: fs);
@@ -116,25 +116,25 @@ public class ApiRouteScannerTests
     }
 
     [Fact]
-    public void NormalizeApiRoutePattern_AddsLeadingSlash()
+    public void NormalizeApiRoutePattern_Should_AddLeadingSlash_When_Missing()
     {
         Assert.Equal("/api/users", ApiRouteScanner.NormalizeApiRoutePattern("api/users"));
     }
 
     [Fact]
-    public void NormalizeApiRoutePattern_TrimsTrailingSlash()
+    public void NormalizeApiRoutePattern_Should_TrimTrailingSlash_When_Present()
     {
         Assert.Equal("/api/users", ApiRouteScanner.NormalizeApiRoutePattern("/api/users/"));
     }
 
     [Fact]
-    public void NormalizeApiRoutePattern_EmptyReturnsApi()
+    public void NormalizeApiRoutePattern_Should_ReturnDefaultApi_When_Empty()
     {
         Assert.Equal("/api", ApiRouteScanner.NormalizeApiRoutePattern(""));
     }
 
     [Fact]
-    public void NormalizeApiRoutePattern_NullReturnsApi()
+    public void NormalizeApiRoutePattern_Should_ReturnDefaultApi_When_Null()
     {
         Assert.Equal("/api", ApiRouteScanner.NormalizeApiRoutePattern(null!));
     }

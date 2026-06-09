@@ -1,4 +1,5 @@
 using NextNet.Logging;
+using NextNet.Routing.Errors;
 using NextNet.Routing.Models;
 
 namespace NextNet.Routing;
@@ -7,7 +8,7 @@ namespace NextNet.Routing;
 /// Watches the application directory for file changes and raises events
 /// with debounced notifications for route file updates.
 /// </summary>
-public class RouteFileWatcher : IDisposable
+public sealed class RouteFileWatcher : IDisposable
 {
     private readonly string _appDir;
     private readonly INextNetLogger? _logger;
@@ -53,7 +54,8 @@ public class RouteFileWatcher : IDisposable
 
         if (!Directory.Exists(_appDir))
         {
-            _logger?.Warn("Cannot start file watcher: directory '{AppDir}' does not exist.", _appDir);
+            _logger?.Warn("[{Code}] Cannot start file watcher: directory '{AppDir}' does not exist.",
+                RoutingErrorCodes.FileWatcherDirectoryNotFound, _appDir);
             return;
         }
 

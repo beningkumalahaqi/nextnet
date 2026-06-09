@@ -8,7 +8,7 @@ public class CriticalCssExtractorTests
     private readonly CriticalCssExtractor _extractor = new();
 
     [Fact]
-    public async Task ExtractAsync_WithCriticalSelectors_ExtractsCriticalCss()
+    public async Task ExtractAsync_Should_ExtractCriticalCss_When_CriticalSelectorsPresent()
     {
         var html = @"<!DOCTYPE html>
 <html>
@@ -35,7 +35,7 @@ h1 { font-size: 2em; }
     }
 
     [Fact]
-    public async Task ExtractAsync_NoCriticalSelectors_ReturnsEmptyCritical()
+    public async Task ExtractAsync_Should_ReturnResult_When_NoCriticalSelectors()
     {
         var html = @"<!DOCTYPE html>
 <html>
@@ -53,13 +53,11 @@ h1 { font-size: 2em; }
 
         var result = await _extractor.ExtractAsync(html);
 
-        // .footer and .sidebar are not in our critical set by default
-        // But they might match if they contain partial matches
         Assert.NotNull(result);
     }
 
     [Fact]
-    public async Task ExtractAsync_ModifiedHtml_ContainsCriticalStyleTag()
+    public async Task ExtractAsync_Should_ContainCriticalStyleTag_When_Modified()
     {
         var html = @"<!DOCTYPE html>
 <html>
@@ -78,13 +76,13 @@ body { margin: 0; }
     }
 
     [Fact]
-    public async Task ExtractAsync_EmptyHtml_Throws()
+    public async Task ExtractAsync_Should_ThrowArgumentException_When_EmptyHtml()
     {
         await Assert.ThrowsAsync<ArgumentException>(() => _extractor.ExtractAsync(""));
     }
 
     [Fact]
-    public async Task ExtractAsync_TracksRuleCounts()
+    public async Task ExtractAsync_Should_TrackRuleCounts_When_Extracted()
     {
         var html = @"<!DOCTYPE html>
 <html>

@@ -7,48 +7,48 @@ namespace NextNet.Build.Tests.StaticGeneration;
 public class OutputWriterTests
 {
     [Fact]
-    public void RouteToFilePath_Root_ReturnsIndexHtml()
+    public void RouteToFilePath_Should_ReturnIndexHtml_When_Root()
     {
         var path = OutputWriter.RouteToFilePath("/");
         Assert.Equal("index.html", path);
     }
 
     [Fact]
-    public void RouteToFilePath_About_ReturnsAboutIndexHtml()
+    public void RouteToFilePath_Should_ReturnAboutIndexHtml_When_About()
     {
         var path = OutputWriter.RouteToFilePath("/about");
         Assert.Equal("about/index.html", path);
     }
 
     [Fact]
-    public void RouteToFilePath_DeepNested_ReturnsCorrectPath()
+    public void RouteToFilePath_Should_ReturnCorrectPath_When_DeepNested()
     {
         var path = OutputWriter.RouteToFilePath("/blog/hello-world");
         Assert.Equal("blog/hello-world/index.html", path);
     }
 
     [Fact]
-    public void RouteToFilePath_WithTrailingSlash_WorksCorrectly()
+    public void RouteToFilePath_Should_WorkCorrectly_When_TrailingSlash()
     {
         var path = OutputWriter.RouteToFilePath("/about/");
         Assert.Equal("about/index.html", path);
     }
 
     [Fact]
-    public void RouteToFilePath_WithoutLeadingSlash_WorksCorrectly()
+    public void RouteToFilePath_Should_WorkCorrectly_When_WithoutLeadingSlash()
     {
         var path = OutputWriter.RouteToFilePath("about");
         Assert.Equal("about/index.html", path);
     }
 
     [Fact]
-    public void RouteToFilePath_EmptyString_Throws()
+    public void RouteToFilePath_Should_ThrowArgumentException_When_EmptyString()
     {
         Assert.Throws<ArgumentException>(() => OutputWriter.RouteToFilePath(""));
     }
 
     [Fact]
-    public async Task WriteAsync_CreatesDirectoryAndFile()
+    public async Task WriteAsync_Should_CreateDirectoryAndWriteFile()
     {
         using var tempDir = new TempDirectory();
         var writer = new OutputWriter(tempDir.Path);
@@ -60,7 +60,7 @@ public class OutputWriterTests
     }
 
     [Fact]
-    public async Task WriteAsync_FileContent_IsCorrect()
+    public async Task WriteAsync_Should_WriteCorrectContent_When_Provided()
     {
         using var tempDir = new TempDirectory();
         var writer = new OutputWriter(tempDir.Path);
@@ -73,7 +73,7 @@ public class OutputWriterTests
     }
 
     [Fact]
-    public async Task WriteAsync_TracksBytesWritten()
+    public async Task WriteAsync_Should_TrackBytesWritten_When_MultipleWrites()
     {
         using var tempDir = new TempDirectory();
         var writer = new OutputWriter(tempDir.Path);
@@ -85,7 +85,7 @@ public class OutputWriterTests
     }
 
     [Fact]
-    public async Task WriteBytesAsync_WritesCorrectContent()
+    public async Task WriteBytesAsync_Should_WriteCorrectContent_When_Provided()
     {
         using var tempDir = new TempDirectory();
         var writer = new OutputWriter(tempDir.Path);
@@ -98,7 +98,7 @@ public class OutputWriterTests
     }
 
     [Fact]
-    public async Task CleanOutputDirectory_RemovesAllFiles()
+    public async Task CleanOutputDirectory_Should_RemoveAllFiles_When_Called()
     {
         using var tempDir = new TempDirectory();
         var writer = new OutputWriter(tempDir.Path);

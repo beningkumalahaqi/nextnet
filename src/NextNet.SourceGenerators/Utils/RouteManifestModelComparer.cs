@@ -2,13 +2,21 @@ using System;
 using System.Collections.Generic;
 using NextNet.SourceGenerators.Models;
 
-namespace NextNet.SourceGenerators.Utils
-{
+namespace NextNet.SourceGenerators.Utils;
     /// <summary>
     /// A structural equality comparer for <see cref="RouteManifestModel"/>.
     /// Used by the incremental pipeline's <c>WithComparer</c> to enable caching
     /// when the manifest content has not changed.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// // Used in the incremental pipeline:
+    /// var manifestPipeline = context.AdditionalTextsProvider
+    ///     .Where(static file => IsRoutesJsonFile(file.Path))
+    ///     .Select(static (text, ct) => ParseManifest(text))
+    ///     .WithComparer(RouteManifestModelComparer.Instance);
+    /// </code>
+    /// </example>
     internal sealed class RouteManifestModelComparer : IEqualityComparer<RouteManifestModel>
     {
         /// <summary>
@@ -141,4 +149,3 @@ namespace NextNet.SourceGenerators.Utils
             }
         }
     }
-}

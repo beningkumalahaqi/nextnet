@@ -6,7 +6,14 @@ namespace NextNet.Build.StaticGeneration;
 /// Copies static assets from the <c>public/</c> directory to the output directory
 /// during static site generation.
 /// </summary>
-public class PublicAssetCopier
+/// <example>
+/// <code>
+/// var copier = new PublicAssetCopier("public", "dist");
+/// var copiedFiles = await copier.CopyAsync();
+/// Console.WriteLine($"Copied {copiedFiles.Count} assets");
+/// </code>
+/// </example>
+public sealed class PublicAssetCopier
 {
     private readonly string _publicDirectory;
     private readonly string _outputDirectory;

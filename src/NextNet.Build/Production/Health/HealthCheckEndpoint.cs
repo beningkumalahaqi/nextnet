@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Health;
 /// <summary>
 /// Handles the GET /_health endpoint, returning a JSON health report.
 /// </summary>
-public class HealthCheckEndpoint
+public sealed class HealthCheckEndpoint
 {
     private readonly NextNetHealthCheck _healthCheck;
 

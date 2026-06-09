@@ -17,14 +17,14 @@ public class StringCaseHelperTests
     [InlineData("ALLCAPS", "ALLCAPS")]
     [InlineData("123blog", "123blog")]
     [InlineData("my_app-blog", "MyAppBlog")]
-    public void ToPascalCase_Should_ConvertCorrectly(string input, string expected)
+    public void ToPascalCase_Should_ConvertCorrectly_When_InputProvided(string input, string expected)
     {
         var result = StringCaseHelper.ToPascalCase(input);
         Assert.Equal(expected, result);
     }
 
     [Fact]
-    public void ToPascalCase_Should_ReturnApp_When_Null()
+    public void ToPascalCase_Should_ReturnApp_When_InputIsNull()
     {
         var result = StringCaseHelper.ToPascalCase(null);
         Assert.Equal("App", result);

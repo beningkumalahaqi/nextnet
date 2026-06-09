@@ -5,7 +5,7 @@ namespace NextNet.Build.Production.Compression.AlgorithmAdapters;
 /// <summary>
 /// GZip compression adapter using System.IO.Compression.GZipStream.
 /// </summary>
-public class GzipAdapter : ICompressionAdapter
+public sealed class GzipAdapter : ICompressionAdapter
 {
     private readonly CompressionLevel _compressionLevel;
 

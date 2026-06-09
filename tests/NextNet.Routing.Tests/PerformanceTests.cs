@@ -46,7 +46,7 @@ public class PerformanceTests
     }
 
     [Fact]
-    public void FullScan_100Files_Under50ms()
+    public void         FullScan_Should_CompleteUnder50ms_When_100Files()
     {
         var (fs, appDir) = CreateFileSystem(100);
         var scanner = new RouteScanner(appDir, fileSystem: fs);
@@ -64,7 +64,7 @@ public class PerformanceTests
     }
 
     [Fact]
-    public void FullScan_1000Files_Under100ms()
+    public void         FullScan_Should_CompleteUnder100ms_When_1000Files()
     {
         var (fs, appDir) = CreateFileSystem(1000);
         var scanner = new RouteScanner(appDir, fileSystem: fs);
@@ -82,7 +82,7 @@ public class PerformanceTests
     }
 
     [Fact]
-    public void IncrementalScan_1File_Under5ms()
+    public void         IncrementalScan_Should_CompleteUnder5ms_When_1File()
     {
         var (fs, appDir) = CreateFileSystem(100);
         var scanner = new RouteScanner(appDir, fileSystem: fs);
@@ -108,7 +108,7 @@ public class PerformanceTests
     }
 
     [Fact]
-    public void RouteTreeBuilder_Performance_LargeManifest()
+    public void         BuildTree_Should_CompleteQuickly_When_LargeManifest()
     {
         var (fs, appDir) = CreateFileSystem(500);
         var scanner = new RouteScanner(appDir, fileSystem: fs);
@@ -125,7 +125,7 @@ public class PerformanceTests
     }
 
     [Fact]
-    public void Scanner_BuildsCorrectNumberOfRoutes()
+    public void         Scan_Should_BuildCorrectNumberOfRoutes_When_50Files()
     {
         var count = 50;
         var (fs, appDir) = CreateFileSystem(count);

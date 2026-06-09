@@ -6,7 +6,7 @@ namespace NextNet.Build.Tests.Production.Caching;
 public class CacheHeaderOptionsTests
 {
     [Fact]
-    public void DefaultOptions_SetReasonableDefaults()
+    public void DefaultOptions_Should_SetReasonableDefaults_When_NewInstance()
     {
         var options = new CacheHeaderOptions();
         Assert.True(options.EnableCaching);

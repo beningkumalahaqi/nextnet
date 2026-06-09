@@ -6,7 +6,7 @@ namespace NextNet.Build.Tests.Production.Security;
 public class SecurityHeadersOptionsTests
 {
     [Fact]
-    public void DefaultOptions_HaveSecureDefaults()
+    public void DefaultOptions_Should_HaveSecureDefaults_When_NewInstance()
     {
         var options = new SecurityHeadersOptions();
         Assert.Equal("DENY", options.XFrameOptions);

@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using NextNet.SourceGenerators.ServerActions;
 
-namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters
-{
+namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters;
     /// <summary>
     /// Generates DI registration code for server action classes.
     /// </summary>
@@ -77,4 +76,3 @@ namespace NextNet.SourceGenerators.ServerActions.ServerActionEmitters
             return sb.ToString();
         }
     }
-}

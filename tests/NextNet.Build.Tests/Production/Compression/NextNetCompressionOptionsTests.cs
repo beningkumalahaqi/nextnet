@@ -6,7 +6,7 @@ namespace NextNet.Build.Tests.Production.Compression;
 public class NextNetCompressionOptionsTests
 {
     [Fact]
-    public void DefaultOptions_HaveReasonableDefaults()
+    public void DefaultOptions_Should_HaveReasonableDefaults_When_NewInstance()
     {
         var options = new NextNetCompressionOptions();
         Assert.True(options.EnableCompression);
@@ -18,7 +18,7 @@ public class NextNetCompressionOptionsTests
     }
 
     [Fact]
-    public void DefaultMimeTypes_IncludesCommonTypes()
+    public void DefaultMimeTypes_Should_IncludeCommonTypes_When_NewInstance()
     {
         var options = new NextNetCompressionOptions();
         Assert.Contains("text/html", options.MimeTypes);

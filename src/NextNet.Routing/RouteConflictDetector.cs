@@ -1,4 +1,5 @@
 using NextNet.Conventions;
+using NextNet.Routing.Errors;
 using NextNet.Routing.Models;
 
 namespace NextNet.Routing;
@@ -6,10 +7,23 @@ namespace NextNet.Routing;
 /// <summary>
 /// Detects conflicts and issues among a collection of route entries.
 /// </summary>
-public class RouteConflictDetector
+/// <example>
+/// Detecting conflicts in a list of route entries:
+/// <code>
+/// var detector = new RouteConflictDetector();
+/// var entries = new List&lt;RouteEntry&gt; { pageEntry, layoutEntry };
+/// var conflicts = detector.Detect(entries);
+/// foreach (var conflict in conflicts)
+/// {
+///     Console.WriteLine($"{conflict.Severity}: {conflict.Message}");
+/// }
+/// </code>
+/// </example>
+public sealed class RouteConflictDetector
 {
     /// <summary>
     /// Analyzes a list of route entries and returns any conflicts found.
+    /// Conflict messages are prefixed with error codes (DS-054 through DS-058).
     /// </summary>
     /// <param name="entries">The route entries to analyze.</param>
     /// <returns>A list of detected conflicts.</returns>
@@ -35,7 +49,7 @@ public class RouteConflictDetector
             if (staticEntries.Count > 1)
             {
                 conflicts.Add(new RouteConflict(
-                    $"Duplicate static route: {staticEntries.Count} files map to the same route pattern '{group.Key}'.",
+                    $"[{RoutingErrorCodes.DuplicateStaticRoute}] Duplicate static route: {staticEntries.Count} files map to the same route pattern '{group.Key}'.",
                     group.Key,
                     staticEntries.Select(e => e.FilePath).ToList(),
                     ConflictSeverity.Error));
@@ -54,7 +68,7 @@ public class RouteConflictDetector
                 if (string.Equals(staticRoute.RoutePattern, dynamicRoute.RoutePattern, StringComparison.OrdinalIgnoreCase))
                 {
                     conflicts.Add(new RouteConflict(
-                        $"Static route '{staticRoute.RoutePattern}' overlaps with dynamic route '{dynamicRoute.RoutePattern}'.",
+                        $"[{RoutingErrorCodes.StaticDynamicOverlap}] Static route '{staticRoute.RoutePattern}' overlaps with dynamic route '{dynamicRoute.RoutePattern}'.",
                         staticRoute.RoutePattern,
                         new[] { staticRoute.FilePath, dynamicRoute.FilePath },
                         ConflictSeverity.Warning));
@@ -75,7 +89,7 @@ public class RouteConflictDetector
                 if (PatternsOverlap(dynamicRoute.RoutePattern, catchAllRoute.RoutePattern))
                 {
                     conflicts.Add(new RouteConflict(
-                        $"Dynamic route '{dynamicRoute.RoutePattern}' overlaps with catch-all route '{catchAllRoute.RoutePattern}'.",
+                        $"[{RoutingErrorCodes.DynamicCatchAllOverlap}] Dynamic route '{dynamicRoute.RoutePattern}' overlaps with catch-all route '{catchAllRoute.RoutePattern}'.",
                         dynamicRoute.RoutePattern,
                         new[] { dynamicRoute.FilePath, catchAllRoute.FilePath },
                         ConflictSeverity.Warning));
@@ -91,7 +105,7 @@ public class RouteConflictDetector
         if (!hasRootLayout && entries.Any(e => e.Type == RouteType.Page))
         {
             conflicts.Add(new RouteConflict(
-                "No root layout found. Create 'app/layout.cs' to provide a consistent layout for all pages.",
+                $"[{RoutingErrorCodes.MissingRootLayout}] No root layout found. Create 'app/layout.cs' to provide a consistent layout for all pages.",
                 "/",
                 Array.Empty<string>(),
                 ConflictSeverity.Warning));
@@ -121,7 +135,7 @@ public class RouteConflictDetector
                 if (layoutEntry != null)
                 {
                     conflicts.Add(new RouteConflict(
-                        $"Layout at '{layoutRoute}' has no pages beneath it. Either add pages under this layout or remove the layout file.",
+                        $"[{RoutingErrorCodes.OrphanedLayout}] Layout at '{layoutRoute}' has no pages beneath it. Either add pages under this layout or remove the layout file.",
                         layoutRoute,
                         new[] { layoutEntry.FilePath },
                         ConflictSeverity.Warning));

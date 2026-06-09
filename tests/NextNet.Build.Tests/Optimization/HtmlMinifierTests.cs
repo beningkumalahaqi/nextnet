@@ -6,20 +6,20 @@ namespace NextNet.Build.Tests.Optimization;
 public class HtmlMinifierTests
 {
     [Fact]
-    public void Minify_NullInput_Throws()
+    public void Minify_Should_ThrowArgumentNullException_When_NullInput()
     {
         Assert.Throws<ArgumentNullException>(() => HtmlMinifier.Minify(null!));
     }
 
     [Fact]
-    public void Minify_EmptyString_ReturnsEmpty()
+    public void Minify_Should_ReturnEmpty_When_EmptyString()
     {
         var result = HtmlMinifier.Minify("");
         Assert.Equal("", result);
     }
 
     [Fact]
-    public void Minify_RemovesHtmlComments()
+    public void Minify_Should_RemoveHtmlComments_When_Present()
     {
         var input = "<div><!-- this is a comment --></div>";
         var result = HtmlMinifier.Minify(input);
@@ -27,7 +27,7 @@ public class HtmlMinifierTests
     }
 
     [Fact]
-    public void Minify_RemovesMultiLineComments()
+    public void Minify_Should_RemoveMultiLineComments_When_Present()
     {
         var input = "<div><!--\n  multi-line\n  comment\n--></div>";
         var result = HtmlMinifier.Minify(input);
@@ -35,16 +35,15 @@ public class HtmlMinifierTests
     }
 
     [Fact]
-    public void Minify_RemovesWhitespaceBetweenTags()
+    public void Minify_Should_RemoveWhitespaceBetweenTags_When_Present()
     {
         var input = "<div>    \n  <span>text</span>  </div>";
         var result = HtmlMinifier.Minify(input);
-        // Whitespace between tags (>...<) should be removed
         Assert.Equal("<div><span>text</span></div>", result);
     }
 
     [Fact]
-    public void Minify_ReducesMultipleSpaces()
+    public void Minify_Should_ReduceMultipleSpaces_When_Present()
     {
         var input = "<p>hello     world</p>";
         var result = HtmlMinifier.Minify(input);
@@ -52,7 +51,7 @@ public class HtmlMinifierTests
     }
 
     [Fact]
-    public void Minify_TrimsDocument()
+    public void Minify_Should_TrimDocument_When_LeadingTrailingWhitespace()
     {
         var input = "  \n  <html><body>Hello</body></html>  \n  ";
         var result = HtmlMinifier.Minify(input);
@@ -60,7 +59,7 @@ public class HtmlMinifierTests
     }
 
     [Fact]
-    public void Minify_RemovesWhitespaceBeforeSelfClose()
+    public void Minify_Should_RemoveWhitespaceBeforeSelfClose_When_Present()
     {
         var input = "<br />";
         var result = HtmlMinifier.Minify(input);
@@ -68,7 +67,7 @@ public class HtmlMinifierTests
     }
 
     [Fact]
-    public void Minify_FullDocument()
+    public void Minify_Should_ProcessFullDocument_When_ComplexHtml()
     {
         var input = @"<!DOCTYPE html>
 <html lang=""en"">
@@ -88,33 +87,24 @@ public class HtmlMinifierTests
 
         var result = HtmlMinifier.Minify(input);
 
-        // Comments should be removed
         Assert.DoesNotContain("<!--", result);
-
-        // Whitespace should be collapsed
         Assert.DoesNotContain("  ", result);
-
-        // Result should be trimmed
         Assert.False(result.StartsWith(' '));
         Assert.False(result.EndsWith(' '));
-
-        // Content should be preserved
         Assert.Contains("Hello World", result);
         Assert.Contains("This is a paragraph.", result);
-
-        // Should be shorter than input
         Assert.True(result.Length < input.Length);
     }
 
     [Fact]
-    public void GetRatio_CalculatesCorrectly()
+    public void GetRatio_Should_CalculateCorrectly_When_ValuesProvided()
     {
         var ratio = HtmlMinifier.GetRatio(1000, 500);
         Assert.Equal(50.0, ratio);
     }
 
     [Fact]
-    public void GetRatio_WithZeroOriginal_Returns100()
+    public void GetRatio_Should_Return100_When_OriginalIsZero()
     {
         var ratio = HtmlMinifier.GetRatio(0, 0);
         Assert.Equal(100, ratio);

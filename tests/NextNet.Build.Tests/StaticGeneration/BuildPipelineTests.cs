@@ -13,21 +13,21 @@ namespace NextNet.Build.Tests.StaticGeneration;
 public class BuildPipelineTests
 {
     [Fact]
-    public void Constructor_NullOptions_Throws()
+    public void Constructor_Should_ThrowArgumentNullException_When_OptionsIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new BuildPipeline(null!, new ServiceCollection().BuildServiceProvider()));
     }
 
     [Fact]
-    public void Constructor_NullServiceProvider_Throws()
+    public void Constructor_Should_ThrowArgumentNullException_When_ServiceProviderIsNull()
     {
         Assert.Throws<ArgumentNullException>(() =>
             new BuildPipeline(new SsgOptions(), null!));
     }
 
     [Fact]
-    public async Task ExecuteAsync_WhenAppDirMissing_ReturnsEmptyResult()
+    public async Task ExecuteAsync_Should_ReturnEmptyResult_When_AppDirMissing()
     {
         using var tempDir = new TempDirectory();
         var nonExistentApp = System.IO.Path.Combine(tempDir.Path, "nonexistent-app");
@@ -60,7 +60,7 @@ public class BuildPipelineTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithCustomOptions_RespectsSettings()
+    public async Task ExecuteAsync_Should_RespectSettings_When_CustomOptions()
     {
         using var tempDir = new TempDirectory();
         var appDir = System.IO.Path.Combine(tempDir.Path, "app");
@@ -88,7 +88,7 @@ public class BuildPipelineTests
     }
 
     [Fact]
-    public void Constructor_NullAppDir_DoesNotThrow()
+    public void Constructor_Should_NotThrow_When_AppDirIsNull()
     {
         var options = new SsgOptions();
         var sp = new ServiceCollection().BuildServiceProvider();
@@ -97,7 +97,7 @@ public class BuildPipelineTests
     }
 
     [Fact]
-    public void Constructor_NullPublicDir_DoesNotThrow()
+    public void Constructor_Should_NotThrow_When_PublicDirIsNull()
     {
         var options = new SsgOptions();
         var sp = new ServiceCollection().BuildServiceProvider();
@@ -106,7 +106,7 @@ public class BuildPipelineTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithEmptyAppDir_StillSucceeds()
+    public async Task ExecuteAsync_Should_StillSucceed_When_EmptyAppDir()
     {
         using var tempDir = new TempDirectory();
         var appDir = System.IO.Path.Combine(tempDir.Path, "app");
@@ -135,7 +135,7 @@ public class BuildPipelineTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithOutputCleaning_CleansFirst()
+    public async Task ExecuteAsync_Should_CleanOutputFirst_When_CleanEnabled()
     {
         using var tempDir = new TempDirectory();
         var appDir = System.IO.Path.Combine(tempDir.Path, "app");
@@ -168,7 +168,7 @@ public class BuildPipelineTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_CancelledToken_ThrowsOperationCanceled()
+    public async Task ExecuteAsync_Should_HandleCancellationGracefully_When_Cancelled()
     {
         using var tempDir = new TempDirectory();
         var appDir = System.IO.Path.Combine(tempDir.Path, "app");
@@ -192,6 +192,9 @@ public class BuildPipelineTests
         using var cts = new CancellationTokenSource();
         cts.Cancel(); // Cancel immediately
 
-        await Assert.ThrowsAsync<OperationCanceledException>(() => pipeline.ExecuteAsync(cts.Token));
+        // Pipeline catches cancellation and returns error result
+        var result = await pipeline.ExecuteAsync(cts.Token);
+        Assert.False(result.Success);
+        Assert.NotEmpty(result.Errors);
     }
 }

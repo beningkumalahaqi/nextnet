@@ -11,7 +11,7 @@ namespace NextNet.Build.Tests.StaticGeneration;
 public class StaticGenerationEngineTests
 {
     [Fact]
-    public void ResolveRoutePattern_ReplacesParams()
+    public void ResolveRoutePattern_Should_ReplaceSingleParam_When_Provided()
     {
         var paramSet = new Dictionary<string, string>
         {
@@ -23,7 +23,7 @@ public class StaticGenerationEngineTests
     }
 
     [Fact]
-    public void ResolveRoutePattern_MultipleParams()
+    public void ResolveRoutePattern_Should_ReplaceMultipleParams_When_Provided()
     {
         var paramSet = new Dictionary<string, string>
         {
@@ -37,63 +37,63 @@ public class StaticGenerationEngineTests
     }
 
     [Fact]
-    public void ResolveRoutePattern_NoParams_ReturnsOriginal()
+    public void ResolveRoutePattern_Should_ReturnOriginal_When_NoParams()
     {
         var result = StaticGenerationEngine.ResolveRoutePattern("/about", new Dictionary<string, string>());
         Assert.Equal("/about", result);
     }
 
     [Fact]
-    public void ResolveRoutePattern_NullPattern_Throws()
+    public void ResolveRoutePattern_Should_ThrowArgumentNullException_When_NullPattern()
     {
         Assert.Throws<ArgumentNullException>(
             () => StaticGenerationEngine.ResolveRoutePattern(null!, new Dictionary<string, string>()));
     }
 
     [Fact]
-    public void ExtractParamNames_ReturnsCorrectNames()
+    public void ExtractParamNames_Should_ReturnCorrectNames_When_DynamicRoute()
     {
         var result = StaticGenerationEngine.ExtractParamNames("/blog/{slug}");
         Assert.Equal(new[] { "slug" }, result);
     }
 
     [Fact]
-    public void ExtractParamNames_MultipleParams()
+    public void ExtractParamNames_Should_ReturnMultipleNames_When_MultipleParams()
     {
         var result = StaticGenerationEngine.ExtractParamNames("/blog/{year}/{month}/{slug}");
         Assert.Equal(new[] { "year", "month", "slug" }, result);
     }
 
     [Fact]
-    public void ExtractParamNames_StaticRoute_ReturnsEmpty()
+    public void ExtractParamNames_Should_ReturnEmpty_When_StaticRoute()
     {
         var result = StaticGenerationEngine.ExtractParamNames("/about");
         Assert.Empty(result);
     }
 
     [Fact]
-    public void ExtractParamNames_EmptyString_ReturnsEmpty()
+    public void ExtractParamNames_Should_ReturnEmpty_When_EmptyString()
     {
         var result = StaticGenerationEngine.ExtractParamNames("");
         Assert.Empty(result);
     }
 
     [Fact]
-    public void ExtractParamNames_Null_ReturnsEmpty()
+    public void ExtractParamNames_Should_ReturnEmpty_When_Null()
     {
         var result = StaticGenerationEngine.ExtractParamNames(null!);
         Assert.Empty(result);
     }
 
     [Fact]
-    public async Task GenerateForRouteAsync_NullRoute_Throws()
+    public async Task GenerateForRouteAsync_Should_ThrowArgumentNullException_When_NullRoute()
     {
         var engine = CreateEmptyEngine();
         await Assert.ThrowsAsync<ArgumentNullException>(() => engine.GenerateForRouteAsync(null!));
     }
 
     [Fact]
-    public void ResolveRoutePattern_NullParamSet_Throws()
+    public void ResolveRoutePattern_Should_ThrowArgumentNullException_When_NullParamSet()
     {
         Assert.Throws<ArgumentNullException>(
             () => StaticGenerationEngine.ResolveRoutePattern("/test", null!));

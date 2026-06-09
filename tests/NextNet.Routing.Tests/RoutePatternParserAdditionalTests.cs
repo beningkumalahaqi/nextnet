@@ -6,7 +6,7 @@ namespace NextNet.Routing.Tests;
 public class RoutePatternParserAdditionalTests
 {
     [Fact]
-    public void Parse_FilePathExactlyEqualsAppDir_ReturnsRoot()
+    public void Parse_Should_ReturnRoot_When_FilePathEqualsAppDir()
     {
         // When filePath doesn't contain additional path beyond appDir
         var (pattern, kind) = RoutePatternParser.Parse(
@@ -18,7 +18,7 @@ public class RoutePatternParserAdditionalTests
     }
 
     [Fact]
-    public void Parse_EdgeCaseSingleCharSegments()
+    public void Parse_Should_HandleSingleCharSegments_When_ShortPath()
     {
         var (pattern, kind) = RoutePatternParser.Parse(
             "/project/app/a/b/[c]/page.cs",
@@ -29,7 +29,7 @@ public class RoutePatternParserAdditionalTests
     }
 
     [Fact]
-    public void Parse_FileInAppRoot_ProducesSingleSegment()
+    public void Parse_Should_ProduceRootSegment_When_FileInAppRoot()
     {
         var (pattern, kind) = RoutePatternParser.Parse(
             "/project/app/page.cs",
@@ -40,7 +40,7 @@ public class RoutePatternParserAdditionalTests
     }
 
     [Fact]
-    public void Parse_RelativePathStyle_Handled()
+    public void Parse_Should_HandleRelativePathStyle_When_NoAppDirPrefix()
     {
         // Simulate a file path that doesn't contain the appDir prefix
         // This handles cases where the file path is already relative
@@ -58,7 +58,7 @@ public class RoutePatternParserAdditionalTests
     [InlineData("layout.cs")]
     [InlineData("route.cs")]
     [InlineData("error.cs")]
-    public void KnownSuffixes_AllStripped(string suffix)
+    public void Parse_Should_StripAllKnownSuffixes_When_Present(string suffix)
     {
         var filePath = $"/project/app/test/{suffix}";
         var (pattern, _) = RoutePatternParser.Parse(filePath, "/project/app");
@@ -66,7 +66,7 @@ public class RoutePatternParserAdditionalTests
     }
 
     [Fact]
-    public void DetermineSegmentKind_OriginalPathWithBrackets_DetectsCorrectly()
+    public void DetermineSegmentKind_Should_DetectCorrectKind_When_OriginalPathHasBrackets()
     {
         // Test the internal method directly
         var kind1 = RoutePatternParser.DetermineSegmentKind(
@@ -83,7 +83,7 @@ public class RoutePatternParserAdditionalTests
     }
 
     [Fact]
-    public void ConvertBracketNotation_MultipleInSamePath_AllConverted()
+    public void ConvertBracketNotation_Should_ConvertAllSegments_When_MultipleInSamePath()
     {
         var result = RoutePatternParser.ConvertBracketNotation(
             "[category]/[subcategory]/[slug]");
@@ -91,7 +91,7 @@ public class RoutePatternParserAdditionalTests
     }
 
     [Fact]
-    public void ConvertBracketNotation_NoBrackets_Unchanged()
+    public void ConvertBracketNotation_Should_ReturnUnchanged_When_NoBrackets()
     {
         var result = RoutePatternParser.ConvertBracketNotation("plain/static/path");
         Assert.Equal("plain/static/path", result);

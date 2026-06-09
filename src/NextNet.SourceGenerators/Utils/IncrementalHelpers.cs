@@ -4,11 +4,21 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace NextNet.SourceGenerators.Utils
-{
+namespace NextNet.SourceGenerators.Utils;
     /// <summary>
     /// Helper utilities for the incremental generator pipeline.
     /// </summary>
+    /// <example>
+    /// <code>
+    /// // Convert a file path to a C# type name:
+    /// var typeName = IncrementalHelpers.FilePathToTypeName("app/blog/[slug]/page.cs", "app");
+    /// // Returns "BlogSlugPage"
+    ///
+    /// // Extract route parameters:
+    /// var parameters = IncrementalHelpers.ExtractRouteParameters("/blog/{slug}");
+    /// // Returns ["slug"]
+    /// </code>
+    /// </example>
     internal static class IncrementalHelpers
     {
         /// <summary>
@@ -188,4 +198,3 @@ namespace NextNet.SourceGenerators.Utils
                 : "NextNet_" + baseName;
         }
     }
-}

@@ -3,7 +3,7 @@ namespace NextNet.Build.Production.Caching;
 /// <summary>
 /// Options for configuring cache headers on static assets and responses.
 /// </summary>
-public class CacheHeaderOptions
+public sealed class CacheHeaderOptions
 {
     /// <summary>
     /// Whether to add cache headers to responses.

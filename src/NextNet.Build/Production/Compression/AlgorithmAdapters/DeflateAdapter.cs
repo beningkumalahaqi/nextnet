@@ -5,7 +5,7 @@ namespace NextNet.Build.Production.Compression.AlgorithmAdapters;
 /// <summary>
 /// Deflate compression adapter using System.IO.Compression.DeflateStream.
 /// </summary>
-public class DeflateAdapter : ICompressionAdapter
+public sealed class DeflateAdapter : ICompressionAdapter
 {
     private readonly CompressionLevel _compressionLevel;
 

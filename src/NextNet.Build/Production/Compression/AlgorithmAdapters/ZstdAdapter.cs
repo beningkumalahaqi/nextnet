@@ -8,7 +8,7 @@ namespace NextNet.Build.Production.Compression.AlgorithmAdapters;
 /// For production use, install a NuGet package like "ZstdSharp" or "K4os.Compression.LZ4".
 /// This implementation falls back to Brotli-compatible behavior as a placeholder.
 /// </summary>
-public class ZstdAdapter : ICompressionAdapter
+public sealed class ZstdAdapter : ICompressionAdapter
 {
     private readonly int _compressionLevel;
     private readonly Lazy<ICompressionAdapter> _fallback;

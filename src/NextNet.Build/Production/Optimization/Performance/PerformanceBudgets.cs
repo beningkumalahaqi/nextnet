@@ -4,7 +4,7 @@ namespace NextNet.Build.Production.Optimization.Performance;
 /// Defines performance budgets that the build output must respect.
 /// When any budget is exceeded, the configured <see cref="Action"/> is taken.
 /// </summary>
-public class PerformanceBudgets
+public sealed class PerformanceBudgets
 {
     /// <summary>
     /// Maximum total output size in bytes.

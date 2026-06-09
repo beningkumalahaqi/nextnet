@@ -6,7 +6,7 @@ namespace NextNet.Logging;
 /// Default implementation of <see cref="INextNetLogger"/> that writes
 /// formatted log messages to the console with timestamps and colors.
 /// </summary>
-public class NextNetLogger : INextNetLogger
+public sealed class NextNetLogger : INextNetLogger
 {
     private readonly string _categoryName;
     private readonly object _lock = new();

@@ -102,7 +102,7 @@ public class StreamingHtmlRendererTests
     [InlineData(128)]
     [InlineData(256)]
     [InlineData(1024)]
-    public async Task RenderAsyncEnumerable_WithVariedBufferSizes_ProducesCompleteOutput(int bufferSize)
+    public async Task RenderAsyncEnumerable_Should_ProduceCompleteOutput_WithVariedBufferSizes(int bufferSize)
     {
         var manifest = CreateManifest(PageEntry("/", "app/page.cs"));
         var pageMap = new Dictionary<string, Type> { ["app/page.cs"] = typeof(SimplePage) };
@@ -130,7 +130,7 @@ public class StreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderAsyncEnumerable_WithNotFoundRoute_Returns404Chunk()
+    public async Task RenderAsyncEnumerable_Should_Return404_WhenRouteNotFound()
     {
         var manifest = CreateManifest();
         var (renderer, _) = CreateStreamingRenderer(manifest);
@@ -146,7 +146,7 @@ public class StreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderAsyncEnumerable_WithFailingPage_ReturnsErrorChunk()
+    public async Task RenderAsyncEnumerable_Should_ReturnErrorChunk_WhenPageFails()
     {
         var manifest = CreateManifest(PageEntry("/fail", "app/fail/page.cs"));
         var pageMap = new Dictionary<string, Type> { ["app/fail/page.cs"] = typeof(FailingPage) };
@@ -165,7 +165,7 @@ public class StreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderAsyncEnumerable_WithLargePage_YieldsMultipleChunks()
+    public async Task RenderAsyncEnumerable_Should_YieldMultipleChunks_WhenPageIsLarge()
     {
         var manifest = CreateManifest(PageEntry("/large", "app/large/page.cs"));
         var pageMap = new Dictionary<string, Type> { ["app/large/page.cs"] = typeof(LargePage) };
@@ -187,7 +187,7 @@ public class StreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderAsyncEnumerable_RespectsCancellationToken()
+    public async Task RenderAsyncEnumerable_Should_Cancel_WhenCancellationTokenIsSet()
     {
         var manifest = CreateManifest(PageEntry("/large", "app/large/page.cs"));
         var pageMap = new Dictionary<string, Type> { ["app/large/page.cs"] = typeof(LargePage) };
@@ -211,7 +211,7 @@ public class StreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderAsyncEnumerable_WithNullRoute_Throws()
+    public async Task RenderAsyncEnumerable_Should_ThrowArgumentNullException_WhenRouteIsNull()
     {
         var manifest = CreateManifest();
         var (renderer, _) = CreateStreamingRenderer(manifest);
@@ -225,7 +225,7 @@ public class StreamingHtmlRendererTests
     }
 
     [Fact]
-    public async Task RenderAsyncEnumerable_WithNullContext_Throws()
+    public async Task RenderAsyncEnumerable_Should_ThrowArgumentNullException_WhenContextIsNull()
     {
         var manifest = CreateManifest();
         var (renderer, _) = CreateStreamingRenderer(manifest);
@@ -241,7 +241,7 @@ public class StreamingHtmlRendererTests
     // ─── ChunkedHtmlWriter tests ──────────────────────────────────────────
 
     [Fact]
-    public async Task ChunkedHtmlWriter_WritesChunksToWriter()
+    public async Task ChunkedHtmlWriter_WriteToAsync_Should_WriteChunks_WhenCalled()
     {
         async IAsyncEnumerable<string> GetChunks()
         {
@@ -259,7 +259,7 @@ public class StreamingHtmlRendererTests
     }
 
     [Fact]
-    public void ChunkedHtmlWriter_ToHtml_BlocksAndReturnsFullContent()
+    public void ChunkedHtmlWriter_ToHtml_Should_ReturnFullContent_WhenCalled()
     {
         async IAsyncEnumerable<string> GetChunks()
         {
@@ -276,13 +276,13 @@ public class StreamingHtmlRendererTests
     }
 
     [Fact]
-    public void ChunkedHtmlWriter_NullChunks_Throws()
+    public void ChunkedHtmlWriter_Constructor_Should_ThrowArgumentNullException_WhenChunksIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new ChunkedHtmlWriter(null!));
     }
 
     [Fact]
-    public async Task ChunkedHtmlWriter_WriteToAsync_NullWriter_Throws()
+    public async Task ChunkedHtmlWriter_WriteToAsync_Should_ThrowArgumentNullException_WhenWriterIsNull()
     {
         var writer = new ChunkedHtmlWriter(EmptyChunks());
         await Assert.ThrowsAsync<ArgumentNullException>(() => writer.WriteToAsync(null!));

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
-namespace NextNet.SourceGenerators.ServerActions
-{
+namespace NextNet.SourceGenerators.ServerActions;
     /// <summary>
     /// Represents a discovered server action method extracted from source code.
     /// </summary>
@@ -93,4 +92,3 @@ namespace NextNet.SourceGenerators.ServerActions
         /// </summary>
         public bool IsCancellationToken { get; set; }
     }
-}

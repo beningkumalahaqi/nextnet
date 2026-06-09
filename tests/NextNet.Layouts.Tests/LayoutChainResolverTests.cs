@@ -54,7 +54,7 @@ public class LayoutChainResolverTests
     // ─── Tests ────────────────────────────────────────────────────────────
 
     [Fact]
-    public void ResolveChain_WithEmptyChain_ReturnsEmptyList()
+    public void ResolveChain_Should_ReturnEmptyList_When_ChainIsEmpty()
     {
         var resolver = CreateResolver();
         var entry = MakeEntry(layoutChain: Array.Empty<string>());
@@ -66,7 +66,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_WithSingleLayout_ReturnsSingleType()
+    public void ResolveChain_Should_ReturnSingleType_When_SingleLayout()
     {
         var layoutMap = new Dictionary<string, Type> { ["app/layout.cs"] = typeof(RootLayout) };
         var resolver = CreateResolver(layoutMap);
@@ -79,7 +79,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_WithNestedLayouts_ReturnsOrderedTypes()
+    public void ResolveChain_Should_ReturnOrderedTypes_When_NestedLayouts()
     {
         var layoutMap = new Dictionary<string, Type>
         {
@@ -98,7 +98,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_WithThreeLevels_ReturnsAllTypes()
+    public void ResolveChain_Should_ReturnAllTypes_When_ThreeLevels()
     {
         var layoutMap = new Dictionary<string, Type>
         {
@@ -116,7 +116,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_WithUnresolvableLayout_ThrowsRenderException()
+    public void ResolveChain_Should_ThrowRenderException_When_LayoutUnresolvable()
     {
         var resolver = CreateResolver(); // no layouts registered
         var entry = MakeEntry(layoutChain: new[] { "app/layout.cs" });
@@ -127,7 +127,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_WithNonLayoutType_ThrowsRenderException()
+    public void ResolveChain_Should_ThrowRenderException_When_TypeNotILayout()
     {
         var layoutMap = new Dictionary<string, Type> { ["app/layout.cs"] = typeof(NotALayout) };
         var resolver = CreateResolver(layoutMap);
@@ -138,7 +138,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_WithNullEntry_ThrowsArgumentNullException()
+    public void ResolveChain_Should_ThrowArgumentNullException_When_EntryIsNull()
     {
         var resolver = CreateResolver();
 
@@ -146,7 +146,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_CachesResults()
+    public void ResolveChain_Should_CacheResults_When_SameRouteCalledTwice()
     {
         var layoutMap = new Dictionary<string, Type> { ["app/layout.cs"] = typeof(RootLayout) };
         var resolver = CreateResolver(layoutMap);
@@ -159,7 +159,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ClearCache_RemovesCachedEntries()
+    public void ClearCache_Should_RemoveCachedEntries_When_Called()
     {
         var layoutMap = new Dictionary<string, Type> { ["app/layout.cs"] = typeof(RootLayout) };
         var resolver = CreateResolver(layoutMap);
@@ -175,7 +175,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_DifferentRoutes_DifferentCacheEntries()
+    public void ResolveChain_Should_UseSeparateCacheEntries_When_DifferentRoutes()
     {
         var layoutMap = new Dictionary<string, Type>
         {
@@ -195,7 +195,7 @@ public class LayoutChainResolverTests
     }
 
     [Fact]
-    public void ResolveChain_ExceedingMaxDepth_ThrowsRenderException()
+    public void ResolveChain_Should_ThrowRenderException_When_ExceedingMaxDepth()
     {
         var layoutMap = new Dictionary<string, Type>();
         var types = new List<Type>();

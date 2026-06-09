@@ -6,7 +6,7 @@ namespace NextNet.Rendering;
 /// Configuration options for the SSR rendering engine.
 /// Controls buffering, streaming, caching, and timeout behaviour.
 /// </summary>
-public class SsrOptions
+public sealed class SsrOptions
 {
     /// <summary>
     /// Gets or sets whether streaming responses are enabled.

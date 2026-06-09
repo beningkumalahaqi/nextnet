@@ -5,7 +5,7 @@ namespace NextNet.Build.Production.Compression.AlgorithmAdapters;
 /// <summary>
 /// Brotli compression adapter using System.IO.Compression.BrotliStream.
 /// </summary>
-public class BrotliAdapter : ICompressionAdapter
+public sealed class BrotliAdapter : ICompressionAdapter
 {
     private readonly CompressionLevel _compressionLevel;
 

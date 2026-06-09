@@ -6,7 +6,7 @@ namespace NextNet.Build.Production.Optimization.AssetOptimizer;
 /// <summary>
 /// Optimizes SVG files by removing unnecessary metadata, whitespace, and comments.
 /// </summary>
-public partial class SvgOptimizer : IAssetOptimizer
+public sealed partial class SvgOptimizer : IAssetOptimizer
 {
     private readonly ISharpFileSystem _fileSystem;
 

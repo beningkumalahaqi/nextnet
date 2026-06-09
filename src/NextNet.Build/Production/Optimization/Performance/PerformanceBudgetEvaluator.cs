@@ -5,7 +5,7 @@ namespace NextNet.Build.Production.Optimization.Performance;
 /// <summary>
 /// Evaluates performance budgets against the build output directory.
 /// </summary>
-public class PerformanceBudgetEvaluator
+public sealed class PerformanceBudgetEvaluator
 {
     private readonly ISharpFileSystem _fileSystem;
 
@@ -77,50 +77,79 @@ public class PerformanceBudgetEvaluator
         // Evaluate budgets
         if (budgets.TotalSize.HasValue && totalSize > budgets.TotalSize.Value)
         {
-            violations.Add(new BudgetViolation
-            {
-                Metric = "TotalSize",
-                Expected = FormatSize(budgets.TotalSize.Value),
-                Actual = FormatSize(totalSize),
-                Severity = budgets.Action,
-                Message = $"Total output size {FormatSize(totalSize)} exceeds budget of {FormatSize(budgets.TotalSize.Value)}."
-            });
+            violations.Add(new BudgetViolation(
+                Metric: "TotalSize",
+                Expected: FormatSize(budgets.TotalSize.Value),
+                Actual: FormatSize(totalSize),
+                Severity: budgets.Action,
+                Message: $"Total output size {FormatSize(totalSize)} exceeds budget of {FormatSize(budgets.TotalSize.Value)}."
+            ));
         }
 
         if (budgets.JavaScriptSize.HasValue && jsSize > budgets.JavaScriptSize.Value)
         {
-            violations.Add(new BudgetViolation
-            {
-                Metric = "JavaScriptSize",
-                Expected = FormatSize(budgets.JavaScriptSize.Value),
-                Actual = FormatSize(jsSize),
-                Severity = budgets.Action,
-                Message = $"JavaScript size {FormatSize(jsSize)} exceeds budget of {FormatSize(budgets.JavaScriptSize.Value)}."
-            });
+            violations.Add(new BudgetViolation(
+                Metric: "JavaScriptSize",
+                Expected: FormatSize(budgets.JavaScriptSize.Value),
+                Actual: FormatSize(jsSize),
+                Severity: budgets.Action,
+                Message: $"JavaScript size {FormatSize(jsSize)} exceeds budget of {FormatSize(budgets.JavaScriptSize.Value)}."
+            ));
         }
 
         if (budgets.CssSize.HasValue && cssSize > budgets.CssSize.Value)
         {
-            violations.Add(new BudgetViolation
-            {
-                Metric = "CssSize",
-                Expected = FormatSize(budgets.CssSize.Value),
-                Actual = FormatSize(cssSize),
-                Severity = budgets.Action,
-                Message = $"CSS size {FormatSize(cssSize)} exceeds budget of {FormatSize(budgets.CssSize.Value)}."
-            });
+            violations.Add(new BudgetViolation(
+                Metric: "CssSize",
+                Expected: FormatSize(budgets.CssSize.Value),
+                Actual: FormatSize(cssSize),
+                Severity: budgets.Action,
+                Message: $"CSS size {FormatSize(cssSize)} exceeds budget of {FormatSize(budgets.CssSize.Value)}."
+            ));
         }
 
         if (budgets.ImageSize.HasValue && imageSize > budgets.ImageSize.Value)
         {
-            violations.Add(new BudgetViolation
-            {
-                Metric = "ImageSize",
-                Expected = FormatSize(budgets.ImageSize.Value),
-                Actual = FormatSize(imageSize),
-                Severity = budgets.Action,
-                Message = $"Image size {FormatSize(imageSize)} exceeds budget of {FormatSize(budgets.ImageSize.Value)}."
-            });
+            violations.Add(new BudgetViolation(
+                Metric: "ImageSize",
+                Expected: FormatSize(budgets.ImageSize.Value),
+                Actual: FormatSize(imageSize),
+                Severity: budgets.Action,
+                Message: $"Image size {FormatSize(imageSize)} exceeds budget of {FormatSize(budgets.ImageSize.Value)}."
+            ));
+        }
+
+        if (budgets.JavaScriptSize.HasValue && jsSize > budgets.JavaScriptSize.Value)
+        {
+            violations.Add(new BudgetViolation(
+                Metric: "JavaScriptSize",
+                Expected: FormatSize(budgets.JavaScriptSize.Value),
+                Actual: FormatSize(jsSize),
+                Severity: budgets.Action,
+                Message: $"JavaScript size {FormatSize(jsSize)} exceeds budget of {FormatSize(budgets.JavaScriptSize.Value)}."
+            ));
+        }
+
+        if (budgets.CssSize.HasValue && cssSize > budgets.CssSize.Value)
+        {
+            violations.Add(new BudgetViolation(
+                Metric: "CssSize",
+                Expected: FormatSize(budgets.CssSize.Value),
+                Actual: FormatSize(cssSize),
+                Severity: budgets.Action,
+                Message: $"CSS size {FormatSize(cssSize)} exceeds budget of {FormatSize(budgets.CssSize.Value)}."
+            ));
+        }
+
+        if (budgets.ImageSize.HasValue && imageSize > budgets.ImageSize.Value)
+        {
+            violations.Add(new BudgetViolation(
+                Metric: "ImageSize",
+                Expected: FormatSize(budgets.ImageSize.Value),
+                Actual: FormatSize(imageSize),
+                Severity: budgets.Action,
+                Message: $"Image size {FormatSize(imageSize)} exceeds budget of {FormatSize(budgets.ImageSize.Value)}."
+            ));
         }
 
         report.Violations = violations;

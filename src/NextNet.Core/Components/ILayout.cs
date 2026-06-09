@@ -4,6 +4,22 @@ namespace NextNet.Components;
 /// Defines a layout component that wraps child content with a shared shell (e.g. header, footer, navigation).
 /// Layouts can be nested to create complex page structures.
 /// </summary>
+/// <example>
+/// <code>
+/// // app/layout.cs (root layout)
+/// public class RootLayout : ILayout
+/// {
+///     public async Task&lt;IHtmlContent&gt; Render(IHtmlContent children)
+///     {
+///         return HtmlHelper.Fragment(
+///             HtmlHelper.Raw("&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;body&gt;"),
+///             children,
+///             HtmlHelper.Raw("&lt;/body&gt;&lt;/html&gt;")
+///         );
+///     }
+/// }
+/// </code>
+/// </example>
 public interface ILayout
 {
     /// <summary>

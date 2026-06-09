@@ -2,6 +2,7 @@ using NextNet.Conventions;
 using NextNet.Exceptions;
 using NextNet.IO;
 using NextNet.Logging;
+using NextNet.Routing.Errors;
 using NextNet.Routing.Models;
 
 namespace NextNet.Routing;
@@ -10,7 +11,18 @@ namespace NextNet.Routing;
 /// Scans the application directory for route files and produces a <see cref="RouteManifest"/>.
 /// Supports full scans and incremental scans for development hot reload.
 /// </summary>
-public class RouteScanner
+/// <example>
+/// Performing a full scan:
+/// <code>
+/// var scanner = new RouteScanner("/path/to/app");
+/// var manifest = scanner.Scan();
+/// foreach (var page in manifest.Pages)
+/// {
+///     Console.WriteLine($"Found page: {page.RoutePattern}");
+/// }
+/// </code>
+/// </example>
+public sealed class RouteScanner
 {
     private readonly string _appDir;
     private readonly INextNetLogger? _logger;
@@ -204,7 +216,8 @@ public class RouteScanner
         }
         catch (Exception ex) when (ex is UnauthorizedAccessException or DirectoryNotFoundException)
         {
-            _logger?.Warn("Cannot access directory '{Directory}': {Message}", directory, ex.Message);
+            _logger?.Warn("[{Code}] Cannot access directory '{Directory}': {Message}",
+                RoutingErrorCodes.DirectoryAccessDenied, directory, ex.Message);
         }
     }
 
@@ -232,7 +245,7 @@ public class RouteScanner
         catch (Exception ex)
         {
             throw new RouteDiscoveryException(
-                $"Failed to parse route pattern from '{filePath}': {ex.Message}", ex);
+                $"[{RoutingErrorCodes.RouteParseFailed}] Failed to parse route pattern from '{filePath}': {ex.Message}", ex);
         }
     }
 
@@ -290,11 +303,11 @@ public class RouteScanner
         IReadOnlyList<RouteConflict> conflicts)
     {
         return new RouteManifest(
-            routes: entries.AsReadOnly(),
-            pages: entries.Where(e => e.Type == RouteType.Page).ToList().AsReadOnly(),
-            layouts: entries.Where(e => e.Type == RouteType.Layout).ToList().AsReadOnly(),
-            apiRoutes: entries.Where(e => e.Type == RouteType.Api).ToList().AsReadOnly(),
-            errorPage: entries.FirstOrDefault(e => e.Type == RouteType.Error),
-            conflicts: conflicts);
+            Routes: entries.AsReadOnly(),
+            Pages: entries.Where(e => e.Type == RouteType.Page).ToList().AsReadOnly(),
+            Layouts: entries.Where(e => e.Type == RouteType.Layout).ToList().AsReadOnly(),
+            ApiRoutes: entries.Where(e => e.Type == RouteType.Api).ToList().AsReadOnly(),
+            ErrorPage: entries.FirstOrDefault(e => e.Type == RouteType.Error),
+            Conflicts: conflicts);
     }
 }

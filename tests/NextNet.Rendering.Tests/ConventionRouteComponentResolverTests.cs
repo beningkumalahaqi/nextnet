@@ -43,7 +43,7 @@ public class ConventionRouteComponentResolverTests
     // ─── Constructor tests ───────────────────────────────────────────────
 
     [Fact]
-    public void Constructor_WithEmptyMaps_ResolvesNothing()
+    public void Constructor_Should_NotResolveAnyTypes_WhenMapsAreEmpty()
     {
         var resolver = new ConventionRouteComponentResolver(
             new Dictionary<string, Type>(), new Dictionary<string, Type>());
@@ -54,7 +54,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void Constructor_WithPageMap_ResolvesPages()
+    public void Constructor_Should_ResolvePages_WhenPageMapProvided()
     {
         var pageMap = new Dictionary<string, Type>
         {
@@ -74,7 +74,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void Constructor_WithLayoutMap_ResolvesLayouts()
+    public void Constructor_Should_ResolveLayouts_WhenLayoutMapProvided()
     {
         var layoutMap = new Dictionary<string, Type>
         {
@@ -90,7 +90,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void GetLayoutType_NormalizesPathSeparators()
+    public void GetLayoutType_Should_NormalizePathSeparators_WhenWindowsStylePath()
     {
         var layoutMap = new Dictionary<string, Type>
         {
@@ -106,7 +106,7 @@ public class ConventionRouteComponentResolverTests
     // ─── GetPageType tests ───────────────────────────────────────────────
 
     [Fact]
-    public void GetPageType_WithMappedEntry_ReturnsType()
+    public void GetPageType_Should_ReturnType_WhenEntryIsMapped()
     {
         var pageMap = new Dictionary<string, Type> { ["app/page.cs"] = typeof(TestPage) };
         var resolver = new ConventionRouteComponentResolver(pageMap,
@@ -120,7 +120,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void GetPageType_WithUnmappedEntry_ReturnsNull()
+    public void GetPageType_Should_ReturnNull_WhenEntryIsNotMapped()
     {
         var resolver = new ConventionRouteComponentResolver(
             new Dictionary<string, Type>(), new Dictionary<string, Type>());
@@ -130,7 +130,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void GetLayoutType_WithMappedPath_ReturnsType()
+    public void GetLayoutType_Should_ReturnType_WhenPathIsMapped()
     {
         var layoutMap = new Dictionary<string, Type> { ["root"] = typeof(TestLayout) };
         var resolver = new ConventionRouteComponentResolver(
@@ -140,7 +140,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void GetLayoutType_WithUnmappedPath_ReturnsNull()
+    public void GetLayoutType_Should_ReturnNull_WhenPathIsNotMapped()
     {
         var resolver = new ConventionRouteComponentResolver(
             new Dictionary<string, Type>(), new Dictionary<string, Type>());
@@ -149,7 +149,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void Constructor_EmptyAssemblies_ScansAllLoaded()
+    public void Constructor_Should_NotThrow_WhenAssembliesAreEmpty()
     {
         // Passing no assemblies should scan all loaded assemblies
         var resolver = new ConventionRouteComponentResolver();
@@ -157,14 +157,14 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void Constructor_WithNullAssemblies_ScansAllLoaded()
+    public void Constructor_Should_NotThrow_WhenAssembliesAreNull()
     {
         var resolver = new ConventionRouteComponentResolver(assemblies: null);
         Assert.NotNull(resolver);
     }
 
     [Fact]
-    public void GetPageType_WithWindowsPath_Normalizes()
+    public void GetPageType_Should_NormalizePath_WhenWindowsStylePath()
     {
         var pageMap = new Dictionary<string, Type>
         {
@@ -179,7 +179,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void GetPageType_WithNullLogger_DoesNotThrow()
+    public void GetPageType_Should_NotThrow_WhenLoggerIsNull()
     {
         var resolver = new ConventionRouteComponentResolver(
             new Dictionary<string, Type>(), new Dictionary<string, Type>());
@@ -190,7 +190,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void GetLayoutType_WithNullLogger_DoesNotThrow()
+    public void GetLayoutType_Should_NotThrow_WhenLoggerIsNull()
     {
         var resolver = new ConventionRouteComponentResolver(
             new Dictionary<string, Type>(), new Dictionary<string, Type>());
@@ -200,7 +200,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void Constructor_WithAssemblyAndPageMap_ResolvesByFilePathOnly()
+    public void Constructor_Should_ResolveByFilePath_WhenPageMapProvided()
     {
         // The page map should take priority over assembly scanning
         // This test verifies explicit maps work with the assembly constructor
@@ -213,7 +213,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void Constructor_WithEmptyPageMap_ReturnsNullForUnknown()
+    public void GetPageType_Should_ReturnNull_WhenPageMapIsEmpty()
     {
         var resolver = new ConventionRouteComponentResolver(
             Array.Empty<System.Reflection.Assembly>());
@@ -223,7 +223,7 @@ public class ConventionRouteComponentResolverTests
     }
 
     [Fact]
-    public void Constructor_WithNullLogger_AssemblyScanDoesNotThrow()
+    public void Constructor_Should_NotThrow_WhenLoggerIsNullAndAssembliesAreEmpty()
     {
         // Verify the assembly scanning path doesn't throw even without a logger
         var resolver = new ConventionRouteComponentResolver(Array.Empty<System.Reflection.Assembly>());

@@ -28,7 +28,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         /// T-03-11: Generator produces syntactically valid output for a complete route manifest.
         /// </summary>
         [Fact]
-        public void Generator_RunsOnFixtureManifest_OutputCompilesWithoutErrors()
+        public void Generator_ShouldCompileWithoutErrors_WhenFixtureManifestProvided()
         {
             // Arrange
             var compilation = CreateReferenceCompilation(out var additionalTexts);
@@ -94,7 +94,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         /// Generator produces no output when there is no routes.json manifest.
         /// </summary>
         [Fact]
-        public void Generator_WithoutManifest_ProducesNoErrors()
+        public void Generator_ShouldProduceNoErrors_WhenManifestMissing()
         {
             // Arrange: compilation with NO additional texts
             var compilation = CreateEmptyCompilation();
@@ -130,7 +130,7 @@ namespace NextNet.SourceGenerators.Tests.GeneratorTests
         /// Generator produces no errors for a minimal manifest.
         /// </summary>
         [Fact]
-        public void Generator_WithMinimalManifest_CompilesSuccessfully()
+        public void Generator_ShouldCompile_WhenMinimalManifestProvided()
         {
             // Arrange
             var manifestJson = @"{

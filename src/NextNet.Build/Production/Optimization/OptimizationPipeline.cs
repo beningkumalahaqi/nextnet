@@ -4,13 +4,21 @@ using NextNet.Build.Production.Optimization.AssetOptimizer;
 using NextNet.Build.Production.Optimization.CriticalCss;
 using NextNet.Build.Production.Optimization.Performance;
 using NextNet.IO;
+using NextNet.Build.Errors;
 
 namespace NextNet.Build.Production.Optimization;
 
 /// <summary>
 /// Orchestrates all production optimization passes on the build output.
 /// </summary>
-public partial class OptimizationPipeline
+/// <example>
+/// <code>
+/// var pipeline = new OptimizationPipeline(fileSystem, bundleAnalyzer, budgetEvaluator, optimizers);
+/// var result = await pipeline.RunAsync("dist", options);
+/// if (result.Success) { Console.WriteLine("Optimization complete"); }
+/// </code>
+/// </example>
+public sealed partial class OptimizationPipeline
 {
     private readonly ISharpFileSystem _fileSystem;
     private readonly BundleAnalyzer _bundleAnalyzer;
@@ -60,7 +68,7 @@ public partial class OptimizationPipeline
             }
             catch (Exception ex)
             {
-                warnings.Add($"Bundle analysis failed: {ex.Message}");
+                warnings.Add($"[{BuildErrorCodes.BundleAnalysisFailed}] Bundle analysis failed: {ex.Message}");
             }
         }
 
@@ -100,7 +108,7 @@ public partial class OptimizationPipeline
                         {
                             lock (warnings)
                             {
-                                warnings.Add($"Optimization failed for '{file}': {ex.Message}");
+                                warnings.Add($"[{BuildErrorCodes.AssetOptimizationFailed}] Asset optimization failed for '{file}': {ex.Message}");
                             }
                         }
                     });
@@ -117,7 +125,7 @@ public partial class OptimizationPipeline
             }
             catch (Exception ex)
             {
-                warnings.Add($"Critical CSS extraction failed: {ex.Message}");
+                warnings.Add($"[{BuildErrorCodes.CriticalCssExtractionFailed}] Critical CSS extraction failed: {ex.Message}");
             }
         }
 
@@ -131,7 +139,7 @@ public partial class OptimizationPipeline
             }
             catch (Exception ex)
             {
-                warnings.Add($"Pre-compression failed: {ex.Message}");
+                warnings.Add($"[{BuildErrorCodes.GzipCompressionFailed}] Pre-compression failed: {ex.Message}");
             }
         }
 
