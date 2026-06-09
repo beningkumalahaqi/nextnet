@@ -1,4 +1,14 @@
 <Project>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Directory.Build.props — Single Source of Truth
+       
+       This file is automatically imported into every .csproj in
+       the repository. Do NOT duplicate these properties in
+       individual project files — they will be overridden here.
+       ════════════════════════════════════════════════════════════ -->
+
+  <!-- ──────── Compiler & Language Settings ──────── -->
   <PropertyGroup>
     <!-- TODO: Update to net10.0 when .NET 10 SDK available -->
     <TargetFramework>net8.0</TargetFramework>
@@ -7,17 +17,55 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- CS1591: Missing XML comment on public type (intentional - doc gen covers this) -->
+    <!-- CS1591: Missing XML comment on public type (intentional — doc gen covers this) -->
     <!-- NU5104: Stable package depends on prerelease dependency (System.CommandLine beta, acceptable for 0.x releases) -->
     <NoWarn>$(NoWarn);CS1591;NU5104</NoWarn>
   </PropertyGroup>
 
-  <!-- Prevent test projects from being packaged as NuGet packages -->
+  <!-- ──────── Centralized Version (Single Source of Truth) ──────── -->
+  <PropertyGroup>
+    <Version>5.0.0</Version>
+  </PropertyGroup>
+
+  <!-- ──────── Shared NuGet Package Metadata ──────── -->
+  <PropertyGroup>
+    <Authors>NextNet</Authors>
+    <Company>NextNet</Company>
+    <Product>NextNet</Product>
+    <Copyright>Copyright (c) 2026 NextNet Contributors</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/beningkumalahaqi/nextnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/beningkumalahaqi/nextnet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>See https://github.com/beningkumalahaqi/nextnet/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <!-- ──────── SourceLink & Debugging ──────── -->
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!-- ──────── Prevent test projects from being packaged ──────── -->
   <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <!-- ──────── Items: README packaging & SourceLink package ──────── -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.*" PrivateAssets="All" />
+  </ItemGroup>
+
+  <!-- ──────── Shared dependencies for all projects ──────── -->
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.*" />
   </ItemGroup>
+
 </Project>

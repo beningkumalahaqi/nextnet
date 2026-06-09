@@ -8,7 +8,7 @@ All notable changes to NextNet will be documented in this file.
 
 - _(no unreleased changes yet)_
 
-## [0.2.0] - 2026-06-09
+## [5.0.0] - 2026-06-09
 
 ### Added — V1 Core Engine
 
@@ -65,6 +65,7 @@ All notable changes to NextNet will be documented in this file.
 
 ### Changed — Cross-cutting
 
+- **Version bumped** from `3.0.0` to `5.0.0` across all projects
 - **Solution file** — added 12 missing projects (5 source + 7 test) to `NextNet.sln`; cleaned 4 orphaned GUIDs
 - **Solution now contains 76 projects** (was 66)
 - **Test count** — 3,560 tests passing (was 3,418); all 38 test projects now run in CI
@@ -72,6 +73,16 @@ All notable changes to NextNet will be documented in this file.
 - **All code** — comprehensive XML documentation on public APIs
 - **Error codes** — added error code files for all framework projects (DS-xxx, NN-xxx schemes)
 - **Documentation** — added design system, theming, Tailwind integration, and UI component docs
+
+## [4.0.0] - 2026-06-08
+
+### Changed
+
+- **Full rebranding** — All references standardized to NextNet across CLI, namespaces, templates, and config
+- **Namespace migration** — `NextNet.*` is the only namespace throughout
+- **CLI migration** — All commands use `nextnet` prefix consistently
+- **Configuration migration** — `nextnet.config.json` is the standard config file
+- **Template migration** — All templates updated to NextNet conventions
 
 ## [3.0.0] - 2026-06-07
 
@@ -110,21 +121,30 @@ All notable changes to NextNet will be documented in this file.
 - Defense-in-depth security: checksums + signatures + trusted publishers
 - Async/await throughout the entire template pipeline
 
-## [0.1.0] - 2026-01-01
+## [2.0.0] - 2026-06-06
 
 ### Added
 
-- Initial public release of NextNet
-- File-based routing with convention-over-configuration
-- Server-side rendering (SSR) engine
-- Streaming SSR support
-- Layout chain resolution and composition
-- Static Site Generation (SSG)
-- CLI tooling (`nextnet new`, `nextnet dev`, `nextnet build`)
-- Roslyn incremental source generators for route discovery
-- Server Actions support
-- Route middleware pipeline
-- Incremental Static Regeneration (ISR)
-- Plugin loading and registration system
-- Edge runtime support
-- Developer tooling and debugging utilities
+- **Data Layer Integration** — Entity Framework Core, Dapper, SQLite, PostgreSQL, MongoDB providers
+- **Provider Model** — `IDataProvider`, `IDataConnection`, `IRepository<T>` abstractions
+- **Migration Engine** — Create, apply, rollback migrations across providers
+- **Multi-Database Support** — Named connections, `db.For("Analytics")` resolution
+- **Health Checks** — Database connectivity, provider availability monitoring
+- **Data CLI Commands** — `nextnet add data ef/dapper`, `nextnet db init/migrate`
+- **Scaffolding System** — Auto-generate DbContext, Repository, Models, CRUD actions
+
+## [1.0.0] - 2026-06-06
+
+### Added
+
+- **Core Engine** — File-based routing, SSR, streaming, layout chain resolution
+- **Source Generators** — Roslyn incremental generators for route discovery
+- **HTML Helper Library** — 20+ element methods for page composition
+- **CLI Tooling** — `nextnet new`, `nextnet dev`, `nextnet build`
+- **Static Site Generation** — Build pipeline with HTML minification and Gzip compression
+- **Server Actions** — Form submission without manual API wiring
+- **Middleware Pipeline** — Route middleware with compression, CORS, security headers
+- **Plugin System** — Assembly-isolated plugin loading via `AssemblyLoadContext`
+- **ISR** — Incremental Static Regeneration with time-based and on-demand revalidation
+- **Edge Runtime** — AWS Lambda, Cloudflare Workers, Vercel Edge, Deno Deploy adapters
+- **Developer Tools** — TUI panel with route inspection, performance profiling, network inspector
