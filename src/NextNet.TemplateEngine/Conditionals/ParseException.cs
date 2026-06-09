@@ -12,7 +12,7 @@ namespace NextNet.TemplateEngine.Conditionals;
 /// where the error was detected and, optionally, the surrounding context text.
 /// </para>
 /// <para>
-/// Error code: <c>NN-107</c>
+/// Error code: <c>DS-700</c>
 /// </para>
 /// </remarks>
 public sealed class ParseException : TemplateException
@@ -34,7 +34,7 @@ public sealed class ParseException : TemplateException
     /// <param name="position">The character position where the error occurred.</param>
     /// <param name="context">Optional context text for richer error messages.</param>
     public ParseException(string message, int position, string? context = null)
-        : base("NN-107", FormatMessage(message, position, context))
+        : base(TemplateEngineErrorCodes.ParseError, FormatMessage(message, position, context))
     {
         Position = position;
         Context = context;

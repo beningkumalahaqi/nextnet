@@ -6,13 +6,13 @@ namespace NextNet.Templates.Tests.Exceptions;
 public sealed class TemplateGenerationExceptionTests
 {
     [Fact]
-    public void Constructor_Should_SetErrorCode_ToSK103()
+    public void Constructor_Should_SetErrorCode_ToDS762()
     {
         // Arrange & Act
         var ex = new TemplateGenerationException("Something went wrong");
 
         // Assert
-        Assert.Equal("NN-103", ex.ErrorCode);
+        Assert.Equal("DS-762", ex.ErrorCode);
     }
 
     [Fact]

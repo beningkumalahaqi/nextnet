@@ -5,7 +5,7 @@ namespace NextNet.Templates.Exceptions;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Error code: NN-102. This exception is thrown by template validators and the
+/// Error code: DS-761. This exception is thrown by template validators and the
 /// template engine when validation checks fail. It carries the full list of
 /// validation errors for detailed reporting.
 /// </para>
@@ -22,7 +22,7 @@ namespace NextNet.Templates.Exceptions;
 /// </remarks>
 public sealed class TemplateValidationException : TemplateException
 {
-    private const string ErrorCodeValue = "NN-102";
+    private const string ErrorCodeValue = "DS-761";
 
     /// <summary>
     /// Gets the list of validation error messages.

@@ -9,7 +9,7 @@ public class ConditionParserTests
     private readonly ConditionParser _parser = new();
 
     [Fact]
-    public void Parse_Should_ParseSimpleVariable()
+    public void Parse_Should_ParseVariable_When_SimpleIdentifier()
     {
         var expr = _parser.Parse("enabled");
 
@@ -18,7 +18,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseEquality()
+    public void Parse_Should_ParseEquality_When_UsingEqualsOperator()
     {
         var expr = _parser.Parse("x == 5");
 
@@ -33,7 +33,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseAndExpression()
+    public void Parse_Should_ParseAndExpression_When_UsingDoubleAmpersand()
     {
         var expr = _parser.Parse("a && b");
 
@@ -45,7 +45,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseOrExpression()
+    public void Parse_Should_ParseOrExpression_When_UsingDoublePipe()
     {
         var expr = _parser.Parse("a || b");
 
@@ -57,7 +57,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseNotExpression()
+    public void Parse_Should_ParseNotExpression_When_UsingExclamation()
     {
         var expr = _parser.Parse("!enabled");
 
@@ -69,7 +69,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseGroupedExpression()
+    public void Parse_Should_ParseGroupedExpression_When_UsingParentheses()
     {
         var expr = _parser.Parse("(a || b) && c");
 
@@ -85,7 +85,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseStringLiteral_SingleQuotes()
+    public void Parse_Should_ParseStringLiteral_When_UsingSingleQuotes()
     {
         var expr = _parser.Parse("name == 'hello'");
 
@@ -95,7 +95,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseStringLiteral_DoubleQuotes()
+    public void Parse_Should_ParseStringLiteral_When_UsingDoubleQuotes()
     {
         var expr = _parser.Parse(@"name == ""hello""");
 
@@ -105,7 +105,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseBooleanLiteral()
+    public void Parse_Should_ParseBooleanLiteral_When_UsingTrueKeyword()
     {
         var expr = _parser.Parse("enabled == true");
 
@@ -115,7 +115,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseNumericLiteral()
+    public void Parse_Should_ParseNumericLiteral_When_UsingInteger()
     {
         var expr = _parser.Parse("count > 42");
 
@@ -125,7 +125,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseNullLiteral()
+    public void Parse_Should_ParseNullLiteral_When_UsingNullKeyword()
     {
         var expr = _parser.Parse("value == null");
 
@@ -135,7 +135,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_RespectPrecedence_AndBindsTighterThanOr()
+    public void Parse_Should_RespectPrecedence_When_AndBindsTighterThanOr()
     {
         // Without parentheses, && should bind tighter than ||
         var expr = _parser.Parse("a || b && c");
@@ -151,21 +151,21 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_Throw_When_UnexpectedToken()
+    public void Parse_Should_ThrowParseException_When_UnexpectedToken()
     {
         var ex = Assert.Throws<ParseException>(() => _parser.Parse("a == @bad"));
         Assert.True(ex.Position >= 0);
     }
 
     [Fact]
-    public void Parse_Should_Throw_When_EmptyExpression()
+    public void Parse_Should_ThrowArgumentException_When_EmptyExpression()
     {
         var ex = Assert.Throws<ArgumentException>(() => _parser.Parse(""));
         Assert.Contains("cannot be null or empty", ex.Message, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
-    public void Parse_Should_ParseComplexExpression()
+    public void Parse_Should_ParseComplexExpression_When_CombiningAndOrNotWithGrouping()
     {
         // (features.auth == true || features.oauth == true) && !features.legacy
         var expr = _parser.Parse("(features.auth == true || features.oauth == true) && !features.legacy");
@@ -197,7 +197,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseDotNotationVariable()
+    public void Parse_Should_ParseDotNotationVariable_When_DottedIdentifier()
     {
         var expr = _parser.Parse("features.auth.enabled");
 
@@ -206,7 +206,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseInOperator()
+    public void Parse_Should_ParseInOperator_When_UsingInKeyword()
     {
         var expr = _parser.Parse("x in items");
 
@@ -221,7 +221,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseDoubleNumericLiteral()
+    public void Parse_Should_ParseDoubleNumericLiteral_When_UsingDecimal()
     {
         var expr = _parser.Parse("pi == 3.14");
 
@@ -231,7 +231,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseInequality()
+    public void Parse_Should_ParseInequality_When_UsingNotEqualOperator()
     {
         var expr = _parser.Parse("x != y");
 
@@ -240,7 +240,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseComparison_GreaterThanOrEqual()
+    public void Parse_Should_ParseComparison_When_UsingGreaterThanOrEqual()
     {
         var expr = _parser.Parse("x >= 10");
 
@@ -249,7 +249,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseComparison_LessThanOrEqual()
+    public void Parse_Should_ParseComparison_When_UsingLessThanOrEqual()
     {
         var expr = _parser.Parse("x <= 100");
 
@@ -258,7 +258,7 @@ public class ConditionParserTests
     }
 
     [Fact]
-    public void Parse_Should_ParseStringConcat()
+    public void Parse_Should_ParseStringConcat_When_UsingPlusOperator()
     {
         var expr = _parser.Parse("firstName + ' ' + lastName");
 

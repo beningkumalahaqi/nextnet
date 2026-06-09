@@ -45,11 +45,11 @@ public sealed class TemplatePackager
         ArgumentException.ThrowIfNullOrWhiteSpace(outputPath);
 
         if (!Directory.Exists(sourceDir))
-            throw new DirectoryNotFoundException($"Source directory not found: {sourceDir}");
+            throw new TemplateSdkException(TemplateSdkErrorCodes.SourceDirectoryNotFound, $"Source directory not found: {sourceDir}");
 
         var manifestPath = Path.Combine(sourceDir, "template.json");
         if (!File.Exists(manifestPath))
-            throw new FileNotFoundException("template.json not found in source directory", manifestPath);
+            throw new TemplateSdkException(TemplateSdkErrorCodes.ManifestNotFound, "template.json not found in source directory");
 
         Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
 

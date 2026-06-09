@@ -9,7 +9,7 @@ public class ConditionEvaluatorTests
     private readonly ConditionEvaluator _evaluator = new();
 
     [Fact]
-    public void Evaluate_Should_ReturnTrue_When_VariableTruthy()
+    public void Evaluate_Should_ReturnTrue_When_VariableIsTruthy()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("enabled", true)
@@ -19,7 +19,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_ReturnFalse_When_VariableFalsy()
+    public void Evaluate_Should_ReturnFalse_When_VariableIsFalsy()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("enabled", false)
@@ -71,7 +71,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_ReturnTrue_When_NotApplied_To_True()
+    public void Evaluate_Should_ReturnFalse_When_NotAppliedToTrue()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("enabled", true)
@@ -81,7 +81,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_ReturnFalse_When_NotApplied_To_False()
+    public void Evaluate_Should_ReturnTrue_When_NotAppliedToFalse()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("enabled", false)
@@ -91,7 +91,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_ReturnFalse_When_UndefinedVariable()
+    public void Evaluate_Should_ReturnFalse_When_VariableIsUndefined()
     {
         var ctx = VariableContext.CreateBuilder().Build();
 
@@ -99,7 +99,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_StringCondition_Should_ParseAndEvaluate()
+    public void Evaluate_Should_ReturnTrue_When_AndConditionIsTrue()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("a", true)
@@ -110,7 +110,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_HandleNumericComparison()
+    public void Evaluate_Should_HandleNumericComparison_When_UsingGreaterThanOrEqual()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("age", 25)
@@ -123,7 +123,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_ReturnTrue_When_InMatch()
+    public void Evaluate_Should_ReturnTrue_When_InOperatorMatches()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("x", 2)
@@ -134,7 +134,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_ReturnFalse_When_InNoMatch()
+    public void Evaluate_Should_ReturnFalse_When_InOperatorDoesNotMatch()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("x", 5)
@@ -145,7 +145,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_Throw_When_UnknownOperator()
+    public void Evaluate_Should_ThrowEvaluationException_When_UnknownOperator()
     {
         var ctx = VariableContext.CreateBuilder().Build();
         // The parser would not produce an unknown operator, but we can test the evaluator
@@ -161,7 +161,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_HandleNestedVariableAccess()
+    public void Evaluate_Should_HandleNestedVariableAccess_When_UsingDotNotation()
     {
         var ctx = VariableContext.CreateBuilder()
             .SetNested("features", new { auth = true, logging = false })
@@ -172,7 +172,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_HandleComplexCombinedExpression()
+    public void Evaluate_Should_HandleComplexCombinedExpression_When_MultipleOperators()
     {
         var ctx = VariableContext.CreateBuilder()
             .SetNested("features", new { api = true, auth = true, legacy = false })
@@ -186,7 +186,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_TreatEmptyStringAsFalsy()
+    public void Evaluate_Should_TreatEmptyString_As_Falsy()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("name", "")
@@ -196,7 +196,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_TreatNonZeroNumericAsTruthy()
+    public void Evaluate_Should_TreatNonZeroNumeric_As_Truthy()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("count", 42)
@@ -206,7 +206,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_TreatZeroAsFalsy()
+    public void Evaluate_Should_TreatZero_As_Falsy()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("count", 0)
@@ -216,7 +216,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_HandleGroupedShortCircuit()
+    public void Evaluate_Should_ShortCircuit_When_GroupedAndLeftIsFalse()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("a", false)
@@ -228,7 +228,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_StringContains_ViaIn()
+    public void Evaluate_Should_ReturnTrue_When_StringContainsViaIn()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("sub", "world")
@@ -239,7 +239,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_StringNotContains_ViaIn()
+    public void Evaluate_Should_ReturnFalse_When_StringDoesNotContainViaIn()
     {
         var ctx = VariableContext.CreateBuilder()
             .Set("sub", "xyz")
@@ -250,7 +250,7 @@ public class ConditionEvaluatorTests
     }
 
     [Fact]
-    public void Evaluate_Should_Throw_When_NullExpression()
+    public void Evaluate_Should_ThrowArgumentNullException_When_ExpressionIsNull()
     {
         var ctx = VariableContext.CreateBuilder().Build();
         Assert.Throws<ArgumentNullException>(() => _evaluator.Evaluate((string)null!, ctx));

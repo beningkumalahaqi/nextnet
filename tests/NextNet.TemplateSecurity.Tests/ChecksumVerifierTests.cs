@@ -6,7 +6,7 @@ using Xunit;
 public class ChecksumVerifierTests
 {
     [Fact]
-    public async Task ComputeChecksumAsync_Should_ReturnConsistentHash()
+    public async Task ComputeChecksumAsync_Should_ReturnConsistentHash_When_SameData()
     {
         var verifier = new ChecksumVerifier();
         var data = "Hello, World!"u8.ToArray();

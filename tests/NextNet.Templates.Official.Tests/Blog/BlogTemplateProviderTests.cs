@@ -69,7 +69,7 @@ public class BlogTemplateProviderTests
     /// dictionary containing the expected template files.
     /// </summary>
     [Fact]
-    public async Task GetFilesAsync_Should_ReturnNonEmptyFiles()
+    public async Task GetFilesAsync_Should_ReturnNonEmptyFiles_When_NameIsBlog()
     {
         var provider = new BlogTemplateProvider();
         var manifest = await provider.GetManifestAsync("blog");

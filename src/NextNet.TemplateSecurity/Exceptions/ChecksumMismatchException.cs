@@ -2,8 +2,23 @@ namespace NextNet.TemplateSecurity;
 
 /// <summary>
 /// Exception thrown when a computed checksum does not match the expected value.
+/// Error code: <see cref="TemplateSecurityErrorCodes.ChecksumMismatch"/> (DS-820).
 /// </summary>
-public sealed class ChecksumMismatchException : Exception
+/// <remarks>
+/// <example>
+/// <code>
+/// try
+/// {
+///     await verifier.VerifyAsync(stream, expectedChecksum);
+/// }
+/// catch (ChecksumMismatchException ex) when (ex.ErrorCode == TemplateSecurityErrorCodes.ChecksumMismatch)
+/// {
+///     Console.WriteLine($"Checksum mismatch: expected {ex.Expected}, got {ex.Actual}");
+/// }
+/// </code>
+/// </example>
+/// </remarks>
+public sealed class ChecksumMismatchException : TemplateSecurityException
 {
     /// <summary>
     /// The expected checksum value.
@@ -21,7 +36,7 @@ public sealed class ChecksumMismatchException : Exception
     /// <param name="expected">The expected checksum.</param>
     /// <param name="actual">The actual checksum.</param>
     public ChecksumMismatchException(string expected, string actual)
-        : base($"Checksum mismatch. Expected: {expected}, Actual: {actual}")
+        : base(TemplateSecurityErrorCodes.ChecksumMismatch, $"Checksum mismatch. Expected: {expected}, Actual: {actual}")
     {
         Expected = expected;
         Actual = actual;

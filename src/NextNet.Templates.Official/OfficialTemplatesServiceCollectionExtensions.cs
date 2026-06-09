@@ -54,6 +54,7 @@ public static class OfficialTemplatesServiceCollectionExtensions
         // Register all providers under ITemplateProvider
         services.TryAddEnumerable(ServiceDescriptor.Singleton<ITemplateProvider, BlogTemplateProvider>(sp => sp.GetRequiredService<BlogTemplateProvider>()));
         services.TryAddEnumerable(ServiceDescriptor.Singleton<ITemplateProvider, ApiTemplateProvider>(sp => sp.GetRequiredService<ApiTemplateProvider>()));
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<ITemplateProvider, DashboardTemplateProvider>(sp => sp.GetRequiredService<DashboardTemplateProvider>()));
 
         services.TryAddSingleton<SaasTemplateProvider>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<ITemplateProvider, SaasTemplateProvider>(sp => sp.GetRequiredService<SaasTemplateProvider>()));

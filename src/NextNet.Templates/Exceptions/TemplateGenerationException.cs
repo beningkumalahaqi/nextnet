@@ -5,7 +5,7 @@ namespace NextNet.Templates.Exceptions;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Error code: NN-103. This exception is thrown by the template engine when a file
+/// Error code: DS-762. This exception is thrown by the template engine when a file
 /// cannot be generated due to I/O errors, template syntax errors, or other runtime
 /// failures during the generation process.
 /// </para>
@@ -23,7 +23,7 @@ namespace NextNet.Templates.Exceptions;
 /// </remarks>
 public sealed class TemplateGenerationException : TemplateException
 {
-    private const string ErrorCodeValue = "NN-103";
+    private const string ErrorCodeValue = "DS-762";
 
     /// <summary>
     /// Gets the relative path of the file that caused the generation error, if applicable.

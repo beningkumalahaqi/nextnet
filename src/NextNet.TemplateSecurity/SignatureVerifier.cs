@@ -76,9 +76,7 @@ public sealed class SignatureVerifier
     
     private static bool VerifyEd25519(byte[] data, byte[] signature, byte[] keyBytes)
     {
-        // Ed25519 verification - simplified stub
-        // Real implementation would use a cryptography library
-        return false;
+        throw new NotSupportedException("Ed25519 is not yet supported. Use RSA instead.");
     }
     
     private static byte[] SignRsa(byte[] data, byte[] keyBytes)

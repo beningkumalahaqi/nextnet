@@ -6,17 +6,17 @@ namespace NextNet.Templates.Tests.Exceptions;
 public class TemplateNotFoundExceptionTests
 {
     [Fact]
-    public void Constructor_Should_SetErrorCode()
+    public void Constructor_Should_SetErrorCode_ToDS760()
     {
         // Arrange & Act
         var ex = new TemplateNotFoundException("my-template");
 
         // Assert
-        Assert.Equal("NN-101", ex.ErrorCode);
+        Assert.Equal("DS-760", ex.ErrorCode);
     }
 
     [Fact]
-    public void Constructor_Should_FormatMessage_WithAndWithoutVersion()
+    public void Constructor_Should_FormatMessage_When_VersionProvided()
     {
         // Arrange & Act
         var exWithoutVersion = new TemplateNotFoundException("my-template");

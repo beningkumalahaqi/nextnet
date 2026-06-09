@@ -57,7 +57,7 @@ public sealed class TemplatePublisher
         ArgumentNullException.ThrowIfNull(options);
 
         if (!File.Exists(packagePath))
-            throw new FileNotFoundException("Package not found", packagePath);
+            throw new TemplateSdkException(TemplateSdkErrorCodes.InvalidArgument, $"Package not found: {packagePath}");
 
         if (string.IsNullOrEmpty(options.ApiToken))
         {
@@ -66,7 +66,7 @@ public sealed class TemplatePublisher
         }
 
         if (string.IsNullOrEmpty(options.ApiToken))
-            return new PublishResult { Success = false, Message = "No API token. Run 'nextnet template login' first." };
+            return new PublishResult { Success = false, ErrorCode = TemplateSdkErrorCodes.PublishMissingToken, Message = "No API token. Run 'nextnet template login' first." };
 
         var registryUrl = options.RegistryUrl ?? "https://registry.nextnet.dev";
 
@@ -78,8 +78,10 @@ public sealed class TemplatePublisher
             fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             form.Add(fileContent, "package", Path.GetFileName(packagePath));
 
-            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", options.ApiToken);
-            var response = await _http.PostAsync($"{registryUrl}/api/templates/publish", form);
+            using var request = new HttpRequestMessage(HttpMethod.Post, $"{registryUrl}/api/templates/publish");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", options.ApiToken);
+            request.Content = form;
+            var response = await _http.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -93,11 +95,11 @@ public sealed class TemplatePublisher
             }
 
             var error = await response.Content.ReadAsStringAsync();
-            return new PublishResult { Success = false, Message = $"Publish failed: {error}" };
+            return new PublishResult { Success = false, ErrorCode = TemplateSdkErrorCodes.PublishServerError, Message = $"Publish failed: {error}" };
         }
         catch (Exception ex)
         {
-            return new PublishResult { Success = false, Message = $"Publish error: {ex.Message}" };
+            return new PublishResult { Success = false, ErrorCode = TemplateSdkErrorCodes.PublishServerError, Message = $"Publish error: {ex.Message}" };
         }
     }
 }
@@ -144,6 +146,11 @@ public sealed record PublishResult
     /// <c>true</c> if the template was published successfully; otherwise <c>false</c>.
     /// </summary>
     public bool Success { get; init; }
+
+    /// <summary>
+    /// The SDK error code when <see cref="Success"/> is <c>false</c>, if applicable.
+    /// </summary>
+    public string? ErrorCode { get; init; }
 
     /// <summary>
     /// A human-readable message describing the result.

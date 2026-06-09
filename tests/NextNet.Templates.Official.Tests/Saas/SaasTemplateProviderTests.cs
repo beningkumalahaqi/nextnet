@@ -51,7 +51,7 @@ public class SaasTemplateProviderTests
     /// a valid SaaS manifest when the template name is <c>"saas"</c>.
     /// </summary>
     [Fact]
-    public async Task GetManifestAsync_Should_ReturnSaasManifest()
+    public async Task GetManifestAsync_Should_ReturnSaasManifest_When_NameIsSaas()
     {
         var provider = new SaasTemplateProvider();
         var manifest = await provider.GetManifestAsync("saas");
@@ -77,7 +77,7 @@ public class SaasTemplateProviderTests
     /// dictionary containing the expected template files.
     /// </summary>
     [Fact]
-    public async Task GetFilesAsync_Should_ReturnNonEmptyFiles()
+    public async Task GetFilesAsync_Should_ReturnNonEmptyFiles_When_NameIsSaas()
     {
         var provider = new SaasTemplateProvider();
         var manifest = await provider.GetManifestAsync("saas");
@@ -91,7 +91,7 @@ public class SaasTemplateProviderTests
     /// Verifies that the BillingService file is included in the template files.
     /// </summary>
     [Fact]
-    public async Task GetFilesAsync_Should_IncludeBillingService()
+    public async Task GetFilesAsync_Should_IncludeBillingService_When_NameIsSaas()
     {
         var provider = new SaasTemplateProvider();
         var manifest = await provider.GetManifestAsync("saas");
@@ -103,7 +103,7 @@ public class SaasTemplateProviderTests
     /// Verifies that manifests tags contain expected values.
     /// </summary>
     [Fact]
-    public async Task Manifest_Should_HaveExpectedTags()
+    public async Task GetManifestAsync_Should_HaveExpectedTags_When_NameIsSaas()
     {
         var provider = new SaasTemplateProvider();
         var manifest = await provider.GetManifestAsync("saas");
@@ -119,7 +119,7 @@ public class SaasTemplateProviderTests
     /// Verifies manifest contains the expected template variables.
     /// </summary>
     [Fact]
-    public async Task Manifest_Should_HaveExpectedVariables()
+    public async Task GetManifestAsync_Should_HaveExpectedVariables_When_NameIsSaas()
     {
         var provider = new SaasTemplateProvider();
         var manifest = await provider.GetManifestAsync("saas");
@@ -136,7 +136,7 @@ public class SaasTemplateProviderTests
     /// Verifies the billing feature is declared in the manifest.
     /// </summary>
     [Fact]
-    public async Task Manifest_Should_HaveBillingFeature()
+    public async Task GetManifestAsync_Should_HaveBillingFeature_When_NameIsSaas()
     {
         var provider = new SaasTemplateProvider();
         var manifest = await provider.GetManifestAsync("saas");
@@ -149,7 +149,7 @@ public class SaasTemplateProviderTests
     /// Verifies that billing file has a conditional and all core files are always present.
     /// </summary>
     [Fact]
-    public async Task Manifest_CoreFiles_Should_BeAlwaysPresent()
+    public async Task GetManifestAsync_CoreFiles_Should_BeAlwaysPresent_When_NameIsSaas()
     {
         var provider = new SaasTemplateProvider();
         var manifest = await provider.GetManifestAsync("saas");
@@ -165,7 +165,7 @@ public class SaasTemplateProviderTests
     /// Verifies that billing file has a condition.
     /// </summary>
     [Fact]
-    public async Task Manifest_BillingService_Should_HaveCondition()
+    public async Task GetManifestAsync_BillingService_Should_HaveCondition_When_NameIsSaas()
     {
         var provider = new SaasTemplateProvider();
         var manifest = await provider.GetManifestAsync("saas");

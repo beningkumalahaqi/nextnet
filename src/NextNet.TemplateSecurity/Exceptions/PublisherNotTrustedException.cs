@@ -2,8 +2,23 @@ namespace NextNet.TemplateSecurity;
 
 /// <summary>
 /// Exception thrown when a publisher is not in the trusted list.
+/// Error code: <see cref="TemplateSecurityErrorCodes.PublisherNotTrusted"/> (DS-824).
 /// </summary>
-public sealed class PublisherNotTrustedException : Exception
+/// <remarks>
+/// <example>
+/// <code>
+/// try
+/// {
+///     var publisher = await registry.GetPublisherAsync(publisherId);
+/// }
+/// catch (PublisherNotTrustedException ex) when (ex.ErrorCode == TemplateSecurityErrorCodes.PublisherNotTrusted)
+/// {
+///     Console.WriteLine($"Publisher '{ex.PublisherId}' is not in the trusted list.");
+/// }
+/// </code>
+/// </example>
+/// </remarks>
+public sealed class PublisherNotTrustedException : TemplateSecurityException
 {
     /// <summary>
     /// The publisher identifier that was rejected.
@@ -15,7 +30,7 @@ public sealed class PublisherNotTrustedException : Exception
     /// </summary>
     /// <param name="publisherId">The untrusted publisher identifier.</param>
     public PublisherNotTrustedException(string publisherId)
-        : base($"Publisher '{publisherId}' is not in the trusted list.")
+        : base(TemplateSecurityErrorCodes.PublisherNotTrusted, $"Publisher '{publisherId}' is not in the trusted list.")
     {
         PublisherId = publisherId;
     }

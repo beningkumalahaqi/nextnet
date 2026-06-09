@@ -14,7 +14,7 @@ public class TemplatePackagerTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task PackageAsync_Should_CreateZipFile()
+    public async Task PackageAsync_Should_CreateZipFile_When_ValidSourceProvided()
     {
         var srcDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var outFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.nntemplate");
@@ -45,7 +45,7 @@ public class TemplatePackagerTests
     public async Task PackageAsync_Should_Throw_When_SourceDirNotFound()
     {
         var packager = new TemplatePackager();
-        await Assert.ThrowsAsync<DirectoryNotFoundException>(() =>
+        await Assert.ThrowsAsync<TemplateSdkException>(() =>
             packager.PackageAsync("/nonexistent/path", "/tmp/out.nntemplate"));
     }
 
@@ -62,7 +62,7 @@ public class TemplatePackagerTests
         var outFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.nntemplate");
 
         var packager = new TemplatePackager();
-        await Assert.ThrowsAsync<FileNotFoundException>(() =>
+        await Assert.ThrowsAsync<TemplateSdkException>(() =>
             packager.PackageAsync(srcDir, outFile));
 
         // Cleanup
@@ -75,7 +75,7 @@ public class TemplatePackagerTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task PackageAsync_Should_ProduceConsistentChecksum()
+    public async Task PackageAsync_Should_ProduceConsistentChecksum_When_SameInput()
     {
         var srcDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var outFile1 = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.nntemplate");
@@ -103,7 +103,7 @@ public class TemplatePackagerTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task PackageAsync_Should_IncludeAllFiles()
+    public async Task PackageAsync_Should_IncludeAllFiles_When_MultipleFilesInSource()
     {
         var srcDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var outFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.nntemplate");

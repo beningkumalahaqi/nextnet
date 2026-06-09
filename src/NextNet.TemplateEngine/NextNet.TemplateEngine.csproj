@@ -6,10 +6,11 @@
     <Description>NextNet Template Engine - Variable replacement, conditional generation, and template orchestration</Description>
     <PackageTags>nextnet;templates;engine;codegen</PackageTags>
     <PackageId>NextNet.TemplateEngine</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

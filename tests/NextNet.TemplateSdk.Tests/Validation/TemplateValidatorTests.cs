@@ -290,7 +290,7 @@ public class TemplateValidatorTests
 
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ValidateAsync_Should_HandleCancellation()
+    public async Task ValidateAsync_Should_ThrowTaskCanceledException_When_Cancelled()
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -322,7 +322,7 @@ public class TemplateValidatorTests
 
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ValidateAsync_Should_SupportCustomRules()
+    public async Task ValidateAsync_Should_SupportCustomRules_When_Provided()
     {
         // Arrange
         var customRule = new TestCustomRule();
@@ -364,7 +364,7 @@ public class TemplateValidatorTests
 
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ValidateAsync_Should_CatchRuleExceptions()
+    public async Task ValidateAsync_Should_CatchRuleExceptions_When_BrokenRule()
     {
         // Arrange
         var brokenRule = new BrokenRule();
@@ -400,7 +400,7 @@ public class TemplateValidatorTests
 
     [Fact]
     [Trait("Category", "Unit")]
-    public void SuggestionEngine_Should_ProvideContextualSuggestions()
+    public void SuggestionEngine_Should_ProvideContextualSuggestions_When_GivenResult()
     {
         // Arrange
         var engine = new NextNet.TemplateSdk.Validation.Suggestions.SuggestionEngine();
@@ -436,7 +436,7 @@ public class TemplateValidatorTests
 
     [Fact]
     [Trait("Category", "Unit")]
-    public void ValidationReport_Should_AggregateCountsCorrectly()
+    public void ValidationReport_Should_AggregateCountsCorrectly_When_MultipleResults()
     {
         // Arrange
         var results = new[]

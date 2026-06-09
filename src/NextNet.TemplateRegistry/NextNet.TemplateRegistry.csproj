@@ -6,10 +6,11 @@
     <Description>NextNet Template Registry - HTTP client for discovering and downloading community templates</Description>
     <PackageTags>nextnet;templates;registry;discovery</PackageTags>
     <PackageId>NextNet.TemplateRegistry</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

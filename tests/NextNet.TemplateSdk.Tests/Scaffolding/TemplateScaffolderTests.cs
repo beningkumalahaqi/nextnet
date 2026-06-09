@@ -14,7 +14,7 @@ public class TemplateScaffolderTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ScaffoldAsync_Should_CreateTemplateJson()
+    public async Task ScaffoldAsync_Should_CreateTemplateJson_When_ValidOptionsProvided()
     {
         var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var scaffolder = new TemplateScaffolder();
@@ -41,7 +41,7 @@ public class TemplateScaffolderTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ScaffoldAsync_Should_CreateSampleFile()
+    public async Task ScaffoldAsync_Should_CreateSampleFile_When_ScaffoldingTemplate()
     {
         var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var scaffolder = new TemplateScaffolder();
@@ -63,7 +63,7 @@ public class TemplateScaffolderTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ScaffoldAsync_Should_CreateReadme()
+    public async Task ScaffoldAsync_Should_CreateReadme_When_ScaffoldingTemplate()
     {
         var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var scaffolder = new TemplateScaffolder();
@@ -90,7 +90,7 @@ public class TemplateScaffolderTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ScaffoldAsync_Should_Throw_When_DirectoryIsNull()
+    public async Task ScaffoldAsync_Should_ThrowArgumentNullException_When_DirectoryIsNull()
     {
         var scaffolder = new TemplateScaffolder();
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
@@ -103,7 +103,7 @@ public class TemplateScaffolderTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ScaffoldAsync_Should_Throw_When_OptionsIsNull()
+    public async Task ScaffoldAsync_Should_ThrowArgumentNullException_When_OptionsIsNull()
     {
         var scaffolder = new TemplateScaffolder();
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
@@ -116,7 +116,7 @@ public class TemplateScaffolderTests
     /// </summary>
     [Fact]
     [Trait("Category", "Unit")]
-    public async Task ScaffoldAsync_Should_IncludeTags_When_Provided()
+    public async Task ScaffoldAsync_Should_IncludeTags_When_TagsProvided()
     {
         var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var scaffolder = new TemplateScaffolder();

@@ -12,7 +12,7 @@ namespace NextNet.TemplateEngine.Conditionals;
 /// or type mismatch prevents comparison.
 /// </para>
 /// <para>
-/// Error code: <c>NN-108</c>
+/// Error code: <c>DS-701</c>
 /// </para>
 /// </remarks>
 public sealed class EvaluationException : TemplateException
@@ -29,7 +29,7 @@ public sealed class EvaluationException : TemplateException
     /// <param name="expressionText">The original expression text that caused the error (optional).</param>
     /// <param name="inner">An optional inner exception that caused this error.</param>
     public EvaluationException(string message, string? expressionText = null, Exception? inner = null)
-        : base("NN-108", FormatMessage(message, expressionText), inner)
+        : base(TemplateEngineErrorCodes.EvaluationError, FormatMessage(message, expressionText), inner)
     {
         ExpressionText = expressionText;
     }

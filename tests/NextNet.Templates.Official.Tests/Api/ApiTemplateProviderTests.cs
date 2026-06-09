@@ -67,7 +67,7 @@ public class ApiTemplateProviderTests
     /// that includes the expected authentication controller file.
     /// </summary>
     [Fact]
-    public async Task GetFilesAsync_Should_IncludeAuthController()
+    public async Task GetFilesAsync_Should_IncludeAuthController_When_NameIsApi()
     {
         var provider = new ApiTemplateProvider();
         var manifest = await provider.GetManifestAsync("api");
@@ -94,7 +94,7 @@ public class ApiTemplateProviderTests
     /// Verifies that <see cref="ApiTemplateProvider.GetFilesAsync"/> returns all 14 files.
     /// </summary>
     [Fact]
-    public async Task GetFilesAsync_Should_Return_All_14_Files()
+    public async Task GetFilesAsync_Should_ReturnAll14Files_When_NameIsApi()
     {
         var provider = new ApiTemplateProvider();
         var manifest = await provider.GetManifestAsync("api");

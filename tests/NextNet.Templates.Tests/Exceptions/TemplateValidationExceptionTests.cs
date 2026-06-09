@@ -6,13 +6,13 @@ namespace NextNet.Templates.Tests.Exceptions;
 public sealed class TemplateValidationExceptionTests
 {
     [Fact]
-    public void Constructor_Should_SetErrorCode_ToSK102()
+    public void Constructor_Should_SetErrorCode_ToDS761()
     {
         // Arrange & Act
         var ex = new TemplateValidationException(new[] { "error1" });
 
         // Assert
-        Assert.Equal("NN-102", ex.ErrorCode);
+        Assert.Equal("DS-761", ex.ErrorCode);
     }
 
     [Fact]

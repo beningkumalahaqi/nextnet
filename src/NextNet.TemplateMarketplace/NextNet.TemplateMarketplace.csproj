@@ -6,7 +6,8 @@
     <Description>NextNet Template Marketplace - Foundation data layer for template discovery, ratings, publishing, and data collection</Description>
     <PackageTags>nextnet;templates;marketplace;discovery;ratings</PackageTags>
     <PackageId>NextNet.TemplateMarketplace</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

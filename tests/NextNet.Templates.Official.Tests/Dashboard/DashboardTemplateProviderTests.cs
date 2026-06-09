@@ -79,7 +79,7 @@ public class DashboardTemplateProviderTests
     /// expected dashboard template files.
     /// </summary>
     [Fact]
-    public async Task GetFilesAsync_Should_IncludeAllRequiredFiles()
+    public async Task GetFilesAsync_Should_IncludeAllRequiredFiles_When_NameIsDashboard()
     {
         var provider = new DashboardTemplateProvider();
         var manifest = await provider.GetManifestAsync("dashboard");
@@ -151,7 +151,7 @@ public class DashboardTemplateProviderTests
     /// Verifies that <see cref="DashboardTemplateProvider.GetFilesAsync"/> returns exactly 11 files.
     /// </summary>
     [Fact]
-    public async Task GetFilesAsync_Should_Return_11_Files()
+    public async Task GetFilesAsync_Should_Return11Files_When_NameIsDashboard()
     {
         var provider = new DashboardTemplateProvider();
         var manifest = await provider.GetManifestAsync("dashboard");
@@ -163,7 +163,7 @@ public class DashboardTemplateProviderTests
     /// Verifies that the template.json file content has the expected structure.
     /// </summary>
     [Fact]
-    public async Task GetFilesAsync_Should_Have_ValidManifestJson()
+    public async Task GetFilesAsync_Should_HaveValidManifestJson_When_NameIsDashboard()
     {
         var provider = new DashboardTemplateProvider();
         var manifest = await provider.GetManifestAsync("dashboard");

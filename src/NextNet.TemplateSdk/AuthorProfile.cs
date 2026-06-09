@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Text.Json;
 
 namespace NextNet.TemplateSdk;
@@ -96,5 +97,10 @@ public sealed class AuthorProfile
             WriteIndented = true
         });
         await File.WriteAllTextAsync(ProfilePath, json);
+
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            File.SetUnixFileMode(ProfilePath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+        }
     }
 }

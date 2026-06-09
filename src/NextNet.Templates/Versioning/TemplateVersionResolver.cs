@@ -144,6 +144,61 @@ public sealed class TemplateVersionResolver
                 .FirstOrDefault();
         }
 
+        // <= expression
+        if (rangeExpr.StartsWith("<=") && TemplateVersion.TryParse(rangeExpr[2..], out baseVer))
+        {
+            var v = baseVer!;
+            return parsedVersions
+                .Where(x => x.ver <= v)
+                .OrderByDescending(x => x.ver)
+                .Select(x => x.str)
+                .FirstOrDefault();
+        }
+
+        // > expression (strictly greater than)
+        if (rangeExpr.StartsWith(">") && TemplateVersion.TryParse(rangeExpr[1..], out baseVer))
+        {
+            var v = baseVer!;
+            return parsedVersions
+                .Where(x => x.ver > v)
+                .OrderByDescending(x => x.ver)
+                .Select(x => x.str)
+                .FirstOrDefault();
+        }
+
+        // < expression (strictly less than)
+        if (rangeExpr.StartsWith("<") && TemplateVersion.TryParse(rangeExpr[1..], out baseVer))
+        {
+            var v = baseVer!;
+            return parsedVersions
+                .Where(x => x.ver < v)
+                .OrderByDescending(x => x.ver)
+                .Select(x => x.str)
+                .FirstOrDefault();
+        }
+
+        // || (OR) combinator: split on "||", resolve each part, return the highest match
+        if (rangeExpr.Contains("||"))
+        {
+            var parts = rangeExpr.Split(new[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
+            var bestMatch = default((string str, TemplateVersion ver)?);
+            foreach (var part in parts)
+            {
+                var trimmed = part.Trim();
+                if (string.IsNullOrEmpty(trimmed)) continue;
+
+                var resolved = ResolveRange(trimmed, availableVersions);
+                if (resolved is not null && TemplateVersion.TryParse(resolved, out var tv) && tv is not null)
+                {
+                    if (bestMatch is null || tv > bestMatch.Value.ver)
+                    {
+                        bestMatch = (resolved, tv);
+                    }
+                }
+            }
+            return bestMatch?.str;
+        }
+
         return null;
     }
 }

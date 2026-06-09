@@ -7,7 +7,7 @@ namespace NextNet.Templates.Exceptions;
 /// <para>
 /// <see cref="TemplateException"/> provides a common base for the template exception
 /// hierarchy. All template exceptions carry an <see cref="ErrorCode"/> property that
-/// uniquely identifies the error type (e.g., "NN-101" for template not found).
+/// uniquely identifies the error type (e.g., "DS-760" for template not found).
 /// </para>
 /// <para>
 /// Derive from this class when creating new template exception types to ensure
@@ -17,7 +17,7 @@ namespace NextNet.Templates.Exceptions;
 public abstract class TemplateException : Exception
 {
     /// <summary>
-    /// Gets the unique error code for this exception (e.g., "NN-101").
+    /// Gets the unique error code for this exception (e.g., "DS-760").
     /// </summary>
     public string ErrorCode { get; }
 

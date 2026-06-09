@@ -156,6 +156,23 @@ public sealed class TemplateEngine : ITemplateEngine
                 {
                     throw new TemplateValidationException(featureResult.Errors);
                 }
+
+                // Feed resolved transitive dependencies into the variable context so that
+                // downstream consumers (file filtering, variable substitution, block conditionals)
+                // have visibility into all automatically-resolved features.
+                if (featureResult.ResolvedFeatures is { Count: > 0 })
+                {
+                    var builder = VariableContext.CreateBuilder();
+                    builder.SetMany(variableContext.Values);
+                    foreach (var feature in featureResult.ResolvedFeatures)
+                    {
+                        if (!selectedFeatures.Contains(feature))
+                        {
+                            builder.Set(feature, true);
+                        }
+                    }
+                    variableContext = builder.Build();
+                }
             }
 
             // Stage 3: Filter files by conditions
@@ -173,6 +190,7 @@ public sealed class TemplateEngine : ITemplateEngine
             var totalFiles = filterResult.Included.Count;
             var processed = 0;
             var replacer = new VariableReplacer();
+            var blockProcessor = new BlockProcessor();
 
             foreach (var file in filterResult.Included)
             {
@@ -226,6 +244,11 @@ public sealed class TemplateEngine : ITemplateEngine
                     {
                         // Replace variables in text content
                         var text = System.Text.Encoding.UTF8.GetString(content);
+
+                        // Stage 5a: Process block conditionals ({{#if}}...{{/if}}) before variable substitution
+                        text = blockProcessor.Process(text, variableContext);
+
+                        // Stage 5b: Replace variable placeholders ({{variable}})
                         var replaced = await replacer.ReplaceAsync(text, variableContext, cancellationToken);
                         var encoded = System.Text.Encoding.UTF8.GetBytes(replaced);
 

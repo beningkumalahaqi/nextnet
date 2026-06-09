@@ -5,7 +5,7 @@ using Xunit;
 public class MarketplaceCacheTests
 {
     [Fact]
-    public async Task SetAsync_Then_GetAsync_Should_RoundTrip()
+    public async Task SetAsync_Then_GetAsync_Should_RoundTrip_When_KeyExists()
     {
         var options = new MarketplaceOptions
         {

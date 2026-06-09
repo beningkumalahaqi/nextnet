@@ -3,10 +3,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>NextNet.Templates</RootNamespace>
     <AssemblyName>NextNet.Templates</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Description>NextNet Templates - Core data models, interfaces, and abstractions for the NextNet template system</Description>
     <PackageTags>nextnet;templates;scaffolding;codegen;abstractions</PackageTags>
     <PackageId>NextNet.Templates</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

@@ -14,7 +14,7 @@ public class TemplateRegistryCacheTests
     }
 
     [Fact]
-    public async Task SetAsync_Then_GetAsync_Should_RoundTrip()
+    public async Task SetAsync_Then_GetAsync_Should_RoundTrip_When_KeyExists()
     {
         var options = CreateTempOptions();
         var cache = new TemplateRegistryCache(options);
@@ -36,7 +36,7 @@ public class TemplateRegistryCacheTests
     }
 
     [Fact]
-    public async Task Invalidate_Should_RemoveKey()
+    public async Task Invalidate_Should_RemoveKey_When_KeyExists()
     {
         var options = CreateTempOptions();
         var cache = new TemplateRegistryCache(options);
@@ -59,7 +59,7 @@ public class TemplateRegistryCacheTests
     }
 
     [Fact]
-    public async Task Clear_Should_RemoveAllKeys()
+    public async Task Clear_Should_RemoveAllKeys_When_CacheHasEntries()
     {
         var options = CreateTempOptions();
         var cache = new TemplateRegistryCache(options);

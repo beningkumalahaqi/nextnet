@@ -5,7 +5,7 @@ namespace NextNet.Templates.Exceptions;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Error code: NN-101. This exception is thrown by template providers and the
+/// Error code: DS-760. This exception is thrown by template providers and the
 /// template registry when a template with the specified name (and optional version)
 /// does not exist.
 /// </para>
@@ -25,7 +25,7 @@ namespace NextNet.Templates.Exceptions;
 /// </remarks>
 public sealed class TemplateNotFoundException : TemplateException
 {
-    private const string ErrorCodeValue = "NN-101";
+    private const string ErrorCodeValue = "DS-760";
 
     /// <summary>
     /// Gets the name of the template that was not found.
