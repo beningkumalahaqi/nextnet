@@ -68,7 +68,7 @@ public abstract class ConnectionManagerBase : IDisposable
     public IDataConnection GetConnection(string name)
     {
         if (_disposed)
-            throw new ObjectDisposedException(nameof(ConnectionManagerBase));
+            throw new ObjectDisposedException($"[DS-604] {nameof(ConnectionManagerBase)}");
 
         return _connections.GetOrAdd(name, CreateConnection);
     }
@@ -82,7 +82,7 @@ public abstract class ConnectionManagerBase : IDisposable
     {
         var defaultName = _config.Value.DefaultConnection;
         if (string.IsNullOrWhiteSpace(defaultName))
-            throw new InvalidOperationException("DefaultConnection is not configured in DataConfig.");
+            throw new InvalidOperationException("[DS-595] DefaultConnection is not configured in DataConfig.");
 
         return GetConnection(defaultName);
     }
@@ -148,10 +148,10 @@ public abstract class ConnectionManagerBase : IDisposable
     private IDataConnection CreateConnection(string name)
     {
         if (_config.Value.Connections == null || !_config.Value.Connections.TryGetValue(name, out var connectionConfig))
-            throw new KeyNotFoundException($"Connection '{name}' is not configured in DataConfig.Connections.");
+            throw new KeyNotFoundException($"[DS-601] Connection '{name}' is not configured in DataConfig.Connections.");
 
         if (!connectionConfig.Enabled)
-            throw new InvalidOperationException($"Connection '{name}' is disabled in configuration.");
+            throw new InvalidOperationException($"[DS-604] Connection '{name}' is disabled in configuration.");
 
         _logger?.LogDebug("Creating connection '{ConnectionName}'.", name);
 

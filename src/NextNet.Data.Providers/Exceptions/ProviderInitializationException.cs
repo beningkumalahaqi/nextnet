@@ -2,7 +2,7 @@ namespace NextNet.Data.Exceptions;
 
 /// <summary>
 /// Thrown when a data provider fails to initialize during application startup.
-/// Error code: SKDATA_PROVIDER_002.
+/// Error code: <see cref="DataProviderErrorCodes.ProviderInitializationFailed"/> (DS-613).
 /// </summary>
 /// <remarks>
 /// <para>
@@ -16,7 +16,7 @@ namespace NextNet.Data.Exceptions;
 /// {
 ///     await provider.InitializeAsync(ct);
 /// }
-/// catch (ProviderInitializationException ex) when (ex.ErrorCode == "SKDATA_PROVIDER_002")
+/// catch (ProviderInitializationException ex) when (ex.ErrorCode == DataProviderErrorCodes.ProviderInitializationFailed)
 /// {
 ///     Console.WriteLine($"Provider failed to start: {ex.Message}");
 /// }
@@ -31,7 +31,7 @@ public sealed class ProviderInitializationException : NextNetDataException
     /// <param name="providerName">The name of the provider that failed to initialize.</param>
     /// <param name="innerException">The exception that caused the initialization failure.</param>
     public ProviderInitializationException(string providerName, Exception innerException)
-        : base("SKDATA_PROVIDER_002", $"Provider '{providerName}' initialization failed.", innerException)
+        : base(DataProviderErrorCodes.ProviderInitializationFailed, $"Provider '{providerName}' initialization failed.", innerException)
     {
         ProviderName = providerName;
     }

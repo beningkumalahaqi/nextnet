@@ -39,7 +39,7 @@ public sealed class EfCoreScaffoldProvider : IScaffoldProvider
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(entityName))
-            throw new ArgumentNullException(nameof(entityName));
+            throw new ArgumentNullException(nameof(entityName), $"[{EntityFrameworkErrorCodes.ConfigurationInvalid}] Entity name must not be null or empty.");
 
         var ns = TemplateEngine.ResolveNamespace(options.ModelsNamespace, options.ProjectNamespace);
         var pluralName = TemplateEngine.Pluralize(entityName);
@@ -100,7 +100,7 @@ public sealed class EfCoreScaffoldProvider : IScaffoldProvider
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(entityName))
-            throw new ArgumentNullException(nameof(entityName));
+            throw new ArgumentNullException(nameof(entityName), $"[{EntityFrameworkErrorCodes.ConfigurationInvalid}] Entity name must not be null or empty.");
 
         var modelsNs = TemplateEngine.ResolveNamespace(options.ModelsNamespace, options.ProjectNamespace);
         var reposNs = TemplateEngine.ResolveNamespace(options.RepositoriesNamespace, options.ProjectNamespace);
@@ -155,22 +155,22 @@ public sealed class EfCoreScaffoldProvider : IScaffoldProvider
     }
 
     /// <inheritdoc />
-    public Task<ScaffoldArtifact[]> GenerateCrudAsync(
+    public async Task<ScaffoldArtifact[]> GenerateCrudAsync(
         string entityName,
         ScaffoldOptions options,
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(entityName))
-            throw new ArgumentNullException(nameof(entityName));
+            throw new ArgumentNullException(nameof(entityName), $"[{EntityFrameworkErrorCodes.ConfigurationInvalid}] Entity name must not be null or empty.");
 
         var results = new List<ScaffoldArtifact>();
 
         // Generate model
-        var modelArtifact = GenerateModelAsync(entityName, options, cancellationToken).GetAwaiter().GetResult();
+        var modelArtifact = await GenerateModelAsync(entityName, options, cancellationToken);
         results.Add(modelArtifact);
 
         // Generate repository
-        var repoArtifact = GenerateRepositoryAsync(entityName, options, cancellationToken).GetAwaiter().GetResult();
+        var repoArtifact = await GenerateRepositoryAsync(entityName, options, cancellationToken);
         results.Add(repoArtifact);
 
         // Generate CRUD route
@@ -224,7 +224,7 @@ public sealed class EfCoreScaffoldProvider : IScaffoldProvider
             LinesOfCode: routeLines,
             WasSkipped: routeShouldSkip));
 
-        return Task.FromResult(results.ToArray());
+        return results.ToArray();
     }
 
     private static string DetermineKeyType(IReadOnlyList<ScaffoldProperty>? properties)

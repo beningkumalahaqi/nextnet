@@ -7,7 +7,7 @@
     <Description>NextNet Data Abstractions - Core interfaces and configuration models for the NextNet data layer</Description>
     <PackageTags>nextnet;data;abstractions;database;repository</PackageTags>
     <PackageId>NextNet.Data.Abstractions</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>
@@ -30,6 +30,8 @@
     <InternalsVisibleTo Include="NextNet.Data.EntityFramework.Tests" />
     <InternalsVisibleTo Include="NextNet.Data.Dapper" />
     <InternalsVisibleTo Include="NextNet.Data.Dapper.Tests" />
+    <InternalsVisibleTo Include="NextNet.Data.MongoDB" />
+    <InternalsVisibleTo Include="NextNet.Data.MongoDB.Tests" />
   </ItemGroup>
 
 </Project>

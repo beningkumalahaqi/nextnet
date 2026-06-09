@@ -2,7 +2,7 @@ namespace NextNet.Data.Exceptions;
 
 /// <summary>
 /// Thrown when a provider health check operation throws an unhandled exception.
-/// Error code: SKDATA_PROVIDER_004.
+/// Error code: <see cref="DataProviderErrorCodes.ProviderNotSupported"/> (DS-614).
 /// </summary>
 /// <remarks>
 /// <para>
@@ -16,7 +16,7 @@ namespace NextNet.Data.Exceptions;
 /// {
 ///     var result = await provider.IsHealthyAsync(ct);
 /// }
-/// catch (ProviderHealthCheckException ex) when (ex.ErrorCode == "SKDATA_PROVIDER_004")
+/// catch (ProviderHealthCheckException ex) when (ex.ErrorCode == DataProviderErrorCodes.ProviderNotSupported)
 /// {
 ///     Console.WriteLine($"Health check threw: {ex.Message}");
 /// }
@@ -31,7 +31,7 @@ public sealed class ProviderHealthCheckException : NextNetDataException
     /// <param name="providerName">The name of the provider whose health check failed.</param>
     /// <param name="innerException">The exception that caused the health check failure.</param>
     public ProviderHealthCheckException(string providerName, Exception innerException)
-        : base("SKDATA_PROVIDER_004", $"Health check failed for provider '{providerName}'.", innerException)
+        : base(DataProviderErrorCodes.ProviderNotSupported, $"Health check failed for provider '{providerName}'.", innerException)
     {
         ProviderName = providerName;
     }

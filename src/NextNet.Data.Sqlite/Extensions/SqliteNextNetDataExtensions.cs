@@ -155,7 +155,7 @@ public static class NextNetDataBuilderExtensions
         if (optionsDescriptor?.ImplementationInstance is not EfCoreOptions efOptions)
         {
             throw new InvalidOperationException(
-                "The EF Core provider must be registered via UseEntityFramework() before calling UseSqlite(). " +
+                "[DS-534] The EF Core provider must be registered via UseEntityFramework() before calling UseSqlite(). " +
                 "Ensure UseEntityFramework() is called before UseSqlite() in the builder chain.");
         }
 

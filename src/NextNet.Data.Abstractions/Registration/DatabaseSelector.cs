@@ -43,7 +43,7 @@ internal sealed class DatabaseSelector : IDatabaseSelector, IDisposable
 
         if (_config.Connections is null || !_config.Connections.TryGetValue(name, out var connectionConfig))
         {
-            throw new KeyNotFoundException($"No connection with name '{name}' is registered.");
+            throw new KeyNotFoundException($"[{DataAbstractionsErrorCodes.ConnectionFailed}] No connection with name '{name}' is registered.");
         }
 
         return new DatabaseContext(name, connectionConfig);
@@ -90,7 +90,7 @@ internal sealed class DatabaseSelector : IDatabaseSelector, IDisposable
 
         if (_config.Connections is null || !_config.Connections.TryGetValue(name, out var connectionConfig))
         {
-            throw new KeyNotFoundException($"No connection with name '{name}' is registered.");
+            throw new KeyNotFoundException($"[{DataAbstractionsErrorCodes.ConnectionFailed}] No connection with name '{name}' is registered.");
         }
 
         return new DataConnection(name, connectionConfig.ConnectionString, connectionConfig.Provider);
@@ -140,12 +140,12 @@ internal sealed class DatabaseSelector : IDatabaseSelector, IDisposable
 
         public IDataProvider Provider =>
             throw new NotSupportedException(
-                "The base DatabaseSelector does not support runtime provider resolution. " +
+                $"[{DataAbstractionsErrorCodes.ProviderNotAvailable}] The base DatabaseSelector does not support runtime provider resolution. " +
                 "Use NextNet.Data.MultiDb for full multi-database support with provider resolution.");
 
         public IRepository<T> GetRepository<T>() where T : class =>
             throw new NotSupportedException(
-                "The base DatabaseSelector does not support runtime repository creation. " +
+                $"[{DataAbstractionsErrorCodes.ProviderNotAvailable}] The base DatabaseSelector does not support runtime repository creation. " +
                 "Use NextNet.Data.MultiDb for full multi-database support with repository factories.");
 
         public void Dispose()

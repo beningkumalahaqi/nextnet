@@ -31,7 +31,7 @@ internal static class DockerComposeTemplate
         if (stream is null)
         {
             throw new InvalidOperationException(
-                $"Embedded resource '{ResourceName}' not found in assembly '{assembly.FullName}'.");
+                $"[DS-516] Embedded resource '{ResourceName}' not found in assembly '{assembly.FullName}'.");
         }
 
         using var reader = new StreamReader(stream, Encoding.UTF8);
@@ -72,7 +72,7 @@ internal static class DockerComposeTemplate
             throw new ArgumentException("Project name must not be null or empty.", nameof(projectName));
 
         if (!Directory.Exists(projectDirectory))
-            throw new DirectoryNotFoundException($"Project directory '{projectDirectory}' not found.");
+            throw new DirectoryNotFoundException($"[DS-516] Project directory '{projectDirectory}' not found.");
 
         var filePath = Path.Combine(projectDirectory, "docker-compose.postgres.yml");
 

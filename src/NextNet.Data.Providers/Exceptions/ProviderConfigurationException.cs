@@ -2,7 +2,7 @@ namespace NextNet.Data.Exceptions;
 
 /// <summary>
 /// Thrown when required provider configuration is missing or invalid.
-/// Error code: SKDATA_PROVIDER_005.
+/// Error code: <see cref="DataProviderErrorCodes.InvalidProviderConfiguration"/> (DS-612).
 /// </summary>
 /// <remarks>
 /// <para>
@@ -18,7 +18,7 @@ namespace NextNet.Data.Exceptions;
 ///         // Missing required connection string configuration
 ///     });
 /// }
-/// catch (ProviderConfigurationException ex) when (ex.ErrorCode == "SKDATA_PROVIDER_005")
+/// catch (ProviderConfigurationException ex) when (ex.ErrorCode == DataProviderErrorCodes.InvalidProviderConfiguration)
 /// {
 ///     Console.WriteLine($"Configuration error: {ex.Message}");
 /// }
@@ -33,7 +33,7 @@ public sealed class ProviderConfigurationException : NextNetDataException
     /// <param name="providerName">The name of the provider with the configuration error.</param>
     /// <param name="detail">A description of the configuration problem.</param>
     public ProviderConfigurationException(string providerName, string detail)
-        : base("SKDATA_PROVIDER_005", $"Provider '{providerName}' configuration error: {detail}")
+        : base(DataProviderErrorCodes.InvalidProviderConfiguration, $"Provider '{providerName}' configuration error: {detail}")
     {
         ProviderName = providerName;
     }

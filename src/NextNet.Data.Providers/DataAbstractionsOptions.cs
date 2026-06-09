@@ -19,7 +19,7 @@ namespace NextNet.Data;
 /// </code>
 /// </example>
 /// </remarks>
-public class DataAbstractionsOptions
+public sealed class DataAbstractionsOptions
 {
     /// <summary>
     /// Gets or sets whether the application should fail to start when a provider

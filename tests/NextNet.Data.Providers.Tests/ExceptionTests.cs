@@ -1,4 +1,5 @@
 using NextNet.Data.Exceptions;
+using NextNet.Data.Providers;
 using Xunit;
 
 namespace NextNet.Data.Providers.Tests;
@@ -32,19 +33,19 @@ public class ExceptionTests
     }
 
     [Fact]
-    public void ProviderRegistrationException_Should_HaveCorrectErrorCode()
+    public void ProviderRegistrationException_Should_HaveProviderAlreadyRegisteredCode_When_DuplicateName()
     {
         // Act
         var ex = new ProviderRegistrationException("MyProvider", "Duplicate name");
 
         // Assert
-        Assert.Equal("SKDATA_PROVIDER_001", ex.ErrorCode);
+        Assert.Equal(DataProviderErrorCodes.ProviderAlreadyRegistered, ex.ErrorCode);
         Assert.Contains("MyProvider", ex.Message);
         Assert.Equal("MyProvider", ex.ProviderName);
     }
 
     [Fact]
-    public void ProviderInitializationException_Should_HaveCorrectErrorCode()
+    public void ProviderInitializationException_Should_HaveProviderInitializationFailedCode_When_InitializationFails()
     {
         // Arrange
         var inner = new InvalidOperationException("Failed to connect");
@@ -53,26 +54,26 @@ public class ExceptionTests
         var ex = new ProviderInitializationException("MyProvider", inner);
 
         // Assert
-        Assert.Equal("SKDATA_PROVIDER_002", ex.ErrorCode);
+        Assert.Equal(DataProviderErrorCodes.ProviderInitializationFailed, ex.ErrorCode);
         Assert.Contains("MyProvider", ex.Message);
         Assert.Equal("MyProvider", ex.ProviderName);
         Assert.Same(inner, ex.InnerException);
     }
 
     [Fact]
-    public void ProviderNotFoundException_Should_HaveCorrectErrorCode()
+    public void ProviderNotFoundException_Should_HaveProviderNotRegisteredCode_When_ProviderMissing()
     {
         // Act
         var ex = new ProviderNotFoundException("MissingProvider");
 
         // Assert
-        Assert.Equal("SKDATA_PROVIDER_003", ex.ErrorCode);
+        Assert.Equal(DataProviderErrorCodes.ProviderNotRegistered, ex.ErrorCode);
         Assert.Contains("MissingProvider", ex.Message);
         Assert.Equal("MissingProvider", ex.ProviderName);
     }
 
     [Fact]
-    public void ProviderHealthCheckException_Should_HaveCorrectErrorCode()
+    public void ProviderHealthCheckException_Should_HaveProviderNotSupportedCode_When_HealthCheckThrows()
     {
         // Arrange
         var inner = new TimeoutException("Health check timed out");
@@ -81,20 +82,20 @@ public class ExceptionTests
         var ex = new ProviderHealthCheckException("MyProvider", inner);
 
         // Assert
-        Assert.Equal("SKDATA_PROVIDER_004", ex.ErrorCode);
+        Assert.Equal(DataProviderErrorCodes.ProviderNotSupported, ex.ErrorCode);
         Assert.Contains("MyProvider", ex.Message);
         Assert.Equal("MyProvider", ex.ProviderName);
         Assert.Same(inner, ex.InnerException);
     }
 
     [Fact]
-    public void ProviderConfigurationException_Should_HaveCorrectErrorCode()
+    public void ProviderConfigurationException_Should_HaveInvalidProviderConfigurationCode_When_ConfigInvalid()
     {
         // Act
         var ex = new ProviderConfigurationException("MyProvider", "Missing connection string");
 
         // Assert
-        Assert.Equal("SKDATA_PROVIDER_005", ex.ErrorCode);
+        Assert.Equal(DataProviderErrorCodes.InvalidProviderConfiguration, ex.ErrorCode);
         Assert.Contains("MyProvider", ex.Message);
         Assert.Contains("Missing connection string", ex.Message);
         Assert.Equal("MyProvider", ex.ProviderName);

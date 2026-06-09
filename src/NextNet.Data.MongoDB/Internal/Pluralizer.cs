@@ -1,3 +1,5 @@
+using NextNet.Data.Abstractions.Internal;
+
 namespace NextNet.Data.MongoDB.Internal;
 
 /// <summary>
@@ -21,21 +23,9 @@ namespace NextNet.Data.MongoDB.Internal;
 /// </remarks>
 internal static class Pluralizer
 {
-    private static readonly Dictionary<string, string> IrregularPlurals = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ["Person"] = "People",
-        ["Child"] = "Children",
-        ["Man"] = "Men",
-        ["Woman"] = "Women",
-        ["Mouse"] = "Mice",
-        ["Goose"] = "Geese",
-        ["Foot"] = "Feet",
-        ["Tooth"] = "Teeth",
-        ["Ox"] = "Oxen",
-    };
-
     /// <summary>
     /// Pluralizes the given singular noun.
+    /// Delegates to the canonical <see cref="NextNet.Data.Abstractions.Internal.Pluralizer"/> implementation.
     /// </summary>
     /// <param name="singular">The singular form of the noun.</param>
     /// <returns>The pluralized form, preserving the original casing.</returns>
@@ -43,38 +33,13 @@ internal static class Pluralizer
     /// <exception cref="ArgumentException">Thrown when <paramref name="singular"/> is empty or whitespace.</exception>
     public static string Pluralize(string singular)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(singular);
+        ArgumentNullException.ThrowIfNull(singular);
 
-        // Check irregular plurals first
-        if (IrregularPlurals.TryGetValue(singular, out var irregular))
-        {
-            return irregular;
-        }
+        if (string.IsNullOrWhiteSpace(singular))
+            throw new ArgumentException("Value cannot be null or whitespace.", nameof(singular));
 
-        // Rules for common endings
-        if (singular.EndsWith("s", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("x", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("ch", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("sh", StringComparison.OrdinalIgnoreCase))
-        {
-            return singular + "es";
-        }
-
-        // -y → -ies (but only when preceded by a consonant)
-        if (singular.EndsWith("y", StringComparison.OrdinalIgnoreCase) && singular.Length > 1)
-        {
-            var precedingChar = singular[singular.Length - 2];
-            if (!IsVowel(precedingChar))
-            {
-                return singular[..^1] + "ies";
-            }
-        }
-
-        // Default: append "s"
-        return singular + "s";
+        return Abstractions.Internal.Pluralizer.Pluralize(singular);
     }
-
-    private static bool IsVowel(char c) => c is 'a' or 'e' or 'i' or 'o' or 'u' or 'A' or 'E' or 'I' or 'O' or 'U';
 
     /// <summary>
     /// Converts the first character of the given string to lowercase (camelCase).

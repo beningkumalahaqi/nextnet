@@ -102,7 +102,7 @@ public sealed class SqliteConnectionFactory
     public SqliteConnection CreateConnection()
     {
         if (string.IsNullOrWhiteSpace(_resolvedConnectionString))
-            throw new InvalidOperationException("No connection string is configured. Ensure UseSqlite() is called with a connection string or configuration.");
+            throw new InvalidOperationException("[DS-534] No connection string is configured. Ensure UseSqlite() is called with a connection string or configuration.");
 
         return new SqliteConnection(_resolvedConnectionString);
     }
@@ -139,7 +139,7 @@ public sealed class SqliteConnectionFactory
 
         // Future: support named connections via additional configuration
         throw new KeyNotFoundException(
-            $"No SQLite connection with name '{connectionName}' is configured. " +
+            $"[DS-530] No SQLite connection with name '{connectionName}' is configured. " +
             "Only the 'Default' connection is currently supported.");
     }
 
@@ -207,13 +207,13 @@ public sealed class SqliteConnectionFactory
                 catch (UnauthorizedAccessException ex)
                 {
                     throw new InvalidOperationException(
-                        $"Cannot create SQLite database file at '{dataSource}'. " +
+                        $"[DS-531] Cannot create SQLite database file at '{dataSource}'. " +
                         "The application does not have write permission for the target directory.", ex);
                 }
                 catch (IOException ex)
                 {
                     throw new InvalidOperationException(
-                        $"Cannot create SQLite database file at '{dataSource}'. " +
+                        $"[DS-532] Cannot create SQLite database file at '{dataSource}'. " +
                         "The path may be invalid, or the file is already in use.", ex);
                 }
             }, cancellationToken).ConfigureAwait(false);

@@ -1,5 +1,6 @@
 using NextNet.Data.Exceptions;
 using NextNet.Data.Internal;
+using NextNet.Data.Providers;
 using Xunit;
 
 namespace NextNet.Data.Providers.Tests;
@@ -90,7 +91,7 @@ public class NextNetDataBuilderTests
         // Act & Assert
         var ex = Assert.Throws<ProviderRegistrationException>(
             () => builder.AddProvider<FakeProvider>("TestProvider"));
-        Assert.Equal("SKDATA_PROVIDER_001", ex.ErrorCode);
+        Assert.Equal(DataProviderErrorCodes.ProviderAlreadyRegistered, ex.ErrorCode);
         Assert.Contains("TestProvider", ex.Message);
     }
 
@@ -166,7 +167,7 @@ public class NextNetDataBuilderTests
         // Act & Assert
         var ex = Assert.Throws<ProviderRegistrationException>(
             () => builder.AddNamedProvider<FakeProvider>("TestProvider", "connStr"));
-        Assert.Equal("SKDATA_PROVIDER_001", ex.ErrorCode);
+        Assert.Equal(DataProviderErrorCodes.ProviderAlreadyRegistered, ex.ErrorCode);
     }
 
     [Fact]

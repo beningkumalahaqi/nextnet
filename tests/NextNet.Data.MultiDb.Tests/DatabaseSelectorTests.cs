@@ -57,7 +57,7 @@ public class DatabaseSelectorTests
         var (selector, _, _) = CreateSelector();
 
         var ex = Assert.Throws<MissingConnectionException>(() => selector.For("Unknown"));
-        Assert.Equal("SKDATA_MULTIDB_001", ex.ErrorCode);
+        Assert.Equal("DS-550", ex.ErrorCode);
         Assert.Contains("Unknown", ex.Message);
     }
 
@@ -161,7 +161,7 @@ public class DatabaseSelectorTests
         var (selector, _, _) = CreateSelector();
 
         var ex = Assert.Throws<MissingConnectionException>(() => selector.GetConnection("Unknown"));
-        Assert.Equal("SKDATA_MULTIDB_001", ex.ErrorCode);
+        Assert.Equal("DS-550", ex.ErrorCode);
     }
 
     [Fact]
@@ -186,7 +186,7 @@ public class DatabaseSelectorTests
         // it will try the default named "Default" which doesn't exist either,
         // so it should still throw MissingConnection.
         var ex = Assert.Throws<MissingConnectionException>(() => selector.For("Unknown"));
-        Assert.Equal("SKDATA_MULTIDB_001", ex.ErrorCode);
+        Assert.Equal("DS-550", ex.ErrorCode);
     }
 
     [Fact]

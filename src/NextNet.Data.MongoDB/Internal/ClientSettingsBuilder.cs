@@ -34,7 +34,7 @@ internal static class ClientSettingsBuilder
         catch (FormatException ex)
         {
             throw new ArgumentException(
-                $"The connection string is not a valid MongoDB URI: {ex.Message}", nameof(connectionString), ex);
+                $"[{MongoDbErrorCodes.InvalidConnectionString}] The connection string is not a valid MongoDB URI: {ex.Message}", nameof(connectionString), ex);
         }
 
         // Pool settings

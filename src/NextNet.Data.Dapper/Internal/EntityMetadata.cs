@@ -191,24 +191,8 @@ internal sealed class EntityMetadata
 
     /// <summary>
     /// Simple pluralization by adding "s" or "es" to the end of the name.
+    /// Delegates to the canonical <see cref="NextNet.Data.Abstractions.Internal.Pluralizer"/> implementation.
     /// </summary>
     internal static string Pluralize(string name)
-    {
-        if (name.EndsWith("s", StringComparison.OrdinalIgnoreCase) ||
-            name.EndsWith("x", StringComparison.OrdinalIgnoreCase) ||
-            name.EndsWith("ch", StringComparison.OrdinalIgnoreCase) ||
-            name.EndsWith("sh", StringComparison.OrdinalIgnoreCase))
-        {
-            return name + "es";
-        }
-
-        if (name.EndsWith("y", StringComparison.OrdinalIgnoreCase) &&
-            name.Length > 1 &&
-            !"aeiou".Contains(char.ToLowerInvariant(name[name.Length - 2])))
-        {
-            return name[..^1] + "ies";
-        }
-
-        return name + "s";
-    }
+        => NextNet.Data.Abstractions.Internal.Pluralizer.Pluralize(name);
 }

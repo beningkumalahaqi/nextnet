@@ -80,7 +80,7 @@ internal sealed class DatabaseContext : IDatabaseContext
 
         // If no named repository is registered, throw a clear error
         throw new InvalidOperationException(
-            $"No repository registered for entity type '{typeof(T).Name}' on connection '{Name}'. " +
+            $"[DS-556] No repository registered for entity type '{typeof(T).Name}' on connection '{Name}'. " +
             $"Use AddRepository<{typeof(T).Name}>(\"{Name}\") during service registration to register a repository " +
             $"scoped to this connection.");
     }

@@ -93,7 +93,7 @@ public abstract class RepositoryBase<T> : IRepository<T>
         catch (Exception ex)
         {
             _logger?.LogError(ex, "Failed to find entity of type '{EntityType}' with id '{Id}'.", typeof(T).Name, id);
-            throw new RepositoryException($"Failed to find entity of type '{typeof(T).Name}'.", id, "Find", ex);
+            throw new RepositoryException($"[DS-604] Failed to find entity of type '{typeof(T).Name}'.", id, "Find", ex);
         }
     }
 
@@ -126,7 +126,7 @@ public abstract class RepositoryBase<T> : IRepository<T>
         catch (Exception ex)
         {
             _logger?.LogError(ex, "Failed to get entities of type '{EntityType}'.", typeof(T).Name);
-            throw new RepositoryException($"Failed to get entities of type '{typeof(T).Name}'.", entityId: null, operation: "GetAll", inner: ex);
+            throw new RepositoryException($"[DS-604] Failed to get entities of type '{typeof(T).Name}'.", entityId: null, operation: "GetAll", inner: ex);
         }
     }
 
@@ -154,7 +154,7 @@ public abstract class RepositoryBase<T> : IRepository<T>
         catch (Exception ex)
         {
             _logger?.LogError(ex, "Failed to insert entity of type '{EntityType}'.", typeof(T).Name);
-            throw new RepositoryException($"Failed to insert entity of type '{typeof(T).Name}'.", entityId: null, operation: "Insert", inner: ex);
+            throw new RepositoryException($"[DS-604] Failed to insert entity of type '{typeof(T).Name}'.", entityId: null, operation: "Insert", inner: ex);
         }
     }
 
@@ -182,7 +182,7 @@ public abstract class RepositoryBase<T> : IRepository<T>
         catch (Exception ex)
         {
             _logger?.LogError(ex, "Failed to update entity of type '{EntityType}'.", typeof(T).Name);
-            throw new RepositoryException($"Failed to update entity of type '{typeof(T).Name}'.", entityId: null, operation: "Update", inner: ex);
+            throw new RepositoryException($"[DS-604] Failed to update entity of type '{typeof(T).Name}'.", entityId: null, operation: "Update", inner: ex);
         }
     }
 
@@ -210,7 +210,7 @@ public abstract class RepositoryBase<T> : IRepository<T>
         catch (Exception ex)
         {
             _logger?.LogError(ex, "Failed to delete entity of type '{EntityType}' with id '{Id}'.", typeof(T).Name, id);
-            throw new RepositoryException($"Failed to delete entity of type '{typeof(T).Name}'.", id, "Delete", ex);
+            throw new RepositoryException($"[DS-604] Failed to delete entity of type '{typeof(T).Name}'.", id, "Delete", ex);
         }
     }
 

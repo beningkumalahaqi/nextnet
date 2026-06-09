@@ -90,7 +90,7 @@ public sealed class MongoDbMigrationEngine : IMigrationEngine
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new ArgumentNullException(nameof(name), "Migration name must not be null or empty.");
+            throw new ArgumentNullException(nameof(name), $"[{MongoDbErrorCodes.ConfigurationInvalid}] Migration name must not be null or empty.");
         }
 
         _logger.LogInformation("Creating migration '{MigrationName}'...", name);
@@ -317,7 +317,7 @@ public sealed class MongoDbMigrationEngine : IMigrationEngine
 
             default:
                 throw new InvalidOperationException(
-                    $"Unknown migration operation type: '{operation.Type}'. " +
+                    $"[{MongoDbErrorCodes.ConfigurationInvalid}] Unknown migration operation type: '{operation.Type}'. " +
                     "Supported types: createIndex, dropIndex, createCollection, dropCollection.");
         }
     }
@@ -370,7 +370,7 @@ public sealed class MongoDbMigrationEngine : IMigrationEngine
         if (string.IsNullOrWhiteSpace(operation.IndexName))
         {
             throw new InvalidOperationException(
-                "dropIndex operation requires an 'indexName' field.");
+                $"[{MongoDbErrorCodes.ConfigurationInvalid}] dropIndex operation requires an 'indexName' field.");
         }
 
         var collection = database.GetCollection<BsonDocument>(operation.Collection);

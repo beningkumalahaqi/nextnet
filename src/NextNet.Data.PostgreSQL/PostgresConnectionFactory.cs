@@ -73,7 +73,7 @@ public sealed class PostgresConnectionFactory : IDisposable
         if (string.IsNullOrWhiteSpace(_resolvedConnectionString))
         {
             throw new InvalidOperationException(
-                "Failed to resolve a PostgreSQL connection string. " +
+                "[DS-512] Failed to resolve a PostgreSQL connection string. " +
                 "Ensure a connection string is provided via UsePostgreSQL(), configuration, or environment variables.");
         }
 
@@ -120,7 +120,7 @@ public sealed class PostgresConnectionFactory : IDisposable
 
         if (string.IsNullOrWhiteSpace(_resolvedConnectionString))
             throw new InvalidOperationException(
-                "No connection string is configured. Ensure UsePostgreSQL() is called with a connection string or configuration.");
+                "[DS-512] No connection string is configured. Ensure UsePostgreSQL() is called with a connection string or configuration.");
 
         return new NpgsqlConnection(_resolvedConnectionString);
     }
@@ -160,7 +160,7 @@ public sealed class PostgresConnectionFactory : IDisposable
 
         // Future: support named connections via additional configuration
         throw new KeyNotFoundException(
-            $"No PostgreSQL connection with name '{connectionName}' is configured. " +
+            $"[DS-510] No PostgreSQL connection with name '{connectionName}' is configured. " +
             "Only the 'Default' connection is currently supported.");
     }
 

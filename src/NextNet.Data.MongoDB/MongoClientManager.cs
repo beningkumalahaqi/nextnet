@@ -189,7 +189,7 @@ public sealed class MongoClientManager : IDisposable
     {
         if (!_connections.TryGetValue(connectionName, out var config))
         {
-            throw new KeyNotFoundException($"No connection with name '{connectionName}' is registered.");
+            throw new KeyNotFoundException($"[{MongoDbErrorCodes.ConnectionFailed}] No connection with name '{connectionName}' is registered.");
         }
 
         return config.ConnectionString;
@@ -239,7 +239,7 @@ public sealed class MongoClientManager : IDisposable
         {
             if (!_connections.TryGetValue(name, out var config))
             {
-                throw new KeyNotFoundException($"No connection with name '{name}' is registered. " +
+                throw new KeyNotFoundException($"[{MongoDbErrorCodes.ProviderNotConfigured}] No connection with name '{name}' is registered. " +
                     "Ensure the connection is defined in nextnet.config.json or added via WithConnection().");
             }
 
@@ -251,11 +251,11 @@ public sealed class MongoClientManager : IDisposable
 
     private string ResolveDatabaseName(string connectionName)
     {
-        var connectionString = GetConnectionString(connectionName);
+            var connectionString = GetConnectionString(connectionName);
             return DefaultConnectionStrings.ResolveDatabaseName(connectionString, _options.DefaultDatabaseName)
             ?? throw new ProviderConfigurationException(
                 connectionName,
-                $"No database name specified for connection '{connectionName}'. " +
+                $"[{MongoDbErrorCodes.ProviderNotConfigured}] No database name specified for connection '{connectionName}'. " +
                 "Include a database name in the connection URI or set MongoDbOptions.DefaultDatabaseName.");
     }
 }

@@ -95,10 +95,10 @@ public sealed class NextNetDataBuilder : IDisposable
         ThrowIfBuilt();
 
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Connection name must not be null or empty.", nameof(name));
+            throw new ArgumentException($"[{DataAbstractionsErrorCodes.ConfigurationInvalid}] Connection name must not be null or empty.", nameof(name));
 
         if (string.IsNullOrWhiteSpace(connectionString))
-            throw new ArgumentException("Connection string must not be null or empty.", nameof(connectionString));
+            throw new ArgumentException($"[{DataAbstractionsErrorCodes.ConfigurationInvalid}] Connection string must not be null or empty.", nameof(connectionString));
 
         var config = new ConnectionConfig(
             ConnectionString: connectionString,
@@ -121,7 +121,7 @@ public sealed class NextNetDataBuilder : IDisposable
         ThrowIfBuilt();
 
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Connection name must not be null or empty.", nameof(name));
+            throw new ArgumentException($"[{DataAbstractionsErrorCodes.ConfigurationInvalid}] Connection name must not be null or empty.", nameof(name));
 
         ArgumentNullException.ThrowIfNull(config);
 
@@ -177,7 +177,7 @@ public sealed class NextNetDataBuilder : IDisposable
         ThrowIfBuilt();
 
         if (string.IsNullOrWhiteSpace(connectionName))
-            throw new ArgumentException("Default connection name must not be null or empty.", nameof(connectionName));
+            throw new ArgumentException($"[{DataAbstractionsErrorCodes.ConfigurationInvalid}] Default connection name must not be null or empty.", nameof(connectionName));
 
         _config = _config with { DefaultConnection = connectionName };
         return this;
@@ -201,7 +201,7 @@ public sealed class NextNetDataBuilder : IDisposable
             var provider = sp.GetRequiredService<IDataProvider>();
             // Providers can implement a factory method or use their own resolution.
             throw new InvalidOperationException(
-                $"IRepository<{typeof(TEntity).Name}> must be configured by the registered data provider. " +
+                $"[{DataAbstractionsErrorCodes.QueryExecutionFailed}] IRepository<{typeof(TEntity).Name}> must be configured by the registered data provider. " +
                 "Ensure the provider supports automatic repository registration.");
         });
         return this;
@@ -223,7 +223,8 @@ public sealed class NextNetDataBuilder : IDisposable
     public void Build()
     {
         if (_built)
-            throw new InvalidOperationException("Build() has already been called. The builder can only be used once.");
+            throw new InvalidOperationException(
+                $"[{DataAbstractionsErrorCodes.BuilderAlreadyBuilt}] Build() has already been called. The builder can only be used once.");
 
         // Validate configuration
         var validator = new DataConfigValidator();
@@ -233,7 +234,7 @@ public sealed class NextNetDataBuilder : IDisposable
         {
             var errorMessage = string.Join("; ", errors);
             throw new InvalidOperationException(
-                $"Data configuration validation failed: {errorMessage}");
+                $"[{DataAbstractionsErrorCodes.ConfigurationInvalid}] Data configuration validation failed: {errorMessage}");
         }
 
         // Register DataConfig as singleton
@@ -265,6 +266,7 @@ public sealed class NextNetDataBuilder : IDisposable
     private void ThrowIfBuilt()
     {
         if (_built)
-            throw new InvalidOperationException("Cannot modify the builder after Build() has been called.");
+            throw new InvalidOperationException(
+                $"[{DataAbstractionsErrorCodes.BuilderAlreadyBuilt}] Cannot modify the builder after Build() has been called.");
     }
 }

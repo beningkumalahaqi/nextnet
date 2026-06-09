@@ -7,7 +7,7 @@
     <Description>NextNet Data Provider SDK - Base classes, attributes, analyzers, and extensions for building custom data providers</Description>
     <PackageTags>nextnet;data;provider;sdk;analyzer;roslyn</PackageTags>
     <PackageId>NextNet.Data.Sdk</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

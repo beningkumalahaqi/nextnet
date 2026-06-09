@@ -1,4 +1,5 @@
 using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using NextNet.Data.Abstractions.Abstractions;
 using NextNet.Data.Abstractions.Models;
 
@@ -244,7 +245,7 @@ public sealed class EfCoreAdminSchemaProvider : IAdminSchemaProvider
 
         try
         {
-            using var connection = new SqlConnection(connectionString);
+            using var connection = new SqliteConnection(connectionString);
             await connection.OpenAsync(cancellationToken);
 
             // SQLite tables
@@ -281,7 +282,7 @@ public sealed class EfCoreAdminSchemaProvider : IAdminSchemaProvider
 
         try
         {
-            using var connection = new SqlConnection(connectionString);
+            using var connection = new SqliteConnection(connectionString);
             await connection.OpenAsync(cancellationToken);
 
             // SQLite PRAGMA table_info

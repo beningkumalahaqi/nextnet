@@ -4,7 +4,7 @@ namespace NextNet.Data.MultiDb.Exceptions;
 
 /// <summary>
 /// Exception thrown when a connection's provider is not initialized or unavailable.
-/// Error code: SKDATA_MULTIDB_003.
+/// Error code: DS-552.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -17,7 +17,7 @@ namespace NextNet.Data.MultiDb.Exceptions;
 /// {
 ///     var ctx = db.For("DisabledConnection");
 /// }
-/// catch (ConnectionUnavailableException ex) when (ex.ErrorCode == "SKDATA_MULTIDB_003")
+/// catch (ConnectionUnavailableException ex) when (ex.ErrorCode == "DS-552")
 /// {
 ///     Console.WriteLine($"Connection unavailable: {ex.Reason}");
 /// }
@@ -33,7 +33,7 @@ public sealed class ConnectionUnavailableException : NextNetDataException
     /// <param name="providerName">The name of the provider for the connection.</param>
     /// <param name="reason">A description of why the connection is unavailable.</param>
     public ConnectionUnavailableException(string connectionName, string providerName, string reason)
-        : base("SKDATA_MULTIDB_003",
+        : base("DS-552",
             $"Connection '{connectionName}' (provider: {providerName}) is unavailable: {reason}")
     {
         ConnectionName = connectionName;

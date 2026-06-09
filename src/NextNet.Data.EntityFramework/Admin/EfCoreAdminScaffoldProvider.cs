@@ -61,7 +61,7 @@ public sealed class EfCoreAdminScaffoldProvider : IAdminScaffoldProvider
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(entityName))
-            throw new ArgumentNullException(nameof(entityName));
+            throw new ArgumentNullException(nameof(entityName), $"[{EntityFrameworkErrorCodes.ConfigurationInvalid}] Entity name must not be null or empty.");
 
         var generator = new AdminPageGenerator(entityName, options, adminOptions, "EntityFramework");
         return await generator.GenerateAllAsync(cancellationToken);

@@ -7,7 +7,7 @@
     <Description>NextNet Data PostgreSQL Provider - Production-grade database adapter using Npgsql and EF Core</Description>
     <PackageTags>nextnet;data;postgresql;postgres;npgsql;database;efcore</PackageTags>
     <PackageId>NextNet.Data.PostgreSQL</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

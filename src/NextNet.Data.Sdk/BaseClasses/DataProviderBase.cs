@@ -208,7 +208,7 @@ public abstract class DataProviderBase : IDataProvider, IDisposable
             throw new ArgumentNullException(nameof(config));
 
         if (_disposed)
-            throw new ObjectDisposedException(Name);
+            throw new ObjectDisposedException($"[DS-604] {Name}");
 
         Status = ProviderStatus.Initializing;
         _logger?.LogInformation("Initializing data provider '{ProviderName}'...", Name);
@@ -222,7 +222,7 @@ public abstract class DataProviderBase : IDataProvider, IDisposable
                 Status = ProviderStatus.InitializationFailed;
                 var errorMessage = $"Provider '{Name}' configuration validation failed: {string.Join("; ", validationErrors)}";
                 _logger?.LogError(errorMessage);
-                throw new ProviderInitializationException(errorMessage, validationErrors);
+                throw new ProviderInitializationException($"[DS-594] {errorMessage}", validationErrors);
             }
 
             // Provider-specific initialization
@@ -252,7 +252,7 @@ public abstract class DataProviderBase : IDataProvider, IDisposable
         {
             Status = ProviderStatus.InitializationFailed;
             _logger?.LogError(ex, "Data provider '{ProviderName}' initialization failed.", Name);
-            throw new ProviderInitializationException($"Provider '{Name}' initialization failed: {ex.Message}", ex);
+            throw new ProviderInitializationException($"[DS-594] Provider '{Name}' initialization failed: {ex.Message}", ex);
         }
     }
 

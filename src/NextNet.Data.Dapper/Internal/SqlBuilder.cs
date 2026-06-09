@@ -62,7 +62,7 @@ internal static class SqlBuilder
 
         sql += paginationStyle switch
         {
-            PaginationStyle.LimitOffset => " OFFSET @Offset ROWS LIMIT @Limit ROWS",
+            PaginationStyle.LimitOffset => " LIMIT @Limit OFFSET @Offset",
             _ => " OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY"
         };
 

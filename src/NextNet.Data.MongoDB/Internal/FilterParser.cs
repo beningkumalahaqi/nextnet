@@ -47,7 +47,7 @@ internal static class FilterParser
         catch (FormatException ex)
         {
             throw new InvalidOperationException(
-                "MongoDB filter must be valid JSON matching BSON query syntax. " +
+                $"[{MongoDbErrorCodes.DocumentSerializationFailed}] MongoDB filter must be valid JSON matching BSON query syntax. " +
                 "See https://www.mongodb.com/docs/manual/tutorial/query-documents/", ex);
         }
 
@@ -74,7 +74,7 @@ internal static class FilterParser
             if (DangerousOperators.Contains(element.Name))
             {
                 throw new InvalidOperationException(
-                    $"The '{element.Name}' operator is not allowed in repository filters for security reasons. " +
+                    $"[{MongoDbErrorCodes.DocumentSerializationFailed}] The '{element.Name}' operator is not allowed in repository filters for security reasons. " +
                     "Use the IMongoCollection<T> escape hatch directly for advanced query scenarios.");
             }
 

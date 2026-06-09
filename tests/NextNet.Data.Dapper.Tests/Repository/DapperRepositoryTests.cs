@@ -413,7 +413,7 @@ public sealed class DapperRepositoryTests
         var metadata = GetDefaultTestEntityMetadata();
         var sql = SqlBuilder.BuildGetAll(metadata, PaginationStyle.LimitOffset, sortBy: "Name");
 
-        Assert.Contains("OFFSET @Offset ROWS LIMIT @Limit ROWS", sql);
+        Assert.Contains("LIMIT @Limit OFFSET @Offset", sql);
     }
 
     [Fact]

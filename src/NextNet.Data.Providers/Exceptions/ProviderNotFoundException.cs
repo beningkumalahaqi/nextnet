@@ -2,7 +2,7 @@ namespace NextNet.Data.Exceptions;
 
 /// <summary>
 /// Thrown when a requested provider is not found in the <see cref="IDataProviderRegistry"/>.
-/// Error code: SKDATA_PROVIDER_003.
+/// Error code: <see cref="DataProviderErrorCodes.ProviderNotRegistered"/> (DS-610).
 /// </summary>
 /// <remarks>
 /// <para>
@@ -17,7 +17,7 @@ namespace NextNet.Data.Exceptions;
 ///     if (provider is null)
 ///         throw new ProviderNotFoundException("NonExistentProvider");
 /// }
-/// catch (ProviderNotFoundException ex) when (ex.ErrorCode == "SKDATA_PROVIDER_003")
+/// catch (ProviderNotFoundException ex) when (ex.ErrorCode == DataProviderErrorCodes.ProviderNotRegistered)
 /// {
 ///     Console.WriteLine($"Provider not found: {ex.Message}");
 /// }
@@ -31,7 +31,7 @@ public sealed class ProviderNotFoundException : NextNetDataException
     /// </summary>
     /// <param name="providerName">The name of the provider that was not found.</param>
     public ProviderNotFoundException(string providerName)
-        : base("SKDATA_PROVIDER_003", $"No provider registered with name '{providerName}'.")
+        : base(DataProviderErrorCodes.ProviderNotRegistered, $"No provider registered with name '{providerName}'.")
     {
         ProviderName = providerName;
     }

@@ -7,7 +7,7 @@ public class ConnectionNameConflictExceptionTests
     public void Constructor_Should_SetCorrectCode()
     {
         var ex = new ConnectionNameConflictException("Analytics");
-        Assert.Equal("SKDATA_MULTIDB_002", ex.ErrorCode);
+        Assert.Equal("DS-551", ex.ErrorCode);
     }
 
     [Fact]

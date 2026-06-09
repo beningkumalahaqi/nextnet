@@ -57,7 +57,7 @@ internal static class DefaultConnectionStrings
         catch (FormatException ex)
         {
             throw new ArgumentException(
-                $"The connection string is not a valid MongoDB URI: {ex.Message}", nameof(connectionString), ex);
+                $"[{MongoDbErrorCodes.InvalidConnectionString}] The connection string is not a valid MongoDB URI: {ex.Message}", nameof(connectionString), ex);
         }
 
         return url.DatabaseName ?? defaultDatabaseName;
@@ -76,7 +76,7 @@ internal static class DefaultConnectionStrings
         {
             throw new ProviderConfigurationException(
                 connectionName,
-                $"Connection string for '{connectionName}' is null or empty. " +
+                $"[{MongoDbErrorCodes.InvalidConnectionString}] Connection string for '{connectionName}' is null or empty. " +
                 "Provide a valid MongoDB connection URI or configure it in nextnet.config.json.");
         }
 
@@ -84,7 +84,7 @@ internal static class DefaultConnectionStrings
         {
             throw new ProviderConfigurationException(
                 connectionName,
-                $"Connection string for '{connectionName}' is not a valid MongoDB URI. " +
+                $"[{MongoDbErrorCodes.InvalidConnectionString}] Connection string for '{connectionName}' is not a valid MongoDB URI. " +
                 "Expected format: mongodb://[username:password@]host[:port][/database][?options]");
         }
 
@@ -93,7 +93,7 @@ internal static class DefaultConnectionStrings
         {
             throw new ProviderConfigurationException(
                 connectionName,
-                $"No database name specified for connection '{connectionName}'. " +
+                $"[{MongoDbErrorCodes.InvalidConnectionString}] No database name specified for connection '{connectionName}'. " +
                 "Include a database name in the connection URI (e.g., mongodb://localhost:27017/mydb) " +
                 "or set MongoDbOptions.DefaultDatabaseName.");
         }

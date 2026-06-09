@@ -2,7 +2,7 @@ namespace NextNet.Data.Exceptions;
 
 /// <summary>
 /// Thrown when attempting to register a provider with a name that is already registered.
-/// Error code: SKDATA_PROVIDER_001.
+/// Error code: <see cref="DataProviderErrorCodes.ProviderAlreadyRegistered"/> (DS-611).
 /// </summary>
 /// <remarks>
 /// <para>
@@ -17,7 +17,7 @@ namespace NextNet.Data.Exceptions;
 ///     builder.AddProvider&lt;MyProvider&gt;("DuplicateName");
 ///     builder.AddProvider&lt;AnotherProvider&gt;("DuplicateName");
 /// }
-/// catch (ProviderRegistrationException ex) when (ex.ErrorCode == "SKDATA_PROVIDER_001")
+/// catch (ProviderRegistrationException ex) when (ex.ErrorCode == DataProviderErrorCodes.ProviderAlreadyRegistered)
 /// {
 ///     Console.WriteLine($"Registration error: {ex.Message}");
 /// }
@@ -32,7 +32,7 @@ public sealed class ProviderRegistrationException : NextNetDataException
     /// <param name="providerName">The name of the provider that caused the conflict.</param>
     /// <param name="message">A human-readable description of the registration error.</param>
     public ProviderRegistrationException(string providerName, string message)
-        : base("SKDATA_PROVIDER_001", $"Provider '{providerName}': {message}")
+        : base(DataProviderErrorCodes.ProviderAlreadyRegistered, $"Provider '{providerName}': {message}")
     {
         ProviderName = providerName;
     }

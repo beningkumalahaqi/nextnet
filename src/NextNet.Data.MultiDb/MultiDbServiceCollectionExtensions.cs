@@ -83,27 +83,28 @@ public static class MultiDbServiceCollectionExtensions
 
                 foreach (var connConfig in connectionConfigs)
                 {
+                    var connectionName = connConfig.Name ?? connConfig.Provider;
                     var providerName = connConfig.Provider;
                     var provider = abstractionProviders.FirstOrDefault(p =>
                         string.Equals(p.Name, providerName, StringComparison.OrdinalIgnoreCase));
 
-                    // Register in name registry
-                    nameRegistry.Register(providerName, new ConnectionRegistration(
-                        ConnectionName: providerName,
+                    // Register in name registry (keyed by the logical connection name)
+                    nameRegistry.Register(connectionName, new ConnectionRegistration(
+                        ConnectionName: connectionName,
                         ProviderName: providerName,
                         ConnectionString: connConfig.ConnectionString,
                         ProviderType: provider?.GetType() ?? typeof(object),
                         IsInitialized: provider is not null));
 
-                    // Register in pool registry
+                    // Register in pool registry (keyed by the logical connection name)
                     var poolEntry = new ConnectionPoolEntry(
-                        ConnectionName: providerName,
+                        ConnectionName: connectionName,
                         ProviderName: providerName,
                         ConnectionString: connConfig.ConnectionString,
                         Provider: provider ?? new LazyProviderPlaceholder(providerName),
                         IsEnabled: connConfig.Enabled);
 
-                    poolRegistry.Register(providerName, poolEntry);
+                    poolRegistry.Register(connectionName, poolEntry);
                 }
             }
 
@@ -156,13 +157,16 @@ public static class MultiDbServiceCollectionExtensions
         // Create a ConnectionConfig for this database
         var config = new ConnectionConfig(
             ConnectionString: connectionString,
-            Provider: providerName ?? "EntityFramework");
+            Provider: providerName ?? "EntityFramework")
+        {
+            Name = name
+        };
 
         // Find the connection configs list registered by WithDatabaseSelector()
         // We look for it in the service collection by checking service descriptors
         var configs = GetOrCreateConnectionConfigs(builder.Services);
 
-        if (configs.Any(c => string.Equals(c.Provider, name, StringComparison.OrdinalIgnoreCase)))
+        if (configs.Any(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase)))
         {
             throw new ConnectionNameConflictException(name);
         }
@@ -193,7 +197,7 @@ public static class MultiDbServiceCollectionExtensions
                 // This is a simplified approach - in production, WithDatabase
                 // should always be called after WithDatabaseSelector.
                 throw new InvalidOperationException(
-                    "Connection configs are registered via a factory. " +
+                    "[DS-555] Connection configs are registered via a factory. " +
                     "Ensure WithDatabaseSelector() is called before WithDatabase().");
             }
         }

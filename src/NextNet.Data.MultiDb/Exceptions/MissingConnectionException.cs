@@ -4,7 +4,7 @@ namespace NextNet.Data.MultiDb.Exceptions;
 
 /// <summary>
 /// Exception thrown when a requested named connection is not registered.
-/// Error code: SKDATA_MULTIDB_001.
+/// Error code: DS-550.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -19,7 +19,7 @@ namespace NextNet.Data.MultiDb.Exceptions;
 /// {
 ///     var ctx = db.For("NonExistentDb");
 /// }
-/// catch (MissingConnectionException ex) when (ex.ErrorCode == "SKDATA_MULTIDB_001")
+/// catch (MissingConnectionException ex) when (ex.ErrorCode == "DS-550")
 /// {
 ///     Console.WriteLine(ex.Message);
 /// }
@@ -33,7 +33,7 @@ public sealed class MissingConnectionException : NextNetDataException
     /// </summary>
     /// <param name="connectionName">The name of the connection that was not found.</param>
     public MissingConnectionException(string connectionName)
-        : base("SKDATA_MULTIDB_001",
+        : base("DS-550",
             $"No database connection registered with name '{connectionName}'. " +
             $"Ensure the connection is configured in nextnet.config.json under 'data.connections' " +
             $"or registered via AddNamedProvider().")

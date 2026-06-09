@@ -41,14 +41,14 @@ internal static class MultiDbValidationExtensions
         if (errors.Count > 0)
         {
             throw new InvalidOperationException(
-                $"Multi-database configuration validation failed: {string.Join("; ", errors)}");
+                $"[DS-555] Multi-database configuration validation failed: {string.Join("; ", errors)}");
         }
 
         var probeErrors = await guard.ProbeAllAsync(cancellationToken);
         if (probeErrors.Count > 0)
         {
             throw new InvalidOperationException(
-                $"Multi-database health probe failed: {string.Join("; ", probeErrors)}");
+                $"[DS-558] Multi-database health probe failed: {string.Join("; ", probeErrors)}");
         }
     }
 }

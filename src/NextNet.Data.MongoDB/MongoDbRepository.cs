@@ -160,7 +160,7 @@ public sealed class MongoDbRepository<T> : IRepository<T> where T : class
             if (!_validSortFields.Contains(options.SortBy))
             {
                 throw new InvalidOperationException(
-                    $"Invalid sort field '{options.SortBy}'. Valid fields for '{typeof(T).Name}': " +
+                    $"[{MongoDbErrorCodes.ConfigurationInvalid}] Invalid sort field '{options.SortBy}'. Valid fields for '{typeof(T).Name}': " +
                     $"{string.Join(", ", _validSortFields.OrderBy(f => f))}");
             }
 
@@ -242,7 +242,7 @@ public sealed class MongoDbRepository<T> : IRepository<T> where T : class
         if (result.MatchedCount == 0)
         {
             throw new KeyNotFoundException(
-                $"No entity of type '{typeof(T).Name}' with id '{idValue}' was found. Update failed.");
+                $"[{MongoDbErrorCodes.CollectionNotFound}] No entity of type '{typeof(T).Name}' with id '{idValue}' was found. Update failed.");
         }
 
         _logger.LogDebug("Updated entity of type '{EntityType}' with id '{Id}'.", typeof(T).Name, idValue);
@@ -269,7 +269,7 @@ public sealed class MongoDbRepository<T> : IRepository<T> where T : class
         if (result.DeletedCount == 0)
         {
             throw new KeyNotFoundException(
-                $"No entity of type '{typeof(T).Name}' with id '{id}' was found. Delete failed.");
+                $"[{MongoDbErrorCodes.CollectionNotFound}] No entity of type '{typeof(T).Name}' with id '{id}' was found. Delete failed.");
         }
 
         _logger.LogDebug("Deleted entity of type '{EntityType}' with id '{Id}'.", typeof(T).Name, id);
@@ -291,7 +291,7 @@ public sealed class MongoDbRepository<T> : IRepository<T> where T : class
             }
 
             throw new InvalidOperationException(
-                $"The value '{stringId}' is not a valid 24-character hex ObjectId string. " +
+                $"[{MongoDbErrorCodes.DocumentSerializationFailed}] The value '{stringId}' is not a valid 24-character hex ObjectId string. " +
                 "Entity type '{typeof(T).Name}' has a string Id with [BsonRepresentation(BsonType.ObjectId)], " +
                 "so the ID value must be a valid ObjectId string.");
         }
@@ -304,13 +304,13 @@ public sealed class MongoDbRepository<T> : IRepository<T> where T : class
         if (_idInfo is null)
         {
             throw new InvalidOperationException(
-                $"Cannot resolve ID property for entity type '{typeof(T).Name}'. " +
+                $"[{MongoDbErrorCodes.RepositoryNotInitialized}] Cannot resolve ID property for entity type '{typeof(T).Name}'. " +
                 "Ensure the entity has a property decorated with [BsonId] or named 'Id'.");
         }
 
         return _idInfo.Property.GetValue(entity)
             ?? throw new InvalidOperationException(
-                $"The ID property '{_idInfo.PropertyName}' on entity type '{typeof(T).Name}' is null.");
+                $"[{MongoDbErrorCodes.RepositoryNotInitialized}] The ID property '{_idInfo.PropertyName}' on entity type '{typeof(T).Name}' is null.");
     }
 
     [Conditional("DEBUG")]

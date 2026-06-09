@@ -154,7 +154,7 @@ public static class PostgreSQLNextNetDataExtensions
         if (optionsDescriptor?.ImplementationInstance is not EfCoreOptions efOptions)
         {
             throw new InvalidOperationException(
-                "The EF Core provider must be registered via UseEntityFramework() before calling UsePostgreSQL(). " +
+                "[DS-517] The EF Core provider must be registered via UseEntityFramework() before calling UsePostgreSQL(). " +
                 "Ensure UseEntityFramework() is called before UsePostgreSQL() in the builder chain.");
         }
 

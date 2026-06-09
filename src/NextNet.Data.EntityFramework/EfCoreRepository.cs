@@ -136,7 +136,7 @@ public sealed class EfCoreRepository<T> : IRepository<T> where T : class
 
         if (entity is null)
         {
-            throw new KeyNotFoundException($"No entity of type '{typeof(T).Name}' with id '{id}' was found.");
+            throw new KeyNotFoundException($"[{EntityFrameworkErrorCodes.SaveChangesFailed}] No entity of type '{typeof(T).Name}' with id '{id}' was found.");
         }
 
         context.Set<T>().Remove(entity);

@@ -94,7 +94,7 @@ internal sealed class MigrationFileParser
     {
         if (!File.Exists(filePath))
         {
-            throw new FileNotFoundException("Migration file not found.", filePath);
+            throw new FileNotFoundException($"[{MongoDbErrorCodes.CollectionNotFound}] Migration file not found.", filePath);
         }
 
         try
@@ -104,7 +104,7 @@ internal sealed class MigrationFileParser
 
             if (definition is null)
             {
-                throw new InvalidOperationException($"Failed to parse migration file: {filePath}");
+                throw new InvalidOperationException($"[{MongoDbErrorCodes.DocumentSerializationFailed}] Failed to parse migration file: {filePath}");
             }
 
             return definition;
@@ -112,7 +112,7 @@ internal sealed class MigrationFileParser
         catch (JsonException ex)
         {
             throw new InvalidOperationException(
-                $"Migration file '{filePath}' contains invalid JSON: {ex.Message}", ex);
+                $"[{MongoDbErrorCodes.DocumentSerializationFailed}] Migration file '{filePath}' contains invalid JSON: {ex.Message}", ex);
         }
     }
 

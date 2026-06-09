@@ -45,4 +45,13 @@ public sealed record ConnectionConfig(
 
     [property: JsonPropertyName("tags")]
     IReadOnlyList<string>? Tags = null
-);
+)
+{
+    /// <summary>
+    /// Gets or sets the logical connection name (e.g., "Primary", "Analytics").
+    /// This is set at registration time by the multi-database selector and
+    /// used for keying connections in the connection registries.
+    /// </summary>
+    [JsonIgnore]
+    public string? Name { get; init; }
+}

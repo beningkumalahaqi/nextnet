@@ -5,7 +5,7 @@ namespace NextNet.Data.MultiDb.Exceptions;
 /// <summary>
 /// Exception thrown when a connection's configured provider does not match
 /// the expected or registered provider type.
-/// Error code: SKDATA_MULTIDB_004.
+/// Error code: DS-553.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -21,7 +21,7 @@ namespace NextNet.Data.MultiDb.Exceptions;
 ///     var ctx = db.For("Analytics");
 ///     var repo = ctx.GetRepository&lt;MyEntity&gt;();
 /// }
-/// catch (ProviderMismatchException ex) when (ex.ErrorCode == "SKDATA_MULTIDB_004")
+/// catch (ProviderMismatchException ex) when (ex.ErrorCode == "DS-553")
 /// {
 ///     Console.WriteLine($"Provider mismatch: {ex.Message}");
 /// }
@@ -38,7 +38,7 @@ public sealed class ProviderMismatchException : NextNetDataException
     /// <param name="actualProvider">The actual provider name or type that was found.</param>
     /// <param name="message">A human-readable description of the mismatch.</param>
     public ProviderMismatchException(string connectionName, string expectedProvider, string actualProvider, string message)
-        : base("SKDATA_MULTIDB_004",
+        : base("DS-553",
             $"Provider mismatch for connection '{connectionName}': {message} " +
             $"(expected: {expectedProvider}, actual: {actualProvider})")
     {

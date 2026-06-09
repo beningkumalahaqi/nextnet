@@ -329,7 +329,7 @@ internal sealed class AdminPageGenerator
         sb.AppendLine();
         sb.AppendLine("    public async Task<IHtmlContent> Render()");
         sb.AppendLine("    {");
-        sb.AppendLine("        var entity = await _repository.GetByIdAsync(Id);");
+        sb.AppendLine("        var entity = await _repository.FindAsync(Id);");
         sb.AppendLine("        if (entity is null)");
         sb.AppendLine("        {");
         sb.AppendLine($"            return HtmlHelper.Raw(\"<div class=\\\"admin-not-found\\\"><h2>Not Found</h2><p>The requested {_entityName} was not found.</p><a href=\\\"/{_routePrefix}/{_lowerPlural}\\\">Back to {_pluralName}</a></div>\");");
@@ -450,7 +450,7 @@ internal sealed class AdminPageGenerator
         sb.AppendLine("</div>\");");
         sb.AppendLine("        }");
         sb.AppendLine();
-        sb.AppendLine("        var entity = await _repository.GetByIdAsync(Id);");
+        sb.AppendLine("        var entity = await _repository.FindAsync(Id);");
         sb.AppendLine("        if (entity is null)");
         sb.AppendLine("        {");
         sb.AppendLine($"            return HtmlHelper.Raw(\"<div class=\\\"admin-not-found\\\"><h2>Not Found</h2><p>The requested {_entityName} was not found.</p><a href=\\\"/{_routePrefix}/{_lowerPlural}\\\">Back to {_pluralName}</a></div>\");");
@@ -506,7 +506,7 @@ internal sealed class AdminPageGenerator
         sb.AppendLine();
         sb.AppendLine("    public async Task<IHtmlContent> Render()");
         sb.AppendLine("    {");
-        sb.AppendLine("        var entity = await _repository.GetByIdAsync(Id);");
+        sb.AppendLine("        var entity = await _repository.FindAsync(Id);");
         sb.AppendLine("        if (entity is null)");
         sb.AppendLine("        {");
         sb.AppendLine($"            return HtmlHelper.Raw(\"<div class=\\\"admin-not-found\\\"><h2>Not Found</h2><p>The requested {_entityName} was not found.</p><a href=\\\"/{_routePrefix}/{_lowerPlural}\\\">Back to {_pluralName}</a></div>\");");

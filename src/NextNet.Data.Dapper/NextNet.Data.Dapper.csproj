@@ -6,7 +6,7 @@
     <Description>NextNet Data Dapper Provider - Connection management, parameterized queries, repositories, health checks, and scaffolding</Description>
     <PackageTags>nextnet;data;dapper;micro-orm;database;sql;repository</PackageTags>
     <PackageId>NextNet.Data.Dapper</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

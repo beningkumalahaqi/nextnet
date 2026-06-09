@@ -24,7 +24,7 @@ public sealed class DapperAdminScaffoldProvider : IAdminScaffoldProvider
     {
         // Delegate to standard model generation
         throw new NotSupportedException(
-            "Dapper admin scaffold model generation is not yet implemented. " +
+            $"[{DapperErrorCodes.TypeMappingNotSupported}] Dapper admin scaffold model generation is not yet implemented. " +
             "Use 'nextnet generate model' to create models separately.");
     }
 
@@ -35,7 +35,7 @@ public sealed class DapperAdminScaffoldProvider : IAdminScaffoldProvider
         CancellationToken cancellationToken = default)
     {
         throw new NotSupportedException(
-            "Dapper admin scaffold repository generation is not yet implemented. " +
+            $"[{DapperErrorCodes.TypeMappingNotSupported}] Dapper admin scaffold repository generation is not yet implemented. " +
             "Use 'nextnet generate repository' to create repositories separately.");
     }
 
@@ -46,7 +46,7 @@ public sealed class DapperAdminScaffoldProvider : IAdminScaffoldProvider
         CancellationToken cancellationToken = default)
     {
         throw new NotSupportedException(
-            "Dapper CRUD generation is not yet implemented. " +
+            $"[{DapperErrorCodes.TypeMappingNotSupported}] Dapper CRUD generation is not yet implemented. " +
             "Use 'nextnet generate crud' with EF Core provider instead.");
     }
 
@@ -58,7 +58,7 @@ public sealed class DapperAdminScaffoldProvider : IAdminScaffoldProvider
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(entityName))
-            throw new ArgumentNullException(nameof(entityName));
+            throw new ArgumentNullException(nameof(entityName), $"[{DapperErrorCodes.ConfigurationInvalid}] Entity name must not be null or empty.");
 
         // Use shared admin page generation logic
         var generator = new AdminPageGenerator(entityName, options, adminOptions, "Dapper");

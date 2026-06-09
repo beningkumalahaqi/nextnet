@@ -417,74 +417,10 @@ public sealed class DapperScaffoldProvider : IScaffoldProvider
 
     /// <summary>
     /// Simple English pluralization helper.
+    /// Delegates to the canonical <see cref="NextNet.Data.Abstractions.Internal.Pluralizer"/> implementation.
     /// </summary>
     private static string Pluralize(string singular)
-    {
-        if (string.IsNullOrEmpty(singular))
-            return singular;
-
-        // Common irregular plurals
-        var irregulars = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            ["person"] = "people",
-            ["man"] = "men",
-            ["woman"] = "women",
-            ["child"] = "children",
-            ["foot"] = "feet",
-            ["tooth"] = "teeth",
-            ["goose"] = "geese",
-            ["mouse"] = "mice",
-            ["deer"] = "deer",
-            ["sheep"] = "sheep",
-            ["fish"] = "fish",
-            ["ox"] = "oxen",
-            ["index"] = "indices",
-            ["matrix"] = "matrices",
-            ["vertex"] = "vertices",
-            ["crisis"] = "crises",
-            ["analysis"] = "analyses",
-            ["thesis"] = "theses",
-            ["status"] = "statuses",
-            ["bus"] = "buses",
-            ["class"] = "classes",
-            ["address"] = "addresses",
-            ["alias"] = "aliases"
-        };
-
-        if (irregulars.TryGetValue(singular, out var irregular))
-            return irregular;
-
-        // Ends with "s", "x", "z", "ch", "sh" → add "es"
-        if (singular.EndsWith("s", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("x", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("z", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("ch", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("sh", StringComparison.OrdinalIgnoreCase))
-        {
-            return singular + "es";
-        }
-
-        // Ends with "y" preceded by consonant → "ies"
-        if (singular.EndsWith("y", StringComparison.OrdinalIgnoreCase) && singular.Length > 2)
-        {
-            var secondLast = singular[^2];
-            if (!IsVowel(secondLast))
-            {
-                return singular[..^1] + "ies";
-            }
-        }
-
-        // Ends with "f" or "fe" → "ves"
-        if (singular.EndsWith("fe", StringComparison.OrdinalIgnoreCase))
-            return singular[..^2] + "ves";
-        if (singular.EndsWith("f", StringComparison.OrdinalIgnoreCase) && !singular.EndsWith("ff", StringComparison.OrdinalIgnoreCase))
-            return singular[..^1] + "ves";
-
-        // Default: add "s"
-        return singular + "s";
-    }
-
-    private static bool IsVowel(char c) => c is 'a' or 'e' or 'i' or 'o' or 'u' or 'A' or 'E' or 'I' or 'O' or 'U';
+        => NextNet.Data.Abstractions.Internal.Pluralizer.Pluralize(singular);
 
     /// <summary>
     /// Counts the number of lines in the given string.

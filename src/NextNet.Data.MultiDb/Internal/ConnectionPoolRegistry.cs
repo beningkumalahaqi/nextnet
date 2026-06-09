@@ -52,7 +52,7 @@ internal sealed class ConnectionPoolRegistry : IDisposable
             return entry;
         }
 
-        throw new KeyNotFoundException($"No pool entry found for connection '{name}'.");
+        throw new KeyNotFoundException($"[DS-554] No pool entry found for connection '{name}'.");
     }
 
     /// <summary>

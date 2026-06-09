@@ -7,7 +7,7 @@ public class MissingConnectionExceptionTests
     public void Constructor_Should_SetCorrectCode()
     {
         var ex = new MissingConnectionException("Analytics");
-        Assert.Equal("SKDATA_MULTIDB_001", ex.ErrorCode);
+        Assert.Equal("DS-550", ex.ErrorCode);
     }
 
     [Fact]

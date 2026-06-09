@@ -38,7 +38,7 @@ internal sealed class MigrationProcessRunner
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(fileName))
-            throw new ArgumentNullException(nameof(fileName));
+            throw new ArgumentNullException(nameof(fileName), $"[{EntityFrameworkErrorCodes.ConfigurationInvalid}] Process file name must not be null or empty.");
 
         _logger.LogDebug("Running process: {FileName} {Arguments}", fileName, arguments);
 

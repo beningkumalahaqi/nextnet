@@ -7,7 +7,7 @@ public class ConnectionUnavailableExceptionTests
     public void Constructor_Should_SetCorrectCode()
     {
         var ex = new ConnectionUnavailableException("Analytics", "Dapper", "Connection disabled");
-        Assert.Equal("SKDATA_MULTIDB_003", ex.ErrorCode);
+        Assert.Equal("DS-552", ex.ErrorCode);
     }
 
     [Fact]

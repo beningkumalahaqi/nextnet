@@ -52,7 +52,7 @@ public sealed class EfCoreMigrationEngine : IMigrationEngine
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new ArgumentNullException(nameof(name), "Migration name must not be null or empty.");
+            throw new ArgumentNullException(nameof(name), $"[{EntityFrameworkErrorCodes.ConfigurationInvalid}] Migration name must not be null or empty.");
         }
 
         _logger.LogInformation("Creating migration '{MigrationName}'...", name);

@@ -6,7 +6,7 @@
     <Description>NextNet Data Health Checks - Database connectivity, provider availability, and health check endpoint aggregation</Description>
     <PackageTags>nextnet;data;healthchecks;monitoring</PackageTags>
     <PackageId>NextNet.Data.HealthChecks</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

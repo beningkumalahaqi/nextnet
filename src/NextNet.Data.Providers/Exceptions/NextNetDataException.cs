@@ -7,8 +7,8 @@ namespace NextNet.Data.Exceptions;
 /// <remarks>
 /// <para>
 /// All exceptions in the NextNet Data layer inherit from <see cref="NextNetDataException"/>.
-/// Each derived type carries a unique error code (e.g., <c>SKDATA_PROVIDER_001</c>) that
-/// enables automated error handling, logging, and diagnostic tooling.
+/// Each derived type carries a unique error code from <see cref="DataProviderErrorCodes"/>
+/// (e.g., <c>DS-611</c>) that enables automated error handling, logging, and diagnostic tooling.
 /// </para>
 /// <example>
 /// <code>
@@ -27,7 +27,7 @@ public class NextNetDataException : Exception
 {
     /// <summary>
     /// Gets the unique error code identifying the exception type
-    /// (e.g., "SKDATA_PROVIDER_001").
+    /// (e.g., "DS-611").
     /// </summary>
     public string ErrorCode { get; }
 

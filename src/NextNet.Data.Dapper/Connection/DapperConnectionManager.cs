@@ -154,11 +154,11 @@ public sealed class DapperConnectionManager : IDisposable
     /// <exception cref="KeyNotFoundException">Thrown when no connection with the given name is registered.</exception>
     public string GetConnectionString(string connectionName)
     {
-        if (_disposed) throw new ObjectDisposedException(nameof(DapperConnectionManager));
+        if (_disposed) throw new ObjectDisposedException(nameof(DapperConnectionManager), $"[{DapperErrorCodes.ConnectionFailed}] The Dapper connection manager has been disposed.");
 
         if (!_connections.TryGetValue(connectionName, out var config))
         {
-            throw new KeyNotFoundException($"No connection named '{connectionName}' is registered. " +
+            throw new KeyNotFoundException($"[{DapperErrorCodes.ConnectionFailed}] No connection named '{connectionName}' is registered. " +
                 $"Available connections: {string.Join(", ", _connections.Keys)}");
         }
 

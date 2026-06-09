@@ -27,7 +27,7 @@ internal static class TemplateEngine
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream is null)
             throw new InvalidOperationException(
-                $"Embedded resource '{resourceName}' not found in assembly '{assembly.GetName().Name}'.");
+                $"[{DataAbstractionsErrorCodes.MigrationFailed}] Embedded resource '{resourceName}' not found in assembly '{assembly.GetName().Name}'.");
 
         using var reader = new StreamReader(stream, Encoding.UTF8);
         var content = reader.ReadToEnd();
@@ -98,74 +98,9 @@ internal static class TemplateEngine
 
     /// <summary>
     /// Simple English pluralization helper.
+    /// Delegates to the canonical <see cref="Pluralizer"/> implementation.
     /// </summary>
-    public static string Pluralize(string singular)
-    {
-        if (string.IsNullOrEmpty(singular))
-            return singular;
-
-        // Common irregular plurals
-        var irregulars = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            ["person"] = "people",
-            ["man"] = "men",
-            ["woman"] = "women",
-            ["child"] = "children",
-            ["foot"] = "feet",
-            ["tooth"] = "teeth",
-            ["goose"] = "geese",
-            ["mouse"] = "mice",
-            ["deer"] = "deer",
-            ["sheep"] = "sheep",
-            ["fish"] = "fish",
-            ["ox"] = "oxen",
-            ["index"] = "indices",
-            ["matrix"] = "matrices",
-            ["vertex"] = "vertices",
-            ["crisis"] = "crises",
-            ["analysis"] = "analyses",
-            ["thesis"] = "theses",
-            ["status"] = "statuses",
-            ["bus"] = "buses",
-            ["class"] = "classes",
-            ["address"] = "addresses",
-            ["alias"] = "aliases"
-        };
-
-        if (irregulars.TryGetValue(singular, out var irregular))
-            return irregular;
-
-        // Ends with "s", "x", "z", "ch", "sh" → add "es"
-        if (singular.EndsWith("s", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("x", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("z", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("ch", StringComparison.OrdinalIgnoreCase) ||
-            singular.EndsWith("sh", StringComparison.OrdinalIgnoreCase))
-        {
-            return singular + "es";
-        }
-
-        // Ends with "y" preceded by consonant → "ies"
-        if (singular.EndsWith("y", StringComparison.OrdinalIgnoreCase) && singular.Length > 2)
-        {
-            var secondLast = singular[^2];
-            if (!IsVowel(secondLast))
-            {
-                return singular[..^1] + "ies";
-            }
-        }
-
-        // Ends with "f" or "fe" → "ves"
-        if (singular.EndsWith("fe", StringComparison.OrdinalIgnoreCase))
-            return singular[..^2] + "ves";
-        if (singular.EndsWith("f", StringComparison.OrdinalIgnoreCase) && !singular.EndsWith("ff", StringComparison.OrdinalIgnoreCase))
-            return singular[..^1] + "ves";
-
-        // Default: add "s"
-        return singular + "s";
-    }
-
-    private static bool IsVowel(char c) => c is 'a' or 'e' or 'i' or 'o' or 'u' or 'A' or 'E' or 'I' or 'O' or 'U';
+    public static string Pluralize(string singular) => Pluralizer.Pluralize(singular);
 
     /// <summary>
     /// Counts the number of lines in the given string.

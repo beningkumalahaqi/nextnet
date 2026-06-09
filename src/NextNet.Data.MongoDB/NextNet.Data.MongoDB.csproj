@@ -7,7 +7,7 @@
     <Description>NextNet Data MongoDB Provider - Document database provider built on MongoDB.Driver with collection management, repositories, health checks, and index migrations</Description>
     <PackageTags>nextnet;data;mongodb;document;database;nosql;repository</PackageTags>
     <PackageId>NextNet.Data.MongoDB</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>NextNet</Authors>
     <Company>NextNet</Company>
     <Product>NextNet</Product>

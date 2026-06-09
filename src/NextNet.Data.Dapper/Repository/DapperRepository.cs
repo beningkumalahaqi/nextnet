@@ -140,7 +140,7 @@ public sealed class DapperRepository<T> : IRepository<T> where T : class
             if (!validColumns.Contains(sortBy))
             {
                 throw new InvalidOperationException(
-                    $"Invalid sort column '{sortBy}'. Valid columns for '{typeof(T).Name}': " +
+                    $"[{DapperErrorCodes.ParameterMappingFailed}] Invalid sort column '{sortBy}'. Valid columns for '{typeof(T).Name}': " +
                     $"{string.Join(", ", validColumns)}");
             }
         }
@@ -266,7 +266,7 @@ public sealed class DapperRepository<T> : IRepository<T> where T : class
 
         if (rowsAffected == 0)
         {
-            throw new KeyNotFoundException($"No entity of type '{typeof(T).Name}' with id '{id}' was found.");
+            throw new KeyNotFoundException($"[{DapperErrorCodes.EntityNotFound}] No entity of type '{typeof(T).Name}' with id '{id}' was found.");
         }
     }
 

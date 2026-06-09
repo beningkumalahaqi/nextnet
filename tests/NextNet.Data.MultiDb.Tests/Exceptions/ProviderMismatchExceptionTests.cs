@@ -7,7 +7,7 @@ public class ProviderMismatchExceptionTests
     public void Constructor_Should_SetCorrectCode()
     {
         var ex = new ProviderMismatchException("Analytics", "EntityFramework", "Dapper", "Provider type mismatch");
-        Assert.Equal("SKDATA_MULTIDB_004", ex.ErrorCode);
+        Assert.Equal("DS-553", ex.ErrorCode);
     }
 
     [Fact]

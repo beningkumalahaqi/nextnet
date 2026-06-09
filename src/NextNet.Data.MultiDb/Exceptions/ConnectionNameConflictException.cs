@@ -4,7 +4,7 @@ namespace NextNet.Data.MultiDb.Exceptions;
 
 /// <summary>
 /// Exception thrown when a duplicate connection name is registered.
-/// Error code: SKDATA_MULTIDB_002.
+/// Error code: DS-551.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -18,7 +18,7 @@ namespace NextNet.Data.MultiDb.Exceptions;
 ///     builder.AddNamedProvider&lt;MyProvider&gt;("Analytics", "cs1");
 ///     builder.AddNamedProvider&lt;OtherProvider&gt;("Analytics", "cs2"); // Throws
 /// }
-/// catch (ConnectionNameConflictException ex) when (ex.ErrorCode == "SKDATA_MULTIDB_002")
+/// catch (ConnectionNameConflictException ex) when (ex.ErrorCode == "DS-551")
 /// {
 ///     Console.WriteLine(ex.Message);
 /// }
@@ -32,7 +32,7 @@ public sealed class ConnectionNameConflictException : NextNetDataException
     /// </summary>
     /// <param name="connectionName">The duplicate connection name.</param>
     public ConnectionNameConflictException(string connectionName)
-        : base("SKDATA_MULTIDB_002",
+        : base("DS-551",
             $"A connection with name '{connectionName}' is already registered. " +
             $"Connection names must be unique within a NextNet application.")
     {

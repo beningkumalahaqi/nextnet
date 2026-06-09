@@ -88,7 +88,7 @@ public sealed class CollectionNameAttribute : Attribute
     public CollectionNameAttribute(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Collection name must not be null or empty.", nameof(name));
+            throw new ArgumentException($"[{MongoDbErrorCodes.ConfigurationInvalid}] Collection name must not be null or empty.", nameof(name));
         Name = name;
     }
 }

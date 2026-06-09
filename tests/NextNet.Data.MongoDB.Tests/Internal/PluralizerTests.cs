@@ -44,7 +44,7 @@ public sealed class PluralizerTests
 
     [Theory]
     [InlineData("Data", "Datas")] // Not irregular, falls through to default
-    [InlineData("Index", "Indexes")] // Ends with 'x', so append "es"
+    [InlineData("Index", "Indices")] // Irregular: index → indices
     public void Pluralize_ShouldHandleEdgeCases(string singular, string expectedPlural)
     {
         var result = Pluralizer.Pluralize(singular);

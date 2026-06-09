@@ -231,7 +231,7 @@ public sealed class {{EntityName}}Controller : ControllerBase
     {
         // Reflection-based ID extraction for the CreatedAtAction response
         var prop = typeof({{EntityName}}).GetProperty(""Id"") ?? typeof({{EntityName}}).GetProperty(""{{EntityName}}Id"");
-        return prop?.GetValue(entity) ?? throw new InvalidOperationException(""Entity must have an 'Id' or '{{EntityName}}Id' property."");
+        return prop?.GetValue(entity) ?? throw new InvalidOperationException(""[DS-453] Entity must have an 'Id' or '{{EntityName}}Id' property."");
     }
 
     private static void SetEntityId({{EntityName}} entity, object id)
